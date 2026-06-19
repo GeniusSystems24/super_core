@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 
 import '../typedefs/typedefs.dart';
 
-/// A single business action producing a [Result] of [Type] from [Params].
+/// A single business action producing a [Result] of [Output] from [Params].
 ///
 /// ```dart
 /// class SearchSuggestions implements UseCase<List<Suggestion>, String> {
@@ -20,13 +20,13 @@ import '../typedefs/typedefs.dart';
 ///   Future<Result<List<Suggestion>>> call(String query) => _repo.search(query);
 /// }
 /// ```
-abstract interface class UseCase<Type, Params> {
-  Future<Result<Type>> call(Params params);
+abstract interface class UseCase<Output, Params> {
+  Future<Result<Output>> call(Params params);
 }
 
 /// A synchronous variant for pure, non-async actions.
-abstract interface class SyncUseCase<Type, Params> {
-  Result<Type> call(Params params);
+abstract interface class SyncUseCase<Output, Params> {
+  Result<Output> call(Params params);
 }
 
 /// Marker for usecases that take no arguments: `call(NoParams())`.
