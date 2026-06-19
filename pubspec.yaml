@@ -9,8 +9,17 @@ description: >
   design-system widgets (section card / header, status pill, button, hairline,
   field shell). Every Super package depends on this one so they all read as a
   single identity. Light/dark + LTR/RTL.
-publish_to: "none"
 version: 0.1.0
+homepage: https://geniussystems24.github.io/super_core
+repository: https://github.com/GeniusSystems24/super_core
+issue_tracker: https://github.com/GeniusSystems24/super_core/issues
+
+topics:
+  - flutter
+  - widgets
+  - design-system
+  - theme
+  - tokens
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
