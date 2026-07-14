@@ -1,9 +1,9 @@
 name: super_core
 description: >
-  The shared GeniusLink design-system foundation for the Super Flutter toolkit:
-  brand and semantic colors, typography, spacing, sizes, radii, motion,
-  light/dark SuperThemeData, intl-free formatters, and reusable UI widgets.
-version: 0.1.0
+  Super Core is the shared GeniusLink design-system foundation for the Super toolkit, including super_auto_suggestion_box, super_form_field, super_map, super_table_field, super_tree, and super_tab_bar. It provides six SuperPalette color sets, Material 3 themes, brand and semantic colors, typography, a 4px spacing scale, sizes, radii, motion, light/dark theme extensions, intl-free formatters, and reusable design-system widgets. Supports light/dark modes and LTR/RTL.
+
+version: 1.0.0
+
 homepage: https://geniussystems24.github.io/super_core
 repository: https://github.com/GeniusSystems24/super_core
 issue_tracker: https://github.com/GeniusSystems24/super_core/issues
@@ -14,10 +14,9 @@ topics:
   - design-system
   - theme
   - tokens
-
 environment:
   sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.10.0"
+  flutter: ">=3.16.0"
 
 dependencies:
   flutter:
@@ -37,8 +36,6 @@ flutter:
   #   - family: Manrope
   #     fonts:
   #       - asset: assets/fonts/Manrope-Regular.ttf
-  #       - asset: assets/fonts/Manrope-SemiBold.ttf
-  #         weight: 600
   #       - asset: assets/fonts/Manrope-Bold.ttf
   #         weight: 700
   #   - family: Inter

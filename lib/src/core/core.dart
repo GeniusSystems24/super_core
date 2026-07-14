@@ -1,12 +1,10 @@
 // ============================================================
 // core/core.dart — barrel for the shared GeniusLink foundation.
-// Re-exports theme, constants, errors, typedefs, usecases, utils, extensions
-// and the design-system widgets. This is the single source of truth for the
-// Super toolkit's visual identity; every Super package depends on `super_core`
-// and re-exports this barrel.
 // ============================================================
 
 // Theme
+export 'theme/super_palette.dart';
+export 'theme/super_material_theme.dart';
 export 'theme/super_tokens.dart';
 export 'theme/super_theme.dart';
 export 'theme/super_text_styles.dart';

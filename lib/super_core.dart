@@ -1,22 +1,30 @@
 /// Super Core — the shared GeniusLink design-system foundation for the Super
-/// toolkit. It is the single source of truth for the visual identity that every
-/// Super package reads from, so the whole toolkit looks like one product:
+/// toolkit. Single source of truth for the visual identity that every Super
+/// package reads from, so the whole toolkit looks like one product.
 ///
-///   • `SuperTokens`     — theme-independent brand constants: the electric-blue
-///                         accent + semantic palette, the three font families,
-///                         radii, the 4px spacing scale, control + field sizes,
-///                         and motion curves.
-///   • `SuperThemeData`  — the swappable light/dark `ThemeExtension` (surfaces,
-///                         borders, the `fg1…fg4` text ramp, card/popover
-///                         shadows, accent/semantic tints).
-///   • `SuperText`       — the GeniusLink type ramp as ready-made `TextStyle`s.
-///   • `SuperFormat`     — intl-free number / currency / byte / serial helpers.
-///   • shared widgets    — `SectionCard`, `SectionHeader`, `StatusPill`,
-///                         `SuperButton`, `Hairline`, `FieldShell`.
-///   • shared plumbing   — failures, typedefs, usecases, key-direction + context
-///                         helpers.
+/// ## v1.0.0 — SuperPalette + SuperMaterialThemeData
 ///
-/// Register the theme once and every Super component themes from here:
+/// Pick a palette and generate complete Material 3 [ThemeData]:
+///
+/// ```dart
+/// MaterialApp(
+///   theme:     SuperMaterialThemeData.light(palette: SuperPalette.bluePalette),
+///   darkTheme: SuperMaterialThemeData.dark(palette: SuperPalette.bluePalette),
+/// );
+/// ```
+///
+/// Palette switching at runtime:
+///
+/// ```dart
+/// setState(() => _palette = SuperPalette.greenPalette);
+/// // Rebuild MaterialApp — both light and dark themes update automatically.
+/// ```
+///
+/// All Super components adapt automatically: [SuperMaterialThemeData] registers
+/// [SuperThemeData] as a [ThemeExtension], so [SuperThemeData.of(context)]
+/// picks up palette-derived surface tokens without extra wiring.
+///
+/// ## Pre-v1.0.0 API (unchanged)
 ///
 /// ```dart
 /// MaterialApp(
@@ -26,8 +34,26 @@
 /// final t = SuperThemeData.of(context); // falls back to .dark
 /// ```
 ///
+/// ---
+///
+/// ## Exported symbols
+///
+/// | Symbol | Purpose |
+/// |---|---|
+/// | [SuperPalette] | Six built-in palettes (10 shades + semantic getters) |
+/// | [SuperMaterialThemeData] | Material 3 ThemeData generator |
+/// | [SuperTokens] | Theme-independent brand constants |
+/// | [SuperThemeData] | Swappable light/dark ThemeExtension |
+/// | [SuperText] | GeniusLink type ramp as TextStyles |
+/// | [SuperFormat] | Intl-free formatters |
+/// | [SuperMarker] | Section-marker bar intents |
+/// | Widgets | SectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell |
+///
 /// Import this single barrel to get the whole foundation:
-///   `import 'package:super_core/super_core.dart';`
+///
+/// ```dart
+/// import 'package:super_core/super_core.dart';
+/// ```
 library super_core;
 
 export 'src/core/core.dart';
