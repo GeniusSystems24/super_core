@@ -1,7 +1,16 @@
 name: super_core
 description: >
-  Super Core is the shared GeniusLink design-system foundation for the Super toolkit, including super_auto_suggestion_box, super_form_field, super_map, super_table_field, super_tree, and super_tab_bar. It provides six SuperPalette color sets, Material 3 themes, brand and semantic colors, typography, a 4px spacing scale, sizes, radii, motion, light/dark theme extensions, intl-free formatters, and reusable design-system widgets. Supports light/dark modes and LTR/RTL.
-
+  Super Core — the shared GeniusLink design-system foundation for the Super
+  toolkit (super_auto_suggestion_box, super_form_field, super_map,
+  super_table_field, super_tree, super_tab_bar). Ships the single source of
+  truth for the visual identity: SuperPalette (six swappable color palettes),
+  SuperMaterialThemeData (complete Material 3 ThemeData generator), brand +
+  semantic colors, the three-face type ramp, the 4px spacing scale, control +
+  field sizes, radii, motion, the swappable light/dark SuperThemeData
+  ThemeExtension, intl-free formatters, and the design-system widgets (section
+  card / header, status pill, button, hairline, field shell). Light/dark +
+  LTR/RTL.
+publish_to: "none"
 version: 1.0.0
 
 homepage: https://geniussystems24.github.io/super_core

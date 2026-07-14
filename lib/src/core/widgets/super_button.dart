@@ -42,6 +42,7 @@ class _SuperButtonState extends State<SuperButton> {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final cs = Theme.of(context).colorScheme;
     final primary = widget.variant == SuperButtonVariant.primary;
 
     Color bg;
@@ -49,10 +50,10 @@ class _SuperButtonState extends State<SuperButton> {
     Border? border;
     if (primary) {
       bg = _down
-          ? SuperTokens.accentPressed
+          ? Color.alphaBlend(const Color(0x1A000000), cs.primary)
           : _hover
-              ? SuperTokens.accentHover
-              : SuperTokens.accent;
+              ? Color.alphaBlend(const Color(0x14FFFFFF), cs.primary)
+              : cs.primary;
       fg = const Color(0xFFFFFFFF);
     } else {
       bg = _hover ? t.hover : const Color(0x00000000);
@@ -135,8 +136,9 @@ class _SuperIconButtonState extends State<SuperIconButton> {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final cs = Theme.of(context).colorScheme;
     final enabled = widget.onPressed != null;
-    final fg = (_hover && widget.danger) ? SuperTokens.danger : t.fg2;
+    final fg = (_hover && widget.danger) ? cs.error : t.fg2;
 
     Widget button = MouseRegion(
       cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,

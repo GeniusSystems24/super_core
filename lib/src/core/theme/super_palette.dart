@@ -97,54 +97,54 @@ class SuperPalette {
   // All six palettes share these surfaces; accent/primary is the only variable.
 
   // Light surfaces
-  static const Color _lightBg = Color(0xFFF7F8FA);
-  static const Color _lightSurface = Color(0xFFFFFFFF);
-  static const Color _lightInputBg = Color(0xFFF1F3F8);
-  static const Color _lightHover = Color(0xFFEEF1F7);
-  static const Color _lightBorder = Color(0xFFE2E8F0);
+  static const Color _lightBg        = Color(0xFFF7F8FA);
+  static const Color _lightSurface   = Color(0xFFFFFFFF);
+  static const Color _lightInputBg   = Color(0xFFF1F3F8);
+  static const Color _lightHover     = Color(0xFFEEF1F7);
+  static const Color _lightBorder    = Color(0xFFE2E8F0);
   static const Color _lightBorderStr = Color(0xFFC2C6D6);
-  static const Color _lightFg1 = Color(0xFF0F172A);
-  static const Color _lightFg2 = Color(0xFF424754);
-  static const Color _lightFg3 = Color(0xFF64748B);
-  static const Color _lightFg4 = Color(0xFFAEB4C2);
+  static const Color _lightFg1       = Color(0xFF0F172A);
+  static const Color _lightFg2       = Color(0xFF424754);
+  static const Color _lightFg3       = Color(0xFF64748B);
+  static const Color _lightFg4       = Color(0xFFAEB4C2);
 
   // Dark surfaces
-  static const Color _darkBg = Color(0xFF111318);
-  static const Color _darkSurface = Color(0xFF1E2025);
-  static const Color _darkSurface2 = Color(0xFF292D38);
-  static const Color _darkInputBg = Color(0xFF33353A);
-  static const Color _darkHover = Color(0xFF2F3540);
-  static const Color _darkBorder = Color(0x6643464F);
-  static const Color _darkBorderStr = Color(0xFF434654);
-  static const Color _darkFg1 = Color(0xFFE2E2E9);
-  static const Color _darkFg2 = Color(0xFFC3C6D7);
-  static const Color _darkFg3 = Color(0xFF8D90A0);
-  static const Color _darkFg4 = Color(0xFF5A5D68);
+  static const Color _darkBg         = Color(0xFF111318);
+  static const Color _darkSurface    = Color(0xFF1E2025);
+  static const Color _darkSurface2   = Color(0xFF292D38);
+  static const Color _darkInputBg    = Color(0xFF33353A);
+  static const Color _darkHover      = Color(0xFF2F3540);
+  static const Color _darkBorder     = Color(0x6643464F);
+  static const Color _darkBorderStr  = Color(0xFF434654);
+  static const Color _darkFg1        = Color(0xFFE2E2E9);
+  static const Color _darkFg2        = Color(0xFFC3C6D7);
+  static const Color _darkFg3        = Color(0xFF8D90A0);
+  static const Color _darkFg4        = Color(0xFF5A5D68);
 
   // ── Surface token accessors (used by SuperMaterialThemeData) ──────────────
 
-  Color get lightBg => _lightBg;
-  Color get lightSurface => _lightSurface;
-  Color get lightInputBg => _lightInputBg;
-  Color get lightHover => _lightHover;
-  Color get lightBorder => _lightBorder;
+  Color get lightBg        => _lightBg;
+  Color get lightSurface   => _lightSurface;
+  Color get lightInputBg   => _lightInputBg;
+  Color get lightHover     => _lightHover;
+  Color get lightBorder    => _lightBorder;
   Color get lightBorderStr => _lightBorderStr;
-  Color get lightFg1 => _lightFg1;
-  Color get lightFg2 => _lightFg2;
-  Color get lightFg3 => _lightFg3;
-  Color get lightFg4 => _lightFg4;
+  Color get lightFg1       => _lightFg1;
+  Color get lightFg2       => _lightFg2;
+  Color get lightFg3       => _lightFg3;
+  Color get lightFg4       => _lightFg4;
 
-  Color get darkBg => _darkBg;
-  Color get darkSurface => _darkSurface;
-  Color get darkSurface2 => _darkSurface2;
-  Color get darkInputBg => _darkInputBg;
-  Color get darkHover => _darkHover;
-  Color get darkBorder => _darkBorder;
-  Color get darkBorderStr => _darkBorderStr;
-  Color get darkFg1 => _darkFg1;
-  Color get darkFg2 => _darkFg2;
-  Color get darkFg3 => _darkFg3;
-  Color get darkFg4 => _darkFg4;
+  Color get darkBg         => _darkBg;
+  Color get darkSurface    => _darkSurface;
+  Color get darkSurface2   => _darkSurface2;
+  Color get darkInputBg    => _darkInputBg;
+  Color get darkHover      => _darkHover;
+  Color get darkBorder     => _darkBorder;
+  Color get darkBorderStr  => _darkBorderStr;
+  Color get darkFg1        => _darkFg1;
+  Color get darkFg2        => _darkFg2;
+  Color get darkFg3        => _darkFg3;
+  Color get darkFg4        => _darkFg4;
 
   // ── ColorScheme generation ────────────────────────────────────────────────
 
@@ -249,7 +249,7 @@ class SuperPalette {
   /// shade500 = #4A7CFF — matches SuperTokens.accent exactly.
   static const SuperPalette bluePalette = SuperPalette(
     name: 'Blue',
-    shade50: Color(0xFFEEF2FF),
+    shade50:  Color(0xFFEEF2FF),
     shade100: Color(0xFFE0E9FF),
     shade200: Color(0xFFC7D5FF),
     shade300: Color(0xFFA3B9FF),
@@ -264,7 +264,7 @@ class SuperPalette {
   /// Violet / indigo palette — harmonious with [bluePalette].
   static const SuperPalette purplePalette = SuperPalette(
     name: 'Purple',
-    shade50: Color(0xFFF3F0FF),
+    shade50:  Color(0xFFF3F0FF),
     shade100: Color(0xFFE9E4FF),
     shade200: Color(0xFFD4CAFF),
     shade300: Color(0xFFB8AAFF),
@@ -281,7 +281,7 @@ class SuperPalette {
   /// shade500 = #1DB88A — matches SuperTokens.success exactly.
   static const SuperPalette greenPalette = SuperPalette(
     name: 'Green',
-    shade50: Color(0xFFE8FBF5),
+    shade50:  Color(0xFFE8FBF5),
     shade100: Color(0xFFCDF7E9),
     shade200: Color(0xFF9AEFD3),
     shade300: Color(0xFF60E4BA),
@@ -296,7 +296,7 @@ class SuperPalette {
   /// Warm amber / gold palette.
   static const SuperPalette goldenPalette = SuperPalette(
     name: 'Golden',
-    shade50: Color(0xFFFFFBEB),
+    shade50:  Color(0xFFFFFBEB),
     shade100: Color(0xFFFEF3C7),
     shade200: Color(0xFFFDE68A),
     shade300: Color(0xFFFCD34D),
@@ -314,7 +314,7 @@ class SuperPalette {
   /// shade50  = light bg (#F7F8FA).
   static const SuperPalette grayPalette = SuperPalette(
     name: 'Gray',
-    shade50: Color(0xFFF7F8FA),
+    shade50:  Color(0xFFF7F8FA),
     shade100: Color(0xFFEEF1F7),
     shade200: Color(0xFFE2E8F0),
     shade300: Color(0xFFC2C6D6),
@@ -329,7 +329,7 @@ class SuperPalette {
   /// Pure black / white monochrome palette — maximum neutrality.
   static const SuperPalette monochromePalette = SuperPalette(
     name: 'Monochrome',
-    shade50: Color(0xFFFAFAFA),
+    shade50:  Color(0xFFFAFAFA),
     shade100: Color(0xFFF5F5F5),
     shade200: Color(0xFFE5E5E5),
     shade300: Color(0xFFD4D4D4),

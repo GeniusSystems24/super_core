@@ -6,6 +6,7 @@
 // semantic palette.
 // ============================================================
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../extensions/context_extensions.dart';
@@ -25,12 +26,13 @@ class StatusPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final cs = Theme.of(context).colorScheme;
     final fg = switch (tone) {
       PillTone.neutral => t.fg3,
-      PillTone.accent => SuperTokens.accent,
+      PillTone.accent => cs.primary,
       PillTone.success => SuperTokens.success,
       PillTone.warning => SuperTokens.warning,
-      PillTone.danger => SuperTokens.danger,
+      PillTone.danger => cs.error,
     };
     final bg = tone == PillTone.neutral ? t.hover : t.tintFill(fg, 0.20);
 

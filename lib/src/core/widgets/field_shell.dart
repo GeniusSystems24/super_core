@@ -8,7 +8,7 @@
 // concrete field — FieldShell owns only the chrome around it.
 // ============================================================
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
 import '../theme/super_text_styles.dart';
@@ -51,7 +51,10 @@ class FieldShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-    final gap = density == FieldDensity.compact ? SuperTokens.space1 : SuperTokens.space2;
+    final cs = Theme.of(context).colorScheme;
+    final gap = density == FieldDensity.compact
+        ? SuperTokens.space1
+        : SuperTokens.space2;
 
     return Opacity(
       opacity: disabled ? 0.4 : 1,
@@ -69,7 +72,7 @@ class FieldShell extends StatelessWidget {
             Text(
               error ?? hint!,
               style: SuperText.caption.copyWith(
-                color: error != null ? SuperTokens.danger : t.fg3,
+                color: error != null ? cs.error : t.fg3,
               ),
             ),
           ],
@@ -80,7 +83,8 @@ class FieldShell extends StatelessWidget {
 }
 
 class _Label extends StatelessWidget {
-  const _Label({required this.text, required this.required, required this.color});
+  const _Label(
+      {required this.text, required this.required, required this.color});
 
   final String text;
   final bool required;
@@ -88,6 +92,7 @@ class _Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final style = SuperText.label.copyWith(color: color);
     if (!required) return Text(text.toUpperCase(), style: style);
     return Text.rich(
@@ -97,7 +102,7 @@ class _Label extends StatelessWidget {
         children: [
           TextSpan(
             text: ' *',
-            style: style.copyWith(color: SuperTokens.danger),
+            style: style.copyWith(color: cs.error),
           ),
         ],
       ),
