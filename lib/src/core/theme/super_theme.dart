@@ -3,8 +3,17 @@
 // ------------------------------------------------------------
 // The shared GeniusLink ThemeExtension. Instance fields are the swappable
 // surfaces that flip dark <-> light (and lerp on theme change); brand constants
-// live in `SuperTokens`. Every component reads its colors from here so the whole
-// kit themes from a single source.
+// live in `SuperTokens`.
+//
+// v1.1.0 — SuperThemeData now also carries the RESPONSIVE layer:
+//   • mode              — the active SuperDeviceMode
+//   • metrics           — resolved spacing / sizing / padding / margin
+//   • interactiveStates — hover / focus / pressed / disabled treatment
+//
+// SuperMaterialThemeData registers this instance as a ThemeExtension so
+// `Theme.of(context).extension<SuperThemeData>()` and `SuperThemeData.of` both
+// return it. New fields have const defaults, so pre-1.1.0 call sites and the
+// static [dark] / [light] presets keep working unchanged.
 //
 //   MaterialApp(
 //     theme:      ThemeData(extensions: const [SuperThemeData.light]),
@@ -15,6 +24,9 @@
 
 import 'package:flutter/material.dart';
 
+import 'super_device_mode.dart';
+import 'super_interactive_state_theme.dart';
+import 'super_metrics.dart';
 import 'super_tokens.dart';
 
 @immutable
@@ -32,6 +44,17 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   final Color fg4; //          quaternary / placeholders / disabled
   final Brightness brightness;
 
+  // ── Responsive layer (v1.1.0) ──
+  /// The active device mode this theme was generated for.
+  final SuperDeviceMode mode;
+
+  /// Resolved spacing / sizing / padding / margin for [mode]. All three
+  /// device configurations remain reachable via `SuperMetrics.*Responsive`.
+  final SuperMetrics metrics;
+
+  /// Hover / focus / pressed / selected / disabled treatment.
+  final SuperInteractiveStateThemeData interactiveStates;
+
   const SuperThemeData({
     required this.bg,
     required this.surface,
@@ -44,6 +67,9 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
     required this.fg3,
     required this.fg4,
     required this.brightness,
+    this.mode = SuperDeviceMode.mobile,
+    this.metrics = SuperMetrics.mobile,
+    this.interactiveStates = SuperInteractiveStateThemeData.standard,
   });
 
   // ── Card elevation ──
@@ -65,6 +91,19 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
 
   /// The card shadow appropriate for this theme's brightness.
   List<BoxShadow> get cardShadow => brightness == Brightness.dark ? cardShadowDark : cardShadowLight;
+
+  // ── Convenience responsive accessors ──
+  /// The active spacing scale (shorthand for `metrics.spacing`).
+  SuperSpacing get spacing => metrics.spacing;
+
+  /// The active sizing scale (shorthand for `metrics.sizing`).
+  SuperSizing get sizing => metrics.sizing;
+
+  /// The active inner-padding scale (shorthand for `metrics.padding`).
+  SuperPadding get padding => metrics.padding;
+
+  /// The active outer-margin scale (shorthand for `metrics.margin`).
+  SuperMargin get margin => metrics.margin;
 
   // ── Presets ──
   static const SuperThemeData dark = SuperThemeData(
@@ -130,6 +169,9 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
     Color? fg3,
     Color? fg4,
     Brightness? brightness,
+    SuperDeviceMode? mode,
+    SuperMetrics? metrics,
+    SuperInteractiveStateThemeData? interactiveStates,
   }) =>
       SuperThemeData(
         bg: bg ?? this.bg,
@@ -143,6 +185,9 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
         fg3: fg3 ?? this.fg3,
         fg4: fg4 ?? this.fg4,
         brightness: brightness ?? this.brightness,
+        mode: mode ?? this.mode,
+        metrics: metrics ?? this.metrics,
+        interactiveStates: interactiveStates ?? this.interactiveStates,
       );
 
   @override
@@ -160,6 +205,11 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
       fg3: Color.lerp(fg3, other.fg3, t)!,
       fg4: Color.lerp(fg4, other.fg4, t)!,
       brightness: t < 0.5 ? brightness : other.brightness,
+      // Device mode is discrete — snap at the midpoint.
+      mode: t < 0.5 ? mode : other.mode,
+      metrics: SuperMetrics.lerp(metrics, other.metrics, t),
+      interactiveStates:
+          interactiveStates.lerp(other.interactiveStates, t),
     );
   }
 }

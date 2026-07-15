@@ -1,22 +1,29 @@
 name: super_core
 description: >
-  Super Core — the shared GeniusLink design-system foundation for the Super toolkit. It centralizes visual identity and reusable UI primitives: six swappable SuperPalette color schemes, Material 3 theme generation, brand and semantic colors, typography, 4px spacing, sizes, radii, motion, light/dark SuperThemeData, intl-free formatters, and widgets for sections, headers, status pills, buttons, dividers, and fields. Supports light/dark and LTR/RTL.
+  Super Core — the shared GeniusLink design-system foundation for the Super
+  toolkit (super_auto_suggestion_box, super_form_field, super_map,
+  super_table_field, super_tree, super_tab_bar). Ships the single source of
+  truth for the visual identity: SuperPalette (six swappable color palettes),
+  SuperMaterialThemeData (complete Material 3 ThemeData generator), brand +
+  semantic colors, the three-face type ramp, the 4px spacing scale, control +
+  field sizes, radii, motion, the swappable light/dark SuperThemeData
+  ThemeExtension, intl-free formatters, and the design-system widgets (section
+  card / header, status pill, button, hairline, field shell). Light/dark +
+  LTR/RTL.
+publish_to: "none"
+version: 1.1.0
 
-version: 1.0.0
-
-homepage: https://geniussystems24.github.io/super_core
-repository: https://github.com/GeniusSystems24/super_core
-issue_tracker: https://github.com/GeniusSystems24/super_core/issues
-
-topics:
-  - flutter
-  - widgets
-  - design-system
-  - theme
-  - tokens
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.16.0"
+  # v1.1.0 makes SuperMaterialThemeData a ThemeData subclass. That relies on the
+  # Material 3 component-theme *Data types (CardThemeData, DialogThemeData,
+  # DataTableThemeData, TabBarThemeData) and Color.withValues, so the minimum
+  # Flutter is raised to 3.32. The theme code targets the ~3.32–3.33 ThemeData
+  # API surface: the component *Data types (CardThemeData/DialogThemeData/
+  # DataTableThemeData/TabBarThemeData) are the ThemeData field types, while
+  # appBarTheme is still AppBarTheme and inputDecorationTheme is still
+  # InputDecorationTheme.
+  sdk: ">=3.8.0 <4.0.0"
+  flutter: ">=3.32.0"
 
 dependencies:
   flutter:
