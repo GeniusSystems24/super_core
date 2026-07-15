@@ -97,8 +97,16 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                   style: Theme.of(context).textTheme.bodySmall),
               const SizedBox(height: 24),
               for (final item in [
-                (Icons.table_chart_outlined, 'CSV Spreadsheet', 'Comma-separated values'),
-                (Icons.picture_as_pdf_outlined, 'PDF Document', 'Formatted printable report'),
+                (
+                  Icons.table_chart_outlined,
+                  'CSV Spreadsheet',
+                  'Comma-separated values'
+                ),
+                (
+                  Icons.picture_as_pdf_outlined,
+                  'PDF Document',
+                  'Formatted printable report'
+                ),
                 (Icons.code_outlined, 'JSON Data', 'Machine-readable format'),
               ])
                 ListTile(
@@ -114,7 +122,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
 
   void _showSnackBar() => ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Journal entry JV-2024-0042 posted successfully.'),
+          content:
+              const Text('Journal entry JV-2024-0042 posted successfully.'),
           action: SnackBarAction(label: 'View', onPressed: () {}),
           duration: const Duration(seconds: 4),
         ),
@@ -144,14 +153,23 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ],
         ),
         actions: [
-          _ThemeModeBtn(ThemeMode.light, widget.themeMode,
-              Icons.light_mode_outlined, 'Light',
+          _ThemeModeBtn(
+              ThemeMode.light,
+              widget.themeMode,
+              Icons.light_mode_outlined,
+              'Light',
               () => widget.onThemeModeChanged(ThemeMode.light)),
-          _ThemeModeBtn(ThemeMode.system, widget.themeMode,
-              Icons.brightness_auto_outlined, 'System',
+          _ThemeModeBtn(
+              ThemeMode.system,
+              widget.themeMode,
+              Icons.brightness_auto_outlined,
+              'System',
               () => widget.onThemeModeChanged(ThemeMode.system)),
-          _ThemeModeBtn(ThemeMode.dark, widget.themeMode,
-              Icons.dark_mode_outlined, 'Dark',
+          _ThemeModeBtn(
+              ThemeMode.dark,
+              widget.themeMode,
+              Icons.dark_mode_outlined,
+              'Dark',
               () => widget.onThemeModeChanged(ThemeMode.dark)),
           const SizedBox(width: 4),
           Builder(
@@ -179,10 +197,14 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
         selectedIndex: _navIndex,
         onDestinationSelected: (i) => setState(() => _navIndex = i),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.palette_outlined), label: 'Theme'),
-          NavigationDestination(icon: Icon(Icons.widgets_outlined), label: 'Widgets'),
-          NavigationDestination(icon: Icon(Icons.table_chart_outlined), label: 'Data'),
-          NavigationDestination(icon: Icon(Icons.text_fields_outlined), label: 'Type'),
+          NavigationDestination(
+              icon: Icon(Icons.palette_outlined), label: 'Theme'),
+          NavigationDestination(
+              icon: Icon(Icons.widgets_outlined), label: 'Widgets'),
+          NavigationDestination(
+              icon: Icon(Icons.table_chart_outlined), label: 'Data'),
+          NavigationDestination(
+              icon: Icon(Icons.text_fields_outlined), label: 'Type'),
         ],
       ),
 
@@ -190,7 +212,6 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
         children: [
-
           // ════════════════════════════════════════════════════════════════════
           // 1 · PALETTE
           // ════════════════════════════════════════════════════════════════════
@@ -222,13 +243,13 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 2 · COLOR SCHEME
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('COLOR SCHEME ROLES'),
+          _Sec('COLOR SCHEME ROLES'),
           _ColorSchemeGrid(cs: cs),
 
           // ════════════════════════════════════════════════════════════════════
           // 3 · APP BARS (static previews)
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('APP BAR VARIANTS'),
+          _Sec('APP BAR VARIANTS'),
           _AppBarPreview(
             title: 'Standard App Bar',
             subtitle: 'ACCOUNTING • JOURNALS',
@@ -247,14 +268,15 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 4 · BUTTONS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('BUTTONS'),
+          _Sec('BUTTONS'),
           Wrap(spacing: 8, runSpacing: 8, children: [
             ElevatedButton(onPressed: () {}, child: const Text('Elevated')),
             FilledButton(onPressed: () {}, child: const Text('Filled')),
-            FilledButton.tonal(onPressed: () {}, child: const Text('Filled Tonal')),
+            FilledButton.tonal(
+                onPressed: () {}, child: const Text('Filled Tonal')),
             OutlinedButton(onPressed: () {}, child: const Text('Outlined')),
             TextButton(onPressed: () {}, child: const Text('Text')),
-            const ElevatedButton(onPressed: null, child: Text('Disabled')),
+            ElevatedButton(onPressed: null, child: const Text('Disabled')),
           ]),
           const SizedBox(height: 12),
           Wrap(spacing: 8, runSpacing: 8, children: [
@@ -273,42 +295,80 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ]),
 
           // ── Icon Buttons ───────────────────────────────────────────────────
-          const _Sec('ICON BUTTONS'),
+          _Sec('ICON BUTTONS'),
           Row(children: [
             IconButton(
-                icon: const Icon(Icons.favorite_border), onPressed: () {}, tooltip: 'Standard'),
+                icon: const Icon(Icons.favorite_border),
+                onPressed: () {},
+                tooltip: 'Standard'),
             IconButton.filled(
-                icon: const Icon(Icons.favorite), onPressed: () {}, tooltip: 'Filled'),
+                icon: const Icon(Icons.favorite),
+                onPressed: () {},
+                tooltip: 'Filled'),
             IconButton.filledTonal(
-                icon: const Icon(Icons.bookmark_border), onPressed: () {}, tooltip: 'Filled Tonal'),
+                icon: const Icon(Icons.bookmark_border),
+                onPressed: () {},
+                tooltip: 'Filled Tonal'),
             IconButton.outlined(
-                icon: const Icon(Icons.share_outlined), onPressed: () {}, tooltip: 'Outlined'),
-            IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}, tooltip: 'More'),
+                icon: const Icon(Icons.share_outlined),
+                onPressed: () {},
+                tooltip: 'Outlined'),
+            IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: () {},
+                tooltip: 'More'),
             const SizedBox(width: 8),
             const VerticalDivider(width: 1, indent: 8, endIndent: 8),
             const SizedBox(width: 8),
-            IconButton(icon: const Icon(Icons.delete_outline), color: cs.error, onPressed: () {}, tooltip: 'Danger'),
+            IconButton(
+                icon: const Icon(Icons.delete_outline),
+                color: cs.error,
+                onPressed: () {},
+                tooltip: 'Danger'),
           ]),
 
           // ── FAB Row ────────────────────────────────────────────────────────
-          const _Sec('FLOATING ACTION BUTTONS'),
-          Wrap(spacing: 12, runSpacing: 12, crossAxisAlignment: WrapCrossAlignment.center, children: [
-            FloatingActionButton.small(heroTag: 'fab_sm', onPressed: () {}, child: const Icon(Icons.add)),
-            FloatingActionButton(heroTag: 'fab_std', onPressed: () {}, child: const Icon(Icons.edit_outlined)),
-            FloatingActionButton.large(heroTag: 'fab_lg', onPressed: () {}, child: const Icon(Icons.create)),
-            FloatingActionButton.extended(
-                heroTag: 'fab_ext', onPressed: _showDialog,
-                icon: const Icon(Icons.post_add_outlined),
-                label: const Text('New Journal')),
-          ]),
+          _Sec('FLOATING ACTION BUTTONS'),
+          Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                FloatingActionButton.small(
+                    heroTag: 'fab_sm',
+                    onPressed: () {},
+                    child: const Icon(Icons.add)),
+                FloatingActionButton(
+                    heroTag: 'fab_std',
+                    onPressed: () {},
+                    child: const Icon(Icons.edit_outlined)),
+                FloatingActionButton.large(
+                    heroTag: 'fab_lg',
+                    onPressed: () {},
+                    child: const Icon(Icons.create)),
+                FloatingActionButton.extended(
+                    heroTag: 'fab_ext',
+                    onPressed: _showDialog,
+                    icon: const Icon(Icons.post_add_outlined),
+                    label: const Text('New Journal')),
+              ]),
 
           // ── Segmented Button ───────────────────────────────────────────────
-          const _Sec('SEGMENTED BUTTON'),
+          _Sec('SEGMENTED BUTTON'),
           SegmentedButton<int>(
             segments: const [
-              ButtonSegment(value: 0, icon: Icon(Icons.view_list_outlined), label: Text('List')),
-              ButtonSegment(value: 1, icon: Icon(Icons.grid_view_outlined), label: Text('Grid')),
-              ButtonSegment(value: 2, icon: Icon(Icons.bar_chart_outlined), label: Text('Chart')),
+              ButtonSegment(
+                  value: 0,
+                  icon: Icon(Icons.view_list_outlined),
+                  label: Text('List')),
+              ButtonSegment(
+                  value: 1,
+                  icon: Icon(Icons.grid_view_outlined),
+                  label: Text('Grid')),
+              ButtonSegment(
+                  value: 2,
+                  icon: Icon(Icons.bar_chart_outlined),
+                  label: Text('Chart')),
             ],
             selected: {_tabIndex},
             onSelectionChanged: (s) => setState(() => _tabIndex = s.first),
@@ -317,7 +377,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 5 · FORM FIELDS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('TEXT FIELDS'),
+          _Sec('TEXT FIELDS'),
           const TextField(
             decoration: InputDecoration(
               labelText: 'NAME ENGLISH',
@@ -388,7 +448,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ),
 
           // ── Search Bar ─────────────────────────────────────────────────────
-          const _Sec('SEARCH BAR'),
+          _Sec('SEARCH BAR'),
           SearchBar(
             hintText: 'Search accounts, journals, contacts…',
             leading: const Icon(Icons.search),
@@ -401,7 +461,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 6 · SELECTION CONTROLS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('SELECTION CONTROLS'),
+          _Sec('SELECTION CONTROLS'),
           SwitchListTile(
             title: const Text('Active Store'),
             subtitle: const Text('Store is open for transactions'),
@@ -428,7 +488,11 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             controlAffinity: ListTileControlAffinity.leading,
           ),
           const Divider(height: 8),
-          for (final (val, label) in [(1, 'Journal Entry'), (2, 'Payment Voucher'), (3, 'Adjustment')])
+          for (final (val, label) in [
+            (1, 'Journal Entry'),
+            (2, 'Payment Voucher'),
+            (3, 'Adjustment')
+          ])
             RadioListTile<int>(
               title: Text(label),
               value: val,
@@ -443,9 +507,12 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               children: [
                 Text('Confidence Threshold  ${(_slider * 100).round()}%',
                     style: SuperText.label.copyWith(color: t.fg3)),
-                Slider(value: _slider, onChanged: (v) => setState(() => _slider = v)),
+                Slider(
+                    value: _slider,
+                    onChanged: (v) => setState(() => _slider = v)),
                 const SizedBox(height: 4),
-                Text('Amount Range  ${(_range.start * 100).round()}k – ${(_range.end * 100).round()}k SAR',
+                Text(
+                    'Amount Range  ${(_range.start * 100).round()}k – ${(_range.end * 100).round()}k SAR',
                     style: SuperText.label.copyWith(color: t.fg3)),
                 RangeSlider(
                   values: _range,
@@ -458,25 +525,46 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 7 · CHIPS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('CHIPS'),
+          _Sec('CHIPS'),
           Wrap(spacing: 8, runSpacing: 8, children: [
             // Action chips
-            ActionChip(label: const Text('Refresh'), avatar: const Icon(Icons.refresh, size: 16), onPressed: () {}),
-            ActionChip(label: const Text('Export'), avatar: const Icon(Icons.download_outlined, size: 16), onPressed: () {}),
+            ActionChip(
+                label: const Text('Refresh'),
+                avatar: const Icon(Icons.refresh, size: 16),
+                onPressed: () {}),
+            ActionChip(
+                label: const Text('Export'),
+                avatar: const Icon(Icons.download_outlined, size: 16),
+                onPressed: () {}),
             // Filter chips
-            FilterChip(label: const Text('Active'), selected: true, onSelected: (_) {}),
-            FilterChip(label: const Text('Pending'), selected: false, onSelected: (_) {}),
-            FilterChip(label: const Text('Archived'), selected: false, onSelected: (_) {}),
+            FilterChip(
+                label: const Text('Active'),
+                selected: true,
+                onSelected: (_) {}),
+            FilterChip(
+                label: const Text('Pending'),
+                selected: false,
+                onSelected: (_) {}),
+            FilterChip(
+                label: const Text('Archived'),
+                selected: false,
+                onSelected: (_) {}),
             // Input chips
             InputChip(label: const Text('Damascus Branch'), onDeleted: () {}),
             InputChip(label: const Text('Q4 2024'), onDeleted: () {}),
             // Suggestion chips (choice chips)
-            ChoiceChip(label: const Text('This Month'), selected: true, onSelected: (_) {}),
-            ChoiceChip(label: const Text('This Year'), selected: false, onSelected: (_) {}),
+            ChoiceChip(
+                label: const Text('This Month'),
+                selected: true,
+                onSelected: (_) {}),
+            ChoiceChip(
+                label: const Text('This Year'),
+                selected: false,
+                onSelected: (_) {}),
           ]),
 
           // ── Status Pills ───────────────────────────────────────────────────
-          const _Sec('STATUS PILLS'),
+          _Sec('STATUS PILLS'),
           Wrap(spacing: 8, runSpacing: 8, children: [
             _Pill('POSTED', SuperTokens.success, t),
             _Pill('PENDING', cs.primary, t),
@@ -490,7 +578,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 8 · CARDS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('CARD VARIANTS'),
+          _Sec('CARD VARIANTS'),
           // Elevated
           Card(
             child: ListTile(
@@ -502,7 +590,10 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ),
           const SizedBox(height: 8),
           // Filled
-          Card(elevation: 0, surfaceTintColor: Colors.transparent, color: Theme.of(context).colorScheme.surfaceVariant,
+          Card(
+            elevation: 0,
+            surfaceTintColor: Colors.transparent,
+            color: Theme.of(context).colorScheme.surfaceVariant,
             child: ListTile(
               leading: Icon(Icons.inventory_2_outlined, color: cs.primary),
               title: const Text('Filled Card'),
@@ -514,7 +605,10 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // Outlined
           Card(
             elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant)),
             child: ListTile(
               leading: Icon(Icons.account_balance_outlined, color: cs.primary),
               title: const Text('Outlined Card'),
@@ -532,19 +626,25 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 children: [
                   Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Container(
-                      width: 4, height: 40,
+                      width: 4,
+                      height: 40,
                       decoration: BoxDecoration(
                           color: cs.primary,
                           borderRadius: BorderRadius.circular(12)),
                     ),
                     const SizedBox(width: 16),
-                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('Section Card', style: SuperText.heading.copyWith(color: t.fg1)),
-                      Text('GeniusLink 4 px marker bar — identity', style: SuperText.caption.copyWith(color: t.fg3)),
-                    ]),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Section Card',
+                              style: SuperText.heading.copyWith(color: t.fg1)),
+                          Text('GeniusLink 4 px marker bar — identity',
+                              style: SuperText.caption.copyWith(color: t.fg3)),
+                        ]),
                   ]),
                   Divider(height: 28, color: t.border),
-                  Text('The 4 px vertical pill is the most distinctive GeniusLink visual device. '
+                  Text(
+                      'The 4 px vertical pill is the most distinctive GeniusLink visual device. '
                       'Blue = identity, green = ledger, orange = notes.',
                       style: SuperText.body.copyWith(color: t.fg2)),
                 ],
@@ -555,13 +655,17 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 9 · LIST TILES
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('LIST TILES'),
+          _Sec('LIST TILES'),
           Card(
             elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant)),
             child: Column(children: [
               ListTile(
-                leading: const CircleAvatar(child: Icon(Icons.person_outline, size: 18)),
+                leading: const CircleAvatar(
+                    child: Icon(Icons.person_outline, size: 18)),
                 title: const Text('Ahmad Al-Rashid'),
                 subtitle: const Text('Senior Accountant • Finance'),
                 trailing: const Icon(Icons.chevron_right),
@@ -577,7 +681,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               ),
               const Divider(height: 1, indent: 56),
               ListTile(
-                leading: const Icon(Icons.warning_amber_outlined, color: SuperTokens.warning),
+                leading: Icon(Icons.warning_amber_outlined,
+                    color: SuperTokens.warning),
                 title: const Text('Pending Reconciliation'),
                 subtitle: const Text('3 entries require review before closing'),
                 isThreeLine: false,
@@ -594,11 +699,14 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ),
 
           // ── Expansion Tile ─────────────────────────────────────────────────
-          const _Sec('EXPANSION TILE'),
+          _Sec('EXPANSION TILE'),
           Card(
             elevation: 0,
             clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant)),
             child: Column(children: [
               ExpansionTile(
                 leading: Icon(Icons.folder_outlined, color: cs.primary),
@@ -611,17 +719,22 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                   ])
                     ListTile(
                       dense: true,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 0),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 0),
                       title: Text(name),
-                      leading: Text(code, style: SuperText.mono.copyWith(color: t.fg3, fontSize: 11)),
+                      leading: Text(code,
+                          style: SuperText.mono
+                              .copyWith(color: t.fg3, fontSize: 11)),
                       trailing: Text(bal,
-                          style: SuperText.mono.copyWith(color: SuperTokens.success, fontSize: 12)),
+                          style: SuperText.mono.copyWith(
+                              color: SuperTokens.success, fontSize: 12)),
                     ),
                 ],
               ),
               const Divider(height: 1),
               ExpansionTile(
-                leading: const Icon(Icons.folder_outlined, color: SuperTokens.warning),
+                leading:
+                    Icon(Icons.folder_outlined, color: SuperTokens.warning),
                 title: const Text('Current Liabilities'),
                 subtitle: const Text('2 accounts · SAR 3,800.00'),
                 children: [
@@ -630,7 +743,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                     contentPadding: const EdgeInsets.symmetric(horizontal: 32),
                     title: const Text('Short-term Payables'),
                     trailing: Text('-3,800.00',
-                        style: SuperText.mono.copyWith(color: cs.error, fontSize: 12)),
+                        style: SuperText.mono
+                            .copyWith(color: cs.error, fontSize: 12)),
                   ),
                 ],
               ),
@@ -640,27 +754,36 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 10 · NAVIGATION PREVIEWS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('NAVIGATION RAIL (PREVIEW)'),
+          _Sec('NAVIGATION RAIL (PREVIEW)'),
           _NavRailPreview(cs: cs, t: t),
 
-          const _Sec('TAB BAR'),
+          _Sec('TAB BAR'),
           Card(
             elevation: 0,
             clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant)),
             child: Column(children: [
               TabBar(
                 controller: _tabController,
                 tabs: const [
                   Tab(icon: Icon(Icons.receipt_outlined), text: 'Journals'),
-                  Tab(icon: Icon(Icons.account_balance_wallet_outlined), text: 'Accounts'),
+                  Tab(
+                      icon: Icon(Icons.account_balance_wallet_outlined),
+                      text: 'Accounts'),
                   Tab(icon: Icon(Icons.bar_chart_outlined), text: 'Reports'),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  ['Journal entries list view', 'Chart of accounts', 'Financial reports'][_tabIndex],
+                  [
+                    'Journal entries list view',
+                    'Chart of accounts',
+                    'Financial reports'
+                  ][_tabIndex],
                   style: SuperText.body.copyWith(color: t.fg2),
                 ),
               ),
@@ -670,7 +793,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 11 · OVERLAYS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('OVERLAYS'),
+          _Sec('OVERLAYS'),
           Wrap(spacing: 8, runSpacing: 8, children: [
             // Dialog
             OutlinedButton.icon(
@@ -691,44 +814,66 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               label: const Text('Snack Bar'),
             ),
             // Drawer
-            Builder(builder: (ctx) => OutlinedButton.icon(
-              onPressed: () => Scaffold.of(ctx).openDrawer(),
-              icon: const Icon(Icons.menu, size: 16),
-              label: const Text('Navigation Drawer'),
-            )),
+            Builder(
+                builder: (ctx) => OutlinedButton.icon(
+                      onPressed: () => Scaffold.of(ctx).openDrawer(),
+                      icon: const Icon(Icons.menu, size: 16),
+                      label: const Text('Navigation Drawer'),
+                    )),
             // End Drawer
-            Builder(builder: (ctx) => OutlinedButton.icon(
-              onPressed: () => Scaffold.of(ctx).openEndDrawer(),
-              icon: const Icon(Icons.settings_outlined, size: 16),
-              label: const Text('End Drawer'),
-            )),
+            Builder(
+                builder: (ctx) => OutlinedButton.icon(
+                      onPressed: () => Scaffold.of(ctx).openEndDrawer(),
+                      icon: const Icon(Icons.settings_outlined, size: 16),
+                      label: const Text('End Drawer'),
+                    )),
             // Popup Menu
             PopupMenuButton<String>(
-              child:  OutlinedButton.icon(
+              child: OutlinedButton.icon(
                 onPressed: null,
-                icon: const Icon(Icons.more_horiz, size: 16),
-                label: const Text('Popup Menu'),
+                icon: Icon(Icons.more_horiz, size: 16),
+                label: Text('Popup Menu'),
               ),
               onSelected: (_) {},
               itemBuilder: (_) => [
-                const PopupMenuItem(value: 'edit', child: ListTile(leading: Icon(Icons.edit_outlined), title: Text('Edit'))),
-                const PopupMenuItem(value: 'dup', child: ListTile(leading: Icon(Icons.copy_outlined), title: Text('Duplicate'))),
+                const PopupMenuItem(
+                    value: 'edit',
+                    child: ListTile(
+                        leading: Icon(Icons.edit_outlined),
+                        title: Text('Edit'))),
+                const PopupMenuItem(
+                    value: 'dup',
+                    child: ListTile(
+                        leading: Icon(Icons.copy_outlined),
+                        title: Text('Duplicate'))),
                 const PopupMenuDivider(),
-                PopupMenuItem(value: 'del', child: ListTile(
-                  leading: Icon(Icons.delete_outline, color: cs.error),
-                  title: Text('Delete', style: TextStyle(color: cs.error)),
-                )),
+                PopupMenuItem(
+                    value: 'del',
+                    child: ListTile(
+                      leading: Icon(Icons.delete_outline, color: cs.error),
+                      title: Text('Delete', style: TextStyle(color: cs.error)),
+                    )),
               ],
             ),
             // Menu Anchor
             MenuAnchor(
               menuChildren: [
-                MenuItemButton(leadingIcon: const Icon(Icons.print_outlined), child: const Text('Print'), onPressed: () {}),
-                MenuItemButton(leadingIcon: const Icon(Icons.share_outlined), child: const Text('Share'), onPressed: () {}),
-                MenuItemButton(leadingIcon: const Icon(Icons.download_outlined), child: const Text('Download'), onPressed: () {}),
+                MenuItemButton(
+                    leadingIcon: const Icon(Icons.print_outlined),
+                    child: const Text('Print'),
+                    onPressed: () {}),
+                MenuItemButton(
+                    leadingIcon: const Icon(Icons.share_outlined),
+                    child: const Text('Share'),
+                    onPressed: () {}),
+                MenuItemButton(
+                    leadingIcon: const Icon(Icons.download_outlined),
+                    child: const Text('Download'),
+                    onPressed: () {}),
               ],
               builder: (ctx, controller, _) => OutlinedButton.icon(
-                onPressed: () => controller.isOpen ? controller.close() : controller.open(),
+                onPressed: () =>
+                    controller.isOpen ? controller.close() : controller.open(),
                 icon: const Icon(Icons.arrow_drop_down, size: 16),
                 label: const Text('Menu Anchor'),
               ),
@@ -736,16 +881,18 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ]),
 
           // ── Tooltip ────────────────────────────────────────────────────────
-          const _Sec('TOOLTIPS'),
+          _Sec('TOOLTIPS'),
           Wrap(spacing: 12, children: [
             Tooltip(
               message: 'Post journal entry to the ledger',
-              child: FilledButton(onPressed: () {}, child: const Text('Hover Me')),
+              child:
+                  FilledButton(onPressed: () {}, child: const Text('Hover Me')),
             ),
             Tooltip(
               message: 'View full audit trail',
               preferBelow: false,
-              child: IconButton(icon: const Icon(Icons.history), onPressed: () {}),
+              child:
+                  IconButton(icon: const Icon(Icons.history), onPressed: () {}),
             ),
             Tooltip(
               message: 'Download supporting documents',
@@ -757,80 +904,117 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ]),
 
           // ── Badges ─────────────────────────────────────────────────────────
-          const _Sec('BADGES'),
-          Wrap(spacing: 20, crossAxisAlignment: WrapCrossAlignment.center, children: [
-            const Badge(child: Icon(Icons.notifications_outlined, size: 28)),
-            const Badge(label: Text('3'), child: Icon(Icons.mail_outline, size: 28)),
-            const Badge(label: Text('12'), child: Icon(Icons.shopping_cart_outlined, size: 28)),
-            Badge(
-              label: Text('99+', style: SuperText.pill.copyWith(color: cs.onError, fontSize: 9)),
-              child: const Icon(Icons.inbox_outlined, size: 28),
-            ),
-          ]),
+          _Sec('BADGES'),
+          Wrap(
+              spacing: 20,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Badge(
+                    child: const Icon(Icons.notifications_outlined, size: 28)),
+                Badge(
+                    label: const Text('3'),
+                    child: const Icon(Icons.mail_outline, size: 28)),
+                Badge(
+                    label: const Text('12'),
+                    child: const Icon(Icons.shopping_cart_outlined, size: 28)),
+                Badge(
+                  label: Text('99+',
+                      style: SuperText.pill
+                          .copyWith(color: cs.onError, fontSize: 9)),
+                  child: const Icon(Icons.inbox_outlined, size: 28),
+                ),
+              ]),
 
           // ════════════════════════════════════════════════════════════════════
           // 12 · PROGRESS INDICATORS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('PROGRESS INDICATORS'),
+          _Sec('PROGRESS INDICATORS'),
           Row(children: [
-            const SizedBox(
-              width: 48, height: 48,
+            SizedBox(
+              width: 48,
+              height: 48,
               child: CircularProgressIndicator(value: 0.72, strokeWidth: 4),
             ),
             const SizedBox(width: 12),
-            const SizedBox(
-              width: 48, height: 48,
+            SizedBox(
+              width: 48,
+              height: 48,
               child: CircularProgressIndicator(strokeWidth: 3),
             ),
             const SizedBox(width: 20),
             Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Sync progress  72%', style: SuperText.label.copyWith(color: t.fg3)),
-                const SizedBox(height: 6),
-                const LinearProgressIndicator(value: 0.72),
-                const SizedBox(height: 12),
-                Text('Loading…', style: SuperText.label.copyWith(color: t.fg3)),
-                const SizedBox(height: 6),
-                const LinearProgressIndicator(),
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Sync progress  72%',
+                        style: SuperText.label.copyWith(color: t.fg3)),
+                    const SizedBox(height: 6),
+                    const LinearProgressIndicator(value: 0.72),
+                    const SizedBox(height: 12),
+                    Text('Loading…',
+                        style: SuperText.label.copyWith(color: t.fg3)),
+                    const SizedBox(height: 6),
+                    const LinearProgressIndicator(),
+                  ]),
             ),
           ]),
 
           // ════════════════════════════════════════════════════════════════════
           // 13 · DIVIDERS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('DIVIDERS'),
+          _Sec('DIVIDERS'),
           const Divider(),
           const SizedBox(height: 4),
           const Divider(indent: 16, endIndent: 16, thickness: 2),
           const SizedBox(height: 4),
           Row(children: [
-            Expanded(child: Text('Left content', style: SuperText.body.copyWith(color: t.fg2))),
+            Expanded(
+                child: Text('Left content',
+                    style: SuperText.body.copyWith(color: t.fg2))),
             const SizedBox(height: 32, child: VerticalDivider()),
-            Expanded(child: Text('Right content', style: SuperText.body.copyWith(color: t.fg2))),
+            Expanded(
+                child: Text('Right content',
+                    style: SuperText.body.copyWith(color: t.fg2))),
             const SizedBox(height: 32, child: VerticalDivider()),
-            Expanded(child: Text('Third content', style: SuperText.body.copyWith(color: t.fg2))),
+            Expanded(
+                child: Text('Third content',
+                    style: SuperText.body.copyWith(color: t.fg2))),
           ]),
 
           // ════════════════════════════════════════════════════════════════════
           // 14 · DATA TABLE
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('DATA TABLE'),
+          _Sec('DATA TABLE'),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: DataTable(
               columns: [
-                DataColumn(label: Text('#', style: SuperText.mono.copyWith(color: t.fg3))),
-                DataColumn(label: Text('ACCOUNT', style: SuperText.label.copyWith(color: t.fg3))),
-                DataColumn(label: Text('TYPE', style: SuperText.label.copyWith(color: t.fg3))),
-                DataColumn(label: Text('NATURE', style: SuperText.label.copyWith(color: t.fg3))),
-                DataColumn(label: Text('BALANCE', style: SuperText.label.copyWith(color: t.fg3)), numeric: true),
+                DataColumn(
+                    label: Text('#',
+                        style: SuperText.mono.copyWith(color: t.fg3))),
+                DataColumn(
+                    label: Text('ACCOUNT',
+                        style: SuperText.label.copyWith(color: t.fg3))),
+                DataColumn(
+                    label: Text('TYPE',
+                        style: SuperText.label.copyWith(color: t.fg3))),
+                DataColumn(
+                    label: Text('NATURE',
+                        style: SuperText.label.copyWith(color: t.fg3))),
+                DataColumn(
+                    label: Text('BALANCE',
+                        style: SuperText.label.copyWith(color: t.fg3)),
+                    numeric: true),
               ],
               rows: [
-                _row(cs, t, '1', 'Cash & Equivalents', 'Asset', 'DR', '+\$12,400.00'),
-                _row(cs, t, '2', 'Accounts Receivable', 'Asset', 'DR', '+\$5,240.00'),
-                _row(cs, t, '3', 'Short-term Liabilities', 'Liability', 'CR', '-\$3,800.00'),
-                _row(cs, t, '4', 'Retained Earnings', 'Equity', 'CR', '+\$13,840.00'),
+                _row(cs, t, '1', 'Cash & Equivalents', 'Asset', 'DR',
+                    '+\$12,400.00'),
+                _row(cs, t, '2', 'Accounts Receivable', 'Asset', 'DR',
+                    '+\$5,240.00'),
+                _row(cs, t, '3', 'Short-term Liabilities', 'Liability', 'CR',
+                    '-\$3,800.00'),
+                _row(cs, t, '4', 'Retained Earnings', 'Equity', 'CR',
+                    '+\$13,840.00'),
               ],
             ),
           ),
@@ -838,7 +1022,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 15 · TYPOGRAPHY
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('SUPER TEXT STYLES'),
+          _Sec('SUPER TEXT STYLES'),
           for (final r in [
             ('h1 — Manrope 26 / 700', SuperText.h1, t.fg1),
             ('heading — Inter 16 / 700', SuperText.heading, t.fg1),
@@ -852,7 +1036,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ])
             _TypeRow(r.$1, r.$2, r.$3),
 
-          const _Sec('MATERIAL TEXT THEME'),
+          _Sec('MATERIAL TEXT THEME'),
           for (final r in [
             ('displaySmall', Theme.of(context).textTheme.displaySmall),
             ('headlineMedium', Theme.of(context).textTheme.headlineMedium),
@@ -892,13 +1076,20 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                CircleAvatar(radius: 28, backgroundColor: cs.primaryContainer,
-                    child: Icon(Icons.account_balance, color: cs.primary, size: 28)),
-                const SizedBox(height: 12),
-                Text('GeniusLink ERP', style: SuperText.heading.copyWith(color: t.fg1)),
-                Text('Precision System v1.0', style: SuperText.caption.copyWith(color: t.fg3)),
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                        radius: 28,
+                        backgroundColor: cs.primaryContainer,
+                        child: Icon(Icons.account_balance,
+                            color: cs.primary, size: 28)),
+                    const SizedBox(height: 12),
+                    Text('GeniusLink ERP',
+                        style: SuperText.heading.copyWith(color: t.fg1)),
+                    Text('Precision System v1.0',
+                        style: SuperText.caption.copyWith(color: t.fg3)),
+                  ]),
             ),
             const Divider(),
             for (final (icon, label, sel) in [
@@ -917,13 +1108,15 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                         fontWeight: sel ? FontWeight.w600 : FontWeight.w400)),
                 selected: sel,
                 selectedTileColor: cs.primary.withOpacity(0.08),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
                 onTap: () => Navigator.pop(context),
               ),
             const Divider(),
             ListTile(
               leading: Icon(Icons.settings_outlined, color: t.fg3),
-              title: Text('Settings', style: SuperText.body.copyWith(color: t.fg1)),
+              title: Text('Settings',
+                  style: SuperText.body.copyWith(color: t.fg1)),
               onTap: () => Navigator.pop(context),
             ),
           ],
@@ -932,7 +1125,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
     );
   }
 
-  Widget _buildEndDrawer(BuildContext context, ColorScheme cs, SuperThemeData t) {
+  Widget _buildEndDrawer(
+      BuildContext context, ColorScheme cs, SuperThemeData t) {
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -941,35 +1135,48 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
               child: Row(children: [
-                Expanded(child: Text('Settings', style: SuperText.heading.copyWith(color: t.fg1))),
-                IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
+                Expanded(
+                    child: Text('Settings',
+                        style: SuperText.heading.copyWith(color: t.fg1))),
+                IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context)),
               ]),
             ),
             const Divider(),
             SwitchListTile(
               title: const Text('Dark Mode'),
               value: widget.themeMode == ThemeMode.dark,
-              onChanged: (v) => widget.onThemeModeChanged(v ? ThemeMode.dark : ThemeMode.light),
+              onChanged: (v) => widget
+                  .onThemeModeChanged(v ? ThemeMode.dark : ThemeMode.light),
             ),
-            SwitchListTile(title: const Text('Compact Density'), value: false, onChanged: (_) {}),
-            SwitchListTile(title: const Text('RTL Layout'), value: false, onChanged: (_) {}),
+            SwitchListTile(
+                title: const Text('Compact Density'),
+                value: false,
+                onChanged: (_) {}),
+            SwitchListTile(
+                title: const Text('RTL Layout'),
+                value: false,
+                onChanged: (_) {}),
             const Divider(),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Text('PALETTE', style: SuperText.eyebrow.copyWith(color: t.fg4)),
+              child: Text('PALETTE',
+                  style: SuperText.eyebrow.copyWith(color: t.fg4)),
             ),
             const SizedBox(height: 8),
             ...SuperPalette.values.map((p) => ListTile(
-              leading: CircleAvatar(backgroundColor: p.shade500, radius: 10),
-              title: Text(p.name),
-              trailing: widget.selectedPalette.name == p.name
-                  ? Icon(Icons.check, color: cs.primary, size: 18)
-                  : null,
-              onTap: () {
-                widget.onPaletteChanged(p);
-                Navigator.pop(context);
-              },
-            )),
+                  leading:
+                      CircleAvatar(backgroundColor: p.shade500, radius: 10),
+                  title: Text(p.name),
+                  trailing: widget.selectedPalette.name == p.name
+                      ? Icon(Icons.check, color: cs.primary, size: 18)
+                      : null,
+                  onTap: () {
+                    widget.onPaletteChanged(p);
+                    Navigator.pop(context);
+                  },
+                )),
           ],
         ),
       ),
@@ -978,8 +1185,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
 
   // ── Table row helper ─────────────────────────────────────────────────────────
 
-  DataRow _row(ColorScheme cs, SuperThemeData t,
-      String n, String name, String type, String nature, String bal) {
+  DataRow _row(ColorScheme cs, SuperThemeData t, String n, String name,
+      String type, String nature, String bal) {
     final neg = bal.startsWith('-');
     final typeColor = type == 'Asset'
         ? SuperTokens.success
@@ -997,10 +1204,12 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           color: natureColor.withOpacity(0.12),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Text(nature, style: SuperText.mono.copyWith(color: natureColor, fontSize: 11)),
+        child: Text(nature,
+            style: SuperText.mono.copyWith(color: natureColor, fontSize: 11)),
       )),
       DataCell(Text(bal,
-          style: SuperText.mono.copyWith(color: neg ? cs.error : SuperTokens.success))),
+          style: SuperText.mono
+              .copyWith(color: neg ? cs.error : SuperTokens.success))),
     ]);
   }
 }
@@ -1072,8 +1281,11 @@ class _TypeRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(children: [
-        Expanded(flex: 2, child: Text('Aa', style: style.copyWith(color: color))),
-        Expanded(flex: 5, child: Text(name, style: SuperText.caption.copyWith(color: t.fg4))),
+        Expanded(
+            flex: 2, child: Text('Aa', style: style.copyWith(color: color))),
+        Expanded(
+            flex: 5,
+            child: Text(name, style: SuperText.caption.copyWith(color: t.fg4))),
       ]),
     );
   }
@@ -1086,9 +1298,15 @@ class _ShadeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shades = [
-      (50, palette.shade50), (100, palette.shade100), (200, palette.shade200),
-      (300, palette.shade300), (400, palette.shade400), (500, palette.shade500),
-      (600, palette.shade600), (700, palette.shade700), (800, palette.shade800),
+      (50, palette.shade50),
+      (100, palette.shade100),
+      (200, palette.shade200),
+      (300, palette.shade300),
+      (400, palette.shade400),
+      (500, palette.shade500),
+      (600, palette.shade600),
+      (700, palette.shade700),
+      (800, palette.shade800),
       (900, palette.shade900),
     ];
     return ClipRRect(
@@ -1097,16 +1315,19 @@ class _ShadeRow extends StatelessWidget {
         children: shades.map((s) {
           final (label, color) = s;
           final fg = color.computeLuminance() > 0.35
-              ? const Color(0xFF0F172A) : const Color(0xFFFFFFFF);
+              ? const Color(0xFF0F172A)
+              : const Color(0xFFFFFFFF);
           return Expanded(
             child: Tooltip(
-              message: '#${color.value.toRadixString(16).substring(2).toUpperCase()}',
+              message:
+                  '#${color.value.toRadixString(16).substring(2).toUpperCase()}',
               child: Container(
                 height: 56,
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.only(bottom: 4),
                 color: color,
-                child: Text('$label', style: SuperText.pill.copyWith(color: fg)),
+                child:
+                    Text('$label', style: SuperText.pill.copyWith(color: fg)),
               ),
             ),
           );
@@ -1141,11 +1362,13 @@ class _ColorSchemeGrid extends StatelessWidget {
       ('outlineVariant', cs.outlineVariant, cs.onSurface),
     ];
     return Wrap(
-      spacing: 8, runSpacing: 8,
+      spacing: 8,
+      runSpacing: 8,
       children: roles.map((r) {
         final (name, bg, fg) = r;
         return Container(
-          width: 132, height: 52,
+          width: 132,
+          height: 52,
           decoration: BoxDecoration(
             color: bg,
             borderRadius: BorderRadius.circular(4),
@@ -1153,8 +1376,10 @@ class _ColorSchemeGrid extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(7),
           alignment: Alignment.bottomLeft,
-          child: Text(name, style: SuperText.pill.copyWith(color: fg),
-              maxLines: 1, overflow: TextOverflow.ellipsis),
+          child: Text(name,
+              style: SuperText.pill.copyWith(color: fg),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis),
         );
       }).toList(),
     );
@@ -1179,7 +1404,10 @@ class _AppBarPreview extends StatelessWidget {
     return Card(
       elevation: 0,
       clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side:
+              BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
       child: Column(
         children: [
           Container(
@@ -1187,22 +1415,32 @@ class _AppBarPreview extends StatelessWidget {
             color: t.surface,
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: Row(children: [
-              IconButton(icon: const Icon(Icons.menu, size: 20), onPressed: () {}),
+              IconButton(
+                  icon: const Icon(Icons.menu, size: 20), onPressed: () {}),
               const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(subtitle, style: SuperText.eyebrow.copyWith(color: cs.primary, fontSize: 9)),
-                    Text(title, style: SuperText.heading.copyWith(color: t.fg1, fontSize: 14)),
+                    Text(subtitle,
+                        style: SuperText.eyebrow
+                            .copyWith(color: cs.primary, fontSize: 9)),
+                    Text(title,
+                        style: SuperText.heading
+                            .copyWith(color: t.fg1, fontSize: 14)),
                   ],
                 ),
               ),
               if (showSearch)
-                IconButton(icon: const Icon(Icons.search, size: 20), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.notifications_outlined, size: 20), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.account_circle_outlined, size: 20), onPressed: () {}),
+                IconButton(
+                    icon: const Icon(Icons.search, size: 20), onPressed: () {}),
+              IconButton(
+                  icon: const Icon(Icons.notifications_outlined, size: 20),
+                  onPressed: () {}),
+              IconButton(
+                  icon: const Icon(Icons.account_circle_outlined, size: 20),
+                  onPressed: () {}),
             ]),
           ),
           Divider(height: 1, color: t.border),
@@ -1212,7 +1450,8 @@ class _AppBarPreview extends StatelessWidget {
               Icon(Icons.info_outline, size: 14, color: t.fg4),
               const SizedBox(width: 6),
               Text('App bar preview — not interactive',
-                  style: SuperText.caption.copyWith(color: t.fg4, fontSize: 11)),
+                  style:
+                      SuperText.caption.copyWith(color: t.fg4, fontSize: 11)),
             ]),
           ),
         ],
@@ -1238,7 +1477,10 @@ class _NavRailPreviewState extends State<_NavRailPreview> {
     return Card(
       elevation: 0,
       clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side:
+              BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
       child: SizedBox(
         height: 240,
         child: Row(
@@ -1270,7 +1512,12 @@ class _NavRailPreviewState extends State<_NavRailPreview> {
             Expanded(
               child: Center(
                 child: Text(
-                  ['Dashboard view', 'Journal entries', 'Chart of accounts', 'Reports'][_sel],
+                  [
+                    'Dashboard view',
+                    'Journal entries',
+                    'Chart of accounts',
+                    'Reports'
+                  ][_sel],
                   style: SuperText.body.copyWith(color: widget.t.fg3),
                 ),
               ),

@@ -21,11 +21,13 @@ int horizontalStep(LogicalKeyboardKey key, TextDirection dir) {
   return 0;
 }
 
-/// True when a horizontal arrow [key] points *toward deeper nesting* for [dir] — the arrow a tree treats as expand / step-in (right in LTR, left in RTL).
+/// True when a horizontal arrow [key] points *toward deeper nesting* for [dir]
+/// — the arrow a tree treats as expand / step-in (right in LTR, left in RTL).
 bool arrowGoesInto(LogicalKeyboardKey key, TextDirection dir) =>
     horizontalStep(key, dir) > 0;
 
-/// True when the platform's primary command modifier is held (⌘ on macOS, Ctrl elsewhere). Use for copy/paste/select-all/undo shortcuts.
+/// True when the platform's primary command modifier is held (⌘ on macOS,
+/// Ctrl elsewhere). Use for copy/paste/select-all/undo shortcuts.
 bool isCommandPressed(Set<LogicalKeyboardKey> pressed) {
   return pressed.contains(LogicalKeyboardKey.metaLeft) ||
       pressed.contains(LogicalKeyboardKey.metaRight) ||
