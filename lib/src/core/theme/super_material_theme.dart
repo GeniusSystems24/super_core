@@ -33,6 +33,7 @@
 
 import 'package:flutter/cupertino.dart' show NoDefaultCupertinoThemeData;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
 import 'super_device_mode.dart';
 import 'super_interactive_state_theme.dart';
@@ -925,90 +926,90 @@ class SuperMaterialThemeData extends ThemeData {
       metrics: metrics,
       extensions: merged,
       // general
-      applyElevationOverlayColorOverride: applyElevationOverlayColor,
-      cupertinoOverrideThemeOverride: cupertinoOverrideTheme,
-      materialTapTargetSizeOverride: materialTapTargetSize,
-      pageTransitionsThemeOverride: pageTransitionsTheme,
-      platformOverride: platform,
-      splashFactoryOverride: splashFactory,
-      useMaterial3Override: useMaterial3,
-      visualDensityOverride: visualDensity,
+      applyElevationOverlayColor: applyElevationOverlayColor,
+      cupertinoOverrideTheme: cupertinoOverrideTheme,
+      materialTapTargetSize: materialTapTargetSize,
+      pageTransitionsTheme: pageTransitionsTheme,
+      platform: platform,
+      splashFactory: splashFactory,
+      useMaterial3: useMaterial3,
+      visualDensity: visualDensity,
       // typography
-      textThemeOverride: textTheme,
-      primaryTextThemeOverride: primaryTextTheme,
-      iconThemeOverride: iconTheme,
-      primaryIconThemeOverride: primaryIconTheme,
-      typographyOverride: typography,
+      textTheme: textTheme,
+      primaryTextTheme: primaryTextTheme,
+      iconTheme: iconTheme,
+      primaryIconTheme: primaryIconTheme,
+      typography: typography,
       // colors
-      canvasColorOverride: canvasColor,
-      cardColorOverride: cardColor,
-      disabledColorOverride: disabledColor,
-      dividerColorOverride: dividerColor,
-      focusColorOverride: focusColor,
-      highlightColorOverride: highlightColor,
-      hintColorOverride: hintColor,
-      hoverColorOverride: hoverColor,
-      primaryColorOverride: primaryColor,
-      primaryColorDarkOverride: primaryColorDark,
-      primaryColorLightOverride: primaryColorLight,
-      scaffoldBackgroundColorOverride: scaffoldBackgroundColor,
-      secondaryHeaderColorOverride: secondaryHeaderColor,
-      shadowColorOverride: shadowColor,
-      splashColorOverride: splashColor,
-      unselectedWidgetColorOverride: unselectedWidgetColor,
+      canvasColor: canvasColor,
+      cardColor: cardColor,
+      disabledColor: disabledColor,
+      dividerColor: dividerColor,
+      focusColor: focusColor,
+      highlightColor: highlightColor,
+      hintColor: hintColor,
+      hoverColor: hoverColor,
+      primaryColor: primaryColor,
+      primaryColorDark: primaryColorDark,
+      primaryColorLight: primaryColorLight,
+      scaffoldBackgroundColor: scaffoldBackgroundColor,
+      secondaryHeaderColor: secondaryHeaderColor,
+      shadowColor: shadowColor,
+      splashColor: splashColor,
+      unselectedWidgetColor: unselectedWidgetColor,
       // component themes
-      actionIconThemeOverride: actionIconTheme,
-      appBarThemeOverride: appBarTheme,
-      badgeThemeOverride: badgeTheme,
-      bannerThemeOverride: bannerTheme,
-      bottomAppBarThemeOverride: bottomAppBarTheme,
-      bottomNavigationBarThemeOverride: bottomNavigationBarTheme,
-      bottomSheetThemeOverride: bottomSheetTheme,
-      buttonThemeOverride: buttonTheme,
-      cardThemeOverride: cardTheme,
-      carouselViewThemeOverride: carouselViewTheme,
-      checkboxThemeOverride: checkboxTheme,
-      chipThemeOverride: chipTheme,
-      dataTableThemeOverride: tableTheme,
-      datePickerThemeOverride: datePickerTheme,
-      dialogThemeOverride: dialogTheme,
-      dividerThemeOverride: dividerTheme,
-      drawerThemeOverride: drawerTheme,
-      dropdownMenuThemeOverride: dropdownMenuTheme,
-      elevatedButtonThemeOverride: elevatedButtonTheme,
-      expansionTileThemeOverride: expansionTileTheme,
-      filledButtonThemeOverride: filledButtonTheme,
-      inputDecorationOverride: formFieldTheme,
-      floatingActionButtonThemeOverride: floatingActionButtonTheme,
-      iconButtonThemeOverride: iconButtonTheme,
-      listTileThemeOverride: listTileTheme,
-      menuBarThemeOverride: menuBarTheme,
-      menuButtonThemeOverride: menuButtonTheme,
-      menuThemeOverride: menuTheme,
-      navigationBarThemeOverride: navigationBarTheme,
-      navigationDrawerThemeOverride: navigationDrawerTheme,
-      navigationRailThemeOverride: navigationRailTheme,
-      outlinedButtonThemeOverride: outlinedButtonTheme,
-      popupMenuThemeOverride: popupMenuTheme,
-      progressIndicatorThemeOverride: progressIndicatorTheme,
-      radioThemeOverride: radioTheme,
-      searchBarThemeOverride: searchBarTheme,
-      searchViewThemeOverride: searchViewTheme,
-      segmentedButtonThemeOverride: segmentedButtonTheme,
-      sliderThemeOverride: sliderTheme,
-      scrollbarThemeOverride: scrollbarTheme,
-      snackBarThemeOverride: snackBarTheme,
-      switchThemeOverride: switchTheme,
-      tabBarThemeOverride: tabBarTheme,
-      textButtonThemeOverride: textButtonTheme,
-      textSelectionThemeOverride: textSelectionTheme,
-      timePickerThemeOverride: timePickerTheme,
-      toggleButtonsThemeOverride: toggleButtonsTheme,
-      tooltipThemeOverride: tooltipTheme,
+      actionIconTheme: actionIconTheme,
+      appBarTheme: appBarTheme,
+      badgeTheme: badgeTheme,
+      bannerTheme: bannerTheme,
+      bottomAppBarTheme: bottomAppBarTheme,
+      bottomNavigationBarTheme: bottomNavigationBarTheme,
+      bottomSheetTheme: bottomSheetTheme,
+      buttonTheme: buttonTheme,
+      cardTheme: cardTheme,
+      carouselViewTheme: carouselViewTheme,
+      checkboxTheme: checkboxTheme,
+      chipTheme: chipTheme,
+      dataTableTheme: tableTheme,
+      datePickerTheme: datePickerTheme,
+      dialogTheme: dialogTheme,
+      dividerTheme: dividerTheme,
+      drawerTheme: drawerTheme,
+      dropdownMenuTheme: dropdownMenuTheme,
+      elevatedButtonTheme: elevatedButtonTheme,
+      expansionTileTheme: expansionTileTheme,
+      filledButtonTheme: filledButtonTheme,
+      inputDecoration: formFieldTheme,
+      floatingActionButtonTheme: floatingActionButtonTheme,
+      iconButtonTheme: iconButtonTheme,
+      listTileTheme: listTileTheme,
+      menuBarTheme: menuBarTheme,
+      menuButtonTheme: menuButtonTheme,
+      menuTheme: menuTheme,
+      navigationBarTheme: navigationBarTheme,
+      navigationDrawerTheme: navigationDrawerTheme,
+      navigationRailTheme: navigationRailTheme,
+      outlinedButtonTheme: outlinedButtonTheme,
+      popupMenuTheme: popupMenuTheme,
+      progressIndicatorTheme: progressIndicatorTheme,
+      radioTheme: radioTheme,
+      searchBarTheme: searchBarTheme,
+      searchViewTheme: searchViewTheme,
+      segmentedButtonTheme: segmentedButtonTheme,
+      sliderTheme: sliderTheme,
+      scrollbarTheme: scrollbarTheme,
+      snackBarTheme: snackBarTheme,
+      switchTheme: switchTheme,
+      tabBarTheme: tabBarTheme,
+      textButtonTheme: textButtonTheme,
+      textSelectionTheme: textSelectionTheme,
+      timePickerTheme: timePickerTheme,
+      toggleButtonsTheme: toggleButtonsTheme,
+      tooltipTheme: tooltipTheme,
       // deprecated
-      buttonBarThemeOverride: buttonBarTheme,
-      dialogBackgroundColorOverride: dialogBackgroundColor,
-      indicatorColorOverride: indicatorColor,
+      buttonBarTheme: buttonBarTheme,
+      dialogBackgroundColor: dialogBackgroundColor,
+      indicatorColor: indicatorColor,
     );
 
     return SuperMaterialThemeData._fromBase(
@@ -1074,97 +1075,96 @@ class SuperMaterialThemeData extends ThemeData {
     required SuperMetrics metrics,
     required List<ThemeExtension<dynamic>> extensions,
     // ── General Configuration ──
-    bool? applyElevationOverlayColorOverride,
-    NoDefaultCupertinoThemeData? cupertinoOverrideThemeOverride,
-    MaterialTapTargetSize? materialTapTargetSizeOverride,
-    PageTransitionsTheme? pageTransitionsThemeOverride,
-    TargetPlatform? platformOverride,
-    InteractiveInkFeatureFactory? splashFactoryOverride,
-    bool? useMaterial3Override,
-    VisualDensity? visualDensityOverride,
+    bool? applyElevationOverlayColor,
+    NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
+    MaterialTapTargetSize? materialTapTargetSize,
+    PageTransitionsTheme? pageTransitionsTheme,
+    TargetPlatform? platform,
+    InteractiveInkFeatureFactory? splashFactory,
+    bool? useMaterial3,
+    VisualDensity? visualDensity,
     // ── Typography & Iconography ──
-    TextTheme? textThemeOverride,
-    TextTheme? primaryTextThemeOverride,
-    IconThemeData? iconThemeOverride,
-    IconThemeData? primaryIconThemeOverride,
-    Typography? typographyOverride,
+    TextTheme? textTheme,
+    TextTheme? primaryTextTheme,
+    IconThemeData? iconTheme,
+    IconThemeData? primaryIconTheme,
+    Typography? typography,
     // ── Colors ──
-    Color? canvasColorOverride,
-    Color? cardColorOverride,
-    Color? disabledColorOverride,
-    Color? dividerColorOverride,
-    Color? focusColorOverride,
-    Color? highlightColorOverride,
-    Color? hintColorOverride,
-    Color? hoverColorOverride,
-    Color? primaryColorOverride,
-    Color? primaryColorDarkOverride,
-    Color? primaryColorLightOverride,
-    Color? scaffoldBackgroundColorOverride,
-    Color? secondaryHeaderColorOverride,
-    Color? shadowColorOverride,
-    Color? splashColorOverride,
-    Color? unselectedWidgetColorOverride,
-    // ── Component Theme Overrides ──
-    ActionIconThemeData? actionIconThemeOverride,
-    AppBarTheme? appBarThemeOverride,
-    BadgeThemeData? badgeThemeOverride,
-    MaterialBannerThemeData? bannerThemeOverride,
-    BottomAppBarThemeData? bottomAppBarThemeOverride,
-    BottomNavigationBarThemeData? bottomNavigationBarThemeOverride,
-    BottomSheetThemeData? bottomSheetThemeOverride,
-    ButtonThemeData? buttonThemeOverride,
-    CardThemeData? cardThemeOverride,
-    CarouselViewThemeData? carouselViewThemeOverride,
-    CheckboxThemeData? checkboxThemeOverride,
-    ChipThemeData? chipThemeOverride,
-    DataTableThemeData? dataTableThemeOverride,
-    DatePickerThemeData? datePickerThemeOverride,
-    DialogThemeData? dialogThemeOverride,
-    DividerThemeData? dividerThemeOverride,
-    DrawerThemeData? drawerThemeOverride,
-    DropdownMenuThemeData? dropdownMenuThemeOverride,
-    ElevatedButtonThemeData? elevatedButtonThemeOverride,
-    ExpansionTileThemeData? expansionTileThemeOverride,
-    FilledButtonThemeData? filledButtonThemeOverride,
-    InputDecorationTheme? inputDecorationOverride,
-    FloatingActionButtonThemeData? floatingActionButtonThemeOverride,
-    IconButtonThemeData? iconButtonThemeOverride,
-    ListTileThemeData? listTileThemeOverride,
-    MenuBarThemeData? menuBarThemeOverride,
-    MenuButtonThemeData? menuButtonThemeOverride,
-    MenuThemeData? menuThemeOverride,
-    NavigationBarThemeData? navigationBarThemeOverride,
-    NavigationDrawerThemeData? navigationDrawerThemeOverride,
-    NavigationRailThemeData? navigationRailThemeOverride,
-    OutlinedButtonThemeData? outlinedButtonThemeOverride,
-    PopupMenuThemeData? popupMenuThemeOverride,
-    ProgressIndicatorThemeData? progressIndicatorThemeOverride,
-    RadioThemeData? radioThemeOverride,
-    SearchBarThemeData? searchBarThemeOverride,
-    SearchViewThemeData? searchViewThemeOverride,
-    SegmentedButtonThemeData? segmentedButtonThemeOverride,
-    SliderThemeData? sliderThemeOverride,
-    ScrollbarThemeData? scrollbarThemeOverride,
-    SnackBarThemeData? snackBarThemeOverride,
-    SwitchThemeData? switchThemeOverride,
-    TabBarThemeData? tabBarThemeOverride,
-    TextButtonThemeData? textButtonThemeOverride,
-    TextSelectionThemeData? textSelectionThemeOverride,
-    TimePickerThemeData? timePickerThemeOverride,
-    ToggleButtonsThemeData? toggleButtonsThemeOverride,
-    TooltipThemeData? tooltipThemeOverride,
+    Color? canvasColor,
+    Color? cardColor,
+    Color? disabledColor,
+    Color? dividerColor,
+    Color? focusColor,
+    Color? highlightColor,
+    Color? hintColor,
+    Color? hoverColor,
+    Color? primaryColor,
+    Color? primaryColorDark,
+    Color? primaryColorLight,
+    Color? scaffoldBackgroundColor,
+    Color? secondaryHeaderColor,
+    Color? shadowColor,
+    Color? splashColor,
+    Color? unselectedWidgetColor,
+    // ── Component Theme s ──
+    ActionIconThemeData? actionIconTheme,
+    AppBarTheme? appBarTheme,
+    BadgeThemeData? badgeTheme,
+    MaterialBannerThemeData? bannerTheme,
+    BottomAppBarThemeData? bottomAppBarTheme,
+    BottomNavigationBarThemeData? bottomNavigationBarTheme,
+    BottomSheetThemeData? bottomSheetTheme,
+    ButtonThemeData? buttonTheme,
+    CardThemeData? cardTheme,
+    CarouselViewThemeData? carouselViewTheme,
+    CheckboxThemeData? checkboxTheme,
+    ChipThemeData? chipTheme,
+    DataTableThemeData? dataTableTheme,
+    DatePickerThemeData? datePickerTheme,
+    DialogThemeData? dialogTheme,
+    DividerThemeData? dividerTheme,
+    DrawerThemeData? drawerTheme,
+    DropdownMenuThemeData? dropdownMenuTheme,
+    ElevatedButtonThemeData? elevatedButtonTheme,
+    ExpansionTileThemeData? expansionTileTheme,
+    FilledButtonThemeData? filledButtonTheme,
+    InputDecorationTheme? inputDecoration,
+    FloatingActionButtonThemeData? floatingActionButtonTheme,
+    IconButtonThemeData? iconButtonTheme,
+    ListTileThemeData? listTileTheme,
+    MenuBarThemeData? menuBarTheme,
+    MenuButtonThemeData? menuButtonTheme,
+    MenuThemeData? menuTheme,
+    NavigationBarThemeData? navigationBarTheme,
+    NavigationDrawerThemeData? navigationDrawerTheme,
+    NavigationRailThemeData? navigationRailTheme,
+    OutlinedButtonThemeData? outlinedButtonTheme,
+    PopupMenuThemeData? popupMenuTheme,
+    ProgressIndicatorThemeData? progressIndicatorTheme,
+    RadioThemeData? radioTheme,
+    SearchBarThemeData? searchBarTheme,
+    SearchViewThemeData? searchViewTheme,
+    SegmentedButtonThemeData? segmentedButtonTheme,
+    SliderThemeData? sliderTheme,
+    ScrollbarThemeData? scrollbarTheme,
+    SnackBarThemeData? snackBarTheme,
+    SwitchThemeData? switchTheme,
+    TabBarThemeData? tabBarTheme,
+    TextButtonThemeData? textButtonTheme,
+    TextSelectionThemeData? textSelectionTheme,
+    TimePickerThemeData? timePickerTheme,
+    ToggleButtonsThemeData? toggleButtonsTheme,
+    TooltipThemeData? tooltipTheme,
     // ── Deprecated ──
-    ButtonBarThemeData? buttonBarThemeOverride,
-    Color? dialogBackgroundColorOverride,
-    Color? indicatorColorOverride,
+    ButtonBarThemeData? buttonBarTheme,
+    Color? dialogBackgroundColor,
+    Color? indicatorColor,
   }) {
     final cs = colorScheme;
     final isDark = cs.brightness == Brightness.dark;
     final m = metrics;
 
     // Surface aliases.
-    final bg = isDark ? palette.darkBg : palette.lightBg;
     final surface = isDark ? palette.darkSurface : palette.lightSurface;
     final inputBg = isDark ? palette.darkInputBg : palette.lightInputBg;
     final hover = isDark ? palette.darkHover : palette.lightHover;
@@ -1174,55 +1174,76 @@ class SuperMaterialThemeData extends ThemeData {
     final fg3 = isDark ? palette.darkFg3 : palette.lightFg3;
 
     // Responsive typography (explicit override wins).
-    final tt = textThemeOverride ?? _textTheme(m.mode, fg1, fg3);
-    final iconTheme =
-        iconThemeOverride ?? IconThemeData(color: fg1, size: m.sizing.icon);
+    final tt = textTheme ?? _textTheme(m.mode, fg1, fg3);
+    iconTheme ??= IconThemeData(color: fg1, size: m.sizing.icon);
+
+    // App-bar background — deliberately the elevated card surface so the bar is
+    // visually distinct from the Scaffold (which is now the page background,
+    // cs.surface). Shared by the AppBarTheme and its system-overlay style.
+    final appBarBg = surface;
+
+    // Responsive input chrome — computed once and reused by both
+    // inputDecorationTheme and dropdownMenuTheme.
+    final inputDec =
+        inputDecoration ??
+        _inputDecorationTheme(m, cs, tt, inputBg, border, fg1, fg3);
 
     return ThemeData(
       // ── General Configuration ──
-      useMaterial3: useMaterial3Override ?? true,
+      useMaterial3: useMaterial3 ?? true,
       colorScheme: cs,
       brightness: cs.brightness,
       extensions: extensions,
-      applyElevationOverlayColor: applyElevationOverlayColorOverride,
-      cupertinoOverrideTheme: cupertinoOverrideThemeOverride,
-      materialTapTargetSize: materialTapTargetSizeOverride,
-      pageTransitionsTheme: pageTransitionsThemeOverride,
-      platform: platformOverride,
-      splashFactory: splashFactoryOverride,
-      visualDensity: visualDensityOverride,
+      applyElevationOverlayColor: applyElevationOverlayColor ?? false,
+      cupertinoOverrideTheme: cupertinoOverrideTheme,
+      materialTapTargetSize:
+          materialTapTargetSize ??
+          (m.mode == SuperDeviceMode.desktop
+              ? MaterialTapTargetSize.shrinkWrap
+              : MaterialTapTargetSize.padded),
+      pageTransitionsTheme: pageTransitionsTheme,
+      platform: platform,
+      splashFactory: splashFactory ?? InkRipple.splashFactory,
+      visualDensity:
+          visualDensity ??
+          (m.mode == SuperDeviceMode.desktop
+              ? VisualDensity.compact
+              : VisualDensity.standard),
 
       // ── Typography ──
       fontFamily: SuperTokens.bodyFont,
       textTheme: tt,
       primaryTextTheme:
-          primaryTextThemeOverride ??
+          primaryTextTheme ??
           tt.apply(displayColor: cs.onPrimary, bodyColor: cs.onPrimary),
-      typography: typographyOverride,
+      typography: typography,
 
       // ── Colors ──
-      scaffoldBackgroundColor: scaffoldBackgroundColorOverride ?? bg,
-      canvasColor: canvasColorOverride ?? bg,
-      cardColor: cardColorOverride ?? surface,
-      disabledColor: disabledColorOverride ?? fg1.withValues(alpha: 0.38),
-      dividerColor: dividerColorOverride ?? border,
-      focusColor: focusColorOverride,
-      highlightColor: highlightColorOverride,
-      hintColor: hintColorOverride,
-      hoverColor: hoverColorOverride,
-      primaryColor: primaryColorOverride,
-      primaryColorDark: primaryColorDarkOverride,
-      primaryColorLight: primaryColorLightOverride,
-      secondaryHeaderColor: secondaryHeaderColorOverride,
-      shadowColor: shadowColorOverride,
-      splashColor: splashColorOverride,
-      unselectedWidgetColor: unselectedWidgetColorOverride,
+      // Scaffold background = the active ColorScheme's surface (the GeniusLink
+      // page background). Cards/panels/fields use the brighter surfaceContainer
+      // ramp so they remain clearly separated from the Scaffold.
+      scaffoldBackgroundColor: scaffoldBackgroundColor ?? cs.surface,
+      canvasColor: canvasColor ?? cs.surface,
+      cardColor: cardColor ?? surface,
+      disabledColor: disabledColor ?? fg1.withValues(alpha: 0.38),
+      dividerColor: dividerColor ?? border,
+      focusColor: focusColor ?? cs.primary.withValues(alpha: 0.12),
+      highlightColor: highlightColor ?? cs.primary.withValues(alpha: 0.10),
+      hintColor: hintColor ?? fg3,
+      hoverColor: hoverColor ?? cs.primary.withValues(alpha: 0.06),
+      primaryColor: primaryColor ?? cs.primary,
+      primaryColorDark: primaryColorDark ?? palette.shade700,
+      primaryColorLight: primaryColorLight ?? palette.shade300,
+      secondaryHeaderColor: secondaryHeaderColor ?? hover,
+      shadowColor: shadowColor ?? const Color(0xFF000000),
+      splashColor: splashColor ?? cs.primary.withValues(alpha: 0.10),
+      unselectedWidgetColor: unselectedWidgetColor ?? fg3,
 
       // ── App Bar ──
       appBarTheme:
-          appBarThemeOverride ??
+          appBarTheme ??
           AppBarTheme(
-            backgroundColor: isDark ? palette.darkBg : surface,
+            backgroundColor: appBarBg,
             foregroundColor: fg1,
             surfaceTintColor: Colors.transparent,
             elevation: isDark ? 0 : 1,
@@ -1233,6 +1254,9 @@ class SuperMaterialThemeData extends ThemeData {
             titleTextStyle: tt.titleLarge,
             iconTheme: IconThemeData(color: fg1, size: m.sizing.icon),
             actionsIconTheme: IconThemeData(color: fg1, size: m.sizing.icon),
+            // Status bar + navigation bar backgrounds track the app-bar color;
+            // icon brightness is chosen automatically for contrast.
+            systemOverlayStyle: _systemOverlayStyle(appBarBg),
             shape: isDark
                 ? Border(
                     bottom: BorderSide(
@@ -1240,12 +1264,14 @@ class SuperMaterialThemeData extends ThemeData {
                       width: 1,
                     ),
                   )
-                : null,
+                : Border(
+                    bottom: BorderSide(color: palette.lightBorder, width: 1),
+                  ),
           ),
 
       // ── Card ──
       cardTheme:
-          cardThemeOverride ??
+          cardTheme ??
           CardThemeData(
             color: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
@@ -1260,7 +1286,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Elevated Button ──
       elevatedButtonTheme:
-          elevatedButtonThemeOverride ??
+          elevatedButtonTheme ??
           ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               backgroundColor: cs.primary,
@@ -1280,7 +1306,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Outlined Button ──
       outlinedButtonTheme:
-          outlinedButtonThemeOverride ??
+          outlinedButtonTheme ??
           OutlinedButtonThemeData(
             style: OutlinedButton.styleFrom(
               foregroundColor: cs.primary,
@@ -1297,7 +1323,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Text Button ──
       textButtonTheme:
-          textButtonThemeOverride ??
+          textButtonTheme ??
           TextButtonThemeData(
             style: TextButton.styleFrom(
               foregroundColor: cs.primary,
@@ -1316,7 +1342,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Filled Button ──
       filledButtonTheme:
-          filledButtonThemeOverride ??
+          filledButtonTheme ??
           FilledButtonThemeData(
             style: FilledButton.styleFrom(
               backgroundColor: cs.primary,
@@ -1334,7 +1360,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Icon Button ──
       iconButtonTheme:
-          iconButtonThemeOverride ??
+          iconButtonTheme ??
           IconButtonThemeData(
             style: IconButton.styleFrom(
               foregroundColor: fg1,
@@ -1347,18 +1373,16 @@ class SuperMaterialThemeData extends ThemeData {
           ),
 
       // ── Input Decoration (responsive; explicit override wins) ──
-      inputDecorationTheme:
-          inputDecorationOverride ??
-          _inputDecorationTheme(m, cs, tt, inputBg, border, fg1, fg3),
+      inputDecorationTheme: inputDec,
 
       // ── Divider ──
       dividerTheme:
-          dividerThemeOverride ??
+          dividerTheme ??
           DividerThemeData(color: border, thickness: 1, space: 1),
 
       // ── List Tile ──
       listTileTheme:
-          listTileThemeOverride ??
+          listTileTheme ??
           ListTileThemeData(
             contentPadding: EdgeInsets.symmetric(
               horizontal: m.spacing.lg,
@@ -1380,7 +1404,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Navigation Bar ──
       navigationBarTheme:
-          navigationBarThemeOverride ??
+          navigationBarTheme ??
           NavigationBarThemeData(
             backgroundColor: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
@@ -1404,7 +1428,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Navigation Rail ──
       navigationRailTheme:
-          navigationRailThemeOverride ??
+          navigationRailTheme ??
           NavigationRailThemeData(
             backgroundColor: isDark ? palette.darkSurface : surface,
             elevation: 0,
@@ -1426,11 +1450,11 @@ class SuperMaterialThemeData extends ThemeData {
           ),
 
       // ── Navigation Drawer ──
-      navigationDrawerTheme: navigationDrawerThemeOverride,
+      navigationDrawerTheme: navigationDrawerTheme,
 
       // ── Drawer ──
       drawerTheme:
-          drawerThemeOverride ??
+          drawerTheme ??
           DrawerThemeData(
             backgroundColor: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
@@ -1447,7 +1471,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Dialog ──
       dialogTheme:
-          dialogThemeOverride ??
+          dialogTheme ??
           DialogThemeData(
             backgroundColor: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
@@ -1462,7 +1486,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Bottom Sheet ──
       bottomSheetTheme:
-          bottomSheetThemeOverride ??
+          bottomSheetTheme ??
           BottomSheetThemeData(
             backgroundColor: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
@@ -1479,7 +1503,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Chip ──
       chipTheme:
-          chipThemeOverride ??
+          chipTheme ??
           ChipThemeData(
             backgroundColor: isDark ? palette.darkSurface2 : palette.lightHover,
             deleteIconColor: fg3,
@@ -1504,7 +1528,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Popup Menu ──
       popupMenuTheme:
-          popupMenuThemeOverride ??
+          popupMenuTheme ??
           PopupMenuThemeData(
             color: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
@@ -1521,7 +1545,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Tooltip ──
       tooltipTheme:
-          tooltipThemeOverride ??
+          tooltipTheme ??
           TooltipThemeData(
             decoration: BoxDecoration(
               color: isDark ? palette.darkSurface2 : palette.darkSurface,
@@ -1538,7 +1562,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Snack Bar ──
       snackBarTheme:
-          snackBarThemeOverride ??
+          snackBarTheme ??
           SnackBarThemeData(
             backgroundColor: isDark
                 ? palette.darkSurface2
@@ -1554,7 +1578,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Tab Bar ──
       tabBarTheme:
-          tabBarThemeOverride ??
+          tabBarTheme ??
           TabBarThemeData(
             labelColor: cs.primary,
             unselectedLabelColor: fg3,
@@ -1576,7 +1600,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Progress Indicator ──
       progressIndicatorTheme:
-          progressIndicatorThemeOverride ??
+          progressIndicatorTheme ??
           ProgressIndicatorThemeData(
             color: cs.primary,
             linearTrackColor: cs.primary.withValues(alpha: 0.15),
@@ -1587,7 +1611,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Switch ──
       switchTheme:
-          switchThemeOverride ??
+          switchTheme ??
           SwitchThemeData(
             thumbColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
@@ -1617,7 +1641,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Checkbox ──
       checkboxTheme:
-          checkboxThemeOverride ??
+          checkboxTheme ??
           CheckboxThemeData(
             fillColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
@@ -1642,7 +1666,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Radio ──
       radioTheme:
-          radioThemeOverride ??
+          radioTheme ??
           RadioThemeData(
             fillColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
@@ -1654,7 +1678,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Slider ──
       sliderTheme:
-          sliderThemeOverride ??
+          sliderTheme ??
           SliderThemeData(
             activeTrackColor: cs.primary,
             inactiveTrackColor: cs.primary.withValues(alpha: 0.20),
@@ -1672,12 +1696,12 @@ class SuperMaterialThemeData extends ThemeData {
       // ── Icons ──
       iconTheme: iconTheme,
       primaryIconTheme:
-          primaryIconThemeOverride ??
+          primaryIconTheme ??
           IconThemeData(color: cs.onPrimary, size: m.sizing.icon),
 
       // ── FAB ──
       floatingActionButtonTheme:
-          floatingActionButtonThemeOverride ??
+          floatingActionButtonTheme ??
           FloatingActionButtonThemeData(
             backgroundColor: cs.primary,
             foregroundColor: cs.onPrimary,
@@ -1692,7 +1716,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Data Table ──
       dataTableTheme:
-          dataTableThemeOverride ??
+          dataTableTheme ??
           DataTableThemeData(
             headingRowColor: WidgetStateProperty.all(hover),
             dataRowColor: WidgetStateProperty.resolveWith((states) {
@@ -1721,7 +1745,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Expansion Tile ──
       expansionTileTheme:
-          expansionTileThemeOverride ??
+          expansionTileTheme ??
           ExpansionTileThemeData(
             backgroundColor: Colors.transparent,
             collapsedBackgroundColor: Colors.transparent,
@@ -1743,7 +1767,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Segmented Button ──
       segmentedButtonTheme:
-          segmentedButtonThemeOverride ??
+          segmentedButtonTheme ??
           SegmentedButtonThemeData(
             style: SegmentedButton.styleFrom(
               backgroundColor: isDark ? palette.darkSurface2 : hover,
@@ -1760,7 +1784,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Menu ──
       menuTheme:
-          menuThemeOverride ??
+          menuTheme ??
           MenuThemeData(
             style: MenuStyle(
               backgroundColor: WidgetStateProperty.all(
@@ -1783,7 +1807,7 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Scrollbar ──
       scrollbarTheme:
-          scrollbarThemeOverride ??
+          scrollbarTheme ??
           ScrollbarThemeData(
             thumbColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.dragged) ||
@@ -1799,27 +1823,262 @@ class SuperMaterialThemeData extends ThemeData {
             interactive: true,
           ),
 
-      // ── Additional Component Themes ──
-      actionIconTheme: actionIconThemeOverride,
-      badgeTheme: badgeThemeOverride,
-      bannerTheme: bannerThemeOverride,
-      bottomAppBarTheme: bottomAppBarThemeOverride,
-      bottomNavigationBarTheme: bottomNavigationBarThemeOverride,
-      carouselViewTheme: carouselViewThemeOverride,
-      datePickerTheme: datePickerThemeOverride,
-      dropdownMenuTheme: dropdownMenuThemeOverride,
-      menuBarTheme: menuBarThemeOverride,
-      menuButtonTheme: menuButtonThemeOverride,
-      searchBarTheme: searchBarThemeOverride,
-      searchViewTheme: searchViewThemeOverride,
-      textSelectionTheme: textSelectionThemeOverride,
-      timePickerTheme: timePickerThemeOverride,
-      toggleButtonsTheme: toggleButtonsThemeOverride,
+      // ── Additional Component Themes (GeniusLink defaults; override wins) ──
+      actionIconTheme:
+          actionIconTheme ??
+          ActionIconThemeData(
+            backButtonIconBuilder: (context) =>
+                Icon(Icons.arrow_back, size: m.sizing.icon),
+            closeButtonIconBuilder: (context) =>
+                Icon(Icons.close, size: m.sizing.icon),
+            drawerButtonIconBuilder: (context) =>
+                Icon(Icons.menu, size: m.sizing.icon),
+            endDrawerButtonIconBuilder: (context) =>
+                Icon(Icons.menu, size: m.sizing.icon),
+          ),
+      badgeTheme:
+          badgeTheme ??
+          BadgeThemeData(
+            backgroundColor: cs.error,
+            textColor: cs.onError,
+            textStyle: tt.labelSmall,
+            padding: EdgeInsets.symmetric(horizontal: m.spacing.xs),
+            alignment: AlignmentDirectional.topEnd,
+          ),
+      bannerTheme:
+          bannerTheme ??
+          MaterialBannerThemeData(
+            backgroundColor: surface,
+            surfaceTintColor: Colors.transparent,
+            contentTextStyle: tt.bodyMedium,
+            elevation: 0,
+            padding: EdgeInsets.symmetric(
+              horizontal: m.spacing.lg,
+              vertical: m.spacing.sm,
+            ),
+            dividerColor: border,
+          ),
+      bottomAppBarTheme:
+          bottomAppBarTheme ??
+          BottomAppBarThemeData(
+            color: surface,
+            surfaceTintColor: Colors.transparent,
+            elevation: isDark ? 0 : 1,
+            shadowColor: Colors.black26,
+            height: m.sizing.control + m.spacing.md,
+            padding: EdgeInsets.symmetric(horizontal: m.spacing.sm),
+          ),
+      bottomNavigationBarTheme:
+          bottomNavigationBarTheme ??
+          BottomNavigationBarThemeData(
+            backgroundColor: surface,
+            selectedItemColor: cs.primary,
+            unselectedItemColor: fg3,
+            selectedLabelStyle: tt.labelSmall,
+            unselectedLabelStyle: tt.labelSmall,
+            selectedIconTheme: IconThemeData(
+              color: cs.primary,
+              size: m.sizing.icon,
+            ),
+            unselectedIconTheme: IconThemeData(color: fg3, size: m.sizing.icon),
+            type: BottomNavigationBarType.fixed,
+            elevation: isDark ? 0 : 1,
+            showUnselectedLabels: true,
+          ),
+      carouselViewTheme:
+          carouselViewTheme ??
+          CarouselViewThemeData(
+            backgroundColor: surface,
+            elevation: isDark ? 0 : 1,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            ),
+          ),
+      datePickerTheme:
+          datePickerTheme ??
+          DatePickerThemeData(
+            backgroundColor: surface,
+            surfaceTintColor: Colors.transparent,
+            elevation: 24,
+            shadowColor: Colors.black38,
+            headerBackgroundColor: cs.primary,
+            headerForegroundColor: cs.onPrimary,
+            headerHeadlineStyle: tt.headlineSmall,
+            headerHelpStyle: tt.labelMedium,
+            weekdayStyle: tt.labelMedium!.copyWith(color: fg3),
+            dayStyle: tt.bodyMedium,
+            yearStyle: tt.bodyMedium,
+            todayBorder: BorderSide(color: cs.primary),
+            dividerColor: border,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            ),
+          ),
+      dropdownMenuTheme:
+          dropdownMenuTheme ??
+          DropdownMenuThemeData(
+            textStyle: tt.bodyMedium,
+            inputDecorationTheme: inputDec,
+            menuStyle: MenuStyle(
+              backgroundColor: WidgetStatePropertyAll(surface),
+              surfaceTintColor: const WidgetStatePropertyAll(
+                Colors.transparent,
+              ),
+              elevation: const WidgetStatePropertyAll(8),
+              shadowColor: const WidgetStatePropertyAll(Colors.black38),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+                  side: BorderSide(color: brdStr),
+                ),
+              ),
+            ),
+          ),
+      menuBarTheme:
+          menuBarTheme ??
+          MenuBarThemeData(
+            style: MenuStyle(
+              backgroundColor: WidgetStatePropertyAll(surface),
+              surfaceTintColor: const WidgetStatePropertyAll(
+                Colors.transparent,
+              ),
+              elevation: const WidgetStatePropertyAll(0),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    SuperTokens.radiusControl,
+                  ),
+                ),
+              ),
+              padding: WidgetStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: m.spacing.xs),
+              ),
+            ),
+          ),
+      menuButtonTheme:
+          menuButtonTheme ??
+          MenuButtonThemeData(
+            style: MenuItemButton.styleFrom(
+              foregroundColor: fg1,
+              textStyle: tt.bodyMedium,
+              padding: EdgeInsets.symmetric(
+                horizontal: m.spacing.md,
+                vertical: m.spacing.xs,
+              ),
+            ),
+          ),
+      searchBarTheme:
+          searchBarTheme ??
+          SearchBarThemeData(
+            backgroundColor: WidgetStatePropertyAll(inputBg),
+            surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
+            overlayColor: WidgetStatePropertyAll(
+              cs.primary.withValues(alpha: 0.06),
+            ),
+            elevation: const WidgetStatePropertyAll(0),
+            shadowColor: const WidgetStatePropertyAll(Colors.transparent),
+            side: WidgetStatePropertyAll(BorderSide(color: border)),
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              ),
+            ),
+            textStyle: WidgetStatePropertyAll(tt.bodyMedium),
+            hintStyle: WidgetStatePropertyAll(
+              tt.bodyMedium!.copyWith(color: fg3),
+            ),
+            padding: WidgetStatePropertyAll(
+              EdgeInsets.symmetric(horizontal: m.spacing.lg),
+            ),
+            constraints: BoxConstraints(minHeight: m.sizing.control),
+          ),
+      searchViewTheme:
+          searchViewTheme ??
+          SearchViewThemeData(
+            backgroundColor: surface,
+            surfaceTintColor: Colors.transparent,
+            elevation: 8,
+            dividerColor: border,
+            side: BorderSide(color: border),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            ),
+            headerHintStyle: tt.bodyLarge!.copyWith(color: fg3),
+            headerTextStyle: tt.bodyLarge,
+          ),
+      textSelectionTheme:
+          textSelectionTheme ??
+          TextSelectionThemeData(
+            cursorColor: cs.primary,
+            selectionColor: cs.primary.withValues(alpha: 0.24),
+            selectionHandleColor: cs.primary,
+          ),
+      timePickerTheme:
+          timePickerTheme ??
+          TimePickerThemeData(
+            backgroundColor: surface,
+            elevation: 24,
+            hourMinuteColor: cs.primary.withValues(alpha: 0.12),
+            hourMinuteTextColor: cs.primary,
+            dayPeriodColor: cs.primary.withValues(alpha: 0.12),
+            dayPeriodTextColor: cs.primary,
+            dayPeriodBorderSide: BorderSide(color: border),
+            dialBackgroundColor: inputBg,
+            dialHandColor: cs.primary,
+            dialTextColor: fg1,
+            entryModeIconColor: fg3,
+            helpTextStyle: tt.labelMedium!.copyWith(color: fg3),
+            hourMinuteTextStyle: tt.displaySmall,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            ),
+          ),
+      toggleButtonsTheme:
+          toggleButtonsTheme ??
+          ToggleButtonsThemeData(
+            color: fg1,
+            selectedColor: cs.onPrimary,
+            fillColor: cs.primary,
+            disabledColor: fg1.withValues(alpha: 0.38),
+            borderColor: border,
+            selectedBorderColor: cs.primary,
+            disabledBorderColor: fg1.withValues(alpha: 0.12),
+            hoverColor: cs.primary.withValues(alpha: 0.08),
+            focusColor: cs.primary.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+            borderWidth: 1,
+            textStyle: tt.labelLarge,
+            constraints: BoxConstraints(
+              minHeight: m.sizing.control,
+              minWidth: m.sizing.control,
+            ),
+          ),
 
       // ── Deprecated ──
-      buttonBarTheme: buttonBarThemeOverride,
-      dialogBackgroundColor: dialogBackgroundColorOverride,
-      indicatorColor: indicatorColorOverride,
+      buttonBarTheme: buttonBarTheme,
+      dialogBackgroundColor: dialogBackgroundColor ?? surface,
+      indicatorColor: indicatorColor ?? cs.primary,
+    );
+  }
+
+  // ── System UI overlay ─────────────────────────────────────────────────────
+
+  /// Builds the status-bar / navigation-bar overlay style for a bar painted
+  /// [barColor]: both system bars adopt [barColor] and their icon brightness is
+  /// chosen automatically for legible contrast against it.
+  static SystemUiOverlayStyle _systemOverlayStyle(Color barColor) {
+    final darkBar = barColor.computeLuminance() < 0.5;
+    final iconBrightness = darkBar ? Brightness.light : Brightness.dark;
+    return SystemUiOverlayStyle(
+      // Android status bar
+      statusBarColor: barColor,
+      statusBarIconBrightness: iconBrightness,
+      // iOS status bar (inverse convention)
+      statusBarBrightness: darkBar ? Brightness.dark : Brightness.light,
+      // Android navigation bar
+      systemNavigationBarColor: barColor,
+      systemNavigationBarDividerColor: barColor,
+      systemNavigationBarIconBrightness: iconBrightness,
     );
   }
 

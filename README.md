@@ -12,7 +12,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_core: ^1.2.0  # monorepo path dependency
+  super_core: ^1.3.0  # monorepo path dependency
 ```
 
 Then import the barrel:
@@ -150,17 +150,38 @@ wholesale.
 
 ### What's configured
 
-- `ColorScheme` derived from the palette
+- Complete `ColorScheme` derived from the palette — including the Material 3
+  **fixed** accent roles (`primaryFixed`, `primaryFixedDim`, `onPrimaryFixed`,
+  `onPrimaryFixedVariant`, and the secondary/tertiary equivalents) and the full
+  **surface-container ramp** (`surfaceDim`, `surfaceBright`,
+  `surfaceContainerLowest` → `surfaceContainerHighest`)
 - Typography wired to Manrope / Inter / JetBrains Mono
-- App bar, scaffold background
+- **Scaffold background = `ColorScheme.surface`** (the GeniusLink page
+  background). Cards, panels, fields and app bars sit on the brighter
+  `surfaceContainer` ramp / card surface so they stay clearly separated from the
+  Scaffold
+- **App bar** painted on the elevated card surface (distinct from the Scaffold)
+  with a `systemOverlayStyle` that paints the **status bar and navigation bar**
+  the same color and picks status/nav icon brightness automatically for contrast
 - All button variants (elevated, outlined, text, filled, icon)
 - Input decoration (4 px radius, `fieldComfortable` height)
-- Navigation bar, rail, drawer
-- Dialog, bottom sheet, popup menu, tooltip, snack bar
-- Card, chip, tab bar, segmented button
+- Navigation bar, rail, drawer, bottom navigation bar, bottom app bar
+- Dialog, bottom sheet, popup menu, tooltip, snack bar, material banner
+- Card, chip, tab bar, segmented button, toggle buttons, badge
 - Switch, checkbox, radio, slider, progress indicator
 - Data table (hover row, label headers)
+- Date picker, time picker, search bar, search view, dropdown menu, menu bar
+- Text selection (cursor / handle / selection tint)
 - Scrollbar, FAB, expansion tile, menu
+- Top-level color roles (`focusColor`, `hoverColor`, `highlightColor`,
+  `splashColor`, `hintColor`, `primaryColor` + dark/light, `shadowColor`,
+  `secondaryHeaderColor`, `unselectedWidgetColor`), `visualDensity`,
+  `materialTapTargetSize`, `splashFactory`, `applyElevationOverlayColor`
+
+> Precedence is always **explicit constructor override > palette-generated >
+> Flutter default** — the generated values above only fill in what you do not
+> pass. Host-derived fields (`platform`, `cupertinoOverrideTheme`,
+> `pageTransitionsTheme`, `typography`) are left to Flutter unless overridden.
 
 ### SuperThemeData auto-registration
 

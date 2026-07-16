@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v1.2.0)
+# super_core — ChatGPT / Codex agent instructions (v1.3.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 1.2.0
+version: 1.3.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 ```
@@ -23,6 +23,28 @@ Apply this skill when the user asks for:
 - "responsive spacing / sizing / typography for mobile, tablet, desktop"
 - reading Super surface tokens (`bg`, `surface`, `fg1…fg4`, `border`) in a widget
 - building or modifying any `super_*` package theme
+
+## What changed in 1.3.0 (read first)
+
+1. **Complete `ColorScheme`** — `toLightColorScheme()` / `toDarkColorScheme()`
+   fill every Material 3 role: the **fixed** accent roles (`primaryFixed`/`Dim`,
+   `onPrimaryFixed`/`Variant`, secondary + tertiary) and the **surface-container
+   ramp** (`surfaceDim`, `surfaceBright`, `surfaceContainerLowest…Highest`).
+   `ColorScheme.surface` is now the page background.
+2. **Complete `ThemeData`** — every remaining property gets a GeniusLink default
+   (top-level colors; `visualDensity` / `materialTapTargetSize` /
+   `splashFactory` / `applyElevationOverlayColor`; and the previously-null
+   component themes: `actionIcon`, `badge`, `banner`, `bottomAppBar`,
+   `bottomNavigationBar`, `carouselView`, `datePicker`, `dropdownMenu`,
+   `menuBar`, `menuButton`, `searchBar`, `searchView`, `textSelection`,
+   `timePicker`, `toggleButtons`). Precedence unchanged.
+3. **Scaffold = `ColorScheme.surface`** (page background); cards ride the
+   brighter `surfaceContainer` ramp so panels stay separated.
+4. **App bar** = elevated card surface (distinct from Scaffold); its
+   `systemOverlayStyle` syncs the **status bar + navigation bar** to the
+   app-bar color with auto icon-brightness (light & dark). `SuperAppBar` too.
+5. Host-derived fields (`platform`, `cupertinoOverrideTheme`,
+   `pageTransitionsTheme`, `typography`) stay Flutter defaults unless overridden.
 
 ## What changed in 1.1.0 (read first)
 
@@ -50,9 +72,12 @@ MaterialApp(
 );
 ```
 
-One call generates the full Material 3 theme (ColorScheme, typography, every
-button, inputs, navigation, dialogs, sheets, cards, chips, tabs, tables,
-switches, menus, tooltips, snackbars, scrollbars, FAB) from the palette + mode.
+One call generates the full Material 3 theme (a complete ColorScheme — fixed
+roles + surface-container ramp — typography, every button, inputs, navigation,
+dialogs, sheets, cards, chips, tabs, tables, switches, menus, tooltips,
+snackbars, scrollbars, FAB, date/time pickers, search, badges, toggle buttons)
+from the palette + mode. Scaffold = `ColorScheme.surface`; the app bar rides the
+card surface and syncs the status & navigation bars via `systemOverlayStyle`.
 
 ## Constructor surface
 
@@ -253,7 +278,10 @@ final t = SuperMaterialThemeData.dark().copyWith(
 Additive first; `@Deprecated('Use X. Removed after vN.')` for ≥1 minor before
 removal. `ThemeData(extensions: const [SuperThemeData.light])` and
 `SuperThemeData.of(context)` must keep working. Bump a dependent's `super_core`
-constraint to `^1.2.0` when it uses a 1.2.0-only API.
+constraint to `^1.3.0` when it uses a 1.3.0-only API. The one intentional 1.3.0
+behavior change: `ColorScheme.surface` / Scaffold background now resolve to the
+page background — read `SuperThemeData.of(context).surface` or
+`ColorScheme.surfaceContainerLowest` for the card surface.
 
 ## Commands
 

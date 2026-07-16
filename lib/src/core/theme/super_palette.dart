@@ -171,13 +171,39 @@ class SuperPalette {
         onError: const Color(0xFFFFFFFF),
         errorContainer: const Color(0xFFFEE2E2),
         onErrorContainer: const Color(0xFF7F1D1D),
-        // Surfaces — neutral GeniusLink standard
+        // Fixed accent roles (identical across light & dark, per Material 3)
+        primaryFixed: shade100,
+        primaryFixedDim: shade200,
+        onPrimaryFixed: shade900,
+        onPrimaryFixedVariant: shade700,
+        secondaryFixed: shade100,
+        secondaryFixedDim: shade200,
+        onSecondaryFixed: shade900,
+        onSecondaryFixedVariant: shade700,
+        tertiaryFixed: shade100,
+        tertiaryFixedDim: shade200,
+        onTertiaryFixed: shade900,
+        onTertiaryFixedVariant: shade700,
+        // Surfaces — neutral GeniusLink standard.
+        // `surface` is the base page background (the Scaffold color); cards,
+        // panels and fields sit ABOVE it on the brighter surfaceContainer ramp
+        // so they stay clearly separated from the Scaffold.
         background: _lightBg,
         onBackground: _lightFg1,
-        surface: _lightSurface,
+        surface: _lightBg,
         onSurface: _lightFg1,
         surfaceVariant: _lightInputBg,
         onSurfaceVariant: _lightFg2,
+        // Surface container ramp — brightest (lowest) → dimmest (highest).
+        // Cards default to surfaceContainerLowest (#FFFFFF), clearly lifted off
+        // the #F7F8FA page background.
+        surfaceDim: const Color(0xFFDFE3EC),
+        surfaceBright: _lightSurface,
+        surfaceContainerLowest: _lightSurface,
+        surfaceContainerLow: const Color(0xFFF4F6FA),
+        surfaceContainer: _lightHover,
+        surfaceContainerHigh: const Color(0xFFE7EAF1),
+        surfaceContainerHighest: const Color(0xFFDFE3EC),
         // Inverse
         inverseSurface: _darkSurface,
         onInverseSurface: _darkFg1,
@@ -214,13 +240,39 @@ class SuperPalette {
         onError: const Color(0xFF7F1D1D),
         errorContainer: const Color(0xFF991B1B),
         onErrorContainer: const Color(0xFFFEE2E2),
-        // Surfaces — neutral GeniusLink standard (dark)
+        // Fixed accent roles (identical across light & dark, per Material 3)
+        primaryFixed: shade100,
+        primaryFixedDim: shade200,
+        onPrimaryFixed: shade900,
+        onPrimaryFixedVariant: shade700,
+        secondaryFixed: shade100,
+        secondaryFixedDim: shade200,
+        onSecondaryFixed: shade900,
+        onSecondaryFixedVariant: shade700,
+        tertiaryFixed: shade100,
+        tertiaryFixedDim: shade200,
+        onTertiaryFixed: shade900,
+        onTertiaryFixedVariant: shade700,
+        // Surfaces — neutral GeniusLink standard (dark).
+        // `surface` is the near-black base page background (the Scaffold color);
+        // cards, panels and fields sit ABOVE it on the brighter surfaceContainer
+        // ramp so they stay clearly separated from the Scaffold.
         background: _darkBg,
         onBackground: _darkFg1,
-        surface: _darkSurface,
+        surface: _darkBg,
         onSurface: _darkFg1,
         surfaceVariant: _darkInputBg,
         onSurfaceVariant: _darkFg3,
+        // Surface container ramp — dimmest (lowest) → brightest (highest).
+        // Cards default to surfaceContainer (#1E2025), clearly lifted off the
+        // #111318 page background.
+        surfaceDim: const Color(0xFF0C0D10),
+        surfaceBright: const Color(0xFF35373D),
+        surfaceContainerLowest: const Color(0xFF0C0D10),
+        surfaceContainerLow: const Color(0xFF16181D),
+        surfaceContainer: _darkSurface,
+        surfaceContainerHigh: const Color(0xFF24262C),
+        surfaceContainerHighest: _darkSurface2,
         // Inverse
         inverseSurface: _lightSurface,
         onInverseSurface: _lightFg1,

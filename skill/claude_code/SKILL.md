@@ -2,7 +2,7 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v1.2.0) — the shared GeniusLink design-system foundation for the Super
+  (v1.3.0) — the shared GeniusLink design-system foundation for the Super
   toolkit. super_core ships SuperPalette (six palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
@@ -12,7 +12,7 @@ description: >
   that depends on it.
 ---
 
-# super_core · v1.2.0
+# super_core · v1.3.0
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -21,7 +21,34 @@ Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
 type, spacing, and component themes from here so the whole toolkit looks like one
 product.
 
-**What changed in 1.1.0 (read this first):**
+**What changed in 1.3.0 (read this first):**
+
+1. **Complete `ColorScheme`.** `SuperPalette.toLightColorScheme()` /
+   `toDarkColorScheme()` now fill every Material 3 role — the **fixed** accent
+   roles (`primaryFixed`/`primaryFixedDim`/`onPrimaryFixed`/
+   `onPrimaryFixedVariant`, and the secondary + tertiary equivalents) and the
+   **surface-container ramp** (`surfaceDim`, `surfaceBright`,
+   `surfaceContainerLowest` → `surfaceContainerHighest`).
+2. **`ColorScheme.surface` is now the page background** (`#F7F8FA` / `#111318`)
+   and the **Scaffold** is painted it. Cards default to the brighter
+   `surfaceContainer` ramp (light `#FFFFFF` / dark `#1E2025`) so they stay
+   separated. `SuperThemeData.surface` (the card color) is unchanged, so Super
+   components are unaffected.
+3. **Complete `ThemeData`.** Every remaining property now has a GeniusLink
+   default (top-level colors; `visualDensity` / `materialTapTargetSize` /
+   `splashFactory` / `applyElevationOverlayColor`; and the component themes that
+   were previously null: `actionIcon`, `badge`, `banner`, `bottomAppBar`,
+   `bottomNavigationBar`, `carouselView`, `datePicker`, `dropdownMenu`,
+   `menuBar`, `menuButton`, `searchBar`, `searchView`, `textSelection`,
+   `timePicker`, `toggleButtons`). Precedence is still explicit > palette >
+   Flutter default.
+4. **App bar** is painted the elevated card surface (distinct from the Scaffold)
+   and its `systemOverlayStyle` syncs the **status bar + navigation bar** to the
+   app-bar color with auto icon-brightness (light & dark). `SuperAppBar` too.
+5. Host-derived fields (`platform`, `cupertinoOverrideTheme`,
+   `pageTransitionsTheme`, `typography`) stay Flutter defaults unless overridden.
+
+**What changed in 1.1.0:**
 
 1. `SuperMaterialThemeData` now **extends `ThemeData`** — it *is* a Material
    theme, not a factory that returns one. `Theme.of(context) is
@@ -94,10 +121,14 @@ MaterialApp(
 );
 ```
 
-That single call generates a fully configured Material 3 theme: `ColorScheme`,
+That single call generates a fully configured Material 3 theme: a complete
+`ColorScheme` (including the fixed accent roles + surface-container ramp),
 typography, app bar, all button variants, inputs, navigation, dialogs, sheets,
 cards, chips, tabs, tables, switches/checkboxes/radios/sliders, menus, tooltips,
-snackbars, scrollbars, FAB — all derived from the palette and device mode.
+snackbars, scrollbars, FAB, date/time pickers, search, badges, toggle buttons —
+all derived from the palette and device mode. The Scaffold is painted
+`ColorScheme.surface` (the page background); the app bar rides the card surface
+and keeps the status & navigation bars in sync via `systemOverlayStyle`.
 
 ### Constructor parameters
 
@@ -398,8 +429,12 @@ its export to `lib/src/core/core.dart`.
   every dependent package.
 - Don't leak internal helpers into the public surface (e.g. private lerp
   helpers stay private).
-- When a dependent package starts using a 1.2.0-only API, bump its `super_core`
-  constraint to `^1.2.0` (path deps need no constraint) and its own version.
+- When a dependent package starts using a 1.3.0-only API, bump its `super_core`
+  constraint to `^1.3.0` (path deps need no constraint) and its own version.
+- **1.3.0 behavior change (intentional):** `ColorScheme.surface` and the
+  Scaffold background now resolve to the page background, not the card color.
+  For the card surface read `SuperThemeData.of(context).surface` (unchanged) or
+  `ColorScheme.surfaceContainerLowest`.
 
 ---
 
@@ -454,7 +489,7 @@ InkWell(
 
 - **`CHANGELOG.md`** — add under the current version using Keep-a-Changelog
   sections (Added / Changed / Deprecated / Fixed). super_core is at
-  **`## [1.1.0]`**.
+  **`## [1.3.0]`**.
 - **`README.md`** — update the symbol table and any example whose API changed.
 - **API docs** — the `///` comments ARE the API docs; keep them accurate and add
   them for every new public member.

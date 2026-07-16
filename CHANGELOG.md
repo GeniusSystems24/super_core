@@ -6,6 +6,88 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [1.3.0] — 2026-07-16
+
+### Added
+
+#### Complete `ColorScheme` — fixed roles + surface-container ramp
+
+`SuperPalette.toLightColorScheme()` / `toDarkColorScheme()` now populate every
+remaining Material 3 role, so the generated scheme is complete and no role falls
+back to a Flutter default:
+
+- **Fixed accent roles** (identical across light & dark, per Material 3):
+  `primaryFixed`, `primaryFixedDim`, `onPrimaryFixed`, `onPrimaryFixedVariant`,
+  `secondaryFixed`, `secondaryFixedDim`, `onSecondaryFixed`,
+  `onSecondaryFixedVariant`, `tertiaryFixed`, `tertiaryFixedDim`,
+  `onTertiaryFixed`, `onTertiaryFixedVariant` — derived from the palette ramp
+  (`shade100`/`shade200` fills, `shade700`/`shade900` on-colors).
+- **Surface-container ramp:** `surfaceDim`, `surfaceBright`,
+  `surfaceContainerLowest`, `surfaceContainerLow`, `surfaceContainer`,
+  `surfaceContainerHigh`, `surfaceContainerHighest` — a monotonic elevation ramp
+  tuned per brightness (light: brightest/white at *lowest*; dark:
+  darkest at *lowest*, lightening upward).
+- `ColorScheme.surface` is now the GeniusLink **page background** (`#F7F8FA` /
+  `#111318`), and cards default to `surfaceContainerLowest` (light, `#FFFFFF`) /
+  `surfaceContainer` (dark, `#1E2025`) so panels stay clearly lifted off the
+  page. Super components read `SuperThemeData.surface` (the card surface), which
+  is unchanged, so their appearance is unaffected.
+
+#### Complete `ThemeData` — every remaining property gets a GeniusLink default
+
+`SuperMaterialThemeData` now generates GeniusLink-compliant defaults for the
+`ThemeData` properties that were previously left to Flutter (each still
+overridable, precedence unchanged):
+
+- **Scaffold:** `scaffoldBackgroundColor` / `canvasColor` = `ColorScheme.surface`
+  (the page background). The card surface and `surfaceContainer` ramp provide the
+  separation so cards/panels/fields/app bars remain distinguishable.
+- **App bar:** background is the elevated **card surface** (visually distinct
+  from the Scaffold) and a `systemOverlayStyle` now paints the **status bar** and
+  **navigation bar** the same color as the app bar, choosing status/nav icon
+  brightness automatically for contrast (light & dark overlay styles applied
+  per theme). `SuperAppBar` follows the same rule.
+- **Top-level colors:** `focusColor`, `highlightColor`, `hoverColor`,
+  `splashColor`, `hintColor`, `primaryColor`, `primaryColorDark`,
+  `primaryColorLight`, `secondaryHeaderColor`, `shadowColor`,
+  `unselectedWidgetColor`.
+- **General config:** `applyElevationOverlayColor` (`false` — flat surfaces),
+  `splashFactory` (`InkRipple`), and mode-aware `visualDensity` /
+  `materialTapTargetSize` (compact / shrink-wrap on desktop).
+- **Component themes** previously left null now have GeniusLink defaults:
+  `actionIconTheme`, `badgeTheme`, `bannerTheme`, `bottomAppBarTheme`,
+  `bottomNavigationBarTheme`, `carouselViewTheme`, `datePickerTheme`,
+  `dropdownMenuTheme`, `menuBarTheme`, `menuButtonTheme`, `searchBarTheme`,
+  `searchViewTheme`, `textSelectionTheme`, `timePickerTheme`,
+  `toggleButtonsTheme`, plus the deprecated `dialogBackgroundColor` /
+  `indicatorColor` fallbacks.
+
+> Host-derived fields (`platform`, `cupertinoOverrideTheme`,
+> `pageTransitionsTheme`, `typography`) are intentionally left to Flutter's
+> platform-appropriate defaults unless a caller overrides them.
+
+### Changed
+
+- `pubspec.yaml`: version → `1.3.0`.
+- `super_palette.dart`: `surface` / `background` roles remapped to the page
+  background; container + fixed roles added.
+- `super_material_theme.dart`: `_assemble` fills all remaining `ThemeData`
+  fields; new private `_systemOverlayStyle(Color)` helper; the responsive
+  `InputDecorationTheme` is computed once and shared with `dropdownMenuTheme`.
+- `super_app_bar.dart`: app-bar background is the card surface in both themes and
+  carries a matching `systemOverlayStyle`.
+
+### Migration from 1.2.0
+
+Fully backward compatible. The only behavioral change is intentional and
+requested: `ColorScheme.surface` (and the Scaffold background) now resolve to the
+page background rather than the card white/near-black, and cards/app bars sit on
+the brighter container ramp. If you relied on `Theme.of(context).colorScheme
+.surface` to mean the *card* color, read `SuperThemeData.of(context).surface`
+(unchanged) or `ColorScheme.surfaceContainerLowest` instead.
+
+---
+
 ## [1.2.0] — 2026-07-16
 
 ### Added

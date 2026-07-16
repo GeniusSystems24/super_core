@@ -17,6 +17,7 @@
 // ============================================================
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
 import '../extensions/context_extensions.dart';
 import '../theme/super_text_styles.dart';
@@ -63,8 +64,9 @@ class SuperAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// default.
   final bool centerTitle;
 
-  /// Bar background. Defaults to the page background in dark mode and the card
-  /// surface in light mode (matching the generated `AppBarTheme`).
+  /// Bar background. Defaults to the elevated card surface in both themes, so
+  /// the bar reads as visually distinct from the Scaffold (the page
+  /// background), matching the generated `AppBarTheme`.
   final Color? backgroundColor;
 
   /// Whether to imply a leading back button when [leading] is null.
@@ -81,7 +83,17 @@ class SuperAppBar extends StatelessWidget implements PreferredSizeWidget {
     final t = context.superTheme;
     final theme = Theme.of(context);
     final isDark = t.brightness == Brightness.dark;
-    final bg = backgroundColor ?? (isDark ? t.bg : t.surface);
+    final bg = backgroundColor ?? t.surface;
+    final overlay = SystemUiOverlayStyle(
+      statusBarColor: bg,
+      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: bg,
+      systemNavigationBarDividerColor: bg,
+      systemNavigationBarIconBrightness: isDark
+          ? Brightness.light
+          : Brightness.dark,
+    );
     final titleStyle =
         (theme.textTheme.titleLarge ?? SuperText.heading).copyWith(color: t.fg1);
 
@@ -125,6 +137,7 @@ class SuperAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       scrolledUnderElevation: isDark ? 1 : 2,
       shadowColor: Colors.black.withValues(alpha: 0.2),
+      systemOverlayStyle: overlay,
       centerTitle: centerTitle,
       toolbarHeight: _toolbarHeight,
       automaticallyImplyLeading: automaticallyImplyLeading,

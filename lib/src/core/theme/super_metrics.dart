@@ -272,7 +272,7 @@ class SuperMetrics {
     iconButton: 44,
     icon: 22,
     fieldComfortable: 48,
-    fieldCompact: 40,
+    fieldCompact: 42,
     contentColumn: 480,
   );
   static const SuperSizing _sizingTablet = SuperSizing(
@@ -280,7 +280,7 @@ class SuperMetrics {
     iconButton: 40,
     icon: 21,
     fieldComfortable: 44,
-    fieldCompact: 38,
+    fieldCompact: 42,
     contentColumn: 600,
   );
   static const SuperSizing _sizingDesktop = SuperSizing(
@@ -288,7 +288,7 @@ class SuperMetrics {
     iconButton: 32,
     icon: 20,
     fieldComfortable: 42,
-    fieldCompact: 36,
+    fieldCompact: 42,
     contentColumn: 680,
   );
 

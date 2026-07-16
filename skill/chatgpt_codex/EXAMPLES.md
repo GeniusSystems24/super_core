@@ -1,4 +1,4 @@
-# super_core · Examples (v1.2.0)
+# super_core · Examples (v1.3.0)
 
 Runnable, copy-pasteable snippets. All assume `import
 'package:super_core/super_core.dart';`.
@@ -221,5 +221,38 @@ Scaffold(
     actions: [SuperIconButton(icon: Icons.help_outline, onPressed: () {})],
   ),
   body: const SizedBox.shrink(),
+);
+```
+
+
+## 12 · Complete ColorScheme, Scaffold & system bars (v1.3.0)
+
+```dart
+// The generated ColorScheme now fills every Material 3 role — the fixed accent
+// roles and the full surface-container ramp:
+final cs = Theme.of(context).colorScheme;
+cs.primaryFixed; cs.primaryFixedDim; cs.onPrimaryFixed; cs.onPrimaryFixedVariant;
+cs.surfaceDim; cs.surfaceBright;
+cs.surfaceContainerLowest; cs.surfaceContainer; cs.surfaceContainerHighest;
+
+// Scaffold background == ColorScheme.surface (the GeniusLink page background) —
+// already wired by SuperMaterialThemeData, no need to set it. Cards/panels ride
+// the brighter surfaceContainer ramp so they stay clearly separated:
+Scaffold(
+  body: Card(child: child), // Card sits on cardColor == surfaceContainerLowest (light)
+);
+
+// The card surface (white / near-black) is SuperThemeData.surface — UNCHANGED
+// in 1.3.0. If you relied on colorScheme.surface meaning the card color, switch:
+final cardBg = SuperThemeData.of(context).surface;   // or cs.surfaceContainerLowest
+
+// App bar rides the card surface (distinct from the Scaffold) and its
+// systemOverlayStyle paints the status bar + navigation bar the same color,
+// picking icon brightness automatically. Just use AppBar — nothing extra:
+Scaffold(appBar: AppBar(title: const Text('Journals')), body: child);
+
+// Precedence is unchanged (explicit > palette-generated > Flutter default):
+SuperMaterialThemeData.dark(
+  appBarTheme: const AppBarTheme(centerTitle: true), // replaces the generated one
 );
 ```

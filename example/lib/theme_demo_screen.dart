@@ -263,6 +263,12 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           _ColorSchemeGrid(cs: cs),
 
           // ════════════════════════════════════════════════════════════════════
+          // 2b · SURFACE SEPARATION (v1.3.0)
+          // ════════════════════════════════════════════════════════════════════
+          const _Sec('SURFACE SEPARATION'),
+          _SurfaceSeparationDemo(cs: cs, t: t),
+
+          // ════════════════════════════════════════════════════════════════════
           // 3 · APP BARS (static previews)
           // ════════════════════════════════════════════════════════════════════
           const _Sec('APP BAR VARIANTS'),
@@ -1275,6 +1281,57 @@ class _ShadeRow extends StatelessWidget {
   }
 }
 
+class _SurfaceSeparationDemo extends StatelessWidget {
+  const _SurfaceSeparationDemo({required this.cs, required this.t});
+  final ColorScheme cs;
+  final SuperThemeData t;
+
+  @override
+  Widget build(BuildContext context) {
+    // The Scaffold is painted cs.surface (the page background). Each nested box
+    // steps UP the surface-container ramp, staying distinct from the Scaffold.
+    Widget layer(String label, Color color, {Widget? child}) => Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            border: Border.all(color: t.border),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label, style: SuperText.label.copyWith(color: t.fg2)),
+              if (child != null) ...[const SizedBox(height: 12), child],
+            ],
+          ),
+        );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Scaffold = ColorScheme.surface (page background). Cards, panels and '
+          'the app bar ride the brighter surfaceContainer ramp so they stay '
+          'clearly separated. The status & navigation bars adopt the app-bar '
+          'color automatically.',
+          style: SuperText.caption.copyWith(color: t.fg3),
+        ),
+        const SizedBox(height: 12),
+        layer(
+          'surfaceContainerLow',
+          cs.surfaceContainerLow,
+          child: layer(
+            'surfaceContainer (card)',
+            cs.surfaceContainer,
+            child: layer('surfaceContainerHigh', cs.surfaceContainerHigh),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _ColorSchemeGrid extends StatelessWidget {
   const _ColorSchemeGrid({required this.cs});
   final ColorScheme cs;
@@ -1298,6 +1355,19 @@ class _ColorSchemeGrid extends StatelessWidget {
       ('surfaceVariant', cs.surfaceVariant, cs.onSurfaceVariant),
       ('outline', cs.outline, cs.surface),
       ('outlineVariant', cs.outlineVariant, cs.onSurface),
+      // v1.3.0 — surface-container ramp (Scaffold=surface; cards ride these)
+      ('surfaceDim', cs.surfaceDim, cs.onSurface),
+      ('surfaceBright', cs.surfaceBright, cs.onSurface),
+      ('containerLowest', cs.surfaceContainerLowest, cs.onSurface),
+      ('containerLow', cs.surfaceContainerLow, cs.onSurface),
+      ('container', cs.surfaceContainer, cs.onSurface),
+      ('containerHigh', cs.surfaceContainerHigh, cs.onSurface),
+      ('containerHighest', cs.surfaceContainerHighest, cs.onSurface),
+      // v1.3.0 — fixed accent roles (identical in light & dark)
+      ('primaryFixed', cs.primaryFixed, cs.onPrimaryFixed),
+      ('primaryFixedDim', cs.primaryFixedDim, cs.onPrimaryFixed),
+      ('secondaryFixed', cs.secondaryFixed, cs.onSecondaryFixed),
+      ('tertiaryFixed', cs.tertiaryFixed, cs.onTertiaryFixed),
     ];
     return Wrap(
       spacing: 8, runSpacing: 8,

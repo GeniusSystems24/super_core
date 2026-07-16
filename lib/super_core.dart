@@ -2,6 +2,17 @@
 /// toolkit. Single source of truth for the visual identity that every Super
 /// package reads from, so the whole toolkit looks like one product.
 ///
+/// ## v1.3.0 — complete ThemeData + ColorScheme
+///
+/// [SuperMaterialThemeData] now generates a GeniusLink default for *every*
+/// [ThemeData] property (top-level colors, density, the remaining component
+/// themes) and [SuperPalette]'s color schemes fill *every* Material 3 role
+/// (the fixed accent roles + the full surface-container ramp). The Scaffold is
+/// painted [ColorScheme.surface] (the page background); the app bar rides the
+/// card surface and keeps the OS status + navigation bars in sync via
+/// `systemOverlayStyle`. Precedence is unchanged:
+/// explicit override > palette-generated > Flutter default.
+///
 /// ## v1.0.0 — SuperPalette + SuperMaterialThemeData
 ///
 /// Pick a palette and generate complete Material 3 [ThemeData]:
