@@ -1,4 +1,4 @@
-# super_core · Examples (v1.1.0)
+# super_core · Examples (v1.2.0)
 
 Runnable, copy-pasteable snippets. All assume `import
 'package:super_core/super_core.dart';`.
@@ -167,4 +167,59 @@ MaterialApp(
   darkTheme: ThemeData(extensions: const [SuperThemeData.dark]),
 );
 final s = SuperThemeData.of(context); // falls back to .dark when unregistered
+```
+
+
+## 11 · Design-system widgets (v1.2.0)
+
+```dart
+// SuperCard — general surface card; interactive + selectable variants:
+SuperCard(
+  header: const SectionHeader(title: 'Downtown Central Store'),
+  child: const Text('Static card — 8px radius, hairline, card shadow.'),
+);
+SuperCard(
+  padding: const EdgeInsets.all(16),
+  selected: id == _selected,
+  onTap: () => setState(() => _selected = id), // hover deepens the border
+  child: const Text('Selectable row'),
+);
+
+// SuperDialog — arbitrary dialog, confirm (Future<bool>), and alert:
+SuperDialog.show<void>(context, builder: (ctx) => SuperDialog(
+  title: 'Export Options',
+  subtitle: 'Choose a format for the exported data',
+  content: const Text('CSV · PDF · JSON'),
+  actions: [
+    SuperButton(label: 'Cancel', variant: SuperButtonVariant.secondary,
+        onPressed: () => Navigator.of(ctx).pop()),
+    SuperButton(label: 'Export', onPressed: () => Navigator.of(ctx).pop()),
+  ],
+));
+
+final ok = await SuperDialog.confirm(context,
+    title: 'Delete Store', message: 'This cannot be undone.',
+    confirmLabel: 'Delete', danger: true);      // red confirm button
+if (ok) delete();
+
+await SuperDialog.alert(context, title: 'Entry Posted',
+    message: 'JV-2024-0042 posted to the ledger.',
+    icon: Icons.check_circle_outline, iconColor: SuperTokens.success);
+
+// SuperSnackBar — one call per tone:
+SuperSnackBar.info(context, 'Draft saved.', actionLabel: 'View', onAction: () {});
+SuperSnackBar.success(context, 'Journal entry JV-2024-0042 posted.');
+SuperSnackBar.warning(context, '3 entries require review before closing.');
+SuperSnackBar.danger(context, 'Transfer failed — accounts out of balance.');
+
+// SuperAppBar — drops into Scaffold.appBar:
+Scaffold(
+  appBar: SuperAppBar(
+    eyebrow: 'Stores & Products • Stores',
+    title: 'Create Store',
+    titleTrailing: const StatusPill('DRAFT', tone: PillTone.warning),
+    actions: [SuperIconButton(icon: Icons.help_outline, onPressed: () {})],
+  ),
+  body: const SizedBox.shrink(),
+);
 ```

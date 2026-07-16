@@ -38,3 +38,7 @@ export 'widgets/section_card.dart';
 export 'widgets/status_pill.dart';
 export 'widgets/super_button.dart';
 export 'widgets/field_shell.dart';
+export 'widgets/super_app_bar.dart';
+export 'widgets/super_card.dart';
+export 'widgets/super_dialog.dart';
+export 'widgets/super_snack_bar.dart';

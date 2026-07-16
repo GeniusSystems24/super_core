@@ -2,7 +2,7 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v1.1.0) — the shared GeniusLink design-system foundation for the Super
+  (v1.2.0) — the shared GeniusLink design-system foundation for the Super
   toolkit. super_core ships SuperPalette (six palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
@@ -12,7 +12,7 @@ description: >
   that depends on it.
 ---
 
-# super_core · v1.1.0
+# super_core · v1.2.0
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -338,6 +338,56 @@ math in the package — read it from `SuperThemeData` / `SuperMetrics`.
 
 ---
 
+## Design-system widgets
+
+Ready-made GeniusLink components (all `Super`-prefixed, exported from the
+barrel). Compose these instead of restyling raw `Container` / Material widgets.
+
+Pre-1.2.0: `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton` /
+`SuperIconButton`, `Hairline`, `FieldShell`. Added in **1.2.0**:
+
+| Widget | What it is | Key API |
+|---|---|---|
+| `SuperCard` | General surface card (8 px radius, hairline, card shadow, 24 px pad). Not the tall `SectionCard` form unit. | `header` slot · `onTap` (hover → `borderStrong`) · `selected` (primary border + tint) |
+| `SuperDialog` | Modal: marker-bar/icon-badge header, title + subtitle + close, scrollable body, `SuperButton` row | `SuperDialog.show<T>(ctx, builder:)` · `.confirm(...) → Future<bool>` (`danger:` = red) · `.alert(...)` |
+| `SuperSnackBar` | Floating toast over `ScaffoldMessenger` | `.info/.success/.warning/.danger(ctx, msg, actionLabel:, onAction:)` · `.build(...)` · `SuperSnackBarTone` |
+| `SuperAppBar` | `PreferredSizeWidget` app bar: breadcrumb `eyebrow` + Title-Case `title` | `eyebrow` · `titleTrailing` · `leading` · `actions` · `bottom` |
+
+```dart
+// Interactive, selectable card with a section header:
+SuperCard(
+  header: const SectionHeader(title: 'Downtown Central Store'),
+  onTap: () => open(store),
+  selected: store == active,
+  child: const StoreSummary(),
+);
+
+// Destructive confirm — returns Future<bool>, confirm button turns red:
+final ok = await SuperDialog.confirm(context,
+    title: 'Delete Store', message: 'This cannot be undone.',
+    confirmLabel: 'Delete', danger: true);
+
+// Semantic toast:
+SuperSnackBar.success(context, 'Journal entry JV-2024-0042 posted.');
+
+// Page app bar:
+Scaffold(
+  appBar: SuperAppBar(
+    eyebrow: 'Stores & Products • Stores',
+    title: 'Create Store',
+    titleTrailing: const StatusPill('DRAFT', tone: PillTone.warning),
+    actions: [SuperIconButton(icon: Icons.help_outline, onPressed: () {})],
+  ),
+);
+```
+
+A new widget follows the same recipe as the existing ones: read
+`context.superTheme` + `SuperTokens` + `SuperText`, drive motion from
+`SuperTokens.durBase` / `curveStandard`, never hardcode colors/spacing, and add
+its export to `lib/src/core/core.dart`.
+
+---
+
 ## Public API & backward-compatibility rules
 
 - Export new public symbols through `lib/src/core/core.dart` only.
@@ -348,8 +398,8 @@ math in the package — read it from `SuperThemeData` / `SuperMetrics`.
   every dependent package.
 - Don't leak internal helpers into the public surface (e.g. private lerp
   helpers stay private).
-- When a dependent package starts using a 1.1.0-only API, bump its `super_core`
-  constraint to `^1.1.0` (path deps need no constraint) and its own version.
+- When a dependent package starts using a 1.2.0-only API, bump its `super_core`
+  constraint to `^1.2.0` (path deps need no constraint) and its own version.
 
 ---
 

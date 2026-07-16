@@ -12,7 +12,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_core: ^1.1.0  # monorepo path dependency
+  super_core: ^1.2.0  # monorepo path dependency
 ```
 
 Then import the barrel:
@@ -52,7 +52,7 @@ import 'package:super_core/super_core.dart';
 | `SuperText` | GeniusLink type ramp as `TextStyle`s (Manrope / Inter / JetBrains Mono) |
 | `SuperFormat` | Intl-free number / currency / byte / serial formatters |
 | `SuperMarker` | Three section-marker intents (identity / ledger / notes) |
-| Widgets | `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell` |
+| Widgets | `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell`, `SuperCard`, `SuperDialog`, `SuperSnackBar`, `SuperAppBar` |
 | Plumbing | Failures, typedefs, usecases, key-direction + `BuildContext` helpers |
 
 ---

@@ -5,9 +5,11 @@ import 'package:super_core/super_core.dart';
 ///
 /// Sections:
 ///   Palette · Color Scheme · App Bar · Buttons · Icon Buttons · FAB ·
-///   Form Fields · Search · Selection Controls · Chips · Cards · List Tiles ·
-///   Navigation · Tabs · Overlays (Dialog · Sheet · Drawer · Snackbar · Popup
-///   · Menu) · Badges · Tooltips · Dividers · Progress · Data Table · Typography
+///   Form Fields · Search · Selection Controls · Chips · Cards ·
+///   Super Core Widgets (SuperCard · SuperAppBar · SuperDialog · SuperSnackBar)
+///   · List Tiles · Navigation · Tabs · Overlays (Dialog · Sheet · Drawer ·
+///   Snackbar · Popup · Menu) · Badges · Tooltips · Dividers · Progress ·
+///   Data Table · Typography
 class ThemeDemoScreen extends StatefulWidget {
   const ThemeDemoScreen({
     super.key,
@@ -40,6 +42,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
   String? _menuValue;
   int _navIndex = 0;
   int _tabIndex = 0;
+  int _cardSel = 0;
 
   late final TabController _tabController =
       TabController(length: 3, vsync: this)
@@ -117,6 +120,40 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           content: const Text('Journal entry JV-2024-0042 posted successfully.'),
           action: SnackBarAction(label: 'View', onPressed: () {}),
           duration: const Duration(seconds: 4),
+        ),
+      );
+
+  void _showSuperDialog() => SuperDialog.show(
+        context,
+        builder: (ctx) => SuperDialog(
+          title: 'Export Options',
+          subtitle: 'Choose a format for the exported data',
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final item in const [
+                'CSV Spreadsheet',
+                'PDF Document',
+                'JSON Data',
+              ])
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Text('• $item'),
+                ),
+            ],
+          ),
+          actions: [
+            SuperButton(
+              label: 'Cancel',
+              variant: SuperButtonVariant.secondary,
+              onPressed: () => Navigator.of(ctx).pop(),
+            ),
+            SuperButton(
+              label: 'Export',
+              onPressed: () => Navigator.of(ctx).pop(),
+            ),
+          ],
         ),
       );
 
@@ -551,6 +588,128 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               ),
             ),
           ),
+
+          // ════════════════════════════════════════════════════════════════════
+          // 8b · SUPER CORE WIDGETS
+          // ════════════════════════════════════════════════════════════════════
+          const _Sec('SUPER CARD'),
+          SuperCard(
+            header: const SectionHeader(
+              title: 'Downtown Central Store',
+              subtitle: 'Store ID: STR-0042 • Active',
+              marker: SuperMarker.identity,
+            ),
+            child: Text(
+              'A general-purpose surface card — 8 px radius, hairline border, '
+              'card shadow. Distinct from the taller SectionCard form unit.',
+              style: SuperText.body.copyWith(color: t.fg2),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(children: [
+            Expanded(
+              child: SuperCard(
+                padding: const EdgeInsets.all(16),
+                selected: _cardSel == 0,
+                onTap: () => setState(() => _cardSel = 0),
+                child: Text('Selectable — tap me',
+                    style: SuperText.body.copyWith(color: t.fg1)),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: SuperCard(
+                padding: const EdgeInsets.all(16),
+                selected: _cardSel == 1,
+                onTap: () => setState(() => _cardSel = 1),
+                child: Text('Hover for the border shift',
+                    style: SuperText.body.copyWith(color: t.fg1)),
+              ),
+            ),
+          ]),
+
+          const _Sec('SUPER APP BAR'),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            child: SuperAppBar(
+              eyebrow: 'Stores & Products • Stores',
+              title: 'Create Store',
+              titleTrailing: const StatusPill('DRAFT', tone: PillTone.warning),
+              automaticallyImplyLeading: false,
+              leading: const Icon(Icons.arrow_back),
+              actions: [
+                SuperIconButton(icon: Icons.help_outline, onPressed: () {}),
+                SuperIconButton(icon: Icons.more_vert, onPressed: () {}),
+              ],
+            ),
+          ),
+
+          const _Sec('SUPER DIALOG'),
+          Wrap(spacing: 8, runSpacing: 8, children: [
+            OutlinedButton.icon(
+              onPressed: _showSuperDialog,
+              icon: const Icon(Icons.open_in_new, size: 16),
+              label: const Text('Dialog'),
+            ),
+            OutlinedButton.icon(
+              onPressed: () => SuperDialog.confirm(
+                context,
+                title: 'Post Journal Entry',
+                message: 'This will post JV-2024-0042 and mark it final. '
+                    'This action cannot be undone.',
+                confirmLabel: 'Post Entry',
+              ),
+              icon: const Icon(Icons.help_outline, size: 16),
+              label: const Text('Confirm'),
+            ),
+            OutlinedButton.icon(
+              onPressed: () => SuperDialog.confirm(
+                context,
+                title: 'Delete Store',
+                message: 'Deleting STR-0042 removes all of its inventory '
+                    'records. This cannot be undone.',
+                confirmLabel: 'Delete',
+                danger: true,
+              ),
+              icon: const Icon(Icons.delete_outline, size: 16),
+              label: const Text('Danger Confirm'),
+            ),
+            OutlinedButton.icon(
+              onPressed: () => SuperDialog.alert(
+                context,
+                title: 'Entry Posted',
+                message: 'Journal entry JV-2024-0042 was posted to the ledger.',
+                icon: Icons.check_circle_outline,
+                iconColor: SuperTokens.success,
+              ),
+              icon: const Icon(Icons.info_outline, size: 16),
+              label: const Text('Alert'),
+            ),
+          ]),
+
+          const _Sec('SUPER SNACK BAR'),
+          Wrap(spacing: 8, runSpacing: 8, children: [
+            OutlinedButton(
+              onPressed: () => SuperSnackBar.info(context, 'Draft saved.',
+                  actionLabel: 'View', onAction: () {}),
+              child: const Text('Info'),
+            ),
+            OutlinedButton(
+              onPressed: () => SuperSnackBar.success(
+                  context, 'Journal entry JV-2024-0042 posted successfully.'),
+              child: const Text('Success'),
+            ),
+            OutlinedButton(
+              onPressed: () => SuperSnackBar.warning(
+                  context, '3 entries require review before closing.'),
+              child: const Text('Warning'),
+            ),
+            OutlinedButton(
+              onPressed: () => SuperSnackBar.danger(
+                  context, 'Transfer failed — accounts out of balance.'),
+              child: const Text('Danger'),
+            ),
+          ]),
 
           // ════════════════════════════════════════════════════════════════════
           // 9 · LIST TILES

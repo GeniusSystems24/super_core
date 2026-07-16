@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, implementation_imports
 // ============================================================
 // core/theme/super_material_theme.dart
 // ------------------------------------------------------------
@@ -81,98 +81,98 @@ class SuperMaterialThemeData extends ThemeData {
     required this.superTheme,
     required this.mode,
   }) : super.raw(
-          // GENERAL CONFIGURATION
-          adaptationMap: base.adaptationMap,
-          applyElevationOverlayColor: base.applyElevationOverlayColor,
-          cupertinoOverrideTheme: base.cupertinoOverrideTheme,
-          extensions: base.extensions,
-          inputDecorationTheme: base.inputDecorationTheme,
-          materialTapTargetSize: base.materialTapTargetSize,
-          pageTransitionsTheme: base.pageTransitionsTheme,
-          platform: base.platform,
-          scrollbarTheme: base.scrollbarTheme,
-          splashFactory: base.splashFactory,
-          useMaterial3: base.useMaterial3,
-          visualDensity: base.visualDensity,
-          // COLOR
-          colorScheme: base.colorScheme,
-          canvasColor: base.canvasColor,
-          cardColor: base.cardColor,
-          disabledColor: base.disabledColor,
-          dividerColor: base.dividerColor,
-          focusColor: base.focusColor,
-          highlightColor: base.highlightColor,
-          hintColor: base.hintColor,
-          hoverColor: base.hoverColor,
-          primaryColor: base.primaryColor,
-          primaryColorDark: base.primaryColorDark,
-          primaryColorLight: base.primaryColorLight,
-          scaffoldBackgroundColor: base.scaffoldBackgroundColor,
-          secondaryHeaderColor: base.secondaryHeaderColor,
-          shadowColor: base.shadowColor,
-          splashColor: base.splashColor,
-          unselectedWidgetColor: base.unselectedWidgetColor,
-          // TYPOGRAPHY & ICONOGRAPHY
-          iconTheme: base.iconTheme,
-          primaryIconTheme: base.primaryIconTheme,
-          primaryTextTheme: base.primaryTextTheme,
-          textTheme: base.textTheme,
-          typography: base.typography,
-          // COMPONENT THEMES
-          actionIconTheme: base.actionIconTheme,
-          appBarTheme: base.appBarTheme,
-          badgeTheme: base.badgeTheme,
-          bannerTheme: base.bannerTheme,
-          bottomAppBarTheme: base.bottomAppBarTheme,
-          bottomNavigationBarTheme: base.bottomNavigationBarTheme,
-          bottomSheetTheme: base.bottomSheetTheme,
-          buttonTheme: base.buttonTheme,
-          cardTheme: base.cardTheme,
-          carouselViewTheme: base.carouselViewTheme,
-          checkboxTheme: base.checkboxTheme,
-          chipTheme: base.chipTheme,
-          dataTableTheme: base.dataTableTheme,
-          datePickerTheme: base.datePickerTheme,
-          dialogTheme: base.dialogTheme,
-          dividerTheme: base.dividerTheme,
-          drawerTheme: base.drawerTheme,
-          dropdownMenuTheme: base.dropdownMenuTheme,
-          elevatedButtonTheme: base.elevatedButtonTheme,
-          expansionTileTheme: base.expansionTileTheme,
-          filledButtonTheme: base.filledButtonTheme,
-          floatingActionButtonTheme: base.floatingActionButtonTheme,
-          iconButtonTheme: base.iconButtonTheme,
-          listTileTheme: base.listTileTheme,
-          menuBarTheme: base.menuBarTheme,
-          menuButtonTheme: base.menuButtonTheme,
-          menuTheme: base.menuTheme,
-          navigationBarTheme: base.navigationBarTheme,
-          navigationDrawerTheme: base.navigationDrawerTheme,
-          navigationRailTheme: base.navigationRailTheme,
-          outlinedButtonTheme: base.outlinedButtonTheme,
-          popupMenuTheme: base.popupMenuTheme,
-          progressIndicatorTheme: base.progressIndicatorTheme,
-          radioTheme: base.radioTheme,
-          searchBarTheme: base.searchBarTheme,
-          searchViewTheme: base.searchViewTheme,
-          segmentedButtonTheme: base.segmentedButtonTheme,
-          sliderTheme: base.sliderTheme,
-          snackBarTheme: base.snackBarTheme,
-          switchTheme: base.switchTheme,
-          tabBarTheme: base.tabBarTheme,
-          textButtonTheme: base.textButtonTheme,
-          textSelectionTheme: base.textSelectionTheme,
-          timePickerTheme: base.timePickerTheme,
-          toggleButtonsTheme: base.toggleButtonsTheme,
-          tooltipTheme: base.tooltipTheme,
-          // DEPRECATED (required by ThemeData.raw; a fresh const value avoids
-          // depending on the deprecated getter and satisfies the internal
-          // buttonBarTheme != null assert — ButtonBar itself is deprecated so
-          // the value is immaterial)
-          buttonBarTheme: const ButtonBarThemeData(),
-          dialogBackgroundColor: base.dialogBackgroundColor,
-          indicatorColor: base.indicatorColor,
-        );
+         // GENERAL CONFIGURATION
+         adaptationMap: base.adaptationMap,
+         applyElevationOverlayColor: base.applyElevationOverlayColor,
+         cupertinoOverrideTheme: base.cupertinoOverrideTheme,
+         extensions: base.extensions,
+         inputDecorationTheme: base.inputDecorationTheme,
+         materialTapTargetSize: base.materialTapTargetSize,
+         pageTransitionsTheme: base.pageTransitionsTheme,
+         platform: base.platform,
+         scrollbarTheme: base.scrollbarTheme,
+         splashFactory: base.splashFactory,
+         useMaterial3: base.useMaterial3,
+         visualDensity: base.visualDensity,
+         // COLOR
+         colorScheme: base.colorScheme,
+         canvasColor: base.canvasColor,
+         cardColor: base.cardColor,
+         disabledColor: base.disabledColor,
+         dividerColor: base.dividerColor,
+         focusColor: base.focusColor,
+         highlightColor: base.highlightColor,
+         hintColor: base.hintColor,
+         hoverColor: base.hoverColor,
+         primaryColor: base.primaryColor,
+         primaryColorDark: base.primaryColorDark,
+         primaryColorLight: base.primaryColorLight,
+         scaffoldBackgroundColor: base.scaffoldBackgroundColor,
+         secondaryHeaderColor: base.secondaryHeaderColor,
+         shadowColor: base.shadowColor,
+         splashColor: base.splashColor,
+         unselectedWidgetColor: base.unselectedWidgetColor,
+         // TYPOGRAPHY & ICONOGRAPHY
+         iconTheme: base.iconTheme,
+         primaryIconTheme: base.primaryIconTheme,
+         primaryTextTheme: base.primaryTextTheme,
+         textTheme: base.textTheme,
+         typography: base.typography,
+         // COMPONENT THEMES
+         actionIconTheme: base.actionIconTheme,
+         appBarTheme: base.appBarTheme,
+         badgeTheme: base.badgeTheme,
+         bannerTheme: base.bannerTheme,
+         bottomAppBarTheme: base.bottomAppBarTheme,
+         bottomNavigationBarTheme: base.bottomNavigationBarTheme,
+         bottomSheetTheme: base.bottomSheetTheme,
+         buttonTheme: base.buttonTheme,
+         cardTheme: base.cardTheme,
+         carouselViewTheme: base.carouselViewTheme,
+         checkboxTheme: base.checkboxTheme,
+         chipTheme: base.chipTheme,
+         dataTableTheme: base.dataTableTheme,
+         datePickerTheme: base.datePickerTheme,
+         dialogTheme: base.dialogTheme,
+         dividerTheme: base.dividerTheme,
+         drawerTheme: base.drawerTheme,
+         dropdownMenuTheme: base.dropdownMenuTheme,
+         elevatedButtonTheme: base.elevatedButtonTheme,
+         expansionTileTheme: base.expansionTileTheme,
+         filledButtonTheme: base.filledButtonTheme,
+         floatingActionButtonTheme: base.floatingActionButtonTheme,
+         iconButtonTheme: base.iconButtonTheme,
+         listTileTheme: base.listTileTheme,
+         menuBarTheme: base.menuBarTheme,
+         menuButtonTheme: base.menuButtonTheme,
+         menuTheme: base.menuTheme,
+         navigationBarTheme: base.navigationBarTheme,
+         navigationDrawerTheme: base.navigationDrawerTheme,
+         navigationRailTheme: base.navigationRailTheme,
+         outlinedButtonTheme: base.outlinedButtonTheme,
+         popupMenuTheme: base.popupMenuTheme,
+         progressIndicatorTheme: base.progressIndicatorTheme,
+         radioTheme: base.radioTheme,
+         searchBarTheme: base.searchBarTheme,
+         searchViewTheme: base.searchViewTheme,
+         segmentedButtonTheme: base.segmentedButtonTheme,
+         sliderTheme: base.sliderTheme,
+         snackBarTheme: base.snackBarTheme,
+         switchTheme: base.switchTheme,
+         tabBarTheme: base.tabBarTheme,
+         textButtonTheme: base.textButtonTheme,
+         textSelectionTheme: base.textSelectionTheme,
+         timePickerTheme: base.timePickerTheme,
+         toggleButtonsTheme: base.toggleButtonsTheme,
+         tooltipTheme: base.tooltipTheme,
+         // DEPRECATED (required by ThemeData.raw; a fresh const value avoids
+         // depending on the deprecated getter and satisfies the internal
+         // buttonBarTheme != null assert — ButtonBar itself is deprecated so
+         // the value is immaterial)
+         buttonBarTheme: const ButtonBarThemeData(),
+         dialogBackgroundColor: base.dialogBackgroundColor,
+         indicatorColor: base.indicatorColor,
+       );
 
   // ── Public API ─────────────────────────────────────────────────────────────
 
@@ -187,36 +187,183 @@ class SuperMaterialThemeData extends ThemeData {
   factory SuperMaterialThemeData.light({
     SuperPalette palette = SuperPalette.bluePalette,
     SuperDeviceMode mode = SuperDeviceMode.mobile,
+    // ── General Configuration ──
+    bool? applyElevationOverlayColor,
+    NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
+    MaterialTapTargetSize? materialTapTargetSize,
+    PageTransitionsTheme? pageTransitionsTheme,
+    TargetPlatform? platform,
+    InteractiveInkFeatureFactory? splashFactory,
+    bool? useMaterial3,
+    VisualDensity? visualDensity,
+    // ── Typography & Iconography ──
     TextTheme? textTheme,
-    AppBarTheme? appBarTheme,
-    NavigationBarThemeData? navigationBarTheme,
-    ButtonThemeData? buttonTheme,
-    InputDecorationTheme? formFieldTheme,
-    CardThemeData? cardTheme,
-    DialogThemeData? dialogTheme,
-    DataTableThemeData? tableTheme,
-    DividerThemeData? dividerTheme,
+    TextTheme? primaryTextTheme,
     IconThemeData? iconTheme,
+    IconThemeData? primaryIconTheme,
+    Typography? typography,
+    // ── Colors ──
+    ColorScheme? colorScheme,
+    Color? canvasColor,
+    Color? cardColor,
+    Color? disabledColor,
+    Color? dividerColor,
+    Color? focusColor,
+    Color? highlightColor,
+    Color? hintColor,
+    Color? hoverColor,
+    Color? primaryColor,
+    Color? primaryColorDark,
+    Color? primaryColorLight,
+    Color? scaffoldBackgroundColor,
+    Color? secondaryHeaderColor,
+    Color? shadowColor,
+    Color? splashColor,
+    Color? unselectedWidgetColor,
+    // ── Component Themes ──
+    ActionIconThemeData? actionIconTheme,
+    AppBarTheme? appBarTheme,
+    BadgeThemeData? badgeTheme,
+    MaterialBannerThemeData? bannerTheme,
+    BottomAppBarThemeData? bottomAppBarTheme,
+    BottomNavigationBarThemeData? bottomNavigationBarTheme,
+    BottomSheetThemeData? bottomSheetTheme,
+    ButtonThemeData? buttonTheme,
+    CardThemeData? cardTheme,
+    CarouselViewThemeData? carouselViewTheme,
+    CheckboxThemeData? checkboxTheme,
+    ChipThemeData? chipTheme,
+    DataTableThemeData? tableTheme,
+    DatePickerThemeData? datePickerTheme,
+    DialogThemeData? dialogTheme,
+    DividerThemeData? dividerTheme,
+    DrawerThemeData? drawerTheme,
+    DropdownMenuThemeData? dropdownMenuTheme,
+    ElevatedButtonThemeData? elevatedButtonTheme,
+    ExpansionTileThemeData? expansionTileTheme,
+    FilledButtonThemeData? filledButtonTheme,
+    InputDecorationTheme? formFieldTheme,
+    FloatingActionButtonThemeData? floatingActionButtonTheme,
+    IconButtonThemeData? iconButtonTheme,
+    ListTileThemeData? listTileTheme,
+    MenuBarThemeData? menuBarTheme,
+    MenuButtonThemeData? menuButtonTheme,
+    MenuThemeData? menuTheme,
+    NavigationBarThemeData? navigationBarTheme,
+    NavigationDrawerThemeData? navigationDrawerTheme,
+    NavigationRailThemeData? navigationRailTheme,
+    OutlinedButtonThemeData? outlinedButtonTheme,
+    PopupMenuThemeData? popupMenuTheme,
+    ProgressIndicatorThemeData? progressIndicatorTheme,
+    RadioThemeData? radioTheme,
+    SearchBarThemeData? searchBarTheme,
+    SearchViewThemeData? searchViewTheme,
+    SegmentedButtonThemeData? segmentedButtonTheme,
+    SliderThemeData? sliderTheme,
+    ScrollbarThemeData? scrollbarTheme,
+    SnackBarThemeData? snackBarTheme,
+    SwitchThemeData? switchTheme,
+    TabBarThemeData? tabBarTheme,
+    TextButtonThemeData? textButtonTheme,
+    TextSelectionThemeData? textSelectionTheme,
+    TimePickerThemeData? timePickerTheme,
+    ToggleButtonsThemeData? toggleButtonsTheme,
+    TooltipThemeData? tooltipTheme,
+    // ── Deprecated (kept for full ThemeData coverage) ──
+    ButtonBarThemeData? buttonBarTheme,
+    Color? dialogBackgroundColor,
+    Color? indicatorColor,
+    // ── Super ──
     SuperInteractiveStateThemeData? interactiveStateTheme,
     List<ThemeExtension<dynamic>>? extensions,
-  }) =>
-      _generate(
-        brightness: Brightness.light,
-        palette: palette,
-        mode: mode,
-        textTheme: textTheme,
-        appBarTheme: appBarTheme,
-        navigationBarTheme: navigationBarTheme,
-        buttonTheme: buttonTheme,
-        formFieldTheme: formFieldTheme,
-        cardTheme: cardTheme,
-        dialogTheme: dialogTheme,
-        tableTheme: tableTheme,
-        dividerTheme: dividerTheme,
-        iconTheme: iconTheme,
-        interactiveStateTheme: interactiveStateTheme,
-        extensions: extensions,
-      );
+  }) => _generate(
+    brightness: Brightness.light,
+    palette: palette,
+    mode: mode,
+    applyElevationOverlayColor: applyElevationOverlayColor,
+    cupertinoOverrideTheme: cupertinoOverrideTheme,
+    materialTapTargetSize: materialTapTargetSize,
+    pageTransitionsTheme: pageTransitionsTheme,
+    platform: platform,
+    splashFactory: splashFactory,
+    useMaterial3: useMaterial3,
+    visualDensity: visualDensity,
+    textTheme: textTheme,
+    primaryTextTheme: primaryTextTheme,
+    iconTheme: iconTheme,
+    primaryIconTheme: primaryIconTheme,
+    typography: typography,
+    colorScheme: colorScheme,
+    canvasColor: canvasColor,
+    cardColor: cardColor,
+    disabledColor: disabledColor,
+    dividerColor: dividerColor,
+    focusColor: focusColor,
+    highlightColor: highlightColor,
+    hintColor: hintColor,
+    hoverColor: hoverColor,
+    primaryColor: primaryColor,
+    primaryColorDark: primaryColorDark,
+    primaryColorLight: primaryColorLight,
+    scaffoldBackgroundColor: scaffoldBackgroundColor,
+    secondaryHeaderColor: secondaryHeaderColor,
+    shadowColor: shadowColor,
+    splashColor: splashColor,
+    unselectedWidgetColor: unselectedWidgetColor,
+    actionIconTheme: actionIconTheme,
+    appBarTheme: appBarTheme,
+    badgeTheme: badgeTheme,
+    bannerTheme: bannerTheme,
+    bottomAppBarTheme: bottomAppBarTheme,
+    bottomNavigationBarTheme: bottomNavigationBarTheme,
+    bottomSheetTheme: bottomSheetTheme,
+    buttonTheme: buttonTheme,
+    cardTheme: cardTheme,
+    carouselViewTheme: carouselViewTheme,
+    checkboxTheme: checkboxTheme,
+    chipTheme: chipTheme,
+    tableTheme: tableTheme,
+    datePickerTheme: datePickerTheme,
+    dialogTheme: dialogTheme,
+    dividerTheme: dividerTheme,
+    drawerTheme: drawerTheme,
+    dropdownMenuTheme: dropdownMenuTheme,
+    elevatedButtonTheme: elevatedButtonTheme,
+    expansionTileTheme: expansionTileTheme,
+    filledButtonTheme: filledButtonTheme,
+    formFieldTheme: formFieldTheme,
+    floatingActionButtonTheme: floatingActionButtonTheme,
+    iconButtonTheme: iconButtonTheme,
+    listTileTheme: listTileTheme,
+    menuBarTheme: menuBarTheme,
+    menuButtonTheme: menuButtonTheme,
+    menuTheme: menuTheme,
+    navigationBarTheme: navigationBarTheme,
+    navigationDrawerTheme: navigationDrawerTheme,
+    navigationRailTheme: navigationRailTheme,
+    outlinedButtonTheme: outlinedButtonTheme,
+    popupMenuTheme: popupMenuTheme,
+    progressIndicatorTheme: progressIndicatorTheme,
+    radioTheme: radioTheme,
+    searchBarTheme: searchBarTheme,
+    searchViewTheme: searchViewTheme,
+    segmentedButtonTheme: segmentedButtonTheme,
+    sliderTheme: sliderTheme,
+    scrollbarTheme: scrollbarTheme,
+    snackBarTheme: snackBarTheme,
+    switchTheme: switchTheme,
+    tabBarTheme: tabBarTheme,
+    textButtonTheme: textButtonTheme,
+    textSelectionTheme: textSelectionTheme,
+    timePickerTheme: timePickerTheme,
+    toggleButtonsTheme: toggleButtonsTheme,
+    tooltipTheme: tooltipTheme,
+    buttonBarTheme: buttonBarTheme,
+    dialogBackgroundColor: dialogBackgroundColor,
+    indicatorColor: indicatorColor,
+    interactiveStateTheme: interactiveStateTheme,
+    extensions: extensions,
+  );
 
   /// A complete dark [SuperMaterialThemeData] derived from [palette] for the
   /// given device [mode]. See [SuperMaterialThemeData.light] for the override
@@ -224,36 +371,183 @@ class SuperMaterialThemeData extends ThemeData {
   factory SuperMaterialThemeData.dark({
     SuperPalette palette = SuperPalette.bluePalette,
     SuperDeviceMode mode = SuperDeviceMode.mobile,
+    // ── General Configuration ──
+    bool? applyElevationOverlayColor,
+    NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
+    MaterialTapTargetSize? materialTapTargetSize,
+    PageTransitionsTheme? pageTransitionsTheme,
+    TargetPlatform? platform,
+    InteractiveInkFeatureFactory? splashFactory,
+    bool? useMaterial3,
+    VisualDensity? visualDensity,
+    // ── Typography & Iconography ──
     TextTheme? textTheme,
-    AppBarTheme? appBarTheme,
-    NavigationBarThemeData? navigationBarTheme,
-    ButtonThemeData? buttonTheme,
-    InputDecorationTheme? formFieldTheme,
-    CardThemeData? cardTheme,
-    DialogThemeData? dialogTheme,
-    DataTableThemeData? tableTheme,
-    DividerThemeData? dividerTheme,
+    TextTheme? primaryTextTheme,
     IconThemeData? iconTheme,
+    IconThemeData? primaryIconTheme,
+    Typography? typography,
+    // ── Colors ──
+    ColorScheme? colorScheme,
+    Color? canvasColor,
+    Color? cardColor,
+    Color? disabledColor,
+    Color? dividerColor,
+    Color? focusColor,
+    Color? highlightColor,
+    Color? hintColor,
+    Color? hoverColor,
+    Color? primaryColor,
+    Color? primaryColorDark,
+    Color? primaryColorLight,
+    Color? scaffoldBackgroundColor,
+    Color? secondaryHeaderColor,
+    Color? shadowColor,
+    Color? splashColor,
+    Color? unselectedWidgetColor,
+    // ── Component Themes ──
+    ActionIconThemeData? actionIconTheme,
+    AppBarTheme? appBarTheme,
+    BadgeThemeData? badgeTheme,
+    MaterialBannerThemeData? bannerTheme,
+    BottomAppBarThemeData? bottomAppBarTheme,
+    BottomNavigationBarThemeData? bottomNavigationBarTheme,
+    BottomSheetThemeData? bottomSheetTheme,
+    ButtonThemeData? buttonTheme,
+    CardThemeData? cardTheme,
+    CarouselViewThemeData? carouselViewTheme,
+    CheckboxThemeData? checkboxTheme,
+    ChipThemeData? chipTheme,
+    DataTableThemeData? tableTheme,
+    DatePickerThemeData? datePickerTheme,
+    DialogThemeData? dialogTheme,
+    DividerThemeData? dividerTheme,
+    DrawerThemeData? drawerTheme,
+    DropdownMenuThemeData? dropdownMenuTheme,
+    ElevatedButtonThemeData? elevatedButtonTheme,
+    ExpansionTileThemeData? expansionTileTheme,
+    FilledButtonThemeData? filledButtonTheme,
+    InputDecorationTheme? formFieldTheme,
+    FloatingActionButtonThemeData? floatingActionButtonTheme,
+    IconButtonThemeData? iconButtonTheme,
+    ListTileThemeData? listTileTheme,
+    MenuBarThemeData? menuBarTheme,
+    MenuButtonThemeData? menuButtonTheme,
+    MenuThemeData? menuTheme,
+    NavigationBarThemeData? navigationBarTheme,
+    NavigationDrawerThemeData? navigationDrawerTheme,
+    NavigationRailThemeData? navigationRailTheme,
+    OutlinedButtonThemeData? outlinedButtonTheme,
+    PopupMenuThemeData? popupMenuTheme,
+    ProgressIndicatorThemeData? progressIndicatorTheme,
+    RadioThemeData? radioTheme,
+    SearchBarThemeData? searchBarTheme,
+    SearchViewThemeData? searchViewTheme,
+    SegmentedButtonThemeData? segmentedButtonTheme,
+    SliderThemeData? sliderTheme,
+    ScrollbarThemeData? scrollbarTheme,
+    SnackBarThemeData? snackBarTheme,
+    SwitchThemeData? switchTheme,
+    TabBarThemeData? tabBarTheme,
+    TextButtonThemeData? textButtonTheme,
+    TextSelectionThemeData? textSelectionTheme,
+    TimePickerThemeData? timePickerTheme,
+    ToggleButtonsThemeData? toggleButtonsTheme,
+    TooltipThemeData? tooltipTheme,
+    // ── Deprecated (kept for full ThemeData coverage) ──
+    ButtonBarThemeData? buttonBarTheme,
+    Color? dialogBackgroundColor,
+    Color? indicatorColor,
+    // ── Super ──
     SuperInteractiveStateThemeData? interactiveStateTheme,
     List<ThemeExtension<dynamic>>? extensions,
-  }) =>
-      _generate(
-        brightness: Brightness.dark,
-        palette: palette,
-        mode: mode,
-        textTheme: textTheme,
-        appBarTheme: appBarTheme,
-        navigationBarTheme: navigationBarTheme,
-        buttonTheme: buttonTheme,
-        formFieldTheme: formFieldTheme,
-        cardTheme: cardTheme,
-        dialogTheme: dialogTheme,
-        tableTheme: tableTheme,
-        dividerTheme: dividerTheme,
-        iconTheme: iconTheme,
-        interactiveStateTheme: interactiveStateTheme,
-        extensions: extensions,
-      );
+  }) => _generate(
+    brightness: Brightness.dark,
+    palette: palette,
+    mode: mode,
+    applyElevationOverlayColor: applyElevationOverlayColor,
+    cupertinoOverrideTheme: cupertinoOverrideTheme,
+    materialTapTargetSize: materialTapTargetSize,
+    pageTransitionsTheme: pageTransitionsTheme,
+    platform: platform,
+    splashFactory: splashFactory,
+    useMaterial3: useMaterial3,
+    visualDensity: visualDensity,
+    textTheme: textTheme,
+    primaryTextTheme: primaryTextTheme,
+    iconTheme: iconTheme,
+    primaryIconTheme: primaryIconTheme,
+    typography: typography,
+    colorScheme: colorScheme,
+    canvasColor: canvasColor,
+    cardColor: cardColor,
+    disabledColor: disabledColor,
+    dividerColor: dividerColor,
+    focusColor: focusColor,
+    highlightColor: highlightColor,
+    hintColor: hintColor,
+    hoverColor: hoverColor,
+    primaryColor: primaryColor,
+    primaryColorDark: primaryColorDark,
+    primaryColorLight: primaryColorLight,
+    scaffoldBackgroundColor: scaffoldBackgroundColor,
+    secondaryHeaderColor: secondaryHeaderColor,
+    shadowColor: shadowColor,
+    splashColor: splashColor,
+    unselectedWidgetColor: unselectedWidgetColor,
+    actionIconTheme: actionIconTheme,
+    appBarTheme: appBarTheme,
+    badgeTheme: badgeTheme,
+    bannerTheme: bannerTheme,
+    bottomAppBarTheme: bottomAppBarTheme,
+    bottomNavigationBarTheme: bottomNavigationBarTheme,
+    bottomSheetTheme: bottomSheetTheme,
+    buttonTheme: buttonTheme,
+    cardTheme: cardTheme,
+    carouselViewTheme: carouselViewTheme,
+    checkboxTheme: checkboxTheme,
+    chipTheme: chipTheme,
+    tableTheme: tableTheme,
+    datePickerTheme: datePickerTheme,
+    dialogTheme: dialogTheme,
+    dividerTheme: dividerTheme,
+    drawerTheme: drawerTheme,
+    dropdownMenuTheme: dropdownMenuTheme,
+    elevatedButtonTheme: elevatedButtonTheme,
+    expansionTileTheme: expansionTileTheme,
+    filledButtonTheme: filledButtonTheme,
+    formFieldTheme: formFieldTheme,
+    floatingActionButtonTheme: floatingActionButtonTheme,
+    iconButtonTheme: iconButtonTheme,
+    listTileTheme: listTileTheme,
+    menuBarTheme: menuBarTheme,
+    menuButtonTheme: menuButtonTheme,
+    menuTheme: menuTheme,
+    navigationBarTheme: navigationBarTheme,
+    navigationDrawerTheme: navigationDrawerTheme,
+    navigationRailTheme: navigationRailTheme,
+    outlinedButtonTheme: outlinedButtonTheme,
+    popupMenuTheme: popupMenuTheme,
+    progressIndicatorTheme: progressIndicatorTheme,
+    radioTheme: radioTheme,
+    searchBarTheme: searchBarTheme,
+    searchViewTheme: searchViewTheme,
+    segmentedButtonTheme: segmentedButtonTheme,
+    sliderTheme: sliderTheme,
+    scrollbarTheme: scrollbarTheme,
+    snackBarTheme: snackBarTheme,
+    switchTheme: switchTheme,
+    tabBarTheme: tabBarTheme,
+    textButtonTheme: textButtonTheme,
+    textSelectionTheme: textSelectionTheme,
+    timePickerTheme: timePickerTheme,
+    toggleButtonsTheme: toggleButtonsTheme,
+    tooltipTheme: tooltipTheme,
+    buttonBarTheme: buttonBarTheme,
+    dialogBackgroundColor: dialogBackgroundColor,
+    indicatorColor: indicatorColor,
+    interactiveStateTheme: interactiveStateTheme,
+    extensions: extensions,
+  );
 
   // ── BuildContext lookups ────────────────────────────────────────────────────
 
@@ -290,11 +584,12 @@ class SuperMaterialThemeData extends ThemeData {
     if (theme is SuperMaterialThemeData) return theme;
     final isDark = theme.brightness == Brightness.dark;
     final existing = theme.extension<SuperThemeData>();
-    final superTheme = existing ??
-        (isDark ? SuperThemeData.dark : SuperThemeData.light);
+    final superTheme =
+        existing ?? (isDark ? SuperThemeData.dark : SuperThemeData.light);
     // Ensure the SuperThemeData extension is present + synchronized on the
     // wrapped theme without dropping any caller extensions.
-    final states = theme.extension<SuperInteractiveStateThemeData>() ??
+    final states =
+        theme.extension<SuperInteractiveStateThemeData>() ??
         SuperInteractiveStateThemeData.fromColorScheme(theme.colorScheme);
     final merged = _mergeExtensions(
       caller: theme.extensions.values,
@@ -413,8 +708,7 @@ class SuperMaterialThemeData extends ThemeData {
     final nextMode = mode ?? this.mode;
     // Keep the SuperThemeData extension synchronized with the field, without
     // dropping caller-supplied extensions.
-    final callerExtensions =
-        extensions ?? this.extensions.values;
+    final callerExtensions = extensions ?? this.extensions.values;
     final mergedExtensions = _mergeExtensions(
       caller: callerExtensions,
       superTheme: nextSuperTheme,
@@ -519,27 +813,105 @@ class SuperMaterialThemeData extends ThemeData {
     required Brightness brightness,
     required SuperPalette palette,
     required SuperDeviceMode mode,
+    // ── General Configuration ──
+    bool? applyElevationOverlayColor,
+    NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
+    MaterialTapTargetSize? materialTapTargetSize,
+    PageTransitionsTheme? pageTransitionsTheme,
+    TargetPlatform? platform,
+    InteractiveInkFeatureFactory? splashFactory,
+    bool? useMaterial3,
+    VisualDensity? visualDensity,
+    // ── Typography & Iconography ──
     TextTheme? textTheme,
-    AppBarTheme? appBarTheme,
-    NavigationBarThemeData? navigationBarTheme,
-    ButtonThemeData? buttonTheme,
-    InputDecorationTheme? formFieldTheme,
-    CardThemeData? cardTheme,
-    DialogThemeData? dialogTheme,
-    DataTableThemeData? tableTheme,
-    DividerThemeData? dividerTheme,
+    TextTheme? primaryTextTheme,
     IconThemeData? iconTheme,
+    IconThemeData? primaryIconTheme,
+    Typography? typography,
+    // ── Colors ──
+    ColorScheme? colorScheme,
+    Color? canvasColor,
+    Color? cardColor,
+    Color? disabledColor,
+    Color? dividerColor,
+    Color? focusColor,
+    Color? highlightColor,
+    Color? hintColor,
+    Color? hoverColor,
+    Color? primaryColor,
+    Color? primaryColorDark,
+    Color? primaryColorLight,
+    Color? scaffoldBackgroundColor,
+    Color? secondaryHeaderColor,
+    Color? shadowColor,
+    Color? splashColor,
+    Color? unselectedWidgetColor,
+    // ── Component Themes ──
+    ActionIconThemeData? actionIconTheme,
+    AppBarTheme? appBarTheme,
+    BadgeThemeData? badgeTheme,
+    MaterialBannerThemeData? bannerTheme,
+    BottomAppBarThemeData? bottomAppBarTheme,
+    BottomNavigationBarThemeData? bottomNavigationBarTheme,
+    BottomSheetThemeData? bottomSheetTheme,
+    ButtonThemeData? buttonTheme,
+    CardThemeData? cardTheme,
+    CarouselViewThemeData? carouselViewTheme,
+    CheckboxThemeData? checkboxTheme,
+    ChipThemeData? chipTheme,
+    DataTableThemeData? tableTheme,
+    DatePickerThemeData? datePickerTheme,
+    DialogThemeData? dialogTheme,
+    DividerThemeData? dividerTheme,
+    DrawerThemeData? drawerTheme,
+    DropdownMenuThemeData? dropdownMenuTheme,
+    ElevatedButtonThemeData? elevatedButtonTheme,
+    ExpansionTileThemeData? expansionTileTheme,
+    FilledButtonThemeData? filledButtonTheme,
+    InputDecorationTheme? formFieldTheme,
+    FloatingActionButtonThemeData? floatingActionButtonTheme,
+    IconButtonThemeData? iconButtonTheme,
+    ListTileThemeData? listTileTheme,
+    MenuBarThemeData? menuBarTheme,
+    MenuButtonThemeData? menuButtonTheme,
+    MenuThemeData? menuTheme,
+    NavigationBarThemeData? navigationBarTheme,
+    NavigationDrawerThemeData? navigationDrawerTheme,
+    NavigationRailThemeData? navigationRailTheme,
+    OutlinedButtonThemeData? outlinedButtonTheme,
+    PopupMenuThemeData? popupMenuTheme,
+    ProgressIndicatorThemeData? progressIndicatorTheme,
+    RadioThemeData? radioTheme,
+    SearchBarThemeData? searchBarTheme,
+    SearchViewThemeData? searchViewTheme,
+    SegmentedButtonThemeData? segmentedButtonTheme,
+    SliderThemeData? sliderTheme,
+    ScrollbarThemeData? scrollbarTheme,
+    SnackBarThemeData? snackBarTheme,
+    SwitchThemeData? switchTheme,
+    TabBarThemeData? tabBarTheme,
+    TextButtonThemeData? textButtonTheme,
+    TextSelectionThemeData? textSelectionTheme,
+    TimePickerThemeData? timePickerTheme,
+    ToggleButtonsThemeData? toggleButtonsTheme,
+    TooltipThemeData? tooltipTheme,
+    // ── Deprecated ──
+    ButtonBarThemeData? buttonBarTheme,
+    Color? dialogBackgroundColor,
+    Color? indicatorColor,
+    // ── Super ──
     SuperInteractiveStateThemeData? interactiveStateTheme,
     List<ThemeExtension<dynamic>>? extensions,
   }) {
     final isDark = brightness == Brightness.dark;
     final cs =
-        isDark ? palette.toDarkColorScheme() : palette.toLightColorScheme();
+        colorScheme ??
+        (isDark ? palette.toDarkColorScheme() : palette.toLightColorScheme());
     final metrics = SuperMetrics.of(mode);
-    final states = interactiveStateTheme ??
+    final states =
+        interactiveStateTheme ??
         SuperInteractiveStateThemeData.fromColorScheme(cs);
-    final superTheme =
-        _superTheme(palette, brightness, mode, metrics, states);
+    final superTheme = _superTheme(palette, brightness, mode, metrics, states);
 
     final merged = _mergeExtensions(
       caller: extensions ?? const <ThemeExtension<dynamic>>[],
@@ -552,17 +924,91 @@ class SuperMaterialThemeData extends ThemeData {
       palette: palette,
       metrics: metrics,
       extensions: merged,
-      // overrides
+      // general
+      applyElevationOverlayColorOverride: applyElevationOverlayColor,
+      cupertinoOverrideThemeOverride: cupertinoOverrideTheme,
+      materialTapTargetSizeOverride: materialTapTargetSize,
+      pageTransitionsThemeOverride: pageTransitionsTheme,
+      platformOverride: platform,
+      splashFactoryOverride: splashFactory,
+      useMaterial3Override: useMaterial3,
+      visualDensityOverride: visualDensity,
+      // typography
       textThemeOverride: textTheme,
-      appBarThemeOverride: appBarTheme,
-      navigationBarThemeOverride: navigationBarTheme,
-      buttonThemeOverride: buttonTheme,
-      inputDecorationOverride: formFieldTheme,
-      cardThemeOverride: cardTheme,
-      dialogThemeOverride: dialogTheme,
-      dataTableThemeOverride: tableTheme,
-      dividerThemeOverride: dividerTheme,
+      primaryTextThemeOverride: primaryTextTheme,
       iconThemeOverride: iconTheme,
+      primaryIconThemeOverride: primaryIconTheme,
+      typographyOverride: typography,
+      // colors
+      canvasColorOverride: canvasColor,
+      cardColorOverride: cardColor,
+      disabledColorOverride: disabledColor,
+      dividerColorOverride: dividerColor,
+      focusColorOverride: focusColor,
+      highlightColorOverride: highlightColor,
+      hintColorOverride: hintColor,
+      hoverColorOverride: hoverColor,
+      primaryColorOverride: primaryColor,
+      primaryColorDarkOverride: primaryColorDark,
+      primaryColorLightOverride: primaryColorLight,
+      scaffoldBackgroundColorOverride: scaffoldBackgroundColor,
+      secondaryHeaderColorOverride: secondaryHeaderColor,
+      shadowColorOverride: shadowColor,
+      splashColorOverride: splashColor,
+      unselectedWidgetColorOverride: unselectedWidgetColor,
+      // component themes
+      actionIconThemeOverride: actionIconTheme,
+      appBarThemeOverride: appBarTheme,
+      badgeThemeOverride: badgeTheme,
+      bannerThemeOverride: bannerTheme,
+      bottomAppBarThemeOverride: bottomAppBarTheme,
+      bottomNavigationBarThemeOverride: bottomNavigationBarTheme,
+      bottomSheetThemeOverride: bottomSheetTheme,
+      buttonThemeOverride: buttonTheme,
+      cardThemeOverride: cardTheme,
+      carouselViewThemeOverride: carouselViewTheme,
+      checkboxThemeOverride: checkboxTheme,
+      chipThemeOverride: chipTheme,
+      dataTableThemeOverride: tableTheme,
+      datePickerThemeOverride: datePickerTheme,
+      dialogThemeOverride: dialogTheme,
+      dividerThemeOverride: dividerTheme,
+      drawerThemeOverride: drawerTheme,
+      dropdownMenuThemeOverride: dropdownMenuTheme,
+      elevatedButtonThemeOverride: elevatedButtonTheme,
+      expansionTileThemeOverride: expansionTileTheme,
+      filledButtonThemeOverride: filledButtonTheme,
+      inputDecorationOverride: formFieldTheme,
+      floatingActionButtonThemeOverride: floatingActionButtonTheme,
+      iconButtonThemeOverride: iconButtonTheme,
+      listTileThemeOverride: listTileTheme,
+      menuBarThemeOverride: menuBarTheme,
+      menuButtonThemeOverride: menuButtonTheme,
+      menuThemeOverride: menuTheme,
+      navigationBarThemeOverride: navigationBarTheme,
+      navigationDrawerThemeOverride: navigationDrawerTheme,
+      navigationRailThemeOverride: navigationRailTheme,
+      outlinedButtonThemeOverride: outlinedButtonTheme,
+      popupMenuThemeOverride: popupMenuTheme,
+      progressIndicatorThemeOverride: progressIndicatorTheme,
+      radioThemeOverride: radioTheme,
+      searchBarThemeOverride: searchBarTheme,
+      searchViewThemeOverride: searchViewTheme,
+      segmentedButtonThemeOverride: segmentedButtonTheme,
+      sliderThemeOverride: sliderTheme,
+      scrollbarThemeOverride: scrollbarTheme,
+      snackBarThemeOverride: snackBarTheme,
+      switchThemeOverride: switchTheme,
+      tabBarThemeOverride: tabBarTheme,
+      textButtonThemeOverride: textButtonTheme,
+      textSelectionThemeOverride: textSelectionTheme,
+      timePickerThemeOverride: timePickerTheme,
+      toggleButtonsThemeOverride: toggleButtonsTheme,
+      tooltipThemeOverride: tooltipTheme,
+      // deprecated
+      buttonBarThemeOverride: buttonBarTheme,
+      dialogBackgroundColorOverride: dialogBackgroundColor,
+      indicatorColorOverride: indicatorColor,
     );
 
     return SuperMaterialThemeData._fromBase(
@@ -627,16 +1073,91 @@ class SuperMaterialThemeData extends ThemeData {
     required SuperPalette palette,
     required SuperMetrics metrics,
     required List<ThemeExtension<dynamic>> extensions,
+    // ── General Configuration ──
+    bool? applyElevationOverlayColorOverride,
+    NoDefaultCupertinoThemeData? cupertinoOverrideThemeOverride,
+    MaterialTapTargetSize? materialTapTargetSizeOverride,
+    PageTransitionsTheme? pageTransitionsThemeOverride,
+    TargetPlatform? platformOverride,
+    InteractiveInkFeatureFactory? splashFactoryOverride,
+    bool? useMaterial3Override,
+    VisualDensity? visualDensityOverride,
+    // ── Typography & Iconography ──
     TextTheme? textThemeOverride,
-    AppBarTheme? appBarThemeOverride,
-    NavigationBarThemeData? navigationBarThemeOverride,
-    ButtonThemeData? buttonThemeOverride,
-    InputDecorationTheme? inputDecorationOverride,
-    CardThemeData? cardThemeOverride,
-    DialogThemeData? dialogThemeOverride,
-    DataTableThemeData? dataTableThemeOverride,
-    DividerThemeData? dividerThemeOverride,
+    TextTheme? primaryTextThemeOverride,
     IconThemeData? iconThemeOverride,
+    IconThemeData? primaryIconThemeOverride,
+    Typography? typographyOverride,
+    // ── Colors ──
+    Color? canvasColorOverride,
+    Color? cardColorOverride,
+    Color? disabledColorOverride,
+    Color? dividerColorOverride,
+    Color? focusColorOverride,
+    Color? highlightColorOverride,
+    Color? hintColorOverride,
+    Color? hoverColorOverride,
+    Color? primaryColorOverride,
+    Color? primaryColorDarkOverride,
+    Color? primaryColorLightOverride,
+    Color? scaffoldBackgroundColorOverride,
+    Color? secondaryHeaderColorOverride,
+    Color? shadowColorOverride,
+    Color? splashColorOverride,
+    Color? unselectedWidgetColorOverride,
+    // ── Component Theme Overrides ──
+    ActionIconThemeData? actionIconThemeOverride,
+    AppBarTheme? appBarThemeOverride,
+    BadgeThemeData? badgeThemeOverride,
+    MaterialBannerThemeData? bannerThemeOverride,
+    BottomAppBarThemeData? bottomAppBarThemeOverride,
+    BottomNavigationBarThemeData? bottomNavigationBarThemeOverride,
+    BottomSheetThemeData? bottomSheetThemeOverride,
+    ButtonThemeData? buttonThemeOverride,
+    CardThemeData? cardThemeOverride,
+    CarouselViewThemeData? carouselViewThemeOverride,
+    CheckboxThemeData? checkboxThemeOverride,
+    ChipThemeData? chipThemeOverride,
+    DataTableThemeData? dataTableThemeOverride,
+    DatePickerThemeData? datePickerThemeOverride,
+    DialogThemeData? dialogThemeOverride,
+    DividerThemeData? dividerThemeOverride,
+    DrawerThemeData? drawerThemeOverride,
+    DropdownMenuThemeData? dropdownMenuThemeOverride,
+    ElevatedButtonThemeData? elevatedButtonThemeOverride,
+    ExpansionTileThemeData? expansionTileThemeOverride,
+    FilledButtonThemeData? filledButtonThemeOverride,
+    InputDecorationTheme? inputDecorationOverride,
+    FloatingActionButtonThemeData? floatingActionButtonThemeOverride,
+    IconButtonThemeData? iconButtonThemeOverride,
+    ListTileThemeData? listTileThemeOverride,
+    MenuBarThemeData? menuBarThemeOverride,
+    MenuButtonThemeData? menuButtonThemeOverride,
+    MenuThemeData? menuThemeOverride,
+    NavigationBarThemeData? navigationBarThemeOverride,
+    NavigationDrawerThemeData? navigationDrawerThemeOverride,
+    NavigationRailThemeData? navigationRailThemeOverride,
+    OutlinedButtonThemeData? outlinedButtonThemeOverride,
+    PopupMenuThemeData? popupMenuThemeOverride,
+    ProgressIndicatorThemeData? progressIndicatorThemeOverride,
+    RadioThemeData? radioThemeOverride,
+    SearchBarThemeData? searchBarThemeOverride,
+    SearchViewThemeData? searchViewThemeOverride,
+    SegmentedButtonThemeData? segmentedButtonThemeOverride,
+    SliderThemeData? sliderThemeOverride,
+    ScrollbarThemeData? scrollbarThemeOverride,
+    SnackBarThemeData? snackBarThemeOverride,
+    SwitchThemeData? switchThemeOverride,
+    TabBarThemeData? tabBarThemeOverride,
+    TextButtonThemeData? textButtonThemeOverride,
+    TextSelectionThemeData? textSelectionThemeOverride,
+    TimePickerThemeData? timePickerThemeOverride,
+    ToggleButtonsThemeData? toggleButtonsThemeOverride,
+    TooltipThemeData? tooltipThemeOverride,
+    // ── Deprecated ──
+    ButtonBarThemeData? buttonBarThemeOverride,
+    Color? dialogBackgroundColorOverride,
+    Color? indicatorColorOverride,
   }) {
     final cs = colorScheme;
     final isDark = cs.brightness == Brightness.dark;
@@ -654,28 +1175,52 @@ class SuperMaterialThemeData extends ThemeData {
 
     // Responsive typography (explicit override wins).
     final tt = textThemeOverride ?? _textTheme(m.mode, fg1, fg3);
-    final iconTheme = iconThemeOverride ??
-        IconThemeData(color: fg1, size: m.sizing.icon);
+    final iconTheme =
+        iconThemeOverride ?? IconThemeData(color: fg1, size: m.sizing.icon);
 
     return ThemeData(
-      useMaterial3: true,
+      // ── General Configuration ──
+      useMaterial3: useMaterial3Override ?? true,
       colorScheme: cs,
       brightness: cs.brightness,
       extensions: extensions,
+      applyElevationOverlayColor: applyElevationOverlayColorOverride,
+      cupertinoOverrideTheme: cupertinoOverrideThemeOverride,
+      materialTapTargetSize: materialTapTargetSizeOverride,
+      pageTransitionsTheme: pageTransitionsThemeOverride,
+      platform: platformOverride,
+      splashFactory: splashFactoryOverride,
+      visualDensity: visualDensityOverride,
 
       // ── Typography ──
       fontFamily: SuperTokens.bodyFont,
       textTheme: tt,
-      primaryTextTheme: tt.apply(
-        displayColor: cs.onPrimary,
-        bodyColor: cs.onPrimary,
-      ),
+      primaryTextTheme:
+          primaryTextThemeOverride ??
+          tt.apply(displayColor: cs.onPrimary, bodyColor: cs.onPrimary),
+      typography: typographyOverride,
 
-      // ── Scaffold ──
-      scaffoldBackgroundColor: bg,
+      // ── Colors ──
+      scaffoldBackgroundColor: scaffoldBackgroundColorOverride ?? bg,
+      canvasColor: canvasColorOverride ?? bg,
+      cardColor: cardColorOverride ?? surface,
+      disabledColor: disabledColorOverride ?? fg1.withValues(alpha: 0.38),
+      dividerColor: dividerColorOverride ?? border,
+      focusColor: focusColorOverride,
+      highlightColor: highlightColorOverride,
+      hintColor: hintColorOverride,
+      hoverColor: hoverColorOverride,
+      primaryColor: primaryColorOverride,
+      primaryColorDark: primaryColorDarkOverride,
+      primaryColorLight: primaryColorLightOverride,
+      secondaryHeaderColor: secondaryHeaderColorOverride,
+      shadowColor: shadowColorOverride,
+      splashColor: splashColorOverride,
+      unselectedWidgetColor: unselectedWidgetColorOverride,
 
       // ── App Bar ──
-      appBarTheme: appBarThemeOverride ??
+      appBarTheme:
+          appBarThemeOverride ??
           AppBarTheme(
             backgroundColor: isDark ? palette.darkBg : surface,
             foregroundColor: fg1,
@@ -691,13 +1236,16 @@ class SuperMaterialThemeData extends ThemeData {
             shape: isDark
                 ? Border(
                     bottom: BorderSide(
-                        color: palette.darkBorder.withValues(alpha: 0.6),
-                        width: 1))
+                      color: palette.darkBorder.withValues(alpha: 0.6),
+                      width: 1,
+                    ),
+                  )
                 : null,
           ),
 
       // ── Card ──
-      cardTheme: cardThemeOverride ??
+      cardTheme:
+          cardThemeOverride ??
           CardThemeData(
             color: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
@@ -711,111 +1259,136 @@ class SuperMaterialThemeData extends ThemeData {
           ),
 
       // ── Elevated Button ──
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: cs.primary,
-          foregroundColor: cs.onPrimary,
-          disabledBackgroundColor: fg1.withValues(alpha: 0.12),
-          disabledForegroundColor: fg1.withValues(alpha: 0.38),
-          elevation: 0,
-          shadowColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl)),
-          minimumSize: Size(64, m.sizing.control),
-          padding: m.padding.control,
-          textStyle: tt.labelLarge,
-        ),
-      ),
+      elevatedButtonTheme:
+          elevatedButtonThemeOverride ??
+          ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: cs.primary,
+              foregroundColor: cs.onPrimary,
+              disabledBackgroundColor: fg1.withValues(alpha: 0.12),
+              disabledForegroundColor: fg1.withValues(alpha: 0.38),
+              elevation: 0,
+              shadowColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              ),
+              minimumSize: Size(64, m.sizing.control),
+              padding: m.padding.control,
+              textStyle: tt.labelLarge,
+            ),
+          ),
 
       // ── Outlined Button ──
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: cs.primary,
-          disabledForegroundColor: fg1.withValues(alpha: 0.38),
-          side: BorderSide(color: brdStr),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl)),
-          minimumSize: Size(64, m.sizing.control),
-          padding: m.padding.control,
-          textStyle: tt.labelLarge,
-        ),
-      ),
+      outlinedButtonTheme:
+          outlinedButtonThemeOverride ??
+          OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: cs.primary,
+              disabledForegroundColor: fg1.withValues(alpha: 0.38),
+              side: BorderSide(color: brdStr),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              ),
+              minimumSize: Size(64, m.sizing.control),
+              padding: m.padding.control,
+              textStyle: tt.labelLarge,
+            ),
+          ),
 
       // ── Text Button ──
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: cs.primary,
-          disabledForegroundColor: fg1.withValues(alpha: 0.38),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl)),
-          minimumSize: Size(48, m.sizing.control),
-          padding: EdgeInsets.symmetric(
-              horizontal: m.spacing.md, vertical: m.spacing.sm),
-          textStyle: tt.labelLarge,
-        ),
-      ),
+      textButtonTheme:
+          textButtonThemeOverride ??
+          TextButtonThemeData(
+            style: TextButton.styleFrom(
+              foregroundColor: cs.primary,
+              disabledForegroundColor: fg1.withValues(alpha: 0.38),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              ),
+              minimumSize: Size(48, m.sizing.control),
+              padding: EdgeInsets.symmetric(
+                horizontal: m.spacing.md,
+                vertical: m.spacing.sm,
+              ),
+              textStyle: tt.labelLarge,
+            ),
+          ),
 
       // ── Filled Button ──
-      filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          backgroundColor: cs.primary,
-          foregroundColor: cs.onPrimary,
-          disabledBackgroundColor: fg1.withValues(alpha: 0.12),
-          disabledForegroundColor: fg1.withValues(alpha: 0.38),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl)),
-          minimumSize: Size(64, m.sizing.control),
-          padding: m.padding.control,
-          textStyle: tt.labelLarge,
-        ),
-      ),
+      filledButtonTheme:
+          filledButtonThemeOverride ??
+          FilledButtonThemeData(
+            style: FilledButton.styleFrom(
+              backgroundColor: cs.primary,
+              foregroundColor: cs.onPrimary,
+              disabledBackgroundColor: fg1.withValues(alpha: 0.12),
+              disabledForegroundColor: fg1.withValues(alpha: 0.38),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              ),
+              minimumSize: Size(64, m.sizing.control),
+              padding: m.padding.control,
+              textStyle: tt.labelLarge,
+            ),
+          ),
 
       // ── Icon Button ──
-      iconButtonTheme: IconButtonThemeData(
-        style: IconButton.styleFrom(
-          foregroundColor: fg1,
-          highlightColor: cs.primary.withValues(alpha: 0.12),
-          minimumSize: Size(m.sizing.iconButton, m.sizing.iconButton),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl)),
-        ),
-      ),
+      iconButtonTheme:
+          iconButtonThemeOverride ??
+          IconButtonThemeData(
+            style: IconButton.styleFrom(
+              foregroundColor: fg1,
+              highlightColor: cs.primary.withValues(alpha: 0.12),
+              minimumSize: Size(m.sizing.iconButton, m.sizing.iconButton),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              ),
+            ),
+          ),
 
       // ── Input Decoration (responsive; explicit override wins) ──
-      inputDecorationTheme: inputDecorationOverride ??
+      inputDecorationTheme:
+          inputDecorationOverride ??
           _inputDecorationTheme(m, cs, tt, inputBg, border, fg1, fg3),
 
       // ── Divider ──
-      dividerTheme: dividerThemeOverride ??
+      dividerTheme:
+          dividerThemeOverride ??
           DividerThemeData(color: border, thickness: 1, space: 1),
 
       // ── List Tile ──
-      listTileTheme: ListTileThemeData(
-        contentPadding: EdgeInsets.symmetric(
-            horizontal: m.spacing.lg, vertical: m.spacing.xs),
-        tileColor: Colors.transparent,
-        selectedTileColor: cs.primary.withValues(alpha: 0.10),
-        selectedColor: cs.primary,
-        iconColor: fg3,
-        textColor: fg1,
-        subtitleTextStyle: tt.bodySmall,
-        titleTextStyle: tt.bodyMedium,
-        dense: false,
-        minLeadingWidth: 24,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(SuperTokens.radiusControl)),
-      ),
+      listTileTheme:
+          listTileThemeOverride ??
+          ListTileThemeData(
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: m.spacing.lg,
+              vertical: m.spacing.xs,
+            ),
+            tileColor: Colors.transparent,
+            selectedTileColor: cs.primary.withValues(alpha: 0.10),
+            selectedColor: cs.primary,
+            iconColor: fg3,
+            textColor: fg1,
+            subtitleTextStyle: tt.bodySmall,
+            titleTextStyle: tt.bodyMedium,
+            dense: false,
+            minLeadingWidth: 24,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+            ),
+          ),
 
       // ── Navigation Bar ──
-      navigationBarTheme: navigationBarThemeOverride ??
+      navigationBarTheme:
+          navigationBarThemeOverride ??
           NavigationBarThemeData(
             backgroundColor: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
             elevation: isDark ? 0 : 1,
             indicatorColor: cs.primary.withValues(alpha: 0.15),
             indicatorShape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(SuperTokens.radiusControl)),
+              borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+            ),
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             iconTheme: WidgetStateProperty.resolveWith((states) {
               return states.contains(WidgetState.selected)
@@ -830,243 +1403,305 @@ class SuperMaterialThemeData extends ThemeData {
           ),
 
       // ── Navigation Rail ──
-      navigationRailTheme: NavigationRailThemeData(
-        backgroundColor: isDark ? palette.darkSurface : surface,
-        elevation: 0,
-        selectedIconTheme: IconThemeData(color: cs.primary, size: m.sizing.icon),
-        unselectedIconTheme: IconThemeData(color: fg3, size: m.sizing.icon),
-        selectedLabelTextStyle: tt.labelMedium!.copyWith(color: cs.primary),
-        unselectedLabelTextStyle: tt.labelMedium!.copyWith(color: fg3),
-        indicatorColor: cs.primary.withValues(alpha: 0.15),
-        indicatorShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(SuperTokens.radiusControl)),
-        minWidth: 72,
-        minExtendedWidth: 200,
-        groupAlignment: -1,
-        useIndicator: true,
-      ),
+      navigationRailTheme:
+          navigationRailThemeOverride ??
+          NavigationRailThemeData(
+            backgroundColor: isDark ? palette.darkSurface : surface,
+            elevation: 0,
+            selectedIconTheme: IconThemeData(
+              color: cs.primary,
+              size: m.sizing.icon,
+            ),
+            unselectedIconTheme: IconThemeData(color: fg3, size: m.sizing.icon),
+            selectedLabelTextStyle: tt.labelMedium!.copyWith(color: cs.primary),
+            unselectedLabelTextStyle: tt.labelMedium!.copyWith(color: fg3),
+            indicatorColor: cs.primary.withValues(alpha: 0.15),
+            indicatorShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+            ),
+            minWidth: 72,
+            minExtendedWidth: 200,
+            groupAlignment: -1,
+            useIndicator: true,
+          ),
+
+      // ── Navigation Drawer ──
+      navigationDrawerTheme: navigationDrawerThemeOverride,
 
       // ── Drawer ──
-      drawerTheme: DrawerThemeData(
-        backgroundColor: isDark ? palette.darkSurface : surface,
-        surfaceTintColor: Colors.transparent,
-        elevation: 8,
-        shadowColor: Colors.black38,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(SuperTokens.radiusCard),
-            bottomRight: Radius.circular(SuperTokens.radiusCard),
+      drawerTheme:
+          drawerThemeOverride ??
+          DrawerThemeData(
+            backgroundColor: isDark ? palette.darkSurface : surface,
+            surfaceTintColor: Colors.transparent,
+            elevation: 8,
+            shadowColor: Colors.black38,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(SuperTokens.radiusCard),
+                bottomRight: Radius.circular(SuperTokens.radiusCard),
+              ),
+            ),
+            width: 280,
           ),
-        ),
-        width: 280,
-      ),
 
       // ── Dialog ──
-      dialogTheme: dialogThemeOverride ??
+      dialogTheme:
+          dialogThemeOverride ??
           DialogThemeData(
             backgroundColor: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
             elevation: 24,
             shadowColor: Colors.black38,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SuperTokens.radiusCard)),
+              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            ),
             titleTextStyle: tt.titleLarge,
             contentTextStyle: tt.bodyMedium!.copyWith(color: fg3),
           ),
 
       // ── Bottom Sheet ──
-      bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: isDark ? palette.darkSurface : surface,
-        surfaceTintColor: Colors.transparent,
-        elevation: 16,
-        shadowColor: Colors.black38,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-              top: Radius.circular(SuperTokens.radiusCard)),
-        ),
-        showDragHandle: true,
-        dragHandleColor: brdStr,
-      ),
+      bottomSheetTheme:
+          bottomSheetThemeOverride ??
+          BottomSheetThemeData(
+            backgroundColor: isDark ? palette.darkSurface : surface,
+            surfaceTintColor: Colors.transparent,
+            elevation: 16,
+            shadowColor: Colors.black38,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(SuperTokens.radiusCard),
+              ),
+            ),
+            showDragHandle: true,
+            dragHandleColor: brdStr,
+          ),
 
       // ── Chip ──
-      chipTheme: ChipThemeData(
-        backgroundColor: isDark ? palette.darkSurface2 : palette.lightHover,
-        deleteIconColor: fg3,
-        disabledColor: fg1.withValues(alpha: 0.12),
-        selectedColor: cs.primary.withValues(alpha: 0.20),
-        labelStyle: tt.bodyMedium,
-        secondaryLabelStyle: tt.bodyMedium!.copyWith(color: cs.primary),
-        padding: EdgeInsets.symmetric(
-            horizontal: m.spacing.sm, vertical: m.spacing.xs),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(SuperTokens.radiusPill),
-          side: BorderSide(color: border),
-        ),
-        elevation: 0,
-        pressElevation: 0,
-        checkmarkColor: cs.primary,
-        showCheckmark: true,
-        side: BorderSide(color: border),
-      ),
+      chipTheme:
+          chipThemeOverride ??
+          ChipThemeData(
+            backgroundColor: isDark ? palette.darkSurface2 : palette.lightHover,
+            deleteIconColor: fg3,
+            disabledColor: fg1.withValues(alpha: 0.12),
+            selectedColor: cs.primary.withValues(alpha: 0.20),
+            labelStyle: tt.bodyMedium,
+            secondaryLabelStyle: tt.bodyMedium!.copyWith(color: cs.primary),
+            padding: EdgeInsets.symmetric(
+              horizontal: m.spacing.sm,
+              vertical: m.spacing.xs,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusPill),
+              side: BorderSide(color: border),
+            ),
+            elevation: 0,
+            pressElevation: 0,
+            checkmarkColor: cs.primary,
+            showCheckmark: true,
+            side: BorderSide(color: border),
+          ),
 
       // ── Popup Menu ──
-      popupMenuTheme: PopupMenuThemeData(
-        color: isDark ? palette.darkSurface : surface,
-        surfaceTintColor: Colors.transparent,
-        elevation: 8,
-        shadowColor: Colors.black38,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
-          side: BorderSide(color: brdStr),
-        ),
-        textStyle: tt.bodyMedium,
-        menuPadding: EdgeInsets.symmetric(vertical: m.spacing.xs),
-        position: PopupMenuPosition.under,
-      ),
+      popupMenuTheme:
+          popupMenuThemeOverride ??
+          PopupMenuThemeData(
+            color: isDark ? palette.darkSurface : surface,
+            surfaceTintColor: Colors.transparent,
+            elevation: 8,
+            shadowColor: Colors.black38,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              side: BorderSide(color: brdStr),
+            ),
+            textStyle: tt.bodyMedium,
+            menuPadding: EdgeInsets.symmetric(vertical: m.spacing.xs),
+            position: PopupMenuPosition.under,
+          ),
 
       // ── Tooltip ──
-      tooltipTheme: TooltipThemeData(
-        decoration: BoxDecoration(
-          color: isDark ? palette.darkSurface2 : palette.darkSurface,
-          borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
-        ),
-        textStyle: tt.bodySmall!.copyWith(color: palette.darkFg1),
-        padding: EdgeInsets.symmetric(
-            horizontal: m.spacing.sm, vertical: m.spacing.xs),
-        preferBelow: true,
-        waitDuration: const Duration(milliseconds: 600),
-      ),
+      tooltipTheme:
+          tooltipThemeOverride ??
+          TooltipThemeData(
+            decoration: BoxDecoration(
+              color: isDark ? palette.darkSurface2 : palette.darkSurface,
+              borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+            ),
+            textStyle: tt.bodySmall!.copyWith(color: palette.darkFg1),
+            padding: EdgeInsets.symmetric(
+              horizontal: m.spacing.sm,
+              vertical: m.spacing.xs,
+            ),
+            preferBelow: true,
+            waitDuration: const Duration(milliseconds: 600),
+          ),
 
       // ── Snack Bar ──
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: isDark ? palette.darkSurface2 : palette.darkSurface,
-        contentTextStyle: tt.bodyMedium!.copyWith(color: palette.darkFg1),
-        actionTextColor: palette.shade300,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(SuperTokens.radiusCard)),
-        elevation: 8,
-      ),
+      snackBarTheme:
+          snackBarThemeOverride ??
+          SnackBarThemeData(
+            backgroundColor: isDark
+                ? palette.darkSurface2
+                : palette.darkSurface,
+            contentTextStyle: tt.bodyMedium!.copyWith(color: palette.darkFg1),
+            actionTextColor: palette.shade300,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            ),
+            elevation: 8,
+          ),
 
       // ── Tab Bar ──
-      tabBarTheme: TabBarThemeData(
-        labelColor: cs.primary,
-        unselectedLabelColor: fg3,
-        indicatorColor: cs.primary,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerColor: border,
-        labelStyle: tt.labelLarge,
-        unselectedLabelStyle: tt.bodyMedium,
-        overlayColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.hovered)) {
-            return cs.primary.withValues(alpha: 0.08);
-          }
-          if (states.contains(WidgetState.pressed)) {
-            return cs.primary.withValues(alpha: 0.12);
-          }
-          return null;
-        }),
-      ),
+      tabBarTheme:
+          tabBarThemeOverride ??
+          TabBarThemeData(
+            labelColor: cs.primary,
+            unselectedLabelColor: fg3,
+            indicatorColor: cs.primary,
+            indicatorSize: TabBarIndicatorSize.tab,
+            dividerColor: border,
+            labelStyle: tt.labelLarge,
+            unselectedLabelStyle: tt.bodyMedium,
+            overlayColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.hovered)) {
+                return cs.primary.withValues(alpha: 0.08);
+              }
+              if (states.contains(WidgetState.pressed)) {
+                return cs.primary.withValues(alpha: 0.12);
+              }
+              return null;
+            }),
+          ),
 
       // ── Progress Indicator ──
-      progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: cs.primary,
-        linearTrackColor: cs.primary.withValues(alpha: 0.15),
-        circularTrackColor: cs.primary.withValues(alpha: 0.15),
-        linearMinHeight: 4,
-        refreshBackgroundColor: surface,
-      ),
+      progressIndicatorTheme:
+          progressIndicatorThemeOverride ??
+          ProgressIndicatorThemeData(
+            color: cs.primary,
+            linearTrackColor: cs.primary.withValues(alpha: 0.15),
+            circularTrackColor: cs.primary.withValues(alpha: 0.15),
+            linearMinHeight: 4,
+            refreshBackgroundColor: surface,
+          ),
 
       // ── Switch ──
-      switchTheme: SwitchThemeData(
-        thumbColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) return cs.onPrimary;
-          if (states.contains(WidgetState.disabled)) {
-            return fg1.withValues(alpha: 0.38);
-          }
-          return isDark ? palette.shade400 : palette.shade300;
-        }),
-        trackColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) return cs.primary;
-          if (states.contains(WidgetState.disabled)) {
-            return fg1.withValues(alpha: 0.12);
-          }
-          return isDark ? palette.darkSurface2 : palette.lightBorderStr;
-        }),
-        trackOutlineColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return Colors.transparent;
-          }
-          return border;
-        }),
-      ),
+      switchTheme:
+          switchThemeOverride ??
+          SwitchThemeData(
+            thumbColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return cs.onPrimary;
+              }
+              if (states.contains(WidgetState.disabled)) {
+                return fg1.withValues(alpha: 0.38);
+              }
+              return isDark ? palette.shade400 : palette.shade300;
+            }),
+            trackColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return cs.primary;
+              }
+              if (states.contains(WidgetState.disabled)) {
+                return fg1.withValues(alpha: 0.12);
+              }
+              return isDark ? palette.darkSurface2 : palette.lightBorderStr;
+            }),
+            trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return Colors.transparent;
+              }
+              return border;
+            }),
+          ),
 
       // ── Checkbox ──
-      checkboxTheme: CheckboxThemeData(
-        fillColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) return cs.primary;
-          if (states.contains(WidgetState.disabled)) {
-            return fg1.withValues(alpha: 0.12);
-          }
-          return Colors.transparent;
-        }),
-        checkColor: WidgetStateProperty.all(cs.onPrimary),
-        side: WidgetStateBorderSide.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return BorderSide(color: cs.primary, width: 2);
-          }
-          return BorderSide(color: brdStr, width: 2);
-        }),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(SuperTokens.space1)),
-      ),
+      checkboxTheme:
+          checkboxThemeOverride ??
+          CheckboxThemeData(
+            fillColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return cs.primary;
+              }
+              if (states.contains(WidgetState.disabled)) {
+                return fg1.withValues(alpha: 0.12);
+              }
+              return Colors.transparent;
+            }),
+            checkColor: WidgetStateProperty.all(cs.onPrimary),
+            side: WidgetStateBorderSide.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return BorderSide(color: cs.primary, width: 2);
+              }
+              return BorderSide(color: brdStr, width: 2);
+            }),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.space1),
+            ),
+          ),
 
       // ── Radio ──
-      radioTheme: RadioThemeData(
-        fillColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) return cs.primary;
-          return brdStr;
-        }),
-      ),
+      radioTheme:
+          radioThemeOverride ??
+          RadioThemeData(
+            fillColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return cs.primary;
+              }
+              return brdStr;
+            }),
+          ),
 
       // ── Slider ──
-      sliderTheme: SliderThemeData(
-        activeTrackColor: cs.primary,
-        inactiveTrackColor: cs.primary.withValues(alpha: 0.20),
-        thumbColor: cs.primary,
-        overlayColor: cs.primary.withValues(alpha: 0.12),
-        valueIndicatorColor: cs.primary,
-        valueIndicatorTextStyle: tt.bodySmall!.copyWith(color: cs.onPrimary),
-        trackHeight: 4,
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-        overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
-      ),
+      sliderTheme:
+          sliderThemeOverride ??
+          SliderThemeData(
+            activeTrackColor: cs.primary,
+            inactiveTrackColor: cs.primary.withValues(alpha: 0.20),
+            thumbColor: cs.primary,
+            overlayColor: cs.primary.withValues(alpha: 0.12),
+            valueIndicatorColor: cs.primary,
+            valueIndicatorTextStyle: tt.bodySmall!.copyWith(
+              color: cs.onPrimary,
+            ),
+            trackHeight: 4,
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+            overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
+          ),
 
       // ── Icons ──
       iconTheme: iconTheme,
-      primaryIconTheme: IconThemeData(color: cs.onPrimary, size: m.sizing.icon),
+      primaryIconTheme:
+          primaryIconThemeOverride ??
+          IconThemeData(color: cs.onPrimary, size: m.sizing.icon),
 
       // ── FAB ──
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: cs.primary,
-        foregroundColor: cs.onPrimary,
-        elevation: 4,
-        focusElevation: 6,
-        hoverElevation: 8,
-        highlightElevation: 12,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(SuperTokens.radiusCard)),
-      ),
+      floatingActionButtonTheme:
+          floatingActionButtonThemeOverride ??
+          FloatingActionButtonThemeData(
+            backgroundColor: cs.primary,
+            foregroundColor: cs.onPrimary,
+            elevation: 4,
+            focusElevation: 6,
+            hoverElevation: 8,
+            highlightElevation: 12,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            ),
+          ),
 
       // ── Data Table ──
-      dataTableTheme: dataTableThemeOverride ??
+      dataTableTheme:
+          dataTableThemeOverride ??
           DataTableThemeData(
             headingRowColor: WidgetStateProperty.all(hover),
             dataRowColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
                 return cs.primary.withValues(alpha: 0.10);
               }
-              if (states.contains(WidgetState.hovered)) return hover;
+              if (states.contains(WidgetState.hovered)) {
+                return hover;
+              }
               return null;
             }),
             headingTextStyle: tt.labelMedium!.copyWith(color: fg3),
@@ -1085,67 +1720,106 @@ class SuperMaterialThemeData extends ThemeData {
           ),
 
       // ── Expansion Tile ──
-      expansionTileTheme: ExpansionTileThemeData(
-        backgroundColor: Colors.transparent,
-        collapsedBackgroundColor: Colors.transparent,
-        iconColor: cs.primary,
-        collapsedIconColor: fg3,
-        textColor: cs.primary,
-        collapsedTextColor: fg1,
-        childrenPadding: EdgeInsets.symmetric(
-            horizontal: m.spacing.lg, vertical: m.spacing.sm),
-        tilePadding: EdgeInsets.symmetric(
-            horizontal: m.spacing.lg, vertical: m.spacing.xs),
-        shape: const Border(),
-        collapsedShape: const Border(),
-      ),
+      expansionTileTheme:
+          expansionTileThemeOverride ??
+          ExpansionTileThemeData(
+            backgroundColor: Colors.transparent,
+            collapsedBackgroundColor: Colors.transparent,
+            iconColor: cs.primary,
+            collapsedIconColor: fg3,
+            textColor: cs.primary,
+            collapsedTextColor: fg1,
+            childrenPadding: EdgeInsets.symmetric(
+              horizontal: m.spacing.lg,
+              vertical: m.spacing.sm,
+            ),
+            tilePadding: EdgeInsets.symmetric(
+              horizontal: m.spacing.lg,
+              vertical: m.spacing.xs,
+            ),
+            shape: const Border(),
+            collapsedShape: const Border(),
+          ),
 
       // ── Segmented Button ──
-      segmentedButtonTheme: SegmentedButtonThemeData(
-        style: SegmentedButton.styleFrom(
-          backgroundColor: isDark ? palette.darkSurface2 : hover,
-          selectedBackgroundColor: cs.primary,
-          selectedForegroundColor: cs.onPrimary,
-          foregroundColor: fg1,
-          side: BorderSide(color: border),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl)),
-          textStyle: tt.labelLarge,
-        ),
-      ),
+      segmentedButtonTheme:
+          segmentedButtonThemeOverride ??
+          SegmentedButtonThemeData(
+            style: SegmentedButton.styleFrom(
+              backgroundColor: isDark ? palette.darkSurface2 : hover,
+              selectedBackgroundColor: cs.primary,
+              selectedForegroundColor: cs.onPrimary,
+              foregroundColor: fg1,
+              side: BorderSide(color: border),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              ),
+              textStyle: tt.labelLarge,
+            ),
+          ),
 
       // ── Menu ──
-      menuTheme: MenuThemeData(
-        style: MenuStyle(
-          backgroundColor:
-              WidgetStateProperty.all(isDark ? palette.darkSurface : surface),
-          surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
-          elevation: WidgetStateProperty.all(8),
-          shadowColor: WidgetStateProperty.all(Colors.black38),
-          shape: WidgetStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
-            side: BorderSide(color: brdStr),
-          )),
-          padding: WidgetStateProperty.all(
-              EdgeInsets.symmetric(vertical: m.spacing.xs)),
-        ),
-      ),
+      menuTheme:
+          menuThemeOverride ??
+          MenuThemeData(
+            style: MenuStyle(
+              backgroundColor: WidgetStateProperty.all(
+                isDark ? palette.darkSurface : surface,
+              ),
+              surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
+              elevation: WidgetStateProperty.all(8),
+              shadowColor: WidgetStateProperty.all(Colors.black38),
+              shape: WidgetStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+                  side: BorderSide(color: brdStr),
+                ),
+              ),
+              padding: WidgetStateProperty.all(
+                EdgeInsets.symmetric(vertical: m.spacing.xs),
+              ),
+            ),
+          ),
 
       // ── Scrollbar ──
-      scrollbarTheme: ScrollbarThemeData(
-        thumbColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.dragged) ||
-              states.contains(WidgetState.hovered)) {
-            return cs.primary.withValues(alpha: 0.70);
-          }
-          return fg1.withValues(alpha: 0.25);
-        }),
-        trackColor: WidgetStateProperty.all(Colors.transparent),
-        trackBorderColor: WidgetStateProperty.all(Colors.transparent),
-        thickness: WidgetStateProperty.all(4),
-        radius: const Radius.circular(SuperTokens.radiusPill),
-        interactive: true,
-      ),
+      scrollbarTheme:
+          scrollbarThemeOverride ??
+          ScrollbarThemeData(
+            thumbColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.dragged) ||
+                  states.contains(WidgetState.hovered)) {
+                return cs.primary.withValues(alpha: 0.70);
+              }
+              return fg1.withValues(alpha: 0.25);
+            }),
+            trackColor: WidgetStateProperty.all(Colors.transparent),
+            trackBorderColor: WidgetStateProperty.all(Colors.transparent),
+            thickness: WidgetStateProperty.all(4),
+            radius: const Radius.circular(SuperTokens.radiusPill),
+            interactive: true,
+          ),
+
+      // ── Additional Component Themes ──
+      actionIconTheme: actionIconThemeOverride,
+      badgeTheme: badgeThemeOverride,
+      bannerTheme: bannerThemeOverride,
+      bottomAppBarTheme: bottomAppBarThemeOverride,
+      bottomNavigationBarTheme: bottomNavigationBarThemeOverride,
+      carouselViewTheme: carouselViewThemeOverride,
+      datePickerTheme: datePickerThemeOverride,
+      dropdownMenuTheme: dropdownMenuThemeOverride,
+      menuBarTheme: menuBarThemeOverride,
+      menuButtonTheme: menuButtonThemeOverride,
+      searchBarTheme: searchBarThemeOverride,
+      searchViewTheme: searchViewThemeOverride,
+      textSelectionTheme: textSelectionThemeOverride,
+      timePickerTheme: timePickerThemeOverride,
+      toggleButtonsTheme: toggleButtonsThemeOverride,
+
+      // ── Deprecated ──
+      buttonBarTheme: buttonBarThemeOverride,
+      dialogBackgroundColor: dialogBackgroundColorOverride,
+      indicatorColor: indicatorColorOverride,
     );
   }
 
@@ -1185,10 +1859,14 @@ class SuperMaterialThemeData extends ThemeData {
       prefixIconColor: fg3,
       suffixIconColor: fg3,
       iconColor: fg3,
-      prefixIconConstraints:
-          BoxConstraints(minWidth: m.sizing.icon + m.spacing.sm, minHeight: 0),
-      suffixIconConstraints:
-          BoxConstraints(minWidth: m.sizing.icon + m.spacing.sm, minHeight: 0),
+      prefixIconConstraints: BoxConstraints(
+        minWidth: m.sizing.icon + m.spacing.sm,
+        minHeight: 0,
+      ),
+      suffixIconConstraints: BoxConstraints(
+        minWidth: m.sizing.icon + m.spacing.sm,
+        minHeight: 0,
+      ),
     );
   }
 
@@ -1205,10 +1883,8 @@ class SuperMaterialThemeData extends ThemeData {
       SuperDeviceMode.desktop => 1.0,
     };
 
-    TextStyle sc(TextStyle base, {Color? color}) => base.copyWith(
-          fontSize: (base.fontSize ?? 14) * f,
-          color: color,
-        );
+    TextStyle sc(TextStyle base, {Color? color}) =>
+        base.copyWith(fontSize: (base.fontSize ?? 14) * f, color: color);
 
     return TextTheme(
       displayLarge: TextStyle(
@@ -1234,11 +1910,20 @@ class SuperMaterialThemeData extends ThemeData {
         color: fg1,
       ),
       headlineLarge: SuperText.h1.copyWith(
-          fontFamily: SuperTokens.displayFont, fontSize: 32 * f, color: fg1),
-      headlineMedium: SuperText.h1
-          .copyWith(fontFamily: SuperTokens.displayFont, fontSize: 26 * f, color: fg1),
+        fontFamily: SuperTokens.displayFont,
+        fontSize: 32 * f,
+        color: fg1,
+      ),
+      headlineMedium: SuperText.h1.copyWith(
+        fontFamily: SuperTokens.displayFont,
+        fontSize: 26 * f,
+        color: fg1,
+      ),
       headlineSmall: SuperText.h1.copyWith(
-          fontFamily: SuperTokens.displayFont, fontSize: 22 * f, color: fg1),
+        fontFamily: SuperTokens.displayFont,
+        fontSize: 22 * f,
+        color: fg1,
+      ),
       titleLarge: sc(SuperText.heading, color: fg1).copyWith(fontSize: 22 * f),
       titleMedium: sc(SuperText.heading, color: fg1),
       titleSmall: sc(SuperText.button, color: fg1),

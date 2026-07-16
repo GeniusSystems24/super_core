@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v1.1.0)
+# super_core — ChatGPT / Codex agent instructions (v1.2.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 1.1.0
+version: 1.2.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 ```
@@ -137,6 +137,93 @@ else just read `SuperThemeData`. Never duplicate palette/responsive math.
 
 ---
 
+## Design-system widgets (v1.2.0)
+
+Prefer these over hand-rolling GeniusLink chrome from raw `Container` / Material
+widgets. All exported from the barrel; names start with `Super`.
+
+`SectionCard` · `SectionHeader` · `StatusPill` · `SuperButton` /
+`SuperIconButton` · `Hairline` · `FieldShell` and, added in 1.2.0:
+
+### `SuperCard` — general surface card
+
+8 px radius, hairline border, theme card shadow, 24 px interior. Distinct from
+`SectionCard` (the tall form-section unit). Optional `header` slot; `onTap`
+makes it interactive (hover → `borderStrong`); `selected` draws the
+primary-border/tint active treatment.
+
+```dart
+SuperCard(
+  header: const SectionHeader(title: 'Downtown Central Store'),
+  onTap: () => open(store),         // omit for a static card
+  selected: store == active,
+  child: const StoreSummary(),
+);
+```
+
+### `SuperDialog` — modal dialog
+
+Marker-bar **or** tinted icon-badge header, title + optional subtitle + close,
+scrollable body, right-aligned `SuperButton` row. Use the statics for the common
+cases; `confirm` returns `Future<bool>` and `danger:` turns the confirm button +
+badge semantic red (it recolors a `SuperButton` via a scoped `ColorScheme` — no
+new button type).
+
+```dart
+SuperDialog.show<void>(context, builder: (ctx) => SuperDialog(
+  title: 'Export Options',
+  content: const _FormatList(),
+  actions: [
+    SuperButton(label: 'Cancel', variant: SuperButtonVariant.secondary,
+        onPressed: () => Navigator.of(ctx).pop()),
+    SuperButton(label: 'Export', onPressed: () => Navigator.of(ctx).pop()),
+  ],
+));
+
+final ok = await SuperDialog.confirm(context,
+    title: 'Delete Store', message: 'This cannot be undone.',
+    confirmLabel: 'Delete', danger: true);          // Future<bool>
+
+await SuperDialog.alert(context, title: 'Entry Posted',
+    message: 'JV-2024-0042 posted.',
+    icon: Icons.check_circle_outline, iconColor: SuperTokens.success);
+```
+
+### `SuperSnackBar` — floating toast
+
+Statics over the ambient `ScaffoldMessenger`. `SuperSnackBarTone`
+(`info` / `success` / `warning` / `danger`) drives the leading glyph + accent
+(danger dwells 6 s). `build(...)` returns the `SnackBar` without showing it.
+
+```dart
+SuperSnackBar.success(context, 'Journal entry JV-2024-0042 posted.');
+SuperSnackBar.danger(context, 'Transfer failed — accounts out of balance.');
+SuperSnackBar.info(context, 'Draft saved.', actionLabel: 'View', onAction: open);
+```
+
+### `SuperAppBar` — page app bar (`PreferredSizeWidget`)
+
+Flat, hairline-bottomed bar: ALL-CAPS breadcrumb `eyebrow` above a Title-Case
+`title`, `titleTrailing` (inline translation / `StatusPill`), `leading` /
+`actions`, optional `bottom` (e.g. a `TabBar`). Drops into `Scaffold.appBar`.
+
+```dart
+Scaffold(
+  appBar: SuperAppBar(
+    eyebrow: 'Stores & Products • Stores',
+    title: 'Create Store',
+    titleTrailing: const StatusPill('DRAFT', tone: PillTone.warning),
+    actions: [SuperIconButton(icon: Icons.help_outline, onPressed: () {})],
+  ),
+);
+```
+
+New widget → follow the same pattern: read `context.superTheme` +
+`SuperTokens` + `SuperText`, never hardcode colors/spacing, and export it
+through `lib/src/core/core.dart`.
+
+---
+
 ## copyWith
 
 Returns `SuperMaterialThemeData`, keeps `superTheme`/`mode`, MERGES extensions
@@ -166,7 +253,7 @@ final t = SuperMaterialThemeData.dark().copyWith(
 Additive first; `@Deprecated('Use X. Removed after vN.')` for ≥1 minor before
 removal. `ThemeData(extensions: const [SuperThemeData.light])` and
 `SuperThemeData.of(context)` must keep working. Bump a dependent's `super_core`
-constraint to `^1.1.0` when it uses a 1.1.0-only API.
+constraint to `^1.2.0` when it uses a 1.2.0-only API.
 
 ## Commands
 

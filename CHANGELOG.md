@@ -6,6 +6,47 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [1.2.0] — 2026-07-16
+
+### Added
+
+Four `Super`-prefixed common widgets, all built from the existing GeniusLink
+tokens (`SuperTokens` / `SuperThemeData` / `SuperText`) and exported through the
+`lib/src/core/core.dart` barrel:
+
+- **`SuperCard`** — the general-purpose surface card (8px radius, hairline
+  border, theme card shadow, 24px interior). Distinct from `SectionCard` (the
+  tall form-section unit): `SuperCard` takes an optional `header` slot and can be
+  made interactive via `onTap` (pointer cursor + hover border) and `selected`
+  (primary border over a faint primary tint) for the active card/row in a list.
+- **`SuperDialog`** — a modal dialog surface on the overlay (popover) shadow:
+  header with a section-marker bar *or* a tinted icon badge, Title-Case title +
+  optional subtitle + close button, a scrollable content body, and a
+  right-aligned `SuperButton` action row. Statics: `SuperDialog.show<T>(...)`,
+  `SuperDialog.confirm(...)` (returns `Future<bool>`, `danger:` turns the confirm
+  button + badge semantic red), and `SuperDialog.alert(...)`.
+- **`SuperSnackBar`** — floating GeniusLink toast helper over the ambient
+  `ScaffoldMessenger`, with the `SuperSnackBarTone` enum (info / success /
+  warning / danger) driving the leading glyph + accent. Statics: `show`, `info`,
+  `success`, `warning`, `danger`, and `build` (constructs the `SnackBar` without
+  showing it).
+- **`SuperAppBar`** — a flat, hairline-bottomed `AppBar` (implements
+  `PreferredSizeWidget`) with an optional ALL-CAPS breadcrumb `eyebrow` above a
+  Title-Case `title`, a `titleTrailing` slot (inline translation / status),
+  `leading` / `actions` slots, and an optional `bottom` (e.g. a `TabBar`).
+
+### Changed
+
+- `pubspec.yaml`: version → `1.2.0`.
+- `lib/src/core/core.dart` barrel now also exports `super_app_bar.dart`,
+  `super_card.dart`, `super_dialog.dart` and `super_snack_bar.dart`.
+
+### Migration from 1.1.0
+
+Fully backward compatible — additive only. No existing API changed.
+
+---
+
 ## [1.1.0] — 2026-07-16
 
 ### Added

@@ -47,7 +47,7 @@
 /// | [SuperText] | GeniusLink type ramp as TextStyles |
 /// | [SuperFormat] | Intl-free formatters |
 /// | [SuperMarker] | Section-marker bar intents |
-/// | Widgets | SectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell |
+/// | Widgets | SectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell, SuperCard, SuperDialog, SuperSnackBar, SuperAppBar |
 ///
 /// Import this single barrel to get the whole foundation:
 ///
