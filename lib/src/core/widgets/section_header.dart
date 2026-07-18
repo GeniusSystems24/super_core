@@ -3,7 +3,8 @@
 // ------------------------------------------------------------
 // The brand's signature device: a 4x40 colored pill bar + a heading (16/700)
 // + a subtitle (12/400 in fg3), separated by 16px. The bar color encodes the
-// section's intent (identity / ledger / notes).
+// section's intent (identity / ledger / notes) and is resolved dynamically from
+// the ambient theme's [SuperTokensData].
 // ============================================================
 
 import 'package:flutter/widgets.dart';
@@ -34,17 +35,18 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final k = t.tokens;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Section-marker bar.
         Container(
-          width: SuperTokens.markerWidth,
-          height: subtitle == null ? 20 : SuperTokens.markerHeight,
-          margin: const EdgeInsetsDirectional.only(top: 1, end: SuperTokens.space4),
+          width: k.markerWidth,
+          height: subtitle == null ? 20 : k.markerHeight,
+          margin: EdgeInsetsDirectional.only(top: 1, end: k.space4),
           decoration: BoxDecoration(
-            color: marker.color,
-            borderRadius: BorderRadius.circular(SuperTokens.radiusPill),
+            color: marker.resolve(k),
+            borderRadius: BorderRadius.circular(k.radiusPill),
           ),
         ),
         Expanded(
@@ -53,14 +55,14 @@ class SectionHeader extends StatelessWidget {
             children: [
               Text(title, style: SuperText.heading.copyWith(color: t.fg1)),
               if (subtitle != null) ...[
-                const SizedBox(height: SuperTokens.space1),
+                SizedBox(height: k.space1),
                 Text(subtitle!, style: SuperText.caption.copyWith(color: t.fg3)),
               ],
             ],
           ),
         ),
         if (trailing != null) ...[
-          const SizedBox(width: SuperTokens.space3),
+          SizedBox(width: k.space3),
           trailing!,
         ],
       ],

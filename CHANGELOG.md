@@ -6,6 +6,85 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [2.0.0] — 2026-07-18
+
+Major release. Brand tokens become **dynamic** (theme-owned), the toolkit gains
+a custom-font pipeline and forked, GeniusLink-flavored app bars, `SuperCard`
+becomes expandable, and `SuperDialog` is retired. **Breaking** — see Migration.
+
+### Changed (breaking)
+
+- **`SuperTokens` (static) → `SuperTokensData` (dynamic).** The former
+  `abstract final class SuperTokens` of `static const` values is **removed**.
+  Its values are now instance fields on the immutable `SuperTokensData`, carried
+  by the theme via `SuperThemeData.tokens` and surfaced as
+  `SuperMaterialThemeData.tokens`, so a theme can override any of them
+  (`SuperMaterialThemeData.light(tokens: const SuperTokensData(radiusCard: 12))`).
+  `SuperTokensData` provides `copyWith` + `lerp`, and every field keeps its
+  historical value as a `default*` compile-time constant
+  (`SuperTokensData.defaultSpace4`, `defaultAccent`, `defaultCurveStandard`, …)
+  so `const` call sites still resolve.
+  - Migration: `SuperTokens.x` → `SuperThemeData.of(context).tokens.x` (live)
+    or `SuperTokensData.defaultX` (const context). `SuperMarker.ledger` no
+    longer exposes a `static const` color — use `SuperMarker.ledger.resolve(tokens)`.
+- **`SuperDialog` removed.** Use Flutter's `showDialog` / `AlertDialog`, which
+  `SuperMaterialThemeData` already themes (radius, colors, typography).
+
+### Added
+
+#### Dynamic brand tokens
+
+- `SuperTokensData` — accent + semantic palette, font families, radii, the 4px
+  spacing scale, control metrics, and motion, all overridable per theme. Added
+  to `SuperThemeData` (as `tokens`, lerped on theme change) and exposed on
+  `SuperMaterialThemeData`.
+
+#### Custom font family
+
+- `SuperMaterialThemeData.light` / `.dark` gain `fontFamily`, `textTheme`, and
+  `mergeTextTheme`. Precedence for the primary family: explicit `fontFamily` >
+  the family carried by a provided `textTheme` (when `mergeTextTheme` is `true`)
+  > the token default. When merging, the resolved family is applied **over** the
+  default GeniusLink type ramp, preserving its sizes / weights / letter-spacing;
+  set `mergeTextTheme: false` to use a provided `textTheme` wholesale.
+
+#### `SuperAppBar` + `SuperSliverAppBar`
+
+- Full forks of Flutter's `AppBar` / `SliverAppBar` — every property
+  (height, colors, typography, icons, actions, leading, title, flexibleSpace,
+  bottom, elevation, scrolled-under behavior, pinned/floating/snap/stretch, …)
+  is customizable — plus two GeniusLink features:
+  - **Subtitle** with `subtitlePosition` (`SubtitlePosition.above` / `.below`).
+  - **Responsive action overflow** — at most `maxActions` inline actions before
+    the rest collapse into a three-dot overflow menu. The default limit is
+    resolved per device class (mobile 3 / tablet 4 / desktop 5), overridable via
+    `maxActions` / `maxMobileActions` / `maxTabletActions` / `maxDesktopActions`.
+- `SuperAppBarTheme extends AppBarTheme` carries `subtitlePosition`, `maxActions`
+  and the per-device limits; `SuperMaterialThemeData` installs one into
+  `ThemeData.appBarTheme` as the default for both app bars.
+
+#### Expandable `SuperCard`
+
+- `SuperCard` gains expand/collapse (revealing `expandedChild`) along the
+  **vertical or horizontal** axis, toggled by tapping the card or its chevron
+  (controlled via `isExpanded` / `onExpansionChanged`), plus `leading` and
+  `trailing` slots.
+- `SuperCardTheme extends CardThemeData` carries the expand direction / duration
+  / curve, tap-to-toggle, chevron visibility, interior padding and border
+  colors; `SuperMaterialThemeData` installs one into `ThemeData.cardTheme`.
+
+### Migration from 1.x
+
+- Replace every `SuperTokens.<name>` with `SuperThemeData.of(context).tokens.<name>`
+  (dynamic) or `SuperTokensData.default<Name>` (const). The Super toolkit
+  packages and their examples have been migrated to the `default*` constants.
+- Replace `SuperDialog.show/confirm/alert` with `showDialog` + `AlertDialog`.
+- Dependent packages now require `super_core: ">=2.0.0 <3.0.0"`.
+- Step-by-step agent guides live under `skill/migration_v1_to_v2/`
+  (`claude_code` and `chatgpt_codex`).
+
+---
+
 ## [1.3.0] — 2026-07-16
 
 ### Added

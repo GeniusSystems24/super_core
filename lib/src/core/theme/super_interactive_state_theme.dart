@@ -67,7 +67,7 @@ class SuperInteractiveStateThemeData
   /// brand accent; disabled content drops to 40% opacity.
   static const SuperInteractiveStateThemeData standard =
       SuperInteractiveStateThemeData(
-    accent: SuperTokens.accent,
+    accent: SuperTokensData.defaultAccent,
     hoverOpacity: 0.08,
     focusOpacity: 0.12,
     pressedOpacity: 0.12,

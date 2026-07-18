@@ -3,14 +3,13 @@
 // ------------------------------------------------------------
 // A semantic status pill: 12px radius, 8/4 padding, uppercase 10/700 text in a
 // semantic color over a +20% tint of that color. Tones map to the brand
-// semantic palette.
+// semantic palette, resolved dynamically from the ambient [SuperTokensData].
 // ============================================================
 
 import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
 import '../theme/super_text_styles.dart';
-import '../theme/super_tokens.dart';
 
 /// The semantic intent of a [StatusPill].
 enum PillTone { neutral, accent, success, warning, danger }
@@ -25,24 +24,22 @@ class StatusPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final k = t.tokens;
     final cs = Theme.of(context).colorScheme;
     final fg = switch (tone) {
       PillTone.neutral => t.fg3,
       PillTone.accent => cs.primary,
-      PillTone.success => SuperTokens.success,
-      PillTone.warning => SuperTokens.warning,
+      PillTone.success => k.success,
+      PillTone.warning => k.warning,
       PillTone.danger => cs.error,
     };
     final bg = tone == PillTone.neutral ? t.hover : t.tintFill(fg, 0.20);
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: SuperTokens.space2,
-        vertical: SuperTokens.space1,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: k.space2, vertical: k.space1),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(SuperTokens.radiusPill),
+        borderRadius: BorderRadius.circular(k.radiusPill),
       ),
       child: Text(label.toUpperCase(), style: SuperText.pill.copyWith(color: fg)),
     );

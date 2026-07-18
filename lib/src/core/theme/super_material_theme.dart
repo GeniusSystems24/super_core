@@ -42,6 +42,8 @@ import 'super_palette.dart';
 import 'super_text_styles.dart';
 import 'super_theme.dart';
 import 'super_tokens.dart';
+import 'super_app_bar_theme.dart';
+import 'super_card_theme.dart';
 
 /// A [ThemeData] subclass that is fully configured from a [SuperPalette] and a
 /// [SuperDeviceMode], and additionally exposes the Super toolkit's
@@ -71,6 +73,12 @@ class SuperMaterialThemeData extends ThemeData {
   /// Mirrors `superTheme.mode`; drives the active spacing / sizing / padding /
   /// margin, typography and input-decoration density.
   final SuperDeviceMode mode;
+
+  /// The dynamic brand tokens carried by this theme — the accent + semantic
+  /// palette, font families, radii, spacing, control metrics and motion. This
+  /// is the same instance as `superTheme.tokens`, and replaces the former
+  /// static `SuperTokens` constants.
+  SuperTokensData get tokens => superTheme.tokens;
 
   // ── Private delegating constructor ─────────────────────────────────────────
   //
@@ -188,6 +196,9 @@ class SuperMaterialThemeData extends ThemeData {
   factory SuperMaterialThemeData.light({
     SuperPalette palette = SuperPalette.bluePalette,
     SuperDeviceMode mode = SuperDeviceMode.mobile,
+    SuperTokensData? tokens,
+    String? fontFamily,
+    bool mergeTextTheme = true,
     // ── General Configuration ──
     bool? applyElevationOverlayColor,
     NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
@@ -281,6 +292,9 @@ class SuperMaterialThemeData extends ThemeData {
     brightness: Brightness.light,
     palette: palette,
     mode: mode,
+    tokens: tokens,
+    fontFamily: fontFamily,
+    mergeTextTheme: mergeTextTheme,
     applyElevationOverlayColor: applyElevationOverlayColor,
     cupertinoOverrideTheme: cupertinoOverrideTheme,
     materialTapTargetSize: materialTapTargetSize,
@@ -372,6 +386,9 @@ class SuperMaterialThemeData extends ThemeData {
   factory SuperMaterialThemeData.dark({
     SuperPalette palette = SuperPalette.bluePalette,
     SuperDeviceMode mode = SuperDeviceMode.mobile,
+    SuperTokensData? tokens,
+    String? fontFamily,
+    bool mergeTextTheme = true,
     // ── General Configuration ──
     bool? applyElevationOverlayColor,
     NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
@@ -465,6 +482,9 @@ class SuperMaterialThemeData extends ThemeData {
     brightness: Brightness.dark,
     palette: palette,
     mode: mode,
+    tokens: tokens,
+    fontFamily: fontFamily,
+    mergeTextTheme: mergeTextTheme,
     applyElevationOverlayColor: applyElevationOverlayColor,
     cupertinoOverrideTheme: cupertinoOverrideTheme,
     materialTapTargetSize: materialTapTargetSize,
@@ -814,6 +834,9 @@ class SuperMaterialThemeData extends ThemeData {
     required Brightness brightness,
     required SuperPalette palette,
     required SuperDeviceMode mode,
+    SuperTokensData? tokens,
+    String? fontFamily,
+    bool mergeTextTheme = true,
     // ── General Configuration ──
     bool? applyElevationOverlayColor,
     NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
@@ -912,7 +935,34 @@ class SuperMaterialThemeData extends ThemeData {
     final states =
         interactiveStateTheme ??
         SuperInteractiveStateThemeData.fromColorScheme(cs);
-    final superTheme = _superTheme(palette, brightness, mode, metrics, states);
+
+    // Dynamic brand tokens + font-family resolution. Precedence for the primary
+    // font family: explicit [fontFamily] > (when [mergeTextTheme]) the family
+    // carried by a provided [textTheme] > the token bundle's default. A resolved
+    // custom family is applied over the default GeniusLink type ramp so its
+    // sizes / weights / letter-spacing are preserved.
+    final baseTokens = tokens ?? SuperTokensData.fallback;
+    final String? mergedFamily =
+        fontFamily ??
+        ((textTheme != null && mergeTextTheme) ? _familyOf(textTheme) : null);
+    final effectiveTokens = mergedFamily == null
+        ? baseTokens
+        : baseTokens.copyWith(bodyFont: mergedFamily, displayFont: mergedFamily);
+
+    final fg1t = isDark ? palette.darkFg1 : palette.lightFg1;
+    final fg3t = isDark ? palette.darkFg3 : palette.lightFg3;
+    final resolvedTextTheme = (textTheme != null && !mergeTextTheme)
+        ? textTheme
+        : _textTheme(mode, fg1t, fg3t, effectiveTokens);
+
+    final superTheme = _superTheme(
+      palette,
+      brightness,
+      mode,
+      metrics,
+      states,
+      effectiveTokens,
+    );
 
     final merged = _mergeExtensions(
       caller: extensions ?? const <ThemeExtension<dynamic>>[],
@@ -925,6 +975,7 @@ class SuperMaterialThemeData extends ThemeData {
       palette: palette,
       metrics: metrics,
       extensions: merged,
+      tokens: effectiveTokens,
       // general
       applyElevationOverlayColor: applyElevationOverlayColor,
       cupertinoOverrideTheme: cupertinoOverrideTheme,
@@ -935,7 +986,7 @@ class SuperMaterialThemeData extends ThemeData {
       useMaterial3: useMaterial3,
       visualDensity: visualDensity,
       // typography
-      textTheme: textTheme,
+      textTheme: resolvedTextTheme,
       primaryTextTheme: primaryTextTheme,
       iconTheme: iconTheme,
       primaryIconTheme: primaryIconTheme,
@@ -1027,6 +1078,7 @@ class SuperMaterialThemeData extends ThemeData {
     SuperDeviceMode mode,
     SuperMetrics metrics,
     SuperInteractiveStateThemeData states,
+    SuperTokensData tokens,
   ) {
     final isDark = brightness == Brightness.dark;
     return SuperThemeData(
@@ -1042,6 +1094,7 @@ class SuperMaterialThemeData extends ThemeData {
       fg4: isDark ? p.darkFg4 : p.lightFg4,
       brightness: brightness,
       mode: mode,
+      tokens: tokens,
       metrics: metrics,
       interactiveStates: states,
     );
@@ -1074,6 +1127,7 @@ class SuperMaterialThemeData extends ThemeData {
     required SuperPalette palette,
     required SuperMetrics metrics,
     required List<ThemeExtension<dynamic>> extensions,
+    required SuperTokensData tokens,
     // ── General Configuration ──
     bool? applyElevationOverlayColor,
     NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
@@ -1174,7 +1228,7 @@ class SuperMaterialThemeData extends ThemeData {
     final fg3 = isDark ? palette.darkFg3 : palette.lightFg3;
 
     // Responsive typography (explicit override wins).
-    final tt = textTheme ?? _textTheme(m.mode, fg1, fg3);
+    final tt = textTheme ?? _textTheme(m.mode, fg1, fg3, tokens);
     iconTheme ??= IconThemeData(color: fg1, size: m.sizing.icon);
 
     // App-bar background — deliberately the elevated card surface so the bar is
@@ -1186,7 +1240,7 @@ class SuperMaterialThemeData extends ThemeData {
     // inputDecorationTheme and dropdownMenuTheme.
     final inputDec =
         inputDecoration ??
-        _inputDecorationTheme(m, cs, tt, inputBg, border, fg1, fg3);
+        _inputDecorationTheme(m, cs, tt, inputBg, border, fg1, fg3, tokens);
 
     return ThemeData(
       // ── General Configuration ──
@@ -1211,7 +1265,7 @@ class SuperMaterialThemeData extends ThemeData {
               : VisualDensity.standard),
 
       // ── Typography ──
-      fontFamily: SuperTokens.bodyFont,
+      fontFamily: tokens.bodyFont,
       textTheme: tt,
       primaryTextTheme:
           primaryTextTheme ??
@@ -1242,7 +1296,8 @@ class SuperMaterialThemeData extends ThemeData {
       // ── App Bar ──
       appBarTheme:
           appBarTheme ??
-          AppBarTheme(
+          SuperAppBarTheme(
+            subtitleTextStyle: tt.bodySmall?.copyWith(color: fg3),
             backgroundColor: appBarBg,
             foregroundColor: fg1,
             surfaceTintColor: Colors.transparent,
@@ -1272,16 +1327,25 @@ class SuperMaterialThemeData extends ThemeData {
       // ── Card ──
       cardTheme:
           cardTheme ??
-          CardThemeData(
+          SuperCardTheme(
             color: isDark ? palette.darkSurface : surface,
             surfaceTintColor: Colors.transparent,
             elevation: isDark ? 0 : 1,
             shadowColor: Colors.black26,
             margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
               side: BorderSide(color: border, width: 1),
             ),
+            expandDirection: Axis.vertical,
+            expandDuration: tokens.durExpand,
+            expandCurve: tokens.curveOut,
+            toggleOnTap: true,
+            showExpandIcon: true,
+            padding: EdgeInsets.all(tokens.space6),
+            gap: tokens.space4,
+            borderColor: border,
+            selectedBorderColor: cs.primary,
           ),
 
       // ── Elevated Button ──
@@ -1296,7 +1360,7 @@ class SuperMaterialThemeData extends ThemeData {
               elevation: 0,
               shadowColor: Colors.transparent,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+                borderRadius: BorderRadius.circular(tokens.radiusControl),
               ),
               minimumSize: Size(64, m.sizing.control),
               padding: m.padding.control,
@@ -1313,7 +1377,7 @@ class SuperMaterialThemeData extends ThemeData {
               disabledForegroundColor: fg1.withValues(alpha: 0.38),
               side: BorderSide(color: brdStr),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+                borderRadius: BorderRadius.circular(tokens.radiusControl),
               ),
               minimumSize: Size(64, m.sizing.control),
               padding: m.padding.control,
@@ -1329,7 +1393,7 @@ class SuperMaterialThemeData extends ThemeData {
               foregroundColor: cs.primary,
               disabledForegroundColor: fg1.withValues(alpha: 0.38),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+                borderRadius: BorderRadius.circular(tokens.radiusControl),
               ),
               minimumSize: Size(48, m.sizing.control),
               padding: EdgeInsets.symmetric(
@@ -1350,7 +1414,7 @@ class SuperMaterialThemeData extends ThemeData {
               disabledBackgroundColor: fg1.withValues(alpha: 0.12),
               disabledForegroundColor: fg1.withValues(alpha: 0.38),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+                borderRadius: BorderRadius.circular(tokens.radiusControl),
               ),
               minimumSize: Size(64, m.sizing.control),
               padding: m.padding.control,
@@ -1367,7 +1431,7 @@ class SuperMaterialThemeData extends ThemeData {
               highlightColor: cs.primary.withValues(alpha: 0.12),
               minimumSize: Size(m.sizing.iconButton, m.sizing.iconButton),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+                borderRadius: BorderRadius.circular(tokens.radiusControl),
               ),
             ),
           ),
@@ -1398,7 +1462,7 @@ class SuperMaterialThemeData extends ThemeData {
             dense: false,
             minLeadingWidth: 24,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              borderRadius: BorderRadius.circular(tokens.radiusControl),
             ),
           ),
 
@@ -1411,7 +1475,7 @@ class SuperMaterialThemeData extends ThemeData {
             elevation: isDark ? 0 : 1,
             indicatorColor: cs.primary.withValues(alpha: 0.15),
             indicatorShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              borderRadius: BorderRadius.circular(tokens.radiusControl),
             ),
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             iconTheme: WidgetStateProperty.resolveWith((states) {
@@ -1441,7 +1505,7 @@ class SuperMaterialThemeData extends ThemeData {
             unselectedLabelTextStyle: tt.labelMedium!.copyWith(color: fg3),
             indicatorColor: cs.primary.withValues(alpha: 0.15),
             indicatorShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              borderRadius: BorderRadius.circular(tokens.radiusControl),
             ),
             minWidth: 72,
             minExtendedWidth: 200,
@@ -1460,10 +1524,10 @@ class SuperMaterialThemeData extends ThemeData {
             surfaceTintColor: Colors.transparent,
             elevation: 8,
             shadowColor: Colors.black38,
-            shape: const RoundedRectangleBorder(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(SuperTokens.radiusCard),
-                bottomRight: Radius.circular(SuperTokens.radiusCard),
+                topRight: Radius.circular(tokens.radiusCard),
+                bottomRight: Radius.circular(tokens.radiusCard),
               ),
             ),
             width: 280,
@@ -1478,7 +1542,7 @@ class SuperMaterialThemeData extends ThemeData {
             elevation: 24,
             shadowColor: Colors.black38,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
             ),
             titleTextStyle: tt.titleLarge,
             contentTextStyle: tt.bodyMedium!.copyWith(color: fg3),
@@ -1492,9 +1556,9 @@ class SuperMaterialThemeData extends ThemeData {
             surfaceTintColor: Colors.transparent,
             elevation: 16,
             shadowColor: Colors.black38,
-            shape: const RoundedRectangleBorder(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
-                top: Radius.circular(SuperTokens.radiusCard),
+                top: Radius.circular(tokens.radiusCard),
               ),
             ),
             showDragHandle: true,
@@ -1516,7 +1580,7 @@ class SuperMaterialThemeData extends ThemeData {
               vertical: m.spacing.xs,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusPill),
+              borderRadius: BorderRadius.circular(tokens.radiusPill),
               side: BorderSide(color: border),
             ),
             elevation: 0,
@@ -1535,7 +1599,7 @@ class SuperMaterialThemeData extends ThemeData {
             elevation: 8,
             shadowColor: Colors.black38,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
               side: BorderSide(color: brdStr),
             ),
             textStyle: tt.bodyMedium,
@@ -1549,7 +1613,7 @@ class SuperMaterialThemeData extends ThemeData {
           TooltipThemeData(
             decoration: BoxDecoration(
               color: isDark ? palette.darkSurface2 : palette.darkSurface,
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              borderRadius: BorderRadius.circular(tokens.radiusControl),
             ),
             textStyle: tt.bodySmall!.copyWith(color: palette.darkFg1),
             padding: EdgeInsets.symmetric(
@@ -1571,7 +1635,7 @@ class SuperMaterialThemeData extends ThemeData {
             actionTextColor: palette.shade300,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
             ),
             elevation: 8,
           ),
@@ -1660,7 +1724,7 @@ class SuperMaterialThemeData extends ThemeData {
               return BorderSide(color: brdStr, width: 2);
             }),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.space1),
+              borderRadius: BorderRadius.circular(tokens.space1),
             ),
           ),
 
@@ -1710,7 +1774,7 @@ class SuperMaterialThemeData extends ThemeData {
             hoverElevation: 8,
             highlightElevation: 12,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
             ),
           ),
 
@@ -1733,7 +1797,7 @@ class SuperMaterialThemeData extends ThemeData {
             dividerThickness: 1,
             decoration: BoxDecoration(
               border: Border.all(color: border),
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
             ),
             columnSpacing: m.spacing.xl,
             horizontalMargin: m.spacing.lg,
@@ -1776,7 +1840,7 @@ class SuperMaterialThemeData extends ThemeData {
               foregroundColor: fg1,
               side: BorderSide(color: border),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+                borderRadius: BorderRadius.circular(tokens.radiusControl),
               ),
               textStyle: tt.labelLarge,
             ),
@@ -1795,7 +1859,7 @@ class SuperMaterialThemeData extends ThemeData {
               shadowColor: WidgetStateProperty.all(Colors.black38),
               shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+                  borderRadius: BorderRadius.circular(tokens.radiusCard),
                   side: BorderSide(color: brdStr),
                 ),
               ),
@@ -1819,7 +1883,7 @@ class SuperMaterialThemeData extends ThemeData {
             trackColor: WidgetStateProperty.all(Colors.transparent),
             trackBorderColor: WidgetStateProperty.all(Colors.transparent),
             thickness: WidgetStateProperty.all(4),
-            radius: const Radius.circular(SuperTokens.radiusPill),
+            radius: Radius.circular(tokens.radiusPill),
             interactive: true,
           ),
 
@@ -1891,7 +1955,7 @@ class SuperMaterialThemeData extends ThemeData {
             backgroundColor: surface,
             elevation: isDark ? 0 : 1,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
             ),
           ),
       datePickerTheme:
@@ -1911,7 +1975,7 @@ class SuperMaterialThemeData extends ThemeData {
             todayBorder: BorderSide(color: cs.primary),
             dividerColor: border,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
             ),
           ),
       dropdownMenuTheme:
@@ -1928,7 +1992,7 @@ class SuperMaterialThemeData extends ThemeData {
               shadowColor: const WidgetStatePropertyAll(Colors.black38),
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+                  borderRadius: BorderRadius.circular(tokens.radiusCard),
                   side: BorderSide(color: brdStr),
                 ),
               ),
@@ -1946,7 +2010,7 @@ class SuperMaterialThemeData extends ThemeData {
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
-                    SuperTokens.radiusControl,
+                    tokens.radiusControl,
                   ),
                 ),
               ),
@@ -1980,7 +2044,7 @@ class SuperMaterialThemeData extends ThemeData {
             side: WidgetStatePropertyAll(BorderSide(color: border)),
             shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+                borderRadius: BorderRadius.circular(tokens.radiusControl),
               ),
             ),
             textStyle: WidgetStatePropertyAll(tt.bodyMedium),
@@ -2001,7 +2065,7 @@ class SuperMaterialThemeData extends ThemeData {
             dividerColor: border,
             side: BorderSide(color: border),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
             ),
             headerHintStyle: tt.bodyLarge!.copyWith(color: fg3),
             headerTextStyle: tt.bodyLarge,
@@ -2030,7 +2094,7 @@ class SuperMaterialThemeData extends ThemeData {
             helpTextStyle: tt.labelMedium!.copyWith(color: fg3),
             hourMinuteTextStyle: tt.displaySmall,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+              borderRadius: BorderRadius.circular(tokens.radiusCard),
             ),
           ),
       toggleButtonsTheme:
@@ -2045,7 +2109,7 @@ class SuperMaterialThemeData extends ThemeData {
             disabledBorderColor: fg1.withValues(alpha: 0.12),
             hoverColor: cs.primary.withValues(alpha: 0.08),
             focusColor: cs.primary.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+            borderRadius: BorderRadius.circular(tokens.radiusControl),
             borderWidth: 1,
             textStyle: tt.labelLarge,
             constraints: BoxConstraints(
@@ -2092,10 +2156,11 @@ class SuperMaterialThemeData extends ThemeData {
     Color border,
     Color fg1,
     Color fg3,
+    SuperTokensData tokens,
   ) {
     OutlineInputBorder outline(Color color, [double width = 1]) =>
         OutlineInputBorder(
-          borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+          borderRadius: BorderRadius.circular(tokens.radiusControl),
           borderSide: BorderSide(color: color, width: width),
         );
     return InputDecorationTheme(
@@ -2131,10 +2196,28 @@ class SuperMaterialThemeData extends ThemeData {
 
   // ── Responsive Text Theme ─────────────────────────────────────────────────────
 
+  /// Extracts the primary font family from a caller-provided [TextTheme] — the
+  /// first non-null `fontFamily` among the common text roles. Used to honor the
+  /// font carried by a merged text theme (see `mergeTextTheme`).
+  static String? _familyOf(TextTheme t) =>
+      t.bodyMedium?.fontFamily ??
+      t.bodyLarge?.fontFamily ??
+      t.titleMedium?.fontFamily ??
+      t.titleLarge?.fontFamily ??
+      t.labelLarge?.fontFamily ??
+      t.headlineSmall?.fontFamily ??
+      t.displaySmall?.fontFamily ??
+      t.displayLarge?.fontFamily;
+
   /// Builds the GeniusLink type ramp scaled for [mode]. Font size, line height
   /// and (where meaningful) letter spacing differ per device: mobile is the
   /// most generous for touch legibility, desktop the most compact.
-  static TextTheme _textTheme(SuperDeviceMode mode, Color fg1, Color fg3) {
+  static TextTheme _textTheme(
+    SuperDeviceMode mode,
+    Color fg1,
+    Color fg3,
+    SuperTokensData tokens,
+  ) {
     // Per-mode multiplier on the desktop-baseline SuperText sizes.
     final f = switch (mode) {
       SuperDeviceMode.mobile => 1.06,
@@ -2142,12 +2225,15 @@ class SuperMaterialThemeData extends ThemeData {
       SuperDeviceMode.desktop => 1.0,
     };
 
-    TextStyle sc(TextStyle base, {Color? color}) =>
-        base.copyWith(fontSize: (base.fontSize ?? 14) * f, color: color);
+    TextStyle sc(TextStyle base, {Color? color}) => base.copyWith(
+      fontSize: (base.fontSize ?? 14) * f,
+      color: color,
+      fontFamily: tokens.bodyFont,
+    );
 
     return TextTheme(
       displayLarge: TextStyle(
-        fontFamily: SuperTokens.displayFont,
+        fontFamily: tokens.displayFont,
         fontSize: 57 * f,
         height: 1.12,
         fontWeight: FontWeight.w700,
@@ -2155,31 +2241,31 @@ class SuperMaterialThemeData extends ThemeData {
         color: fg1,
       ),
       displayMedium: TextStyle(
-        fontFamily: SuperTokens.displayFont,
+        fontFamily: tokens.displayFont,
         fontSize: 45 * f,
         height: 1.16,
         fontWeight: FontWeight.w700,
         color: fg1,
       ),
       displaySmall: TextStyle(
-        fontFamily: SuperTokens.displayFont,
+        fontFamily: tokens.displayFont,
         fontSize: 36 * f,
         height: 1.22,
         fontWeight: FontWeight.w700,
         color: fg1,
       ),
       headlineLarge: SuperText.h1.copyWith(
-        fontFamily: SuperTokens.displayFont,
+        fontFamily: tokens.displayFont,
         fontSize: 32 * f,
         color: fg1,
       ),
       headlineMedium: SuperText.h1.copyWith(
-        fontFamily: SuperTokens.displayFont,
+        fontFamily: tokens.displayFont,
         fontSize: 26 * f,
         color: fg1,
       ),
       headlineSmall: SuperText.h1.copyWith(
-        fontFamily: SuperTokens.displayFont,
+        fontFamily: tokens.displayFont,
         fontSize: 22 * f,
         color: fg1,
       ),

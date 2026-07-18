@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
 import '../theme/super_text_styles.dart';
-import '../theme/super_tokens.dart';
 
 /// Vertical density of a field.
 enum FieldDensity { comfortable, compact }
@@ -52,7 +51,9 @@ class FieldShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.superTheme;
     final cs = Theme.of(context).colorScheme;
-    final gap = density == FieldDensity.compact ? SuperTokens.space1 : SuperTokens.space2;
+    final gap = density == FieldDensity.compact
+        ? t.tokens.space1
+        : t.tokens.space2;
 
     return Opacity(
       opacity: disabled ? 0.4 : 1,

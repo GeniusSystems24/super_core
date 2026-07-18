@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v1.3.0)
+# super_core — ChatGPT / Codex agent instructions (v2.0.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 1.3.0
+version: 2.0.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 ```
@@ -24,7 +24,30 @@ Apply this skill when the user asks for:
 - reading Super surface tokens (`bg`, `surface`, `fg1…fg4`, `border`) in a widget
 - building or modifying any `super_*` package theme
 
-## What changed in 1.3.0 (read first)
+## What changed in 2.0.0 (BREAKING — read first)
+
+1. **`SuperTokens` → `SuperTokensData` (dynamic).** The old static
+   `SuperTokens` class is removed. Tokens are instance fields on the immutable
+   `SuperTokensData` carried by the theme (`SuperThemeData.tokens`,
+   `SuperMaterialThemeData.tokens`); override via
+   `SuperMaterialThemeData.light(tokens: const SuperTokensData(radiusCard: 12))`.
+   Read live values with `SuperThemeData.of(context).tokens.x`; use
+   `SuperTokensData.default*` constants (e.g. `defaultSpace4`) in `const`
+   contexts. `SuperMarker` colors resolve via `marker.resolve(tokens)`.
+2. **Custom fonts.** `.light`/`.dark` accept `fontFamily`, plus `textTheme` +
+   `mergeTextTheme` (default `true` → adopt the provided textTheme's font over
+   the default GeniusLink ramp; `false` → use the textTheme wholesale).
+3. **`SuperAppBar` + `SuperSliverAppBar`** are full forks of `AppBar` /
+   `SliverAppBar` with a positionable `subtitle` (`SubtitlePosition`) and
+   responsive action overflow past `maxActions` (per-device default 3/4/5).
+   Defaults from `SuperAppBarTheme extends AppBarTheme`.
+4. **`SuperCard`** is expandable (vertical/horizontal) with `leading`/`trailing`
+   slots; defaults from `SuperCardTheme extends CardThemeData`.
+5. **`SuperDialog` removed** — use themed `showDialog` / `AlertDialog`.
+6. Dependents require `super_core: ">=2.0.0 <3.0.0"`. See
+   `skill/migration_v1_to_v2/`.
+
+## What changed in 1.3.0
 
 1. **Complete `ColorScheme`.** `toLightColorScheme()` / `toDarkColorScheme()`
    now fill every Material 3 role — the **fixed** accent roles
@@ -88,12 +111,15 @@ navigation bars via `systemOverlayStyle`.
 SuperMaterialThemeData.light({           // .dark({…}) is identical
   SuperPalette palette = SuperPalette.bluePalette,
   SuperDeviceMode mode = SuperDeviceMode.mobile,
+  SuperTokensData? tokens,      // dynamic brand-token overrides
+  String? fontFamily,           // swap the primary font family
+  bool mergeTextTheme = true,   // adopt a textTheme's font over the default ramp
   TextTheme? textTheme,
-  AppBarTheme? appBarTheme,
+  AppBarTheme? appBarTheme,      // SuperAppBarTheme for subtitle/overflow defaults
   NavigationBarThemeData? navigationBarTheme,
   ButtonThemeData? buttonTheme,
   InputDecorationTheme? formFieldTheme,
-  CardThemeData? cardTheme,
+  CardThemeData? cardTheme,      // SuperCardTheme for expand/slot defaults
   DialogThemeData? dialogTheme,
   DataTableThemeData? tableTheme,
   DividerThemeData? dividerTheme,
@@ -165,56 +191,49 @@ else just read `SuperThemeData`. Never duplicate palette/responsive math.
 
 ---
 
-## Design-system widgets (v1.2.0)
+## Design-system widgets (v2.0.0)
 
 Prefer these over hand-rolling GeniusLink chrome from raw `Container` / Material
 widgets. All exported from the barrel; names start with `Super`.
 
 `SectionCard` · `SectionHeader` · `StatusPill` · `SuperButton` /
-`SuperIconButton` · `Hairline` · `FieldShell` and, added in 1.2.0:
+`SuperIconButton` · `Hairline` · `FieldShell` and:
 
-### `SuperCard` — general surface card
+### `SuperCard` — general surface card (expandable in v2)
 
-8 px radius, hairline border, theme card shadow, 24 px interior. Distinct from
-`SectionCard` (the tall form-section unit). Optional `header` slot; `onTap`
-makes it interactive (hover → `borderStrong`); `selected` draws the
-primary-border/tint active treatment.
+8 px radius, hairline border, theme card shadow. Optional `header`; `leading` /
+`trailing` slots; `onTap` makes it interactive; `selected` draws the active
+treatment. **Expandable:** pass `expandedChild` (revealed on tap or via the
+chevron) with `expandDirection` (`Axis.vertical` default, or `.horizontal`);
+control via `initiallyExpanded` / `isExpanded` / `onExpansionChanged`. Defaults
+from `SuperCardTheme` in `ThemeData.cardTheme`.
 
 ```dart
 SuperCard(
+  leading: const Icon(Icons.storefront_outlined),
   header: const SectionHeader(title: 'Downtown Central Store'),
-  onTap: () => open(store),         // omit for a static card
-  selected: store == active,
+  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
+  expandedChild: const StoreDetailTable(),   // revealed on tap / chevron
   child: const StoreSummary(),
 );
 ```
 
-### `SuperDialog` — modal dialog
+### Dialogs — use themed `showDialog` / `AlertDialog`
 
-Marker-bar **or** tinted icon-badge header, title + optional subtitle + close,
-scrollable body, right-aligned `SuperButton` row. Use the statics for the common
-cases; `confirm` returns `Future<bool>` and `danger:` turns the confirm button +
-badge semantic red (it recolors a `SuperButton` via a scoped `ColorScheme` — no
-new button type).
+`SuperDialog` was **removed in v2.0.0**. Flutter's `showDialog` + `AlertDialog`
+are already themed by `SuperMaterialThemeData` (radius, colors, typography).
 
 ```dart
-SuperDialog.show<void>(context, builder: (ctx) => SuperDialog(
-  title: 'Export Options',
-  content: const _FormatList(),
+final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
+  title: const Text('Delete Store'),
+  content: const Text('This cannot be undone.'),
   actions: [
-    SuperButton(label: 'Cancel', variant: SuperButtonVariant.secondary,
-        onPressed: () => Navigator.of(ctx).pop()),
-    SuperButton(label: 'Export', onPressed: () => Navigator.of(ctx).pop()),
+    TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+    FilledButton(
+      style: FilledButton.styleFrom(backgroundColor: Theme.of(ctx).colorScheme.error),
+      onPressed: () => Navigator.pop(ctx, true), child: const Text('Delete')),
   ],
 ));
-
-final ok = await SuperDialog.confirm(context,
-    title: 'Delete Store', message: 'This cannot be undone.',
-    confirmLabel: 'Delete', danger: true);          // Future<bool>
-
-await SuperDialog.alert(context, title: 'Entry Posted',
-    message: 'JV-2024-0042 posted.',
-    icon: Icons.check_circle_outline, iconColor: SuperTokens.success);
 ```
 
 ### `SuperSnackBar` — floating toast
@@ -229,26 +248,37 @@ SuperSnackBar.danger(context, 'Transfer failed — accounts out of balance.');
 SuperSnackBar.info(context, 'Draft saved.', actionLabel: 'View', onAction: open);
 ```
 
-### `SuperAppBar` — page app bar (`PreferredSizeWidget`)
+### `SuperAppBar` / `SuperSliverAppBar` — forked app bars
 
-Flat, hairline-bottomed bar: ALL-CAPS breadcrumb `eyebrow` above a Title-Case
-`title`, `titleTrailing` (inline translation / `StatusPill`), `leading` /
-`actions`, optional `bottom` (e.g. a `TabBar`). Drops into `Scaffold.appBar`.
+Full forks of `AppBar` / `SliverAppBar` (every property customizable) plus a
+positionable `subtitle` (`SubtitlePosition.above` / `.below`) and responsive
+action overflow: extras past `maxActions` collapse into a ⋮ menu (per-device
+default 3/4/5, overridable via `maxActions` / `maxMobileActions` /
+`maxTabletActions` / `maxDesktopActions`).
 
 ```dart
 Scaffold(
   appBar: SuperAppBar(
-    eyebrow: 'Stores & Products • Stores',
-    title: 'Create Store',
-    titleTrailing: const StatusPill('DRAFT', tone: PillTone.warning),
+    title: const Text('Create Store'),
+    subtitle: const Text('STORES & PRODUCTS • STORES'),
+    subtitlePosition: SubtitlePosition.above,
     actions: [SuperIconButton(icon: Icons.help_outline, onPressed: () {})],
   ),
 );
+
+CustomScrollView(slivers: [
+  SuperSliverAppBar(
+    pinned: true, expandedHeight: 200,
+    title: const Text('Journal'),
+    subtitle: const Text('BANKING • LOCAL TRANSFERS'),
+    flexibleSpace: const FlexibleSpaceBar(background: LedgerHeaderArt()),
+  ),
+]);
 ```
 
-New widget → follow the same pattern: read `context.superTheme` +
-`SuperTokens` + `SuperText`, never hardcode colors/spacing, and export it
-through `lib/src/core/core.dart`.
+New widget → follow the same pattern: read `context.superTheme` (its `.tokens`
++ `SuperText`), never hardcode colors/spacing, and export it through
+`lib/src/core/core.dart`.
 
 ---
 
@@ -281,11 +311,10 @@ final t = SuperMaterialThemeData.dark().copyWith(
 Additive first; `@Deprecated('Use X. Removed after vN.')` for ≥1 minor before
 removal. `ThemeData(extensions: const [SuperThemeData.light])` and
 `SuperThemeData.of(context)` must keep working. Bump a dependent's `super_core`
-constraint to `^1.3.0` when it uses a 1.3.0-only API. Note the one intentional
-1.3.0 behavior change: `ColorScheme.surface` (and the Scaffold background) now
-resolve to the page background, not the card color — read
-`SuperThemeData.of(context).surface` or `ColorScheme.surfaceContainerLowest` for
-the card surface.
+constraint to `>=2.0.0 <3.0.0` when it uses a 2.0.0 API. v2.0.0 is a breaking
+release: `SuperTokens` (static) is gone — read tokens from
+`SuperThemeData.of(context).tokens` or the `SuperTokensData.default*`
+constants — and `SuperDialog` is removed.
 
 ## Commands
 

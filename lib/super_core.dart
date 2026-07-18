@@ -2,6 +2,37 @@
 /// toolkit. Single source of truth for the visual identity that every Super
 /// package reads from, so the whole toolkit looks like one product.
 ///
+/// ## v2.0.0 — dynamic brand tokens, custom fonts, forked app bars
+///
+/// **Breaking.** The former `static const` `SuperTokens` class is removed. Brand
+/// tokens (accent + semantic palette, font families, radii, the 4px spacing
+/// scale, control metrics, motion) are now the instance fields of the immutable
+/// [SuperTokensData] carried by the theme ([SuperThemeData.tokens] /
+/// [SuperMaterialThemeData.tokens]) — so a theme can override any of them:
+///
+/// ```dart
+/// SuperMaterialThemeData.light(
+///   tokens: const SuperTokensData(radiusCard: 12), // dynamic override
+/// );
+/// final tokens = SuperThemeData.of(context).tokens; // read at a call site
+/// ```
+///
+/// Every field keeps its historical value as a `SuperTokensData.default*`
+/// compile-time constant (e.g. `SuperTokensData.defaultSpace4`), so const call
+/// sites still resolve.
+///
+/// **Custom fonts.** [SuperMaterialThemeData.light] / `.dark` accept a
+/// `fontFamily`, and a `textTheme` whose family is honored when
+/// `mergeTextTheme` is `true` (the family is applied over the default GeniusLink
+/// type ramp, preserving its sizes / weights / spacing).
+///
+/// **Widgets.** [SuperAppBar] and [SuperSliverAppBar] are full forks of
+/// Flutter's `AppBar` / `SliverAppBar` with a positionable subtitle
+/// ([SubtitlePosition]) and responsive action overflow ([SuperAppBarTheme]).
+/// [SuperCard] gains expand/collapse (vertical or horizontal) plus `leading` /
+/// `trailing` slots ([SuperCardTheme]). `SuperDialog` is removed — use Flutter's
+/// themed `showDialog` / `AlertDialog` (styled by [SuperMaterialThemeData]).
+///
 /// ## v1.3.0 — complete ThemeData + ColorScheme
 ///
 /// [SuperMaterialThemeData] now generates a GeniusLink default for *every*
@@ -52,13 +83,15 @@
 /// | Symbol | Purpose |
 /// |---|---|
 /// | [SuperPalette] | Six built-in palettes (10 shades + semantic getters) |
-/// | [SuperMaterialThemeData] | Material 3 ThemeData generator |
-/// | [SuperTokens] | Theme-independent brand constants |
-/// | [SuperThemeData] | Swappable light/dark ThemeExtension |
+/// | [SuperMaterialThemeData] | Material 3 ThemeData generator (+ `tokens`, `fontFamily`, `mergeTextTheme`) |
+/// | [SuperTokensData] | Dynamic brand tokens carried by the theme (with `default*` constants) |
+/// | [SuperThemeData] | Swappable light/dark ThemeExtension (carries `tokens`) |
+/// | [SuperAppBarTheme] | `AppBarTheme` + subtitle position + responsive action limits |
+/// | [SuperCardTheme] | `CardThemeData` + expand / leading-trailing defaults |
 /// | [SuperText] | GeniusLink type ramp as TextStyles |
 /// | [SuperFormat] | Intl-free formatters |
 /// | [SuperMarker] | Section-marker bar intents |
-/// | Widgets | SectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell, SuperCard, SuperDialog, SuperSnackBar, SuperAppBar |
+/// | Widgets | SectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell, SuperCard, SuperSnackBar, SuperAppBar, SuperSliverAppBar |
 ///
 /// Import this single barrel to get the whole foundation:
 ///

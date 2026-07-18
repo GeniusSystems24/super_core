@@ -2,17 +2,17 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v1.3.0) — the shared GeniusLink design-system foundation for the Super
+  (v2.0.0) — the shared GeniusLink design-system foundation for the Super
   toolkit. super_core ships SuperPalette (six palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
-  metrics), SuperMetrics / SuperResponsive responsive tokens, SuperTokens brand
-  constants, the SuperText type ramp, and design-system widgets. Use this skill
-  whenever you build, theme, or modify anything in super_core or in a package
-  that depends on it.
+  metrics + dynamic tokens), SuperMetrics / SuperResponsive responsive tokens,
+  SuperTokensData dynamic brand tokens, the SuperText type ramp, and
+  design-system widgets. Use this skill whenever you build, theme, or modify
+  anything in super_core or in a package that depends on it.
 ---
 
-# super_core · v1.3.0
+# super_core · v2.0.0
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -21,7 +21,38 @@ Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
 type, spacing, and component themes from here so the whole toolkit looks like one
 product.
 
-**What changed in 1.3.0 (read this first):**
+**What changed in 2.0.0 (BREAKING — read this first):**
+
+1. **`SuperTokens` (static) → `SuperTokensData` (dynamic).** The old
+   `abstract final class SuperTokens` of `static const`s is **gone**. Brand
+   tokens are now instance fields on the immutable `SuperTokensData` carried by
+   the theme (`SuperThemeData.tokens`, `SuperMaterialThemeData.tokens`), so a
+   theme can override any of them:
+   `SuperMaterialThemeData.light(tokens: const SuperTokensData(radiusCard: 12))`.
+   Read live values with `SuperThemeData.of(context).tokens.x`. Every field also
+   has a `SuperTokensData.default*` compile-time constant (e.g.
+   `SuperTokensData.defaultSpace4`) for `const` contexts. `SuperMarker` colors
+   resolve via `marker.resolve(tokens)` (or `SuperMarker.x.defaultColor`).
+2. **Custom fonts.** `.light`/`.dark` accept `fontFamily`, plus `textTheme` +
+   `mergeTextTheme` (default `true`): the family from a provided `textTheme` is
+   applied over the default GeniusLink ramp (sizes/weights preserved);
+   `mergeTextTheme: false` uses the provided `textTheme` wholesale.
+3. **`SuperAppBar` + `SuperSliverAppBar`** are full forks of `AppBar` /
+   `SliverAppBar` (all properties customizable) with a positionable `subtitle`
+   (`SubtitlePosition.above`/`.below`) and responsive action overflow past
+   `maxActions` (per-device default 3/4/5; overridable via `maxActions` /
+   `maxMobileActions` / `maxTabletActions` / `maxDesktopActions`). Defaults come
+   from `SuperAppBarTheme extends AppBarTheme` (installed into
+   `ThemeData.appBarTheme`).
+4. **`SuperCard`** gains expand/collapse (vertical **or** horizontal) plus
+   `leading` / `trailing` slots; defaults from `SuperCardTheme extends
+   CardThemeData` (installed into `ThemeData.cardTheme`).
+5. **`SuperDialog` removed** — use Flutter's `showDialog` / `AlertDialog`
+   (already themed by `SuperMaterialThemeData`).
+6. Dependent packages now require `super_core: ">=2.0.0 <3.0.0"`. Migration
+   guides: `skill/migration_v1_to_v2/`.
+
+**What changed in 1.3.0:**
 
 1. **Complete `ColorScheme`.** `SuperPalette.toLightColorScheme()` /
    `toDarkColorScheme()` now fill every Material 3 role — the **fixed** accent
@@ -82,7 +113,7 @@ super_core/
 │       │   ├── super_metrics.dart                # SuperMetrics / SuperSpacing/Sizing/Padding/Margin
 │       │   ├── super_device_mode.dart            # SuperDeviceMode enum + SuperResponsive<T>
 │       │   ├── super_interactive_state_theme.dart# SuperInteractiveStateThemeData (hover/focus/…)
-│       │   ├── super_tokens.dart                 # SuperTokens brand constants + SuperMarker
+│       │   ├── super_tokens.dart                 # SuperTokensData dynamic tokens (+ default* consts) + SuperMarker
 │       │   └── super_text_styles.dart            # SuperText type ramp
 │       ├── constants/  errors/  extensions/  typedefs/  usecases/  utils/
 │       └── widgets/                 # SectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell
@@ -99,8 +130,10 @@ Rules of the layout:
   `super_metrics.dart` (`spacingResponsive` / `sizingResponsive` /
   `paddingResponsive` / `marginResponsive`). Never hard-code responsive numbers
   anywhere else.
-- Brand constants that never flip light↔dark live in `super_tokens.dart`.
-  Swappable surfaces live in `SuperThemeData`.
+- Brand tokens are the instance fields of `SuperTokensData` in
+  `super_tokens.dart` (with `default*` compile-time mirrors). The active bundle
+  rides the theme (`SuperThemeData.tokens`). Swappable surfaces live in
+  `SuperThemeData`.
 
 ---
 
@@ -136,12 +169,15 @@ and keeps the status & navigation bars in sync via `systemOverlayStyle`.
 SuperMaterialThemeData.light({
   SuperPalette palette = SuperPalette.bluePalette,
   SuperDeviceMode mode = SuperDeviceMode.mobile,
+  SuperTokensData? tokens,      // dynamic brand-token overrides
+  String? fontFamily,           // swap the primary font family
+  bool mergeTextTheme = true,   // adopt a textTheme's font over the default ramp
   TextTheme? textTheme,
-  AppBarTheme? appBarTheme,
+  AppBarTheme? appBarTheme,      // pass a SuperAppBarTheme for subtitle/overflow defaults
   NavigationBarThemeData? navigationBarTheme,
   ButtonThemeData? buttonTheme,
   InputDecorationTheme? formFieldTheme,
-  CardThemeData? cardTheme,
+  CardThemeData? cardTheme,      // pass a SuperCardTheme for expand/slot defaults
   DialogThemeData? dialogTheme,
   DataTableThemeData? tableTheme,
   DividerThemeData? dividerTheme,
@@ -375,47 +411,59 @@ Ready-made GeniusLink components (all `Super`-prefixed, exported from the
 barrel). Compose these instead of restyling raw `Container` / Material widgets.
 
 Pre-1.2.0: `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton` /
-`SuperIconButton`, `Hairline`, `FieldShell`. Added in **1.2.0**:
+`SuperIconButton`, `Hairline`, `FieldShell`. Added in 1.2.0 and reshaped in
+**2.0.0**:
 
 | Widget | What it is | Key API |
 |---|---|---|
-| `SuperCard` | General surface card (8 px radius, hairline, card shadow, 24 px pad). Not the tall `SectionCard` form unit. | `header` slot · `onTap` (hover → `borderStrong`) · `selected` (primary border + tint) |
-| `SuperDialog` | Modal: marker-bar/icon-badge header, title + subtitle + close, scrollable body, `SuperButton` row | `SuperDialog.show<T>(ctx, builder:)` · `.confirm(...) → Future<bool>` (`danger:` = red) · `.alert(...)` |
+| `SuperCard` | General surface card (8 px radius, hairline, card shadow). **Expandable** (v2). | `header` · `leading` / `trailing` slots · `expandedChild` + `expandDirection` (`Axis.vertical`/`.horizontal`) · `initiallyExpanded` / `isExpanded` / `onExpansionChanged` · `onTap` · `selected` |
+| `SuperAppBar` | `PreferredSizeWidget` fork of `AppBar` (all props) | `title` · `subtitle` + `subtitlePosition` · `actions` (overflow past `maxActions` / per-device limits) · `leading` · `bottom` · `flexibleSpace` · … |
+| `SuperSliverAppBar` | Fork of `SliverAppBar` (all props) | same subtitle/overflow features · `pinned` / `floating` / `snap` / `stretch` · `expandedHeight` · `flexibleSpace` |
 | `SuperSnackBar` | Floating toast over `ScaffoldMessenger` | `.info/.success/.warning/.danger(ctx, msg, actionLabel:, onAction:)` · `.build(...)` · `SuperSnackBarTone` |
-| `SuperAppBar` | `PreferredSizeWidget` app bar: breadcrumb `eyebrow` + Title-Case `title` | `eyebrow` · `titleTrailing` · `leading` · `actions` · `bottom` |
+
+> `SuperDialog` was **removed in 2.0.0** — use Flutter's `showDialog` /
+> `AlertDialog`, which `SuperMaterialThemeData` themes for you.
 
 ```dart
-// Interactive, selectable card with a section header:
+// Expandable, selectable card with header + slots:
 SuperCard(
+  leading: const Icon(Icons.storefront_outlined),
   header: const SectionHeader(title: 'Downtown Central Store'),
-  onTap: () => open(store),
-  selected: store == active,
+  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
+  expandedChild: const StoreDetailTable(), // revealed on tap / chevron
   child: const StoreSummary(),
 );
 
-// Destructive confirm — returns Future<bool>, confirm button turns red:
-final ok = await SuperDialog.confirm(context,
-    title: 'Delete Store', message: 'This cannot be undone.',
-    confirmLabel: 'Delete', danger: true);
+// Themed dialog (SuperDialog is gone):
+final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
+  title: const Text('Delete Store'),
+  content: const Text('This cannot be undone.'),
+  actions: [
+    TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+    FilledButton(
+      style: FilledButton.styleFrom(backgroundColor: Theme.of(ctx).colorScheme.error),
+      onPressed: () => Navigator.pop(ctx, true), child: const Text('Delete')),
+  ],
+));
 
 // Semantic toast:
 SuperSnackBar.success(context, 'Journal entry JV-2024-0042 posted.');
 
-// Page app bar:
+// Page app bar with a subtitle + action overflow:
 Scaffold(
   appBar: SuperAppBar(
-    eyebrow: 'Stores & Products • Stores',
-    title: 'Create Store',
-    titleTrailing: const StatusPill('DRAFT', tone: PillTone.warning),
+    title: const Text('Create Store'),
+    subtitle: const Text('STORES & PRODUCTS • STORES'),
+    subtitlePosition: SubtitlePosition.above,
     actions: [SuperIconButton(icon: Icons.help_outline, onPressed: () {})],
   ),
 );
 ```
 
 A new widget follows the same recipe as the existing ones: read
-`context.superTheme` + `SuperTokens` + `SuperText`, drive motion from
-`SuperTokens.durBase` / `curveStandard`, never hardcode colors/spacing, and add
-its export to `lib/src/core/core.dart`.
+`context.superTheme` (its `.tokens` + `SuperText`), drive motion from
+`context.superTheme.tokens.durBase` / `.curveStandard`, never hardcode
+colors/spacing, and add its export to `lib/src/core/core.dart`.
 
 ---
 
@@ -467,7 +515,7 @@ Widget sectionCard(BuildContext context, Widget child) {
     margin: s.margin.section,
     decoration: BoxDecoration(
       color: s.surface,
-      borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+      borderRadius: BorderRadius.circular(s.tokens.radiusCard),
       border: Border.all(color: s.border),
       boxShadow: s.cardShadow,
     ),
@@ -489,7 +537,7 @@ InkWell(
 
 - **`CHANGELOG.md`** — add under the current version using Keep-a-Changelog
   sections (Added / Changed / Deprecated / Fixed). super_core is at
-  **`## [1.3.0]`**.
+  **`## [2.0.0]`**.
 - **`README.md`** — update the symbol table and any example whose API changed.
 - **API docs** — the `///` comments ARE the API docs; keep them accurate and add
   them for every new public member.

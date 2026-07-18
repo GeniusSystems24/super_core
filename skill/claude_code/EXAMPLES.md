@@ -86,7 +86,7 @@ class Panel extends StatelessWidget {
       decoration: BoxDecoration(
         color: s.surface,
         border: Border.all(color: s.border),
-        borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+        borderRadius: BorderRadius.circular(s.tokens.radiusCard),
         boxShadow: s.cardShadow,
       ),
       child: DefaultTextStyle.merge(
@@ -170,7 +170,7 @@ final s = SuperThemeData.of(context); // falls back to .dark when unregistered
 ```
 
 
-## 11 · Design-system widgets (v1.2.0)
+## 11 · Design-system widgets (v2.0.0)
 
 ```dart
 // SuperCard — general surface card; interactive + selectable variants:
@@ -185,26 +185,28 @@ SuperCard(
   child: const Text('Selectable row'),
 );
 
-// SuperDialog — arbitrary dialog, confirm (Future<bool>), and alert:
-SuperDialog.show<void>(context, builder: (ctx) => SuperDialog(
-  title: 'Export Options',
-  subtitle: 'Choose a format for the exported data',
-  content: const Text('CSV · PDF · JSON'),
+// Expandable SuperCard (v2) — vertical or horizontal, with leading/trailing:
+SuperCard(
+  leading: const Icon(Icons.storefront_outlined),
+  header: const SectionHeader(title: 'Downtown Central Store'),
+  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
+  expandedChild: const Text('Balance SAR 48,200.00 across 3 sub-accounts.'),
+  // expandDirection: Axis.horizontal, initiallyExpanded / isExpanded / onExpansionChanged…
+  child: const Text('Tap the card or the chevron to reveal details'),
+);
+
+// Dialogs — SuperDialog was removed in v2; use themed showDialog / AlertDialog:
+final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
+  title: const Text('Delete Store'),
+  content: const Text('This cannot be undone.'),
   actions: [
-    SuperButton(label: 'Cancel', variant: SuperButtonVariant.secondary,
-        onPressed: () => Navigator.of(ctx).pop()),
-    SuperButton(label: 'Export', onPressed: () => Navigator.of(ctx).pop()),
+    TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+    FilledButton(
+      style: FilledButton.styleFrom(backgroundColor: Theme.of(ctx).colorScheme.error),
+      onPressed: () => Navigator.pop(ctx, true), child: const Text('Delete')),
   ],
 ));
-
-final ok = await SuperDialog.confirm(context,
-    title: 'Delete Store', message: 'This cannot be undone.',
-    confirmLabel: 'Delete', danger: true);      // red confirm button
-if (ok) delete();
-
-await SuperDialog.alert(context, title: 'Entry Posted',
-    message: 'JV-2024-0042 posted to the ledger.',
-    icon: Icons.check_circle_outline, iconColor: SuperTokens.success);
+if (ok == true) delete();
 
 // SuperSnackBar — one call per tone:
 SuperSnackBar.info(context, 'Draft saved.', actionLabel: 'View', onAction: () {});
@@ -212,16 +214,50 @@ SuperSnackBar.success(context, 'Journal entry JV-2024-0042 posted.');
 SuperSnackBar.warning(context, '3 entries require review before closing.');
 SuperSnackBar.danger(context, 'Transfer failed — accounts out of balance.');
 
-// SuperAppBar — drops into Scaffold.appBar:
+// SuperAppBar — subtitle position + responsive action overflow:
 Scaffold(
   appBar: SuperAppBar(
-    eyebrow: 'Stores & Products • Stores',
-    title: 'Create Store',
-    titleTrailing: const StatusPill('DRAFT', tone: PillTone.warning),
+    title: const Text('Create Store'),
+    subtitle: const Text('STORES & PRODUCTS • STORES'),
+    subtitlePosition: SubtitlePosition.above, // or .below (default)
+    maxActions: 3, // extras collapse into a ⋮ menu; omit for per-device 3/4/5
     actions: [SuperIconButton(icon: Icons.help_outline, onPressed: () {})],
   ),
   body: const SizedBox.shrink(),
 );
+
+// SuperSliverAppBar — same features inside a CustomScrollView:
+CustomScrollView(slivers: [
+  SuperSliverAppBar(
+    pinned: true,
+    expandedHeight: 200,
+    title: const Text('Journal'),
+    subtitle: const Text('BANKING • LOCAL TRANSFERS'),
+    flexibleSpace: const FlexibleSpaceBar(background: ColoredBox(color: Colors.black12)),
+    actions: [SuperIconButton(icon: Icons.filter_list, onPressed: () {})],
+  ),
+  // … content slivers …
+]);
+```
+
+
+## 11b · Dynamic tokens + custom font (v2.0.0)
+
+```dart
+// Override brand tokens on the theme:
+SuperMaterialThemeData.light(
+  tokens: const SuperTokensData(radiusCard: 12, space4: 20),
+);
+// Read the active tokens at a call site:
+final tokens = SuperThemeData.of(context).tokens;
+SizedBox(height: tokens.space4);
+color: SuperMarker.ledger.resolve(tokens);
+// const context → default constant:
+const SizedBox(height: SuperTokensData.defaultSpace4);
+
+// Swap the font family (keeps the GeniusLink type ramp when merging):
+SuperMaterialThemeData.light(fontFamily: 'IBM Plex Sans');
+SuperMaterialThemeData.light(textTheme: myTextTheme, mergeTextTheme: true);
 ```
 
 

@@ -189,18 +189,19 @@ class SuperDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final k = t.tokens;
     final hasHeader = title != null || icon != null;
 
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      insetPadding: const EdgeInsets.all(SuperTokens.space6),
+      insetPadding: EdgeInsets.all(k.space6),
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: width),
         child: Container(
           decoration: BoxDecoration(
             color: t.surface,
-            borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            borderRadius: BorderRadius.circular(k.radiusCard),
             border: Border.all(color: t.border),
             boxShadow: SuperThemeData.popShadow,
           ),
@@ -211,12 +212,12 @@ class SuperDialog extends StatelessWidget {
               if (hasHeader)
                 Padding(
                   padding: EdgeInsets.fromLTRB(
-                    SuperTokens.space6,
-                    SuperTokens.space6,
-                    SuperTokens.space6,
+                    k.space6,
+                    k.space6,
+                    k.space6,
                     content != null || actions.isNotEmpty
                         ? 0.0
-                        : SuperTokens.space6,
+                        : k.space6,
                   ),
                   child: _Header(
                     title: title,
@@ -232,10 +233,10 @@ class SuperDialog extends StatelessWidget {
                 Flexible(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.fromLTRB(
-                      SuperTokens.space6,
-                      hasHeader ? SuperTokens.space4 : SuperTokens.space6,
-                      SuperTokens.space6,
-                      actions.isNotEmpty ? 0.0 : SuperTokens.space6,
+                      k.space6,
+                      hasHeader ? k.space4 : k.space6,
+                      k.space6,
+                      actions.isNotEmpty ? 0.0 : k.space6,
                     ),
                     child: DefaultTextStyle.merge(
                       style: SuperText.body.copyWith(color: t.fg2),
@@ -245,7 +246,7 @@ class SuperDialog extends StatelessWidget {
                 ),
               if (actions.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.all(SuperTokens.space6),
+                  padding: EdgeInsets.all(k.space6),
                   child: _ActionRow(actions: actions),
                 ),
             ],
@@ -289,24 +290,21 @@ class _Header extends StatelessWidget {
             width: 40,
             height: 40,
             alignment: Alignment.center,
-            margin: const EdgeInsetsDirectional.only(end: SuperTokens.space3),
+            margin: EdgeInsetsDirectional.only(end: t.tokens.space3),
             decoration: BoxDecoration(
               color: badgeColor.withValues(alpha: 0.14),
-              borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+              borderRadius: BorderRadius.circular(t.tokens.radiusControl),
             ),
             child: Icon(icon, size: 20, color: badgeColor),
           )
         else
           Container(
-            width: SuperTokens.markerWidth,
-            height: SuperTokens.markerHeight,
-            margin: const EdgeInsetsDirectional.only(
-              top: 2,
-              end: SuperTokens.space4,
-            ),
+            width: t.tokens.markerWidth,
+            height: t.tokens.markerHeight,
+            margin: EdgeInsetsDirectional.only(top: 2, end: t.tokens.space4),
             decoration: BoxDecoration(
-              color: marker.color,
-              borderRadius: BorderRadius.circular(SuperTokens.radiusPill),
+              color: marker.defaultColor,
+              borderRadius: BorderRadius.circular(t.tokens.radiusPill),
             ),
           ),
         Expanded(
@@ -317,7 +315,7 @@ class _Header extends StatelessWidget {
               if (title != null)
                 Text(title!, style: SuperText.heading.copyWith(color: t.fg1)),
               if (subtitle != null) ...[
-                const SizedBox(height: SuperTokens.space1),
+                SizedBox(height: t.tokens.space1),
                 Text(
                   subtitle!,
                   style: SuperText.caption.copyWith(color: t.fg3),
@@ -327,7 +325,7 @@ class _Header extends StatelessWidget {
           ),
         ),
         if (showClose) ...[
-          const SizedBox(width: SuperTokens.space2),
+          SizedBox(width: t.tokens.space2),
           SuperIconButton(
             icon: Icons.close,
             tooltip: 'Close',
@@ -346,9 +344,10 @@ class _ActionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.superTheme;
     final children = <Widget>[];
     for (var i = 0; i < actions.length; i++) {
-      if (i > 0) children.add(const SizedBox(width: SuperTokens.space3));
+      if (i > 0) children.add(SizedBox(width: t.tokens.space3));
       children.add(actions[i]);
     }
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: children);

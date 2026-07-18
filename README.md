@@ -12,7 +12,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_core: ^1.3.0  # monorepo path dependency
+  super_core: ^2.0.0  # monorepo path dependency
 ```
 
 Then import the barrel:
@@ -47,13 +47,20 @@ import 'package:super_core/super_core.dart';
 | `SuperDeviceMode` | `mobile` / `tablet` / `desktop` device mode + `SuperResponsive<T>` container |
 | `SuperMetrics` | Responsive spacing / sizing / padding / margin token bundle |
 | `SuperInteractiveStateThemeData` | Hover / focus / pressed / selected overlay treatment (`ThemeExtension`) |
-| `SuperTokens` | Theme-independent brand constants (accent, semantic palette, font families, spacing, radii, motion) |
-| `SuperThemeData` | Swappable light/dark `ThemeExtension` — surfaces, borders, `fg1…fg4` text ramp |
+| `SuperTokensData` | **Dynamic** brand tokens carried by the theme (accent + semantic palette, font families, spacing, radii, motion). Every field also has a `default*` compile-time constant. Replaces the removed `static const` `SuperTokens`. |
+| `SuperThemeData` | Swappable light/dark `ThemeExtension` — surfaces, borders, `fg1…fg4` text ramp, and `tokens` |
+| `SuperAppBarTheme` | `AppBarTheme` subclass — adds `subtitlePosition` + responsive `maxActions` / `maxMobileActions` / `maxTabletActions` / `maxDesktopActions` |
+| `SuperCardTheme` | `CardThemeData` subclass — adds expand direction / duration / curve, tap-to-toggle, chevron, padding, border colors |
 | `SuperText` | GeniusLink type ramp as `TextStyle`s (Manrope / Inter / JetBrains Mono) |
 | `SuperFormat` | Intl-free number / currency / byte / serial formatters |
 | `SuperMarker` | Three section-marker intents (identity / ledger / notes) |
-| Widgets | `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell`, `SuperCard`, `SuperDialog`, `SuperSnackBar`, `SuperAppBar` |
+| Widgets | `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell`, `SuperCard`, `SuperSnackBar`, `SuperAppBar`, `SuperSliverAppBar` |
 | Plumbing | Failures, typedefs, usecases, key-direction + `BuildContext` helpers |
+
+> **Migrating from v1?** `SuperTokens.x` → `SuperThemeData.of(context).tokens.x`
+> for the live theme value, or `SuperTokensData.defaultX` in a `const` context.
+> `SuperDialog` is removed — use Flutter's `showDialog` / `AlertDialog` (already
+> styled by `SuperMaterialThemeData`). See the `skill/migration_v1_to_v2/` guides.
 
 ---
 
@@ -209,6 +216,104 @@ MaterialApp(
 );
 
 final t = SuperThemeData.of(context); // falls back to .dark
+```
+
+---
+
+## Dynamic brand tokens (`SuperTokensData`)
+
+Brand tokens are no longer `static const` — they are instance fields on the
+immutable `SuperTokensData` the theme carries, so any of them can be overridden
+per theme. Every field keeps its historical value as a `default*` constant, so
+`const SuperTokensData()` reproduces the GeniusLink defaults exactly.
+
+```dart
+// Override tokens on the generated theme:
+SuperMaterialThemeData.light(
+  palette: SuperPalette.bluePalette,
+  tokens: const SuperTokensData(radiusCard: 12, space4: 20),
+);
+
+// Read the active tokens at any call site:
+final tokens = SuperThemeData.of(context).tokens;
+SizedBox(height: tokens.space4);
+BorderRadius.circular(tokens.radiusCard);
+color: SuperMarker.ledger.resolve(tokens);
+
+// In a const context, reference the brand default constant:
+const SizedBox(height: SuperTokensData.defaultSpace4);
+```
+
+## Custom font family
+
+Change the toolkit's font without losing the GeniusLink type ramp. Precedence:
+explicit `fontFamily` > the family carried by a provided `textTheme` (when
+`mergeTextTheme` is `true`) > the token default.
+
+```dart
+// Simplest — swap the whole workhorse/display family:
+SuperMaterialThemeData.light(fontFamily: 'IBM Plex Sans');
+
+// Merge a TextTheme's font over the default ramp (sizes/weights preserved):
+SuperMaterialThemeData.light(
+  textTheme: GoogleFonts.ibmPlexSansTextTheme(),
+  mergeTextTheme: true, // default — keeps SuperMaterialThemeData typography, adopts the font
+);
+
+// Replace the ramp wholesale instead:
+SuperMaterialThemeData.light(textTheme: myTextTheme, mergeTextTheme: false);
+```
+
+## App bars — `SuperAppBar` / `SuperSliverAppBar`
+
+Full forks of Flutter's `AppBar` / `SliverAppBar` (every property is
+customizable) plus two GeniusLink features: a positionable **subtitle** and
+**responsive action overflow** — extra actions past the limit collapse into a
+three-dot menu. The limit is resolved per device class (mobile 3 / tablet 4 /
+desktop 5) unless you set `maxActions` or the per-device overrides.
+
+```dart
+Scaffold(
+  appBar: SuperAppBar(
+    title: const Text('Create Store'),
+    subtitle: const Text('STORES & PRODUCTS • STORES'),
+    subtitlePosition: SubtitlePosition.above, // or .below (default)
+    actions: [/* > maxActions collapse into a ⋮ overflow */],
+    // maxActions / maxMobileActions / maxTabletActions / maxDesktopActions
+  ),
+);
+
+CustomScrollView(slivers: [
+  SuperSliverAppBar(
+    pinned: true,
+    expandedHeight: 200,
+    title: const Text('Journal'),
+    subtitle: const Text('BANKING • LOCAL TRANSFERS'),
+    flexibleSpace: const FlexibleSpaceBar(background: LedgerHeaderArt()),
+    actions: [/* … */],
+  ),
+]);
+```
+
+Defaults come from the `SuperAppBarTheme` installed into
+`ThemeData.appBarTheme` by `SuperMaterialThemeData`; override it via
+`appBarTheme:` on the theme constructor.
+
+## Expandable `SuperCard`
+
+`SuperCard` can reveal `expandedChild` on tap or via its chevron, along the
+vertical **or** horizontal axis, and hosts `leading` / `trailing` slots.
+Defaults come from the `SuperCardTheme` in `ThemeData.cardTheme`.
+
+```dart
+SuperCard(
+  leading: const Icon(Icons.storefront_outlined),
+  header: const SectionHeader(title: 'Downtown Central Store'),
+  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
+  expandedChild: const StoreDetailTable(), // revealed on tap / chevron
+  // expandDirection: Axis.horizontal, initiallyExpanded, isExpanded, onExpansionChanged…
+  child: const StoreSummary(),
+);
 ```
 
 ---

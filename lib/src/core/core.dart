@@ -11,6 +11,8 @@ export 'theme/super_text_styles.dart';
 export 'theme/super_device_mode.dart';
 export 'theme/super_metrics.dart';
 export 'theme/super_interactive_state_theme.dart';
+export 'theme/super_app_bar_theme.dart';
+export 'theme/super_card_theme.dart';
 
 // Constants
 export 'constants/super_constants.dart';
@@ -39,6 +41,6 @@ export 'widgets/status_pill.dart';
 export 'widgets/super_button.dart';
 export 'widgets/field_shell.dart';
 export 'widgets/super_app_bar.dart';
+export 'widgets/super_sliver_app_bar.dart';
 export 'widgets/super_card.dart';
-export 'widgets/super_dialog.dart';
 export 'widgets/super_snack_bar.dart';

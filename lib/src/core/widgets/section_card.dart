@@ -3,7 +3,8 @@
 // ------------------------------------------------------------
 // The fundamental layout unit: an 8px-radius card with a hairline border and
 // the theme's card shadow, 24px padding, an optional SectionHeader, and a 32px
-// gap before its body. Cards stack with 32px between them.
+// gap before its body. Cards stack with 32px between them. Spacing / radius are
+// resolved dynamically from the ambient theme's [SuperTokensData].
 // ============================================================
 
 import 'package:flutter/widgets.dart';
@@ -23,12 +24,7 @@ class SectionCard extends StatelessWidget {
     this.marker = SuperMarker.identity,
     this.headerTrailing,
     required this.child,
-    this.padding = const EdgeInsets.fromLTRB(
-      SuperTokens.space6,
-      SuperTokens.space6,
-      SuperTokens.space6,
-      SuperTokens.space10,
-    ),
+    this.padding,
   });
 
   /// A pre-built header. If null and [title] is set, one is built for you.
@@ -38,11 +34,15 @@ class SectionCard extends StatelessWidget {
   final SuperMarker marker;
   final Widget? headerTrailing;
   final Widget child;
-  final EdgeInsetsGeometry padding;
+
+  /// Interior padding. Defaults to `24 24 24 40` (the GeniusLink card interior)
+  /// resolved from the theme tokens when null.
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final k = t.tokens;
     final resolvedHeader = header ??
         (title != null
             ? SectionHeader(
@@ -56,18 +56,19 @@ class SectionCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: t.surface,
-        borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+        borderRadius: BorderRadius.circular(k.radiusCard),
         border: Border.all(color: t.border),
         boxShadow: t.cardShadow,
       ),
-      padding: padding,
+      padding: padding ??
+          EdgeInsets.fromLTRB(k.space6, k.space6, k.space6, k.space10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
           if (resolvedHeader != null) ...[
             resolvedHeader,
-            const SizedBox(height: SuperTokens.space8),
+            SizedBox(height: k.space8),
           ],
           child,
         ],

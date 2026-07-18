@@ -44,6 +44,12 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   final Color fg4; //          quaternary / placeholders / disabled
   final Brightness brightness;
 
+  /// Dynamic brand tokens — the accent + semantic palette, font families,
+  /// radii, the 4px spacing scale, control metrics and motion. Replaces the
+  /// former `static const` `SuperTokens`; override via `tokens:` on
+  /// `SuperMaterialThemeData.light` / `.dark`.
+  final SuperTokensData tokens;
+
   // ── Responsive layer (v1.1.0) ──
   /// The active device mode this theme was generated for.
   final SuperDeviceMode mode;
@@ -70,6 +76,7 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
     this.mode = SuperDeviceMode.mobile,
     this.metrics = SuperMetrics.mobile,
     this.interactiveStates = SuperInteractiveStateThemeData.standard,
+    this.tokens = SuperTokensData.fallback,
   });
 
   // ── Card elevation ──
@@ -141,7 +148,7 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   /// A selection / accent tint at [pct] opacity blended over [surface]
   /// (mirrors the web `color-mix(... accent N%, surface)` highlight).
   Color selectionFill([double pct = 0.10]) =>
-      Color.alphaBlend(SuperTokens.accent.withOpacity(pct), surface);
+      Color.alphaBlend(tokens.accent.withOpacity(pct), surface);
 
   /// A semantic [base] color softened to a pill background over [surface].
   Color tintFill(Color base, [double pct = 0.20]) =>
@@ -172,6 +179,7 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
     SuperDeviceMode? mode,
     SuperMetrics? metrics,
     SuperInteractiveStateThemeData? interactiveStates,
+    SuperTokensData? tokens,
   }) =>
       SuperThemeData(
         bg: bg ?? this.bg,
@@ -188,6 +196,7 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
         mode: mode ?? this.mode,
         metrics: metrics ?? this.metrics,
         interactiveStates: interactiveStates ?? this.interactiveStates,
+        tokens: tokens ?? this.tokens,
       );
 
   @override
@@ -210,6 +219,7 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
       metrics: SuperMetrics.lerp(metrics, other.metrics, t),
       interactiveStates:
           interactiveStates.lerp(other.interactiveStates, t),
+      tokens: SuperTokensData.lerp(tokens, other.tokens, t),
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:super_core/super_core.dart';
 /// Sections:
 ///   Palette · Color Scheme · App Bar · Buttons · Icon Buttons · FAB ·
 ///   Form Fields · Search · Selection Controls · Chips · Cards ·
-///   Super Core Widgets (SuperCard · SuperAppBar · SuperDialog · SuperSnackBar)
+///   Super Core Widgets (SuperCard · SuperAppBar · SuperSliverAppBar · SuperSnackBar)
 ///   · List Tiles · Navigation · Tabs · Overlays (Dialog · Sheet · Drawer ·
 ///   Snackbar · Popup · Menu) · Badges · Tooltips · Dividers · Progress ·
 ///   Data Table · Typography
@@ -123,11 +123,10 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
         ),
       );
 
-  void _showSuperDialog() => SuperDialog.show(
-        context,
-        builder: (ctx) => SuperDialog(
-          title: 'Export Options',
-          subtitle: 'Choose a format for the exported data',
+  void _showThemedDialog() => showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Export Options'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,14 +143,13 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             ],
           ),
           actions: [
-            SuperButton(
-              label: 'Cancel',
-              variant: SuperButtonVariant.secondary,
+            TextButton(
               onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text('Cancel'),
             ),
-            SuperButton(
-              label: 'Export',
+            FilledButton(
               onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text('Export'),
             ),
           ],
         ),
@@ -521,12 +519,12 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ── Status Pills ───────────────────────────────────────────────────
           const _Sec('STATUS PILLS'),
           Wrap(spacing: 8, runSpacing: 8, children: [
-            _Pill('POSTED', SuperTokens.success, t),
+            _Pill('POSTED', SuperTokensData.defaultSuccess, t),
             _Pill('PENDING', cs.primary, t),
-            _Pill('DRAFT', SuperTokens.warning, t),
+            _Pill('DRAFT', SuperTokensData.defaultWarning, t),
             _Pill('VOIDED', cs.error, t),
             _Pill('LOCKED', t.fg3, t),
-            _Pill('APPROVED', SuperTokens.success, t),
+            _Pill('APPROVED', SuperTokensData.defaultSuccess, t),
             _Pill('REJECTED', cs.error, t),
           ]),
 
@@ -634,62 +632,99 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             ),
           ]),
 
+          const _Sec('EXPANDABLE CARD'),
+          SuperCard(
+            leading: Icon(Icons.storefront_outlined, color: cs.primary),
+            header: const SectionHeader(
+              title: 'Expandable — vertical',
+              subtitle: 'Tap the card or the chevron to reveal details',
+              marker: SuperMarker.ledger,
+            ),
+            expandedChild: Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                'Revealed content grows the card downward with a 200 ms '
+                'ease-out. Balance SAR 48,200.00 across 3 sub-accounts.',
+                style: SuperText.body.copyWith(color: t.fg2),
+              ),
+            ),
+            child: Text('Downtown Central Store • STR-0042',
+                style: SuperText.body.copyWith(color: t.fg1)),
+          ),
+          const SizedBox(height: 8),
+          SuperCard(
+            expandDirection: Axis.horizontal,
+            leading: const Icon(Icons.info_outline,
+                color: SuperTokensData.defaultWarning),
+            trailing: const StatusPill('NOTES', tone: PillTone.warning),
+            expandedChild: SizedBox(
+              width: 180,
+              child: Text('Horizontal reveal grows the card sideways.',
+                  style: SuperText.caption.copyWith(color: t.fg3)),
+            ),
+            child: Text('Horizontal expand + leading/trailing',
+                style: SuperText.body.copyWith(color: t.fg1)),
+          ),
+
           const _Sec('SUPER APP BAR'),
+          Text(
+              'Forked AppBar with a positionable subtitle + responsive action '
+              'overflow (extras past maxActions collapse into a ⋮ menu).',
+              style: SuperText.caption.copyWith(color: t.fg3)),
+          const SizedBox(height: 8),
           ClipRRect(
-            borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            borderRadius:
+                BorderRadius.circular(SuperTokensData.defaultRadiusCard),
             child: SuperAppBar(
-              eyebrow: 'Stores & Products • Stores',
-              title: 'Create Store',
-              titleTrailing: const StatusPill('DRAFT', tone: PillTone.warning),
+              primary: false,
               automaticallyImplyLeading: false,
-              leading: const Icon(Icons.arrow_back),
+              leading: const BackButton(),
+              title: const Text('Create Store'),
+              subtitle: const Text('STORES & PRODUCTS • STORES'),
+              subtitlePosition: SubtitlePosition.above,
+              maxActions: 2,
               actions: [
-                SuperIconButton(icon: Icons.help_outline, onPressed: () {}),
-                SuperIconButton(icon: Icons.more_vert, onPressed: () {}),
+                SuperIconButton(
+                    icon: Icons.help_outline, tooltip: 'Help', onPressed: () {}),
+                SuperIconButton(
+                    icon: Icons.download_outlined,
+                    tooltip: 'Export',
+                    onPressed: () {}),
+                const Text('Duplicate'),
+                const Text('Archive'),
               ],
             ),
           ),
 
-          const _Sec('SUPER DIALOG'),
+          const _Sec('DIALOGS (THEMED)'),
           Wrap(spacing: 8, runSpacing: 8, children: [
             OutlinedButton.icon(
-              onPressed: _showSuperDialog,
+              onPressed: _showThemedDialog,
               icon: const Icon(Icons.open_in_new, size: 16),
               label: const Text('Dialog'),
             ),
             OutlinedButton.icon(
-              onPressed: () => SuperDialog.confirm(
-                context,
-                title: 'Post Journal Entry',
-                message: 'This will post JV-2024-0042 and mark it final. '
-                    'This action cannot be undone.',
-                confirmLabel: 'Post Entry',
-              ),
-              icon: const Icon(Icons.help_outline, size: 16),
-              label: const Text('Confirm'),
-            ),
-            OutlinedButton.icon(
-              onPressed: () => SuperDialog.confirm(
-                context,
-                title: 'Delete Store',
-                message: 'Deleting STR-0042 removes all of its inventory '
-                    'records. This cannot be undone.',
-                confirmLabel: 'Delete',
-                danger: true,
+              onPressed: () => showDialog<void>(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  title: const Text('Delete Store'),
+                  content: const Text(
+                      'Deleting STR-0042 removes all of its inventory records. '
+                      'This cannot be undone.'),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        child: const Text('Cancel')),
+                    FilledButton(
+                      style: FilledButton.styleFrom(backgroundColor: cs.error),
+                      onPressed: () => Navigator.pop(ctx),
+                      child: const Text('Delete'),
+                    ),
+                  ],
+                ),
               ),
               icon: const Icon(Icons.delete_outline, size: 16),
               label: const Text('Danger Confirm'),
-            ),
-            OutlinedButton.icon(
-              onPressed: () => SuperDialog.alert(
-                context,
-                title: 'Entry Posted',
-                message: 'Journal entry JV-2024-0042 was posted to the ledger.',
-                icon: Icons.check_circle_outline,
-                iconColor: SuperTokens.success,
-              ),
-              icon: const Icon(Icons.info_outline, size: 16),
-              label: const Text('Alert'),
             ),
           ]),
 
@@ -737,12 +772,12 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 leading: Icon(Icons.store_outlined, color: cs.primary),
                 title: const Text('Downtown Central Store'),
                 subtitle: const Text('Store ID: STR-0042 • Active'),
-                trailing: _Pill('ACTIVE', SuperTokens.success, t),
+                trailing: _Pill('ACTIVE', SuperTokensData.defaultSuccess, t),
                 onTap: () {},
               ),
               const Divider(height: 1, indent: 56),
               ListTile(
-                leading: const Icon(Icons.warning_amber_outlined, color: SuperTokens.warning),
+                leading: const Icon(Icons.warning_amber_outlined, color: SuperTokensData.defaultWarning),
                 title: const Text('Pending Reconciliation'),
                 subtitle: const Text('3 entries require review before closing'),
                 isThreeLine: false,
@@ -780,13 +815,13 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                       title: Text(name),
                       leading: Text(code, style: SuperText.mono.copyWith(color: t.fg3, fontSize: 11)),
                       trailing: Text(bal,
-                          style: SuperText.mono.copyWith(color: SuperTokens.success, fontSize: 12)),
+                          style: SuperText.mono.copyWith(color: SuperTokensData.defaultSuccess, fontSize: 12)),
                     ),
                 ],
               ),
               const Divider(height: 1),
               ExpansionTile(
-                leading: const Icon(Icons.folder_outlined, color: SuperTokens.warning),
+                leading: const Icon(Icons.folder_outlined, color: SuperTokensData.defaultWarning),
                 title: const Text('Current Liabilities'),
                 subtitle: const Text('2 accounts · SAR 3,800.00'),
                 children: [
@@ -1147,11 +1182,11 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       String n, String name, String type, String nature, String bal) {
     final neg = bal.startsWith('-');
     final typeColor = type == 'Asset'
-        ? SuperTokens.success
+        ? SuperTokensData.defaultSuccess
         : type == 'Liability'
             ? cs.error
             : cs.primary;
-    final natureColor = nature == 'DR' ? cs.primary : SuperTokens.warning;
+    final natureColor = nature == 'DR' ? cs.primary : SuperTokensData.defaultWarning;
     return DataRow(cells: [
       DataCell(Text(n, style: SuperText.mono.copyWith(color: t.fg3))),
       DataCell(Text(name, style: SuperText.body.copyWith(color: t.fg1))),
@@ -1165,7 +1200,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
         child: Text(nature, style: SuperText.mono.copyWith(color: natureColor, fontSize: 11)),
       )),
       DataCell(Text(bal,
-          style: SuperText.mono.copyWith(color: neg ? cs.error : SuperTokens.success))),
+          style: SuperText.mono.copyWith(color: neg ? cs.error : SuperTokensData.defaultSuccess))),
     ]);
   }
 }
@@ -1219,7 +1254,7 @@ class _Pill extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
           color: t.tintFill(color, 0.14),
-          borderRadius: BorderRadius.circular(SuperTokens.radiusPill),
+          borderRadius: BorderRadius.circular(SuperTokensData.defaultRadiusPill),
         ),
         child: Text(label, style: SuperText.pill.copyWith(color: color)),
       );
@@ -1257,7 +1292,7 @@ class _ShadeRow extends StatelessWidget {
       (900, palette.shade900),
     ];
     return ClipRRect(
-      borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+      borderRadius: BorderRadius.circular(SuperTokensData.defaultRadiusCard),
       child: Row(
         children: shades.map((s) {
           final (label, color) = s;
@@ -1295,7 +1330,7 @@ class _SurfaceSeparationDemo extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+            borderRadius: BorderRadius.circular(SuperTokensData.defaultRadiusCard),
             border: Border.all(color: t.border),
           ),
           child: Column(

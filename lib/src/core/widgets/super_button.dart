@@ -4,13 +4,13 @@
 // The GeniusLink button family. Primary (solid blue), secondary (outlined),
 // and icon (32x32). Hover lightens the primary ~6% / fills the secondary;
 // press scales to 0.98 and darkens; disabled drops to 40% opacity. 150ms ease.
+// Sizes / radii / motion resolve dynamically from the theme [SuperTokensData].
 // ============================================================
 
 import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
 import '../theme/super_text_styles.dart';
-import '../theme/super_tokens.dart';
 
 enum SuperButtonVariant { primary, secondary }
 
@@ -42,6 +42,7 @@ class _SuperButtonState extends State<SuperButton> {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final k = t.tokens;
     final cs = Theme.of(context).colorScheme;
     final primary = widget.variant == SuperButtonVariant.primary;
 
@@ -63,17 +64,17 @@ class _SuperButtonState extends State<SuperButton> {
 
     final child = AnimatedScale(
       scale: _down ? 0.98 : 1,
-      duration: SuperTokens.durFast,
-      curve: SuperTokens.curveStandard,
+      duration: k.durFast,
+      curve: k.curveStandard,
       child: AnimatedContainer(
-        duration: SuperTokens.durBase,
-        curve: SuperTokens.curveStandard,
-        height: SuperTokens.controlHeight,
-        padding: const EdgeInsets.symmetric(horizontal: SuperTokens.space4),
+        duration: k.durBase,
+        curve: k.curveStandard,
+        height: k.controlHeight,
+        padding: EdgeInsets.symmetric(horizontal: k.space4),
         decoration: BoxDecoration(
           color: bg,
           border: border,
-          borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+          borderRadius: BorderRadius.circular(k.radiusControl),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -83,7 +84,7 @@ class _SuperButtonState extends State<SuperButton> {
                 data: IconThemeData(color: fg, size: 16),
                 child: widget.icon!,
               ),
-              const SizedBox(width: SuperTokens.space2),
+              SizedBox(width: k.space2),
             ],
             Text(widget.label, style: SuperText.button.copyWith(color: fg)),
           ],
@@ -136,6 +137,7 @@ class _SuperIconButtonState extends State<SuperIconButton> {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final k = t.tokens;
     final cs = Theme.of(context).colorScheme;
     final enabled = widget.onPressed != null;
     final fg = (_hover && widget.danger) ? cs.error : t.fg2;
@@ -147,12 +149,12 @@ class _SuperIconButtonState extends State<SuperIconButton> {
       child: GestureDetector(
         onTap: widget.onPressed,
         child: AnimatedContainer(
-          duration: SuperTokens.durBase,
-          width: SuperTokens.iconButton,
-          height: SuperTokens.iconButton,
+          duration: k.durBase,
+          width: k.iconButton,
+          height: k.iconButton,
           decoration: BoxDecoration(
             color: _hover ? t.inputBg : const Color(0x00000000),
-            borderRadius: BorderRadius.circular(SuperTokens.radiusControl),
+            borderRadius: BorderRadius.circular(k.radiusControl),
           ),
           child: Icon(widget.icon, size: 16, color: fg),
         ),

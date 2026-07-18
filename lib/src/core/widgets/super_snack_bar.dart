@@ -15,6 +15,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/super_text_styles.dart';
+import '../theme/super_theme.dart';
 import '../theme/super_tokens.dart';
 
 /// The semantic intent of a [SuperSnackBar]. Drives the leading glyph and the
@@ -114,7 +115,8 @@ abstract final class SuperSnackBar {
     Duration duration = const Duration(seconds: 4),
   }) {
     final cs = Theme.of(context).colorScheme;
-    final color = _toneColor(tone, cs);
+    final k = SuperThemeData.of(context).tokens;
+    final color = _toneColor(tone, cs, k);
     // Snackbars are dark in both themes — keep the text near-white.
     const fg = Color(0xFFE2E2E9);
 
@@ -122,12 +124,12 @@ abstract final class SuperSnackBar {
       behavior: SnackBarBehavior.floating,
       duration: duration,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(SuperTokens.radiusCard),
+        borderRadius: BorderRadius.circular(k.radiusCard),
       ),
       content: Row(
         children: [
           Icon(_toneIcon(tone), size: 20, color: color),
-          const SizedBox(width: SuperTokens.space3),
+          SizedBox(width: k.space3),
           Expanded(
             child: Text(message, style: SuperText.body.copyWith(color: fg)),
           ),
@@ -143,11 +145,11 @@ abstract final class SuperSnackBar {
     );
   }
 
-  static Color _toneColor(SuperSnackBarTone tone, ColorScheme cs) =>
+  static Color _toneColor(SuperSnackBarTone tone, ColorScheme cs, SuperTokensData k) =>
       switch (tone) {
         SuperSnackBarTone.info => cs.primary,
-        SuperSnackBarTone.success => SuperTokens.success,
-        SuperSnackBarTone.warning => SuperTokens.warning,
+        SuperSnackBarTone.success => k.success,
+        SuperSnackBarTone.warning => k.warning,
         SuperSnackBarTone.danger => cs.error,
       };
 
