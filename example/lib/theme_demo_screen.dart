@@ -254,7 +254,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 selected: sel,
                 avatar: CircleAvatar(backgroundColor: p.shade500, radius: 8),
                 onSelected: (_) => widget.onPaletteChanged(p),
-                selectedColor: cs.primary.withOpacity(0.15),
+                selectedColor: cs.primary.withValues(alpha:0.15),
                 side: sel
                     ? BorderSide(color: cs.primary, width: 2)
                     : BorderSide(color: t.border),
@@ -1297,7 +1297,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                         color: sel ? cs.primary : t.fg1,
                         fontWeight: sel ? FontWeight.w600 : FontWeight.w400)),
                 selected: sel,
-                selectedTileColor: cs.primary.withOpacity(0.08),
+                selectedTileColor: cs.primary.withValues(alpha:0.08),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 onTap: () => Navigator.pop(context),
               ),
@@ -1375,7 +1375,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       DataCell(Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-          color: natureColor.withOpacity(0.12),
+          color: natureColor.withValues(alpha:0.12),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Text(nature, style: SuperText.mono.copyWith(color: natureColor, fontSize: 11)),
@@ -1692,7 +1692,7 @@ class _ShadeRow extends StatelessWidget {
               ? const Color(0xFF0F172A) : const Color(0xFFFFFFFF);
           return Expanded(
             child: Tooltip(
-              message: '#${color.value.toRadixString(16).substring(2).toUpperCase()}',
+              message: '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
               child: Container(
                 height: 56,
                 alignment: Alignment.bottomCenter,
@@ -1805,7 +1805,7 @@ class _ColorSchemeGrid extends StatelessWidget {
           decoration: BoxDecoration(
             color: bg,
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.black.withOpacity(0.06)),
+            border: Border.all(color: Colors.black.withValues(alpha:0.06)),
           ),
           padding: const EdgeInsets.all(7),
           alignment: Alignment.bottomLeft,

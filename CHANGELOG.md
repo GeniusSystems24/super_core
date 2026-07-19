@@ -31,6 +31,27 @@ _Changed (breaking)_). All new APIs are exported through the `super_core` barrel
 
 ### Added
 
+#### SuperListTile & SuperGridTile — enterprise tile family
+
+- New `SuperListTile` — a GeniusLink list row refactored from Flutter's
+  `ListTile` baseline: density presets (`SuperTileDensity.compact` /
+  `comfortable` / `expanded`), selection + hover/focus/press/disabled states,
+  status `badge`, `marker` bar, `leadingIcon` / multiple `leadingWidgets`,
+  `subtitle` + `supporting` block, `trailing` / `trailingActions`, configurable
+  `showSeparator`, `loading` skeleton, keyboard activation, RTL and
+  `contextMenuBuilder`. Core `ListTile` slots (leading/title/subtitle/trailing/
+  onTap/selected/enabled/dense) are preserved.
+- New `SuperGridTile` — a GeniusLink dashboard / catalog card refactored from
+  `GridTile`: `header` / `child` / `footer` slots, `media` banner, `badge` +
+  `overlay`, hover-revealed `actions`, selection + hover/press/focus/disabled
+  states (lift + shadow on hover), `aspectRatio`, `loading` placeholder, RTL,
+  keyboard activation and `contextMenuBuilder`.
+- Shared internals (`super_tile_common.dart`) — `SuperTileDensity`,
+  `SuperTileMetrics`, `SuperTileVisualState`, `superTileFill` / `superTileBorder`,
+  `SuperTileMarker`, `SuperTileShimmer` — so both tiles resolve density and
+  interaction states from one source. All exported through the barrel and
+  showcased in the component gallery.
+
 #### Structured semantic colors — `SuperSemanticColors`
 
 - New `SuperSemanticColor` — a single intent expanded into the roles a status

@@ -148,20 +148,20 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   /// A selection / accent tint at [pct] opacity blended over [surface]
   /// (mirrors the web `color-mix(... accent N%, surface)` highlight).
   Color selectionFill([double pct = 0.10]) =>
-      Color.alphaBlend(tokens.accent.withOpacity(pct), surface);
+      Color.alphaBlend(tokens.accent.withValues(alpha:pct), surface);
 
   /// A semantic [base] color softened to a pill background over [surface].
   Color tintFill(Color base, [double pct = 0.20]) =>
-      Color.alphaBlend(base.withOpacity(pct), surface);
+      Color.alphaBlend(base.withValues(alpha:pct), surface);
 
   /// A semantic [base] color softened to a subtle tint over [surface]
   /// (mirrors the web `color-mix(... base N%, surface)` fill).
   Color tint(Color base, [double pct = 0.14]) =>
-      Color.alphaBlend(base.withOpacity(pct), surface);
+      Color.alphaBlend(base.withValues(alpha:pct), surface);
 
   /// A semantic [base] tint over the page [bg] (e.g. a drag-over drop zone).
   Color tintOnBg(Color base, [double pct = 0.07]) =>
-      Color.alphaBlend(base.withOpacity(pct), bg);
+      Color.alphaBlend(base.withValues(alpha:pct), bg);
 
   @override
   SuperThemeData copyWith({

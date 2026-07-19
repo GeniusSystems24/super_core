@@ -25,6 +25,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
   final _sliderController = SuperSliderController();
   bool _cardSelected = false;
   bool _sectionSelected = false;
+  int _listSelected = 0;
+  int _gridSelected = 0;
 
   @override
   void dispose() {
@@ -387,6 +389,112 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 icon: const Icon(Icons.chevron_right),
                 onPressed: () => _sliderController.next()),
           ]),
+
+          // ══ SuperListTile ════════════════════════════════════════════════
+          const _G('SuperListTile — densities · states · badges'),
+          _panel(t, [
+            SuperListTile(
+              marker: SuperMarker.identity,
+              leadingIcon: Icons.storefront_outlined,
+              titleText: 'Downtown Central Store',
+              subtitle: const Text('STR-0042 • Riyadh'),
+              badge: const StatusPill('ACTIVE', tone: PillTone.success),
+              trailing: const Text('\$96,540.00'),
+              selected: _listSelected == 0,
+              onTap: () => setState(() => _listSelected = 0),
+            ),
+            SuperListTile(
+              showSeparator: true,
+              density: SuperTileDensity.compact,
+              leadingWidgets: [
+                Icon(Icons.warehouse_outlined, size: 20, color: t.fg3),
+              ],
+              titleText: 'North Warehouse',
+              subtitle: const Text('STR-0043 • Dammam'),
+              badge: const StatusPill('LOW STOCK', tone: PillTone.warning),
+              trailingActions: [
+                SuperIconButton(icon: Icons.edit_outlined, tooltip: 'Edit', onPressed: () {}),
+                SuperIconButton(icon: Icons.delete_outline, tooltip: 'Delete', danger: true, onPressed: () {}),
+              ],
+              selected: _listSelected == 1,
+              onTap: () => setState(() => _listSelected = 1),
+              contextMenuBuilder: (context) => const [
+                PopupMenuItem(value: 'open', child: Text('Open')),
+                PopupMenuItem(value: 'archive', child: Text('Archive')),
+              ],
+            ),
+            SuperListTile(
+              density: SuperTileDensity.expanded,
+              alignment: SuperListTileAlignment.top,
+              marker: SuperMarker.notes,
+              leadingIcon: Icons.description_outlined,
+              titleText: 'Q4 Reconciliation Note',
+              subtitle: const Text('DOC-2024-0112'),
+              supporting: const Text(
+                  'Operational adjustment for quarterly reconciliation prior to the audit window.'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {},
+            ),
+            const SuperListTile(loading: true),
+            const SuperListTile(
+              enabled: false,
+              leadingIcon: Icons.lock_outline,
+              titleText: 'Archived Store',
+              subtitle: Text('Read-only'),
+            ),
+          ]),
+
+          // ══ SuperGridTile ════════════════════════════════════════════════
+          const _G('SuperGridTile — dashboard cards · selection · overlays'),
+          GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            childAspectRatio: 1.7,
+            children: [
+              SuperGridTile(
+                marker: SuperMarker.ledger,
+                header: const Text('TOTAL BALANCE'),
+                badge: const StatusPill('LIVE', tone: PillTone.success),
+                footer: const Text('Updated 2m ago'),
+                selected: _gridSelected == 0,
+                onTap: () => setState(() => _gridSelected = 0),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('\$248,200.00',
+                      style: SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
+                ),
+              ),
+              SuperGridTile(
+                marker: SuperMarker.identity,
+                header: const Text('OPEN JOURNALS'),
+                footer: const Text('3 pending review'),
+                selected: _gridSelected == 1,
+                onTap: () => setState(() => _gridSelected = 1),
+                actions: [
+                  SuperIconButton(icon: Icons.open_in_full, tooltip: 'Expand', onPressed: () {}),
+                ],
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('18',
+                      style: SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
+                ),
+              ),
+              const SuperGridTile(loading: true, mediaHeight: 60),
+              SuperGridTile(
+                enabled: false,
+                header: const Text('ARCHIVED'),
+                footer: const Text('Locked'),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('—',
+                      style: SuperText.mono.copyWith(color: t.fg3, fontSize: 22)),
+                ),
+              ),
+            ],
+          ),
 
           // ══ SuperAppBar ══════════════════════════════════════════════════
           const _G('SuperAppBar'),
