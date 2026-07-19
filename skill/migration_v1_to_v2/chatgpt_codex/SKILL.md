@@ -1,13 +1,14 @@
----
-name: super-core-migration-v1-to-v2
-description: >
-  Step-by-step guide to migrate Flutter code from super_core v1.x to v2.0.0 —
-  the breaking release that turns the static `SuperTokens` class into the dynamic
-  theme-owned `SuperTokensData`, adds a custom-font pipeline, forks `AppBar` /
-  `SliverAppBar` into `SuperAppBar` / `SuperSliverAppBar` (subtitle + responsive
-  action overflow), makes `SuperCard` expandable, and removes `SuperDialog`. Use
-  this whenever you upgrade super_core or a package/app that depends on it.
----
+# super_core — ChatGPT / Codex migration guide (v1.x → v2.0.0)
+
+```yaml
+name:    super_core-migration-v1-to-v2
+from:    super_core 1.x
+to:      super_core 2.0.0
+import:  package:super_core/super_core.dart
+```
+
+Use these instructions whenever you upgrade super_core, or a package/app that
+depends on it, from 1.x to 2.0.0.
 
 # Migrating super_core v1.x → v2.0.0
 
@@ -35,55 +36,64 @@ Path dependencies (`super_core: { path: ../super_core }`) need no change. Then
 
 ## 1. `SuperTokens` (static) → `SuperTokensData` (dynamic)  ⚠️ the big one
 
-The `abstract final class SuperTokens` of `static const` values is **removed**.
-Brand tokens (accent + semantic palette, font families, radii, the 4px spacing
-scale, control metrics, motion) are now instance fields on the immutable
-`SuperTokensData`, carried by the theme:
+The `abstract final class SuperTokens` of `static const` values is **removed**,
+and it has **no static replacement**. Brand tokens (accent + semantic palette,
+font families, radii, the 4px spacing scale, control metrics, motion) are now
+instance fields on the immutable `SuperTokensData`, carried by the theme and
+read dynamically:
 
-- `SuperThemeData.tokens` — on the theme extension.
+- `SuperThemeData.tokens` — on the theme extension
+  (`SuperThemeData.of(context).tokens.x`, or `context.superTheme.tokens.x`).
 - `SuperMaterialThemeData.tokens` — on the Material theme.
-- Every field also has a `static const` **default mirror**:
-  `SuperTokensData.defaultAccent`, `defaultSpace4`, `defaultRadiusCard`,
-  `defaultDurBase`, `defaultCurveStandard`, … (name = `default` + PascalCase of
-  the field).
+- The default values live only as the literals baked into the `SuperTokensData`
+  constructor; the single default *instance* is `SuperTokensData.fallback`.
+  There are **no** `SuperTokensData.defaultX` constants.
 
 ### Rewrite rules
 
-| v1 | v2 (runtime — preferred in widgets) | v2 (`const` context) |
-|---|---|---|
-| `SuperTokens.accent` | `SuperThemeData.of(context).tokens.accent` | `SuperTokensData.defaultAccent` |
-| `SuperTokens.space4` | `context.superTheme.tokens.space4` | `SuperTokensData.defaultSpace4` |
-| `SuperTokens.radiusCard` | `…tokens.radiusCard` | `SuperTokensData.defaultRadiusCard` |
-| `SuperTokens.durBase` | `…tokens.durBase` | `SuperTokensData.defaultDurBase` |
-| `SuperTokens.monoFont` | `…tokens.monoFont` | `SuperTokensData.defaultMonoFont` |
+The universal replacement is a **dynamic read** — there is no static constant
+fallback, so a `const` call site must drop its `const` and read from context:
 
-**Choosing which form:**
+| v1 | v2 |
+|---|---|
+| `SuperTokens.accent` | `SuperThemeData.of(context).tokens.accent` |
+| `SuperTokens.space4` | `context.superTheme.tokens.space4` |
+| `SuperTokens.radiusCard` | `context.superTheme.tokens.radiusCard` |
+| `SuperTokens.durBase` | `context.superTheme.tokens.durBase` |
+| `SuperTokens.monoFont` | `context.superTheme.tokens.monoFont` |
 
-- If a `BuildContext` is in scope and you want the token to honor a theme
-  override, read `SuperThemeData.of(context).tokens.x` (or `context.superTheme
-  .tokens.x`).
-- If the site is `const` (e.g. `const SizedBox(height: SuperTokens.space2)`,
-  a default parameter value, a `const` constructor), use the
-  `SuperTokensData.defaultX` constant — it is `const` and preserves the exact
-  historical value.
+**Handling `const` contexts (the main mechanical work):**
 
-> The fast, safe bulk migration is the const form: replace `SuperTokens.<field>`
-> with `SuperTokensData.default<Field>` everywhere. It compiles unchanged
-> (including in `const` contexts) and keeps every value identical. Then, where
-> you *want* runtime theming, switch specific reads to
-> `SuperThemeData.of(context).tokens.<field>`. The Super toolkit packages were
-> migrated with exactly this rule.
+- A widget that read a token inside a `const` constructor must drop `const` and
+  read from context: `const SizedBox(height: SuperTokens.space2)` →
+  `SizedBox(height: context.superTheme.tokens.space2)`. Removing `const` where
+  the subtree now contains a dynamic read is required — a lingering outer
+  `const` around a dynamic value is a compile error.
+- Where `const` is **mandatory** and no context is available — enum constant
+  arguments, `static const` fields, and default parameter values — a dynamic
+  read is impossible. Use a plain literal (the brand value), matching the
+  file's existing literal pattern. Examples from the migrated toolkit:
+  - enum: `asset('Asset', 'الأصول', Color(0xFF4A7CFF), …)` (accent literal)
+  - default param: `this.color = const Color(0xFF4A7CFF)`
+  - theme-preset static const: `static const Color accent = Color(0xFF4A7CFF);`
+  - initState (theme read unsafe): `curve: const Cubic(0.4, 0, 0.2, 1)`
+
+> Brand-value literals (for reference): accent `0xFF4A7CFF`,
+> accentHover `0xFF5E8DFF`, accentPressed `0xFF3D6DEB`, success `0xFF1DB88A`,
+> warning `0xFFF97316`, danger `0xFFEF4444`; fonts `Manrope` / `Inter` /
+> `JetBrainsMono` / `NotoNaskhArabic`; spacing 4/8/12/16/24/32/40/64/80;
+> radii control 4 / md 6 / card 8 / pill 12; motion durBase 150ms,
+> curveStandard `Cubic(0.4, 0, 0.2, 1)`.
 
 ### `SuperMarker` colors
 
-`SuperMarker` no longer exposes a `static const` color. Resolve against a token
-bundle, or use the per-value default:
+`SuperMarker` no longer exposes any color constant. Resolve against the ambient
+token bundle:
 
 ```dart
 // v1: SuperMarker.ledger.color  (or a SuperTokens color in a switch)
 final tokens = SuperThemeData.of(context).tokens;
-color: SuperMarker.ledger.resolve(tokens);   // runtime
-color: SuperMarker.ledger.defaultColor;       // const default
+color: SuperMarker.ledger.resolve(tokens);   // the only path — fully dynamic
 ```
 
 ### Overriding tokens (new capability)
@@ -209,10 +219,12 @@ SuperMaterialThemeData.light(textTheme: myTextTheme, mergeTextTheme: false);
 ## Migration checklist
 
 1. [ ] Bump `super_core` constraint to `">=2.0.0 <3.0.0"`; `flutter pub get`.
-2. [ ] Replace `SuperTokens.<field>` → `SuperTokensData.default<Field>` (const)
-       or `SuperThemeData.of(context).tokens.<field>` (runtime).
+2. [ ] Replace `SuperTokens.<field>` → `context.superTheme.tokens.<field>`
+       (dynamic), dropping `const` on the enclosing widget. Where `const` is
+       mandatory (enum arg / static const / default param / initState), use a
+       brand-value literal instead.
 3. [ ] Update token-shim `export … show SuperTokens` → `show SuperTokensData`.
-4. [ ] Replace `SuperMarker.x` color reads with `.resolve(tokens)` / `.defaultColor`.
+4. [ ] Replace `SuperMarker.x` color reads with `SuperMarker.x.resolve(tokens)`.
 5. [ ] Replace `SuperDialog.*` with `showDialog` / `AlertDialog`.
 6. [ ] Rewrite `SuperAppBar(eyebrow:, title:'…', titleTrailing:)` →
        `title: Text(...)` + `subtitle:` + `subtitlePosition:` (+ move trailing

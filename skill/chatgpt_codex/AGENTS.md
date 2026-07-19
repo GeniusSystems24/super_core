@@ -30,8 +30,8 @@ Apply this skill when the user asks for:
    removed; tokens are instance fields on `SuperTokensData` carried by the theme
    (`SuperThemeData.tokens` / `SuperMaterialThemeData.tokens`); override via
    `SuperMaterialThemeData.light(tokens: const SuperTokensData(...))`. Read live
-   values with `SuperThemeData.of(context).tokens.x`; use
-   `SuperTokensData.default*` constants in `const` contexts. `SuperMarker`
+   values dynamically with `SuperThemeData.of(context).tokens.x`; no static
+   token constants remain (literal where `const` is mandatory). `SuperMarker`
    colors resolve via `marker.resolve(tokens)`.
 2. **Custom fonts** — `fontFamily` + `textTheme` + `mergeTextTheme` on
    `.light`/`.dark`.
@@ -300,7 +300,7 @@ removal. `ThemeData(extensions: const [SuperThemeData.light])` and
 `SuperThemeData.of(context)` must keep working. Bump a dependent's `super_core`
 constraint to `>=2.0.0 <3.0.0` when it uses a 2.0.0 API. v2.0.0 is breaking:
 `SuperTokens` (static) is gone — read tokens from
-`SuperThemeData.of(context).tokens` or `SuperTokensData.default*` — and
+`SuperThemeData.of(context).tokens` (no static token constants remain) — and
 `SuperDialog` is removed.
 
 ## Commands

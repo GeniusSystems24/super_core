@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
+import 'super_widgets_gallery.dart';
+
 /// Comprehensive Material 3 theme showcase for [SuperMaterialThemeData].
 ///
 /// Sections:
@@ -179,6 +181,18 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.widgets_outlined),
+            tooltip: 'Component Gallery',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => SuperWidgetsGallery(
+                  themeMode: widget.themeMode,
+                  onThemeModeChanged: widget.onThemeModeChanged,
+                ),
+              ),
+            ),
+          ),
           _ThemeModeBtn(ThemeMode.light, widget.themeMode,
               Icons.light_mode_outlined, 'Light',
               () => widget.onThemeModeChanged(ThemeMode.light)),
@@ -397,7 +411,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
-            value: _dropdown,
+            initialValue: _dropdown,
             decoration: const InputDecoration(
               labelText: 'ACCOUNT TYPE',
               prefixIcon: Icon(Icons.account_tree_outlined),
@@ -518,15 +532,173 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
 
           // ── Status Pills ───────────────────────────────────────────────────
           const _Sec('STATUS PILLS'),
-          Wrap(spacing: 8, runSpacing: 8, children: [
-            _Pill('POSTED', SuperTokensData.defaultSuccess, t),
-            _Pill('PENDING', cs.primary, t),
-            _Pill('DRAFT', SuperTokensData.defaultWarning, t),
-            _Pill('VOIDED', cs.error, t),
-            _Pill('LOCKED', t.fg3, t),
-            _Pill('APPROVED', SuperTokensData.defaultSuccess, t),
-            _Pill('REJECTED', cs.error, t),
+          const Wrap(spacing: 8, runSpacing: 8, children: [
+            StatusPill('POSTED', tone: PillTone.success),
+            StatusPill('PENDING', tone: PillTone.accent),
+            StatusPill('IN REVIEW', tone: PillTone.info),
+            StatusPill('DRAFT', tone: PillTone.warning),
+            StatusPill('VOIDED', tone: PillTone.danger),
+            StatusPill('LOCKED', tone: PillTone.neutral),
           ]),
+
+          // ════════════════════════════════════════════════════════════════════
+          // 7b · SEMANTIC COLORS (v2.1.0)  —  SuperSemanticColors
+          // ════════════════════════════════════════════════════════════════════
+          const _Sec('SEMANTIC COLORS'),
+          Text(
+            'SuperSemanticColors — six intents, each resolved per brightness into '
+            'solid · onSolid · subtle · onSubtle · border. Read via '
+            'SuperSemanticColors.of(context). Drives pills, banners & snackbars.',
+            style: SuperText.caption.copyWith(color: t.fg3),
+          ),
+          const SizedBox(height: 12),
+          const _SemanticColorsDemo(),
+
+          // ════════════════════════════════════════════════════════════════════
+          // 7c · COLOR UTILITIES (v2.1.0)  —  SuperColorX
+          // ════════════════════════════════════════════════════════════════════
+          const _Sec('COLOR UTILITIES'),
+          Text(
+            'SuperColorX on Color — hex parse/format, HSL tonal ops, and WCAG 2.1 '
+            'contrast helpers (contrastRatio · meetsAA · onColor).',
+            style: SuperText.caption.copyWith(color: t.fg3),
+          ),
+          const SizedBox(height: 12),
+          _ColorUtilsDemo(seed: palette.shade500),
+
+          // ════════════════════════════════════════════════════════════════════
+          // 7d · SUPER SLIDER (v2.1.0)
+          // ════════════════════════════════════════════════════════════════════
+          const _Sec('SUPER SLIDER'),
+          Text(
+            'Responsive content carousel — items-per-view adapt to the viewport '
+            '(1 / 2 / 3), autoplay pauses on hover, arrows + animated indicator. '
+            'Use for KPI strips, store tiles, or product carousels.',
+            style: SuperText.caption.copyWith(color: t.fg3),
+          ),
+          const SizedBox(height: 16),
+          SuperSlider(
+            height: 150,
+            gap: 12,
+            peek: 24,
+            autoPlay: true,
+            loop: true,
+            children: [
+              for (final (label, value, delta, marker) in const [
+                ('TOTAL BALANCE', '\$248,200.00', '+4.2%', SuperMarker.ledger),
+                ('OPEN JOURNALS', '18', '+3', SuperMarker.identity),
+                ('PENDING REVIEW', '3', '-1', SuperMarker.notes),
+                ('ACTIVE STORES', '42', '+2', SuperMarker.identity),
+                ('INVENTORY VALUE', '\$96,540.00', '+1.8%', SuperMarker.ledger),
+              ])
+                _KpiSlide(label: label, value: value, delta: delta, marker: marker),
+            ],
+          ),
+
+          // ════════════════════════════════════════════════════════════════════
+          // 7e · SECTION HEADER / FOOTER (v2.1.0)
+          // ════════════════════════════════════════════════════════════════════
+          const _Sec('SUPER SECTION HEADER'),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(children: [
+                Text('STYLE 1 — MARKER BAR',
+                    style: SuperText.eyebrow.copyWith(color: t.fg4)),
+                const SizedBox(height: 16),
+                const SuperSectionHeader(
+                  eyebrow: 'STORES & PRODUCTS • STORES',
+                  title: 'Create Store',
+                  titleArabic: 'إنشاء متجر',
+                  subtitle: 'Define store name and location information',
+                  marker: SuperMarker.identity,
+                ),
+                Divider(height: 28, color: t.border),
+                const SuperSectionHeader(
+                  title: 'Opening Balance',
+                  subtitle: 'Ledger totals carried into the new period',
+                  marker: SuperMarker.ledger,
+                  trailing: StatusPill('BALANCED', tone: PillTone.success),
+                ),
+                Divider(height: 28, color: t.border),
+                const SuperSectionHeader(
+                  title: 'Notes',
+                  subtitle: 'Any additional documentation for this store',
+                  marker: SuperMarker.notes,
+                ),
+                Divider(height: 28, color: t.border),
+                Text('STYLE 2 — ICON CHIP',
+                    style: SuperText.eyebrow.copyWith(color: t.fg4)),
+                const SizedBox(height: 16),
+                const SuperSectionHeader(
+                  style: SuperSectionHeaderStyle.style2,
+                  title: 'Financial',
+                  subtitle: 'Linked control account and terms',
+                  marker: SuperMarker.identity,
+                  leading: Icon(Icons.sync_alt),
+                  trailing: Icon(Icons.expand_more),
+                ),
+                const SizedBox(height: 16),
+                const SuperSectionHeader(
+                  style: SuperSectionHeaderStyle.style2,
+                  title: 'Ledger Balance',
+                  subtitle: 'Opening totals carried into the period',
+                  marker: SuperMarker.ledger,
+                  leading: Icon(Icons.account_balance_wallet_outlined),
+                  trailing: Icon(Icons.chevron_right),
+                ),
+                const SizedBox(height: 16),
+                const SuperSectionHeader(
+                  style: SuperSectionHeaderStyle.style2,
+                  title: 'Documentation',
+                  subtitle: 'Compliance notes and attachments',
+                  marker: SuperMarker.notes,
+                  leading: Icon(Icons.description_outlined),
+                ),
+              ]),
+            ),
+          ),
+
+          const _Sec('SUPER SECTION FOOTER'),
+          SuperSectionFooter(
+            brand: '© 2024 GeniusLink ERP • System Status: Operational',
+            actions: [
+              SuperFooterLink('System Status', onTap: () {}),
+              SuperFooterLink('Documentation', onTap: () {}),
+              SuperFooterLink('Audit Log', onTap: () {}, emphasized: true),
+            ],
+          ),
+
+          const _Sec('SUPER SECTION (HEADER + FOOTER)'),
+          SuperSection(
+            title: 'Create Store',
+            titleArabic: 'إنشاء متجر',
+            eyebrow: 'STORES & PRODUCTS • STORES',
+            subtitle: 'Define store name and location information',
+            marker: SuperMarker.identity,
+            headerTrailing: const StatusPill('DRAFT', tone: PillTone.warning),
+            footerBrand: '© 2024 GeniusLink ERP • Precision System',
+            footerActions: [
+              SuperFooterLink('Reset', onTap: () {}),
+              SuperFooterLink('Save Draft', onTap: () {}, emphasized: true),
+            ],
+            child: Text(
+              'SuperSection wraps the card surface and optionally composes a '
+              'SuperSectionHeader and SuperSectionFooter around this body. Omit '
+              'either to drop it; pass card: false for a borderless variant.',
+              style: SuperText.body.copyWith(color: t.fg2),
+            ),
+          ),
+          const SizedBox(height: 8),
+          SuperSection(
+            title: 'Financial',
+            subtitle: 'Linked control account and terms',
+            headerStyle: SuperSectionHeaderStyle.style2,
+            leading: const Icon(Icons.sync_alt),
+            headerTrailing: const Icon(Icons.expand_more),
+            child: Text('Header-only SuperSection using style2 (no footer).',
+                style: SuperText.body.copyWith(color: t.fg2)),
+          ),
 
           // ════════════════════════════════════════════════════════════════════
           // 8 · CARDS
@@ -543,7 +715,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ),
           const SizedBox(height: 8),
           // Filled
-          Card(elevation: 0, surfaceTintColor: Colors.transparent, color: Theme.of(context).colorScheme.surfaceVariant,
+          Card(elevation: 0, surfaceTintColor: Colors.transparent, color: Theme.of(context).colorScheme.surfaceContainerHighest,
             child: ListTile(
               leading: Icon(Icons.inventory_2_outlined, color: cs.primary),
               title: const Text('Filled Card'),
@@ -654,8 +826,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           const SizedBox(height: 8),
           SuperCard(
             expandDirection: Axis.horizontal,
-            leading: const Icon(Icons.info_outline,
-                color: SuperTokensData.defaultWarning),
+            leading: Icon(Icons.info_outline,
+                color: SuperThemeData.of(context).tokens.warning),
             trailing: const StatusPill('NOTES', tone: PillTone.warning),
             expandedChild: SizedBox(
               width: 180,
@@ -674,7 +846,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           const SizedBox(height: 8),
           ClipRRect(
             borderRadius:
-                BorderRadius.circular(SuperTokensData.defaultRadiusCard),
+                BorderRadius.circular(SuperThemeData.of(context).tokens.radiusCard),
             child: SuperAppBar(
               primary: false,
               automaticallyImplyLeading: false,
@@ -772,12 +944,12 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 leading: Icon(Icons.store_outlined, color: cs.primary),
                 title: const Text('Downtown Central Store'),
                 subtitle: const Text('Store ID: STR-0042 • Active'),
-                trailing: _Pill('ACTIVE', SuperTokensData.defaultSuccess, t),
+                trailing: _Pill('ACTIVE', SuperThemeData.of(context).tokens.success, t),
                 onTap: () {},
               ),
               const Divider(height: 1, indent: 56),
               ListTile(
-                leading: const Icon(Icons.warning_amber_outlined, color: SuperTokensData.defaultWarning),
+                leading: Icon(Icons.warning_amber_outlined, color: SuperThemeData.of(context).tokens.warning),
                 title: const Text('Pending Reconciliation'),
                 subtitle: const Text('3 entries require review before closing'),
                 isThreeLine: false,
@@ -815,13 +987,13 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                       title: Text(name),
                       leading: Text(code, style: SuperText.mono.copyWith(color: t.fg3, fontSize: 11)),
                       trailing: Text(bal,
-                          style: SuperText.mono.copyWith(color: SuperTokensData.defaultSuccess, fontSize: 12)),
+                          style: SuperText.mono.copyWith(color: SuperThemeData.of(context).tokens.success, fontSize: 12)),
                     ),
                 ],
               ),
               const Divider(height: 1),
               ExpansionTile(
-                leading: const Icon(Icons.folder_outlined, color: SuperTokensData.defaultWarning),
+                leading: Icon(Icons.folder_outlined, color: SuperThemeData.of(context).tokens.warning),
                 title: const Text('Current Liabilities'),
                 subtitle: const Text('2 accounts · SAR 3,800.00'),
                 children: [
@@ -1076,7 +1248,16 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 ]),
               ),
 
-          const SizedBox(height: 80),
+          const SizedBox(height: 40),
+          SuperSectionFooter(
+            brand: '© 2024 GeniusLink ERP • Precision System',
+            actions: [
+              SuperFooterLink('System Status', onTap: () {}),
+              SuperFooterLink('Documentation', onTap: () {}),
+              SuperFooterLink('Audit Log', onTap: () {}),
+            ],
+          ),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -1182,11 +1363,11 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       String n, String name, String type, String nature, String bal) {
     final neg = bal.startsWith('-');
     final typeColor = type == 'Asset'
-        ? SuperTokensData.defaultSuccess
+        ? SuperThemeData.of(context).tokens.success
         : type == 'Liability'
             ? cs.error
             : cs.primary;
-    final natureColor = nature == 'DR' ? cs.primary : SuperTokensData.defaultWarning;
+    final natureColor = nature == 'DR' ? cs.primary : SuperThemeData.of(context).tokens.warning;
     return DataRow(cells: [
       DataCell(Text(n, style: SuperText.mono.copyWith(color: t.fg3))),
       DataCell(Text(name, style: SuperText.body.copyWith(color: t.fg1))),
@@ -1200,7 +1381,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
         child: Text(nature, style: SuperText.mono.copyWith(color: natureColor, fontSize: 11)),
       )),
       DataCell(Text(bal,
-          style: SuperText.mono.copyWith(color: neg ? cs.error : SuperTokensData.defaultSuccess))),
+          style: SuperText.mono.copyWith(color: neg ? cs.error : SuperThemeData.of(context).tokens.success))),
     ]);
   }
 }
@@ -1254,7 +1435,7 @@ class _Pill extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
           color: t.tintFill(color, 0.14),
-          borderRadius: BorderRadius.circular(SuperTokensData.defaultRadiusPill),
+          borderRadius: BorderRadius.circular(SuperThemeData.of(context).tokens.radiusPill),
         ),
         child: Text(label, style: SuperText.pill.copyWith(color: color)),
       );
@@ -1279,6 +1460,217 @@ class _TypeRow extends StatelessWidget {
   }
 }
 
+/// Showcase for [SuperSemanticColors] — one row per intent, showing the solid
+/// swatch, a filled badge (solid + onSolid) and a subtle pill (subtle + border
+/// + onSubtle) with its measured WCAG contrast ratio.
+class _SemanticColorsDemo extends StatelessWidget {
+  const _SemanticColorsDemo();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = SuperThemeData.of(context);
+    final sem = SuperSemanticColors.of(context);
+    final rows = <(String, SuperSemanticColor)>[
+      ('Info', sem.info),
+      ('Success', sem.success),
+      ('Warning', sem.warning),
+      ('Danger', sem.danger),
+      ('Accent', sem.accent),
+      ('Neutral', sem.neutral),
+    ];
+    return Column(
+      children: [
+        for (final (name, c) in rows)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Row(children: [
+              // solid swatch
+              Container(
+                width: 40, height: 40,
+                decoration: BoxDecoration(
+                  color: c.solid,
+                  borderRadius: BorderRadius.circular(t.tokens.radiusCard),
+                ),
+              ),
+              const SizedBox(width: 12),
+              SizedBox(
+                width: 76,
+                child: Text(name, style: SuperText.body.copyWith(color: t.fg1)),
+              ),
+              // filled badge (solid + onSolid)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: c.solid,
+                  borderRadius: BorderRadius.circular(t.tokens.radiusPill),
+                ),
+                child: Text('SOLID',
+                    style: SuperText.pill.copyWith(color: c.onSolid)),
+              ),
+              const SizedBox(width: 8),
+              // subtle pill (subtle + border + onSubtle)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: c.subtle,
+                  borderRadius: BorderRadius.circular(t.tokens.radiusPill),
+                  border: Border.all(color: c.border),
+                ),
+                child: Text('SUBTLE',
+                    style: SuperText.pill.copyWith(color: c.onSubtle)),
+              ),
+              const Spacer(),
+              // WCAG ratio for onSubtle over subtle
+              Text('${c.subtle.contrastRatio(c.onSubtle).toStringAsFixed(1)}:1',
+                  style: SuperText.mono.copyWith(color: t.fg3, fontSize: 11)),
+              const SizedBox(width: 4),
+              Icon(
+                c.subtle.meetsAA(c.onSubtle) ? Icons.check_circle : Icons.error,
+                size: 14,
+                color: c.subtle.meetsAA(c.onSubtle) ? sem.success.solid : sem.danger.solid,
+              ),
+            ]),
+          ),
+      ],
+    );
+  }
+}
+
+/// Showcase for [SuperColorX] — tonal ramp from a seed color, its hex, and the
+/// contrast-picked on-color used for the label on each step.
+class _ColorUtilsDemo extends StatelessWidget {
+  const _ColorUtilsDemo({required this.seed});
+  final Color seed;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = SuperThemeData.of(context);
+    // Perceptual tonal ramp built entirely with SuperColorX ops.
+    final steps = <(String, Color)>[
+      ('darken .2', seed.darken(0.2)),
+      ('darken .1', seed.darken(0.1)),
+      ('seed', seed),
+      ('lighten .1', seed.lighten(0.1)),
+      ('lighten .2', seed.lighten(0.2)),
+      ('desat .2', seed.desaturate(0.2)),
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(t.tokens.radiusCard),
+          child: Row(
+            children: steps.map((s) {
+              final (label, color) = s;
+              final on = color.onColor(); // WCAG-picked foreground
+              return Expanded(
+                child: Container(
+                  height: 64,
+                  color: color,
+                  padding: const EdgeInsets.all(6),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(label, style: SuperText.pill.copyWith(color: on, fontSize: 8)),
+                      Text(color.toHex(),
+                          style: SuperText.mono.copyWith(color: on, fontSize: 9)),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        const SizedBox(height: 10),
+        // fromHex round-trip + tintOver demo
+        Row(children: [
+          Text('SuperColorX.fromHex("#4A7CFF")  →  ',
+              style: SuperText.mono.copyWith(color: t.fg3, fontSize: 11)),
+          Container(
+            width: 18, height: 18,
+            decoration: BoxDecoration(
+              color: SuperColorX.fromHex('#4A7CFF'),
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Text('.tintOver(surface)  →  ',
+              style: SuperText.mono.copyWith(color: t.fg3, fontSize: 11)),
+          Container(
+            width: 18, height: 18,
+            decoration: BoxDecoration(
+              color: seed.tintOver(t.surface, 0.14),
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(color: t.border),
+            ),
+          ),
+        ]),
+      ],
+    );
+  }
+}
+
+/// A KPI slide used in the SuperSlider showcase.
+class _KpiSlide extends StatelessWidget {
+  const _KpiSlide({
+    required this.label,
+    required this.value,
+    required this.delta,
+    required this.marker,
+  });
+  final String label;
+  final String value;
+  final String delta;
+  final SuperMarker marker;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = SuperThemeData.of(context);
+    final k = t.tokens;
+    final up = !delta.startsWith('-');
+    final deltaColor = up ? k.success : t.tokens.danger;
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: t.surface,
+        borderRadius: BorderRadius.circular(k.radiusCard),
+        border: Border.all(color: t.border),
+        boxShadow: t.cardShadow,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(children: [
+            Container(
+              width: k.markerWidth,
+              height: 16,
+              margin: EdgeInsetsDirectional.only(end: k.space3),
+              decoration: BoxDecoration(
+                color: k.markerColor(marker),
+                borderRadius: BorderRadius.circular(k.radiusPill),
+              ),
+            ),
+            Expanded(
+              child: Text(label,
+                  style: SuperText.label.copyWith(color: t.fg3),
+                  maxLines: 1, overflow: TextOverflow.ellipsis),
+            ),
+          ]),
+          Text(value, style: SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
+          Row(children: [
+            Icon(up ? Icons.trending_up : Icons.trending_down,
+                size: 14, color: deltaColor),
+            const SizedBox(width: 4),
+            Text(delta, style: SuperText.mono.copyWith(color: deltaColor, fontSize: 12)),
+          ]),
+        ],
+      ),
+    );
+  }
+}
+
 class _ShadeRow extends StatelessWidget {
   const _ShadeRow({required this.palette});
   final SuperPalette palette;
@@ -1292,7 +1684,7 @@ class _ShadeRow extends StatelessWidget {
       (900, palette.shade900),
     ];
     return ClipRRect(
-      borderRadius: BorderRadius.circular(SuperTokensData.defaultRadiusCard),
+      borderRadius: BorderRadius.circular(SuperThemeData.of(context).tokens.radiusCard),
       child: Row(
         children: shades.map((s) {
           final (label, color) = s;
@@ -1330,7 +1722,7 @@ class _SurfaceSeparationDemo extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(SuperTokensData.defaultRadiusCard),
+            borderRadius: BorderRadius.circular(SuperThemeData.of(context).tokens.radiusCard),
             border: Border.all(color: t.border),
           ),
           child: Column(
@@ -1387,7 +1779,7 @@ class _ColorSchemeGrid extends StatelessWidget {
       ('errorContainer', cs.errorContainer, cs.onErrorContainer),
       ('surface', cs.surface, cs.onSurface),
       ('onSurface', cs.onSurface, cs.surface),
-      ('surfaceVariant', cs.surfaceVariant, cs.onSurfaceVariant),
+      ('surfaceVariant', cs.surfaceContainerHighest, cs.onSurfaceVariant),
       ('outline', cs.outline, cs.surface),
       ('outlineVariant', cs.outlineVariant, cs.onSurface),
       // v1.3.0 — surface-container ramp (Scaffold=surface; cards ride these)

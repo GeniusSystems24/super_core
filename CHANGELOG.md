@@ -6,7 +6,130 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
-## [2.0.0] — 2026-07-18
+## [2.1.0] — 2026-07-18
+
+Color-system enhancement plus one **breaking** cleanup: the last static token
+values are removed so the theme is the only source of brand tokens (see
+_Changed (breaking)_). All new APIs are exported through the `super_core` barrel.
+
+### Changed (breaking)
+
+- **No static token values remain.** v2.0.0 kept a `static const` mirror of
+  every `SuperTokensData` field (`SuperTokensData.defaultAccent`,
+  `defaultSpace4`, …) and a `SuperMarker.<x>.defaultColor`, for `const` call
+  sites. These are **all removed** — brand tokens can only be read dynamically
+  from the ambient theme (`SuperThemeData.of(context).tokens.x` /
+  `context.superTheme.tokens.x`). The default values now live solely as the
+  literals in the `SuperTokensData` constructor; `SuperTokensData.fallback` (the
+  default *instance*) is unchanged.
+  - Migration: `SuperTokensData.default<Field>` → `context.superTheme.tokens.<field>`
+    (drop the enclosing `const`); where `const` is mandatory (enum arg, static
+    const, default parameter, `initState`) use a brand-value literal.
+    `SuperMarker.<x>.defaultColor` → `SuperMarker.<x>.resolve(tokens)`. All Super
+    toolkit packages + examples were migrated. Full guide:
+    `skill/migration_v2_to_v2.1/`.
+
+### Added
+
+#### Structured semantic colors — `SuperSemanticColors`
+
+- New `SuperSemanticColor` — a single intent expanded into the roles a status
+  surface needs: `solid`, `onSolid`, `subtle` (opaque tint over the card
+  surface), `onSubtle`, and `border`. `SuperSemanticColor.fromBase` derives the
+  whole set from one solid + surface + brightness, choosing `onSubtle` by WCAG
+  contrast.
+- New `SuperSemanticColors` `ThemeExtension` — six intents (`info`, `success`,
+  `warning`, `danger`, `accent`, `neutral`) plus `byIntent(SuperSemanticIntent)`.
+  `SuperMaterialThemeData` registers one automatically (derived from the active
+  palette, brightness and token semantics); read it with
+  `SuperSemanticColors.of(context)`. A caller-supplied instance is preserved.
+
+#### `info` semantic color
+
+- `SuperTokensData` gains `info` (default sky blue `#0EA5E9`, distinct from the
+  royal-blue `accent`), threaded through `copyWith` / `lerp` / equality.
+- `SuperPalette` gains an `info` getter. `StatusPill` gains `PillTone.info`.
+
+#### Per-palette semantic colors
+
+- `SuperPalette` gains optional `infoColor` / `successColor` / `warningColor` /
+  `dangerColor` overrides (all default null → the GeniusLink brand semantics).
+  `SuperPalette.applySemanticsTo(tokens)` folds them in; `SuperMaterialThemeData`
+  applies palette semantics **only when the caller passes no explicit `tokens:`**
+  (explicit tokens > palette semantics > brand default).
+
+#### Four new palettes
+
+- `SuperPalette.tealPalette`, `rosePalette`, `indigoPalette`, `slatePalette` —
+  `SuperPalette.values` now lists **ten** palettes (order: blue, purple, green,
+  golden, teal, rose, indigo, slate, gray, monochrome).
+
+#### Color utilities & WCAG helpers — `SuperColorX`
+
+- New `SuperColorX` extension on `Color`: `SuperColorX.fromHex` / `tryFromHex`,
+  `toHex`; HSL tonal ops `lighten` / `darken` / `saturate` / `desaturate` /
+  `mix` / `tone` / `tintOver`; and WCAG 2.1 helpers `contrastRatio`, `meetsAA`,
+  `meetsAAA`, `onColor` (best of dark/light) and `bestForegroundFrom`.
+
+#### Shade lookup on `SuperPalette`
+
+- `palette.shades` (0–9 ramp), `palette.shade(int step)` (nearest of 50…900) and
+  `palette[index]`.
+
+#### Section header / footer widgets
+
+- New `SuperSectionHeaderThemeData`, `SuperSectionFooterThemeData` and
+  `SuperSectionThemeData` `ThemeExtension`s carry the configurable defaults for
+  `SuperSectionHeader` / `SuperSectionFooter` / `SuperSection` (marker + chip
+  dimensions, text styles, gaps, card surface / border / radius / padding,
+  selected tint, expand duration + curve, etc). `SuperMaterialThemeData`
+  registers a default instance of each; widgets read `X.of(context)` and fall
+  back to the GeniusLink hard defaults for any null field — a widget-level
+  parameter still wins over the theme value.
+
+- New `SuperSlider` + `SuperSliderController` — a professional, reusable
+  horizontal carousel for ERP (KPI strips, store tiles) and e-commerce
+  (product / banner carousels). Static `children` or lazy `itemBuilder`;
+  responsive items-per-view (`SuperResponsive<int>`, default 1/2/3), edge
+  `peek`, `gap`, `height`/`aspectRatio`, snapping paged scroll, autoplay
+  (pauses on hover/drag), `loop`, brand chevron arrows, an animated page
+  indicator, RTL support, and an `onIndexChanged` callback.
+
+- New `SuperSectionHeader` — a superset of `SectionHeader` adding an ALL-CAPS
+  breadcrumb eyebrow, an inline Arabic title translation (tertiary blue), the
+  marker bar, subtitle, `leading` + `trailing` slots, and two styles
+  (`SuperSectionHeaderStyle.style1` marker-bar form header / `style2` tinted
+  icon-chip + ALL-CAPS row header).
+- New `SuperSection` — a section-card shell that optionally composes a
+  `SuperSectionHeader` (via `header` or the convenience fields) and a
+  `SuperSectionFooter` (via `footer` or `footerBrand`/`footerActions`) around a
+  body `child` or a spaced `children` list. Supports `collapsible` (animated
+  header toggle with chevron), `selected`/`onTap` (accent border + tint),
+  `dividerAfterHeader`, `markerColor`, `background`, `gap`; `card: false` gives a
+  borderless variant.
+- New `SuperSectionFooter` + `SuperFooterLink` — the GeniusLink footer row
+  (hairline rule, ALL-CAPS brand string on the leading edge, action links on the
+  trailing edge; wraps on narrow widths). Both exported through the barrel and
+  showcased in the example app.
+
+### Changed
+
+- Dark mode accent no longer reads washed-out: `toDarkColorScheme()` now derives
+  `primary` / `secondary` / `tertiary` from **shade400** (was shade300 for
+  primary/tertiary), restoring the vivid electric-royal-blue brand identity while
+  keeping AA legibility (accent-on-surface ~5.5:1, `shade900` on-color on filled
+  controls ~4.6:1). `primaryContainer` / `tertiaryContainer` deepened to shade800
+  and `inversePrimary` to shade500 to match. `SuperPalette.primaryDark` → shade400.
+- `StatusPill` now sources its fill/text from `SuperSemanticColors` for
+  consistent, contrast-checked tinting (visually equivalent; additive tone).
+- `pubspec.yaml`: version → `2.1.0`; barrel exports `super_color_utils.dart` and
+  `super_semantic_colors.dart`.
+
+### Migration from 2.0.0
+
+Fully backward compatible — additive only.
+
+---
 
 Major release. Brand tokens become **dynamic** (theme-owned), the toolkit gains
 a custom-font pipeline and forked, GeniusLink-flavored app bars, `SuperCard`
@@ -20,13 +143,15 @@ becomes expandable, and `SuperDialog` is retired. **Breaking** — see Migration
   by the theme via `SuperThemeData.tokens` and surfaced as
   `SuperMaterialThemeData.tokens`, so a theme can override any of them
   (`SuperMaterialThemeData.light(tokens: const SuperTokensData(radiusCard: 12))`).
-  `SuperTokensData` provides `copyWith` + `lerp`, and every field keeps its
-  historical value as a `default*` compile-time constant
-  (`SuperTokensData.defaultSpace4`, `defaultAccent`, `defaultCurveStandard`, …)
-  so `const` call sites still resolve.
-  - Migration: `SuperTokens.x` → `SuperThemeData.of(context).tokens.x` (live)
-    or `SuperTokensData.defaultX` (const context). `SuperMarker.ledger` no
-    longer exposes a `static const` color — use `SuperMarker.ledger.resolve(tokens)`.
+  `SuperTokensData` provides `copyWith` + `lerp`. There are **no** static token
+  constants — every consumer reads tokens dynamically from the ambient theme
+  (`SuperThemeData.of(context).tokens.x`); the defaults live only as the literals
+  in the `SuperTokensData` constructor (`SuperTokensData.fallback` is the default
+  instance).
+  - Migration: `SuperTokens.x` → `SuperThemeData.of(context).tokens.x`, dropping
+    `const` on the enclosing widget; where `const` is mandatory (enum arg /
+    static const / default param) use a brand-value literal. `SuperMarker.ledger`
+    no longer exposes a color — use `SuperMarker.ledger.resolve(tokens)`.
 - **`SuperDialog` removed.** Use Flutter's `showDialog` / `AlertDialog`, which
   `SuperMaterialThemeData` already themes (radius, colors, typography).
 
@@ -76,8 +201,8 @@ becomes expandable, and `SuperDialog` is retired. **Breaking** — see Migration
 ### Migration from 1.x
 
 - Replace every `SuperTokens.<name>` with `SuperThemeData.of(context).tokens.<name>`
-  (dynamic) or `SuperTokensData.default<Name>` (const). The Super toolkit
-  packages and their examples have been migrated to the `default*` constants.
+  (fully dynamic; drop `const`, or use a brand-value literal where `const` is
+  mandatory). The Super toolkit packages and their examples were migrated this way.
 - Replace `SuperDialog.show/confirm/alert` with `showDialog` + `AlertDialog`.
 - Dependent packages now require `super_core: ">=2.0.0 <3.0.0"`.
 - Step-by-step agent guides live under `skill/migration_v1_to_v2/`

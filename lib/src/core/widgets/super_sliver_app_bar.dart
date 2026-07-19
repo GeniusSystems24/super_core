@@ -34,7 +34,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show PersistentHeaderShowOnScreenConfiguration, FloatingHeaderSnapConfiguration, OverScrollHeaderStretchConfiguration;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
-import '../theme/super_app_bar_theme.dart';
 import 'super_app_bar.dart';
 
 export '../theme/super_app_bar_theme.dart' show SubtitlePosition, SuperAppBarTheme;

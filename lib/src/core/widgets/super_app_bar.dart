@@ -293,17 +293,17 @@ class _SuperAppBarState extends State<SuperAppBar> {
         widget.scrolledUnderElevation ?? appBarTheme.scrolledUnderElevation ?? 3.0;
     final double effectiveElevation = _scrolledUnder ? scrolledUnderElevation : elevation;
 
-    IconThemeData overallIconTheme = widget.iconTheme ??
+    final IconThemeData overallIconTheme = widget.iconTheme ??
         appBarTheme.iconTheme ??
         theme.iconTheme.copyWith(color: foregroundColor);
-    IconThemeData actionsIconTheme = widget.actionsIconTheme ??
+    final IconThemeData actionsIconTheme = widget.actionsIconTheme ??
         appBarTheme.actionsIconTheme ??
         overallIconTheme;
 
-    TextStyle? toolbarTextStyle = widget.toolbarTextStyle ??
+    final TextStyle? toolbarTextStyle = widget.toolbarTextStyle ??
         appBarTheme.toolbarTextStyle ??
         theme.textTheme.bodyMedium?.copyWith(color: foregroundColor);
-    TextStyle? titleTextStyle = widget.titleTextStyle ??
+    final TextStyle? titleTextStyle = widget.titleTextStyle ??
         appBarTheme.titleTextStyle ??
         theme.textTheme.titleLarge?.copyWith(color: foregroundColor);
     final TextStyle? subtitleStyle = widget.subtitleTextStyle ??

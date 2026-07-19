@@ -4,14 +4,15 @@
 // SuperTokensData — the DYNAMIC brand-token bundle for the GeniusLink design
 // system. Prior to v2.0.0 these were compile-time `static const` values on an
 // `abstract final class SuperTokens`; they are now instance fields on this
-// immutable data class so a theme can override any of them.
+// immutable data class so a theme can override any of them. There are NO static
+// token constants — the only default values are the literals baked into the
+// constructor, and the sole default *instance* is [SuperTokensData.fallback].
 //
-// Every value has a built-in default (exposed as a `default*` constant) so the
-// zero-argument `const SuperTokensData()` reproduces the historical GeniusLink
-// values exactly. The bundle is carried by [SuperThemeData.tokens] (registered
-// as a `ThemeExtension` by `SuperMaterialThemeData`) and surfaced directly as
+// The bundle is carried by [SuperThemeData.tokens] (registered as a
+// `ThemeExtension` by `SuperMaterialThemeData`) and surfaced directly as
 // `SuperMaterialThemeData.tokens`, so every Super component reads brand tokens
-// from the ambient theme via `SuperThemeData.of(context).tokens`.
+// from the ambient theme via `SuperThemeData.of(context).tokens` — never from a
+// static constant.
 //
 //   final tokens = SuperThemeData.of(context).tokens;
 //   SizedBox(height: tokens.space4);
@@ -26,127 +27,63 @@ import 'package:flutter/widgets.dart';
 /// + semantic palette, font families, radii, the 4px spacing scale, control
 /// metrics, and motion curves.
 ///
-/// Obtain the active bundle from the ambient theme:
+/// Read the active bundle from the ambient theme — there are no static token
+/// constants to reach for:
 ///
 /// ```dart
 /// final tokens = SuperThemeData.of(context).tokens; // or theme.tokens
 /// ```
 ///
-/// Every field defaults to the historical GeniusLink value (see the `default*`
-/// constants), so `const SuperTokensData()` is the canonical brand default and
-/// `SuperTokensData.fallback` is a shared const instance of it. Override any
+/// The default values are the literals baked into the constructor, so
+/// `const SuperTokensData()` is the canonical brand default and
+/// [SuperTokensData.fallback] is a shared const *instance* of it. Override any
 /// subset with [copyWith] or by passing `tokens:` to
 /// `SuperMaterialThemeData.light` / `.dark`.
 @immutable
 class SuperTokensData {
   /// Creates a token bundle. Every parameter defaults to the GeniusLink brand
-  /// value, so omitting all of them yields the canonical default theme.
+  /// value (defined inline here — the single source of truth), so omitting all
+  /// of them yields the canonical default theme.
   const SuperTokensData({
-    this.accent = defaultAccent,
-    this.accentHover = defaultAccentHover,
-    this.accentPressed = defaultAccentPressed,
-    this.success = defaultSuccess,
-    this.warning = defaultWarning,
-    this.danger = defaultDanger,
-    this.displayFont = defaultDisplayFont,
-    this.bodyFont = defaultBodyFont,
-    this.monoFont = defaultMonoFont,
-    this.arabicFont = defaultArabicFont,
-    this.radiusControl = defaultRadiusControl,
-    this.radiusMd = defaultRadiusMd,
-    this.radiusCard = defaultRadiusCard,
-    this.radiusPill = defaultRadiusPill,
-    this.space1 = defaultSpace1,
-    this.space2 = defaultSpace2,
-    this.space3 = defaultSpace3,
-    this.space4 = defaultSpace4,
-    this.space6 = defaultSpace6,
-    this.space8 = defaultSpace8,
-    this.space10 = defaultSpace10,
-    this.space16 = defaultSpace16,
-    this.space20 = defaultSpace20,
-    this.controlHeight = defaultControlHeight,
-    this.iconButton = defaultIconButton,
-    this.markerWidth = defaultMarkerWidth,
-    this.markerHeight = defaultMarkerHeight,
-    this.contentColumn = defaultContentColumn,
-    this.fieldComfortable = defaultFieldComfortable,
-    this.fieldCompact = defaultFieldCompact,
-    this.stepperSize = defaultStepperSize,
-    this.trailingIcon = defaultTrailingIcon,
-    this.durFast = defaultDurFast,
-    this.durBase = defaultDurBase,
-    this.durExpand = defaultDurExpand,
-    this.curveStandard = defaultCurveStandard,
-    this.curveOut = defaultCurveOut,
+    this.accent = const Color(0xFF4A7CFF),
+    this.accentHover = const Color(0xFF5E8DFF),
+    this.accentPressed = const Color(0xFF3D6DEB),
+    this.info = const Color(0xFF0EA5E9),
+    this.success = const Color(0xFF1DB88A),
+    this.warning = const Color(0xFFF97316),
+    this.danger = const Color(0xFFEF4444),
+    this.displayFont = 'Manrope',
+    this.bodyFont = 'Inter',
+    this.monoFont = 'JetBrainsMono',
+    this.arabicFont = 'NotoNaskhArabic',
+    this.radiusControl = 4,
+    this.radiusMd = 6,
+    this.radiusCard = 8,
+    this.radiusPill = 12,
+    this.space1 = 4,
+    this.space2 = 8,
+    this.space3 = 12,
+    this.space4 = 16,
+    this.space6 = 24,
+    this.space8 = 32,
+    this.space10 = 40,
+    this.space16 = 64,
+    this.space20 = 80,
+    this.controlHeight = 40,
+    this.iconButton = 32,
+    this.markerWidth = 4,
+    this.markerHeight = 40,
+    this.contentColumn = 680,
+    this.fieldComfortable = 42,
+    this.fieldCompact = 36,
+    this.stepperSize = 24,
+    this.trailingIcon = 26,
+    this.durFast = const Duration(milliseconds: 100),
+    this.durBase = const Duration(milliseconds: 150),
+    this.durExpand = const Duration(milliseconds: 200),
+    this.curveStandard = const Cubic(0.4, 0, 0.2, 1),
+    this.curveOut = const Cubic(0, 0, 0.2, 1),
   });
-
-  // ── Default brand values (the historical `SuperTokens` constants) ─────────
-
-  /// The single dominant electric-royal-blue accent — default [accent].
-  static const Color defaultAccent = Color(0xFF4A7CFF);
-
-  /// Default [accentHover] — the accent +6% lightness.
-  static const Color defaultAccentHover = Color(0xFF5E8DFF);
-
-  /// Default [accentPressed] — the accent darkened on press.
-  static const Color defaultAccentPressed = Color(0xFF3D6DEB);
-
-  /// Default [success] — ledger / balance green.
-  static const Color defaultSuccess = Color(0xFF1DB88A);
-
-  /// Default [warning] — notes / documentation orange.
-  static const Color defaultWarning = Color(0xFFF97316);
-
-  /// Default [danger] — destructive / error red.
-  static const Color defaultDanger = Color(0xFFEF4444);
-
-  /// Default [displayFont] — H1 page titles + watermark.
-  static const String defaultDisplayFont = 'Manrope';
-
-  /// Default [bodyFont] — headings, body, labels, captions (the workhorse).
-  static const String defaultBodyFont = 'Inter';
-
-  /// Default [monoFont] — numerics, serials, audit log.
-  static const String defaultMonoFont = 'JetBrainsMono';
-
-  /// Default [arabicFont] — Arabic glyphs.
-  static const String defaultArabicFont = 'NotoNaskhArabic';
-
-  /// Default radii (control 4 / md 6 / card 8 / pill 12).
-  static const double defaultRadiusControl = 4;
-  static const double defaultRadiusMd = 6;
-  static const double defaultRadiusCard = 8;
-  static const double defaultRadiusPill = 12;
-
-  /// Default 4px-based spacing scale.
-  static const double defaultSpace1 = 4;
-  static const double defaultSpace2 = 8;
-  static const double defaultSpace3 = 12;
-  static const double defaultSpace4 = 16;
-  static const double defaultSpace6 = 24;
-  static const double defaultSpace8 = 32;
-  static const double defaultSpace10 = 40;
-  static const double defaultSpace16 = 64;
-  static const double defaultSpace20 = 80;
-
-  /// Default control metrics.
-  static const double defaultControlHeight = 40;
-  static const double defaultIconButton = 32;
-  static const double defaultMarkerWidth = 4;
-  static const double defaultMarkerHeight = 40;
-  static const double defaultContentColumn = 680;
-  static const double defaultFieldComfortable = 42;
-  static const double defaultFieldCompact = 36;
-  static const double defaultStepperSize = 24;
-  static const double defaultTrailingIcon = 26;
-
-  /// Default motion (durations + curves).
-  static const Duration defaultDurFast = Duration(milliseconds: 100);
-  static const Duration defaultDurBase = Duration(milliseconds: 150);
-  static const Duration defaultDurExpand = Duration(milliseconds: 200);
-  static const Curve defaultCurveStandard = Cubic(0.4, 0, 0.2, 1);
-  static const Curve defaultCurveOut = Cubic(0, 0, 0.2, 1);
 
   // ── Brand + semantic palette ──────────────────────────────────────────────
 
@@ -158,6 +95,10 @@ class SuperTokensData {
 
   /// The accent darkened for pressed states.
   final Color accentPressed;
+
+  /// Semantic informational color — neutral notices / in-progress states
+  /// (sky blue, distinct from the royal-blue [accent]).
+  final Color info;
 
   /// Semantic success color — ledger / balance sections.
   final Color success;
@@ -297,6 +238,7 @@ class SuperTokensData {
     Color? accent,
     Color? accentHover,
     Color? accentPressed,
+    Color? info,
     Color? success,
     Color? warning,
     Color? danger,
@@ -335,6 +277,7 @@ class SuperTokensData {
     accent: accent ?? this.accent,
     accentHover: accentHover ?? this.accentHover,
     accentPressed: accentPressed ?? this.accentPressed,
+    info: info ?? this.info,
     success: success ?? this.success,
     warning: warning ?? this.warning,
     danger: danger ?? this.danger,
@@ -387,6 +330,7 @@ class SuperTokensData {
       accent: Color.lerp(a.accent, b.accent, t)!,
       accentHover: Color.lerp(a.accentHover, b.accentHover, t)!,
       accentPressed: Color.lerp(a.accentPressed, b.accentPressed, t)!,
+      info: Color.lerp(a.info, b.info, t)!,
       success: Color.lerp(a.success, b.success, t)!,
       warning: Color.lerp(a.warning, b.warning, t)!,
       danger: Color.lerp(a.danger, b.danger, t)!,
@@ -430,6 +374,7 @@ class SuperTokensData {
       other.accent == accent &&
       other.accentHover == accentHover &&
       other.accentPressed == accentPressed &&
+      other.info == info &&
       other.success == success &&
       other.warning == warning &&
       other.danger == danger &&
@@ -470,6 +415,7 @@ class SuperTokensData {
     accent,
     accentHover,
     accentPressed,
+    info,
     success,
     warning,
     danger,
@@ -518,20 +464,16 @@ class SuperTokensData {
 /// ```
 enum SuperMarker {
   /// Blue — identity / definition / details.
-  identity(SuperTokensData.defaultAccent),
+  identity,
 
   /// Green — financial / balance / ledger / transfer.
-  ledger(SuperTokensData.defaultSuccess),
+  ledger,
 
   /// Orange — notes / compliance / documentation.
-  notes(SuperTokensData.defaultWarning);
+  notes;
 
-  const SuperMarker(this.defaultColor);
-
-  /// The built-in default fill color for this intent (the GeniusLink brand
-  /// value). Prefer [resolve] to honor a customized [SuperTokensData].
-  final Color defaultColor;
-
-  /// The bar fill color for this intent, resolved from [tokens].
+  /// The bar fill color for this intent, resolved dynamically from [tokens].
+  /// There is no static default color — always resolve against the ambient
+  /// theme's [SuperTokensData].
   Color resolve(SuperTokensData tokens) => tokens.markerColor(this);
 }

@@ -39,6 +39,8 @@ import 'super_device_mode.dart';
 import 'super_interactive_state_theme.dart';
 import 'super_metrics.dart';
 import 'super_palette.dart';
+import 'super_section_theme.dart';
+import 'super_semantic_colors.dart';
 import 'super_text_styles.dart';
 import 'super_theme.dart';
 import 'super_tokens.dart';
@@ -941,7 +943,7 @@ class SuperMaterialThemeData extends ThemeData {
     // carried by a provided [textTheme] > the token bundle's default. A resolved
     // custom family is applied over the default GeniusLink type ramp so its
     // sizes / weights / letter-spacing are preserved.
-    final baseTokens = tokens ?? SuperTokensData.fallback;
+    final baseTokens = tokens ?? palette.applySemanticsTo(SuperTokensData.fallback);
     final String? mergedFamily =
         fontFamily ??
         ((textTheme != null && mergeTextTheme) ? _familyOf(textTheme) : null);
@@ -1117,6 +1119,27 @@ class SuperMaterialThemeData extends ThemeData {
     // Generated Super extensions are authoritative (dedupe + sync with fields).
     byType[superTheme.type] = superTheme;
     byType[states.type] = states;
+    // Ensure a structured semantic color set is present. A caller-supplied
+    // SuperSemanticColors (already in byType) is preserved; otherwise one is
+    // derived from the (semantics-folded) superTheme so it always agrees.
+    if (!byType.values.any((e) => e is SuperSemanticColors)) {
+      final sem = SuperSemanticColors.fromSuperTheme(superTheme);
+      byType[sem.type] = sem;
+    }
+    // Ensure the section-family theme extensions are present so widgets can read
+    // configurable defaults. Caller-supplied instances are preserved.
+    if (!byType.values.any((e) => e is SuperSectionHeaderThemeData)) {
+      const e = SuperSectionHeaderThemeData();
+      byType[e.type] = e;
+    }
+    if (!byType.values.any((e) => e is SuperSectionFooterThemeData)) {
+      const e = SuperSectionFooterThemeData();
+      byType[e.type] = e;
+    }
+    if (!byType.values.any((e) => e is SuperSectionThemeData)) {
+      const e = SuperSectionThemeData();
+      byType[e.type] = e;
+    }
     return byType.values.toList(growable: false);
   }
 

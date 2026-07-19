@@ -2,17 +2,18 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v2.0.0) — the shared GeniusLink design-system foundation for the Super
-  toolkit. super_core ships SuperPalette (six palettes), SuperMaterialThemeData
+  (v2.1.0) — the shared GeniusLink design-system foundation for the Super
+  toolkit. super_core ships SuperPalette (ten palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
   metrics + dynamic tokens), SuperMetrics / SuperResponsive responsive tokens,
-  SuperTokensData dynamic brand tokens, the SuperText type ramp, and
-  design-system widgets. Use this skill whenever you build, theme, or modify
-  anything in super_core or in a package that depends on it.
+  SuperTokensData dynamic brand tokens, SuperSemanticColors + SuperColorX color
+  utilities, the SuperText type ramp, and design-system widgets. Use this skill
+  whenever you build, theme, or modify anything in super_core or in a package
+  that depends on it.
 ---
 
-# super_core · v2.0.0
+# super_core · v2.1.0
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -20,6 +21,48 @@ Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
 `super_navigation_sidebar`, `super_table_field`, `super_tree`) reads its colors,
 type, spacing, and component themes from here so the whole toolkit looks like one
 product.
+
+**What changed in 2.1.0 (additive — backward compatible, plus one token break):**
+
+1. **Color utilities — `SuperColorX`** (extension on `Color`): `fromHex` /
+   `tryFromHex` / `toHex`; HSL tonal ops `lighten` / `darken` / `saturate` /
+   `desaturate` / `mix` / `tone` / `tintOver`; and WCAG 2.1 helpers
+   `contrastRatio` / `meetsAA` / `meetsAAA` / `onColor` / `bestForegroundFrom`.
+2. **Structured semantic colors — `SuperSemanticColors`** `ThemeExtension`: six
+   intents (`info`, `success`, `warning`, `danger`, `accent`, `neutral`), each a
+   `SuperSemanticColor` with `solid` / `onSolid` / `subtle` / `onSubtle` /
+   `border` resolved per brightness (`onSubtle` picked by contrast). Auto-
+   registered by `SuperMaterialThemeData`; read `SuperSemanticColors.of(context)`.
+   A new `info` token (sky blue `#0EA5E9`) joins `success`/`warning`/`danger` on
+   `SuperTokensData`; `StatusPill` gains `PillTone.info` and sources its fills
+   from the semantic set.
+3. **Ten palettes.** `tealPalette`, `rosePalette`, `indigoPalette`,
+   `slatePalette` join the original six. `SuperPalette` gains optional
+   per-palette semantic overrides (`infoColor`/`successColor`/`warningColor`/
+   `dangerColor`, folded in only when no explicit `tokens:` is passed) and shade
+   lookup (`palette.shades`, `palette.shade(500)`, `palette[5]`).
+4. **Dark accent fix.** `toDarkColorScheme()` derives `primary`/`secondary`/
+   `tertiary` from **shade400** (was shade300) so the accent stays vivid on
+   near-black while keeping AA legibility. Scaffold backgrounds deepened for more
+   card contrast (dark `#0A0B0E`, light `#EBEEF4`).
+5. **Section family widgets.** `SuperSectionHeader` (two styles — `style1`
+   marker-bar form header / `style2` flush marker-tab + icon-chip row header;
+   `leading` + `trailing` slots), `SuperSectionFooter` + `SuperFooterLink`, and
+   `SuperSection` (a card shell that optionally composes a header + footer around
+   a `child`/`children` body; `collapsible`, `selected`/`onTap`,
+   `dividerAfterHeader`, `markerColor`, `card:false`). Configurable via three new
+   `ThemeExtension`s — `SuperSectionHeaderThemeData`,
+   `SuperSectionFooterThemeData`, `SuperSectionThemeData` (registered by
+   `SuperMaterialThemeData`; widgets read `X.of(context)` and fall back to the
+   GeniusLink hard defaults; a widget-level param wins over the theme value).
+6. **`SuperSlider`** + `SuperSliderController` — a responsive content carousel
+   (ERP KPI strips / e-commerce product carousels): static `children` or lazy
+   `itemBuilder`, responsive items-per-view (`SuperResponsive<int>`), edge
+   `peek`, snapping paged scroll, autoplay (pauses on hover/drag), `loop`, brand
+   arrows + animated indicator, RTL, `onIndexChanged`.
+7. **Token break:** the v2.0 `SuperTokensData.default*` static-const mirrors and
+   `SuperMarker.<x>.defaultColor` are **removed** — read tokens from the theme.
+   Guide: `skill/migration_v2_to_v2.1/`.
 
 **What changed in 2.0.0 (BREAKING — read this first):**
 
@@ -29,10 +72,10 @@ product.
    the theme (`SuperThemeData.tokens`, `SuperMaterialThemeData.tokens`), so a
    theme can override any of them:
    `SuperMaterialThemeData.light(tokens: const SuperTokensData(radiusCard: 12))`.
-   Read live values with `SuperThemeData.of(context).tokens.x`. Every field also
-   has a `SuperTokensData.default*` compile-time constant (e.g.
-   `SuperTokensData.defaultSpace4`) for `const` contexts. `SuperMarker` colors
-   resolve via `marker.resolve(tokens)` (or `SuperMarker.x.defaultColor`).
+   Read values dynamically with `SuperThemeData.of(context).tokens.x`. There are
+   NO static token constants — where `const` is mandatory (enum arg / static
+   const / default param) use a brand-value literal. `SuperMarker` colors resolve
+   via `marker.resolve(tokens)`.
 2. **Custom fonts.** `.light`/`.dark` accept `fontFamily`, plus `textTheme` +
    `mergeTextTheme` (default `true`): the family from a provided `textTheme` is
    applied over the default GeniusLink ramp (sizes/weights preserved);
@@ -277,15 +320,60 @@ MaterialApp(theme: ThemeData(extensions: const [SuperThemeData.light]));
 
 ## `SuperPalette`
 
-Six built-in palettes, each 10 shades (`shade50…shade900`) + semantic getters
-(`primary`, `primaryDark`, `onPrimary`, `error`, `success`, `warning`, and the
-GeniusLink neutral surface tokens `lightBg`/`darkSurface`/`darkFg1`/…):
+Ten built-in palettes, each 10 shades (`shade50…shade900`) + semantic getters
+(`primary`, `primaryDark`, `onPrimary`, `error`, `info`, `success`, `warning`,
+and the GeniusLink neutral surface tokens `lightBg`/`darkSurface`/`darkFg1`/…):
 
 `bluePalette` (default) · `purplePalette` · `greenPalette` · `goldenPalette` ·
-`grayPalette` · `monochromePalette`. Iterate `SuperPalette.values`.
+`tealPalette` · `rosePalette` · `indigoPalette` · `slatePalette` · `grayPalette` ·
+`monochromePalette`. Iterate `SuperPalette.values`.
 
-All six share the same neutral surfaces — only the accent varies — so switching
-palette never changes the precision-instrument feel.
+All palettes share the same neutral surfaces — only the accent varies — so
+switching palette never changes the precision-instrument feel. Each may carry
+optional per-palette semantic overrides (`infoColor` / `successColor` /
+`warningColor` / `dangerColor`) that `SuperMaterialThemeData` folds into the
+tokens **only when no explicit `tokens:` is passed**. Shade lookup:
+`palette.shades` (0–9 ramp), `palette.shade(500)` (nearest Material step),
+`palette[5]`.
+
+---
+
+## Semantic colors & color utilities (v2.1.0)
+
+**`SuperSemanticColors`** — the structured status-color bundle. Prefer it over
+raw token solids for any pill / banner / snackbar / section marker:
+
+```dart
+final sem = SuperSemanticColors.of(context);
+final s = sem.success;               // or sem.byIntent(SuperSemanticIntent.success)
+Container(
+  decoration: BoxDecoration(color: s.subtle, border: Border.all(color: s.border)),
+  child: Text('POSTED', style: TextStyle(color: s.onSubtle)),
+);
+Container(color: s.solid, child: Text('BADGE', style: TextStyle(color: s.onSolid)));
+```
+
+Six intents (`info`/`success`/`warning`/`danger`/`accent`/`neutral`); each
+`SuperSemanticColor` carries `solid` / `onSolid` / `subtle` / `onSubtle` /
+`border`, derived per brightness from the token solids over the card surface
+(`onSubtle` chosen by WCAG contrast). `SuperMaterialThemeData` registers one
+automatically; a caller-supplied instance is preserved.
+
+**`SuperColorX`** — color helpers on any `Color`:
+
+```dart
+SuperColorX.fromHex('#4A7CFF');          // parse (tryFromHex for null-safe)
+c.toHex();                                // '#4A7CFF'
+c.lighten(0.1); c.darken(0.1); c.mix(other, 0.3); c.tintOver(surface, 0.14);
+c.contrastRatio(other);                   // WCAG 2.1 ratio (1..21)
+c.meetsAA(fg); c.meetsAAA(fg);            // pass/fail
+bg.onColor();                             // best of near-black / white on bg
+bg.bestForegroundFrom([a, b, c]);         // highest-contrast candidate
+```
+
+Tonal ops run in HSL; contrast builds on `Color.computeLuminance()`.
+
+---
 
 ```dart
 // Runtime palette switching:
@@ -420,6 +508,10 @@ Pre-1.2.0: `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton` /
 | `SuperAppBar` | `PreferredSizeWidget` fork of `AppBar` (all props) | `title` · `subtitle` + `subtitlePosition` · `actions` (overflow past `maxActions` / per-device limits) · `leading` · `bottom` · `flexibleSpace` · … |
 | `SuperSliverAppBar` | Fork of `SliverAppBar` (all props) | same subtitle/overflow features · `pinned` / `floating` / `snap` / `stretch` · `expandedHeight` · `flexibleSpace` |
 | `SuperSnackBar` | Floating toast over `ScaffoldMessenger` | `.info/.success/.warning/.danger(ctx, msg, actionLabel:, onAction:)` · `.build(...)` · `SuperSnackBarTone` |
+| `SuperSectionHeader` | Section/page header, **two styles** (v2.1) | `title` · `titleArabic` · `subtitle` · `eyebrow` · `marker` · `leading` / `trailing` · `style` (`SuperSectionHeaderStyle.style1`/`.style2`) |
+| `SuperSectionFooter` | ALL-CAPS footer row + `SuperFooterLink` (v2.1) | `brand` · `actions` · `showDivider`; link `emphasized` |
+| `SuperSection` | Card shell composing header + body + footer (v2.1) | `child`/`children` · header fields · `footerBrand`/`footerActions` · `collapsible` · `selected`/`onTap` · `dividerAfterHeader` · `card` |
+| `SuperSlider` | Responsive content carousel (v2.1) | `children`/`itemBuilder` · `visibleItems` (`SuperResponsive<int>`) · `peek` · `autoPlay` · `loop` · `controller` (`SuperSliderController`) · `onIndexChanged` |
 
 > `SuperDialog` was **removed in 2.0.0** — use Flutter's `showDialog` /
 > `AlertDialog`, which `SuperMaterialThemeData` themes for you.
@@ -537,7 +629,7 @@ InkWell(
 
 - **`CHANGELOG.md`** — add under the current version using Keep-a-Changelog
   sections (Added / Changed / Deprecated / Fixed). super_core is at
-  **`## [2.0.0]`**.
+  **`## [2.1.0]`**.
 - **`README.md`** — update the symbol table and any example whose API changed.
 - **API docs** — the `///` comments ARE the API docs; keep them accurate and add
   them for every new public member.

@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v2.0.0)
+# super_core — ChatGPT / Codex agent instructions (v2.1.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 2.0.0
+version: 2.1.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 ```
@@ -24,6 +24,35 @@ Apply this skill when the user asks for:
 - reading Super surface tokens (`bg`, `surface`, `fg1…fg4`, `border`) in a widget
 - building or modifying any `super_*` package theme
 
+## What changed in 2.1.0 (additive — one token break)
+
+1. **`SuperColorX`** (extension on `Color`): `fromHex`/`tryFromHex`/`toHex`; HSL
+   `lighten`/`darken`/`saturate`/`desaturate`/`mix`/`tone`/`tintOver`; WCAG 2.1
+   `contrastRatio`/`meetsAA`/`meetsAAA`/`onColor`/`bestForegroundFrom`.
+2. **`SuperSemanticColors`** `ThemeExtension` — six intents
+   (`info`/`success`/`warning`/`danger`/`accent`/`neutral`), each a
+   `SuperSemanticColor` (`solid`/`onSolid`/`subtle`/`onSubtle`/`border`) resolved
+   per brightness. Auto-registered; read `SuperSemanticColors.of(context)`. New
+   `info` token (sky blue `#0EA5E9`) on `SuperTokensData`; `StatusPill` gains
+   `PillTone.info`.
+3. **Ten palettes** — `tealPalette`/`rosePalette`/`indigoPalette`/`slatePalette`
+   added. Optional per-palette semantic overrides (`infoColor`/`successColor`/
+   `warningColor`/`dangerColor`, applied only when no explicit `tokens:`); shade
+   lookup `palette.shades` / `palette.shade(500)` / `palette[5]`. Dark accent now
+   from shade400 (vivid + AA); deeper Scaffold backgrounds.
+4. **Section family** — `SuperSectionHeader` (`style1`/`style2`, `leading`/
+   `trailing`), `SuperSectionFooter` + `SuperFooterLink`, `SuperSection` (header +
+   body (`child`/`children`) + footer; `collapsible`, `selected`/`onTap`,
+   `dividerAfterHeader`, `card:false`). Themed by `SuperSectionHeaderThemeData` /
+   `SuperSectionFooterThemeData` / `SuperSectionThemeData` (registered; widgets
+   read `X.of(context)`, widget params win).
+5. **`SuperSlider`** + `SuperSliderController` — responsive content carousel
+   (`children`/`itemBuilder`, `visibleItems`, `peek`, `autoPlay`, `loop`,
+   arrows + indicator, RTL, `onIndexChanged`).
+6. **Token break:** v2.0 `SuperTokensData.default*` static mirrors and
+   `SuperMarker.<x>.defaultColor` removed — read tokens from the theme. See
+   `skill/migration_v2_to_v2.1/`.
+
 ## What changed in 2.0.0 (BREAKING — read first)
 
 1. **`SuperTokens` → `SuperTokensData` (dynamic).** The old static
@@ -31,9 +60,9 @@ Apply this skill when the user asks for:
    `SuperTokensData` carried by the theme (`SuperThemeData.tokens`,
    `SuperMaterialThemeData.tokens`); override via
    `SuperMaterialThemeData.light(tokens: const SuperTokensData(radiusCard: 12))`.
-   Read live values with `SuperThemeData.of(context).tokens.x`; use
-   `SuperTokensData.default*` constants (e.g. `defaultSpace4`) in `const`
-   contexts. `SuperMarker` colors resolve via `marker.resolve(tokens)`.
+   Read values dynamically with `SuperThemeData.of(context).tokens.x`; there are
+   no static token constants (use a brand-value literal where `const` is
+   mandatory). `SuperMarker` colors resolve via `marker.resolve(tokens)`.
 2. **Custom fonts.** `.light`/`.dark` accept `fontFamily`, plus `textTheme` +
    `mergeTextTheme` (default `true` → adopt the provided textTheme's font over
    the default GeniusLink ramp; `false` → use the textTheme wholesale).
@@ -155,10 +184,24 @@ final s = SuperMaterialThemeData.of(context).superTheme;  // via material theme
 ## SuperPalette
 
 `bluePalette` (default), `purplePalette`, `greenPalette`, `goldenPalette`,
-`grayPalette`, `monochromePalette`. Iterate `SuperPalette.values`. Each has 10
-shades + semantic getters + shared neutral surfaces. `toLightColorScheme()` /
-`toDarkColorScheme()` build Material `ColorScheme`s. Custom palettes: `const
-SuperPalette(name: …, shade50: …, … shade900: …)`.
+`tealPalette`, `rosePalette`, `indigoPalette`, `slatePalette`, `grayPalette`,
+`monochromePalette` (ten). Iterate `SuperPalette.values`. Each has 10 shades +
+semantic getters (`info`/`success`/`warning`/`error`) + shared neutral surfaces
++ optional per-palette semantic overrides + shade lookup (`palette.shades`,
+`palette.shade(500)`, `palette[5]`). `toLightColorScheme()` /
+`toDarkColorScheme()` build Material `ColorScheme`s (dark accent = shade400).
+Custom palettes: `const SuperPalette(name: …, shade50: …, … shade900: …)`.
+
+## Semantic colors & color utilities (v2.1)
+
+```dart
+final sem = SuperSemanticColors.of(context);
+final s = sem.success;                     // solid/onSolid/subtle/onSubtle/border
+Container(color: s.subtle, /* border: s.border, text: s.onSubtle */);
+
+SuperColorX.fromHex('#4A7CFF'); c.toHex(); c.lighten(.1); c.tintOver(surface, .14);
+c.contrastRatio(fg); c.meetsAA(fg); bg.onColor(); bg.bestForegroundFrom([a, b]);
+```
 
 ## SuperDeviceMode + responsive tokens
 
@@ -276,9 +319,44 @@ CustomScrollView(slivers: [
 ]);
 ```
 
-New widget → follow the same pattern: read `context.superTheme` (its `.tokens`
-+ `SuperText`), never hardcode colors/spacing, and export it through
-`lib/src/core/core.dart`.
+### `SuperSectionHeader` / `SuperSectionFooter` / `SuperSection` (v2.1)
+
+`SuperSectionHeader` — section/page header, two styles: `style1` (marker-bar +
+title/subtitle, optional `eyebrow` + inline `titleArabic`) and `style2` (flush
+marker-tab + tinted icon-chip `leading` + ALL-CAPS title + `trailing` chevron).
+`SuperSectionFooter` + `SuperFooterLink` — hairline + ALL-CAPS brand string +
+action links (`emphasized` → accent). `SuperSection` — card shell composing an
+optional header + body (`child` or spaced `children`) + optional footer;
+`collapsible` (animated), `selected`/`onTap`, `dividerAfterHeader`, `markerColor`,
+`card:false`. Configurable via `SuperSectionHeaderThemeData` /
+`SuperSectionFooterThemeData` / `SuperSectionThemeData` (registered by the
+material theme; widgets read `X.of(context)`, widget params win).
+
+```dart
+SuperSection(
+  title: 'Financial', subtitle: 'Linked control account and terms',
+  headerStyle: SuperSectionHeaderStyle.style2, leading: const Icon(Icons.sync_alt),
+  collapsible: true,
+  footerBrand: '© 2024 GeniusLink ERP',
+  footerActions: [SuperFooterLink('Audit Log', onTap: open, emphasized: true)],
+  child: const AccountTerms(),
+);
+```
+
+### `SuperSlider` — responsive content carousel (v2.1)
+
+ERP KPI strips / e-commerce product carousels. Static `children` or lazy
+`itemBuilder` + `itemCount`; responsive `visibleItems` (`SuperResponsive<int>`,
+default 1/2/3), edge `peek`, snapping paged scroll, `autoPlay` (pauses on
+hover/drag), `loop`, brand arrows + animated indicator, RTL, `onIndexChanged`,
+and an optional `SuperSliderController` (`next`/`previous`/`animateTo`).
+
+```dart
+SuperSlider(
+  height: 140, peek: 24, autoPlay: true, loop: true,
+  children: [for (final k in kpis) KpiCard(k)],
+);
+```
 
 ---
 
@@ -313,8 +391,8 @@ removal. `ThemeData(extensions: const [SuperThemeData.light])` and
 `SuperThemeData.of(context)` must keep working. Bump a dependent's `super_core`
 constraint to `>=2.0.0 <3.0.0` when it uses a 2.0.0 API. v2.0.0 is a breaking
 release: `SuperTokens` (static) is gone — read tokens from
-`SuperThemeData.of(context).tokens` or the `SuperTokensData.default*`
-constants — and `SuperDialog` is removed.
+`SuperThemeData.of(context).tokens` (no static token constants remain) — and
+`SuperDialog` is removed.
 
 ## Commands
 

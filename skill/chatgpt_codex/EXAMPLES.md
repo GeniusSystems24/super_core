@@ -252,8 +252,9 @@ SuperMaterialThemeData.light(
 final tokens = SuperThemeData.of(context).tokens;
 SizedBox(height: tokens.space4);
 color: SuperMarker.ledger.resolve(tokens);
-// const context → default constant:
-const SizedBox(height: SuperTokensData.defaultSpace4);
+// where const is mandatory (enum arg / static const / default param), use a
+// brand-value literal instead — there are no static token constants:
+const SizedBox(height: 16); // space4
 
 // Swap the font family (keeps the GeniusLink type ramp when merging):
 SuperMaterialThemeData.light(fontFamily: 'IBM Plex Sans');

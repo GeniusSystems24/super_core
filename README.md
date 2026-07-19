@@ -47,7 +47,7 @@ import 'package:super_core/super_core.dart';
 | `SuperDeviceMode` | `mobile` / `tablet` / `desktop` device mode + `SuperResponsive<T>` container |
 | `SuperMetrics` | Responsive spacing / sizing / padding / margin token bundle |
 | `SuperInteractiveStateThemeData` | Hover / focus / pressed / selected overlay treatment (`ThemeExtension`) |
-| `SuperTokensData` | **Dynamic** brand tokens carried by the theme (accent + semantic palette, font families, spacing, radii, motion). Every field also has a `default*` compile-time constant. Replaces the removed `static const` `SuperTokens`. |
+| `SuperTokensData` | **Dynamic** brand tokens carried by the theme (accent + semantic palette, font families, spacing, radii, motion). Read via `SuperThemeData.of(context).tokens`. Replaces the removed `static const` `SuperTokens` — no static token constants remain. |
 | `SuperThemeData` | Swappable light/dark `ThemeExtension` — surfaces, borders, `fg1…fg4` text ramp, and `tokens` |
 | `SuperAppBarTheme` | `AppBarTheme` subclass — adds `subtitlePosition` + responsive `maxActions` / `maxMobileActions` / `maxTabletActions` / `maxDesktopActions` |
 | `SuperCardTheme` | `CardThemeData` subclass — adds expand direction / duration / curve, tap-to-toggle, chevron, padding, border colors |
@@ -58,7 +58,8 @@ import 'package:super_core/super_core.dart';
 | Plumbing | Failures, typedefs, usecases, key-direction + `BuildContext` helpers |
 
 > **Migrating from v1?** `SuperTokens.x` → `SuperThemeData.of(context).tokens.x`
-> for the live theme value, or `SuperTokensData.defaultX` in a `const` context.
+> (fully dynamic — there are no static token constants; drop `const` on the
+> enclosing widget, or use a brand-value literal where `const` is mandatory).
 > `SuperDialog` is removed — use Flutter's `showDialog` / `AlertDialog` (already
 > styled by `SuperMaterialThemeData`). See the `skill/migration_v1_to_v2/` guides.
 
@@ -240,8 +241,6 @@ SizedBox(height: tokens.space4);
 BorderRadius.circular(tokens.radiusCard);
 color: SuperMarker.ledger.resolve(tokens);
 
-// In a const context, reference the brand default constant:
-const SizedBox(height: SuperTokensData.defaultSpace4);
 ```
 
 ## Custom font family

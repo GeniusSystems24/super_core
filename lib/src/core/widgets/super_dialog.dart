@@ -303,7 +303,7 @@ class _Header extends StatelessWidget {
             height: t.tokens.markerHeight,
             margin: EdgeInsetsDirectional.only(top: 2, end: t.tokens.space4),
             decoration: BoxDecoration(
-              color: marker.defaultColor,
+              color: iconColor,
               borderRadius: BorderRadius.circular(t.tokens.radiusPill),
             ),
           ),

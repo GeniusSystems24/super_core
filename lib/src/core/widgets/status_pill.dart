@@ -9,10 +9,11 @@
 import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
+import '../theme/super_semantic_colors.dart';
 import '../theme/super_text_styles.dart';
 
 /// The semantic intent of a [StatusPill].
-enum PillTone { neutral, accent, success, warning, danger }
+enum PillTone { neutral, accent, info, success, warning, danger }
 
 /// A small uppercase status pill.
 class StatusPill extends StatelessWidget {
@@ -25,23 +26,24 @@ class StatusPill extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.superTheme;
     final k = t.tokens;
-    final cs = Theme.of(context).colorScheme;
-    final fg = switch (tone) {
-      PillTone.neutral => t.fg3,
-      PillTone.accent => cs.primary,
-      PillTone.success => k.success,
-      PillTone.warning => k.warning,
-      PillTone.danger => cs.error,
+    final sem = SuperSemanticColors.of(context);
+    final color = switch (tone) {
+      PillTone.neutral => sem.neutral,
+      PillTone.accent => sem.accent,
+      PillTone.info => sem.info,
+      PillTone.success => sem.success,
+      PillTone.warning => sem.warning,
+      PillTone.danger => sem.danger,
     };
-    final bg = tone == PillTone.neutral ? t.hover : t.tintFill(fg, 0.20);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: k.space2, vertical: k.space1),
       decoration: BoxDecoration(
-        color: bg,
+        color: color.subtle,
         borderRadius: BorderRadius.circular(k.radiusPill),
       ),
-      child: Text(label.toUpperCase(), style: SuperText.pill.copyWith(color: fg)),
+      child: Text(label.toUpperCase(),
+          style: SuperText.pill.copyWith(color: color.onSubtle)),
     );
   }
 }

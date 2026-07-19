@@ -9,13 +9,12 @@
 
 import 'package:flutter/widgets.dart';
 
-import 'super_tokens.dart';
 
 /// Named text styles. Colorless by design — apply an `fg*` token at use.
 abstract final class SuperText {
   /// H1 page title — Manrope 26 / 700 / -0.025em. The only thing that tightens.
   static const TextStyle h1 = TextStyle(
-    fontFamily: SuperTokensData.defaultDisplayFont,
+    fontFamily: 'Manrope',
     fontSize: 26,
     height: 1.15,
     fontWeight: FontWeight.w700,
@@ -24,7 +23,7 @@ abstract final class SuperText {
 
   /// Section heading — Inter 16 / 700.
   static const TextStyle heading = TextStyle(
-    fontFamily: SuperTokensData.defaultBodyFont,
+    fontFamily: 'Inter',
     fontSize: 16,
     height: 1.3,
     fontWeight: FontWeight.w700,
@@ -32,7 +31,7 @@ abstract final class SuperText {
 
   /// Body copy — Inter 14 / 400.
   static const TextStyle body = TextStyle(
-    fontFamily: SuperTokensData.defaultBodyFont,
+    fontFamily: 'Inter',
     fontSize: 14,
     height: 1.45,
     fontWeight: FontWeight.w400,
@@ -41,7 +40,7 @@ abstract final class SuperText {
   /// Eyebrow / form label / table header — Inter 11 / 700 ALL CAPS, 0.05em.
   /// (Caller upper-cases the text; tracking widens for breadcrumbs to 0.15em.)
   static const TextStyle label = TextStyle(
-    fontFamily: SuperTokensData.defaultBodyFont,
+    fontFamily: 'Inter',
     fontSize: 11,
     height: 1.3,
     fontWeight: FontWeight.w700,
@@ -50,7 +49,7 @@ abstract final class SuperText {
 
   /// Breadcrumb / eyebrow — wider tracking variant of [label] (~0.15em).
   static const TextStyle eyebrow = TextStyle(
-    fontFamily: SuperTokensData.defaultBodyFont,
+    fontFamily: 'Inter',
     fontSize: 11,
     height: 1.3,
     fontWeight: FontWeight.w700,
@@ -59,7 +58,7 @@ abstract final class SuperText {
 
   /// Placeholder / caption — Inter 12 / 400.
   static const TextStyle caption = TextStyle(
-    fontFamily: SuperTokensData.defaultBodyFont,
+    fontFamily: 'Inter',
     fontSize: 12,
     height: 1.35,
     fontWeight: FontWeight.w400,
@@ -67,7 +66,7 @@ abstract final class SuperText {
 
   /// Button text — Inter 14 / 600.
   static const TextStyle button = TextStyle(
-    fontFamily: SuperTokensData.defaultBodyFont,
+    fontFamily: 'Inter',
     fontSize: 14,
     height: 1.2,
     fontWeight: FontWeight.w600,
@@ -75,7 +74,7 @@ abstract final class SuperText {
 
   /// Numerics / serials / references — JetBrains Mono 14 / 400.
   static const TextStyle mono = TextStyle(
-    fontFamily: SuperTokensData.defaultMonoFont,
+    fontFamily: 'JetBrainsMono',
     fontSize: 14,
     height: 1.35,
     fontWeight: FontWeight.w400,
@@ -84,7 +83,7 @@ abstract final class SuperText {
 
   /// Small status-pill text — Inter 10 / 700 ALL CAPS.
   static const TextStyle pill = TextStyle(
-    fontFamily: SuperTokensData.defaultBodyFont,
+    fontFamily: 'Inter',
     fontSize: 10,
     height: 1.2,
     fontWeight: FontWeight.w700,

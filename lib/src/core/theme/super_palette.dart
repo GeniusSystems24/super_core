@@ -9,17 +9,23 @@
 
 import 'package:flutter/material.dart';
 
+import 'super_tokens.dart';
+
 /// A complete color palette — 10 ordered shades plus derived semantic tokens.
 ///
-/// Six palettes ship with super_core:
+/// Ten palettes ship with super_core:
 /// - [SuperPalette.bluePalette]       — default GeniusLink electric-blue accent
 /// - [SuperPalette.purplePalette]     — violet / indigo
 /// - [SuperPalette.greenPalette]      — GeniusLink success green
 /// - [SuperPalette.goldenPalette]     — warm amber / gold
+/// - [SuperPalette.tealPalette]       — cool teal / cyan
+/// - [SuperPalette.rosePalette]       — warm crimson / rose
+/// - [SuperPalette.indigoPalette]     — deep blue-violet
+/// - [SuperPalette.slatePalette]      — cool blue-gray neutral
 /// - [SuperPalette.grayPalette]       — neutral grays (GeniusLink surface ramp)
 /// - [SuperPalette.monochromePalette] — pure black / white
 ///
-/// All six palettes share the same neutral GeniusLink dark/light surfaces;
+/// All palettes share the same neutral GeniusLink dark/light surfaces;
 /// only the accent (primary) varies between them. This preserves the
 /// precision-instrument feel of the design system regardless of accent choice.
 ///
@@ -44,6 +50,10 @@ class SuperPalette {
     required this.shade700,
     required this.shade800,
     required this.shade900,
+    this.infoColor,
+    this.successColor,
+    this.warningColor,
+    this.dangerColor,
   });
 
   /// Human-readable label used in debug output and the example UI.
@@ -64,13 +74,31 @@ class SuperPalette {
   final Color shade800;
   final Color shade900;
 
+  // ── Optional per-palette semantic overrides ───────────────────────────────
+  // When non-null these replace the GeniusLink brand defaults for this palette.
+  // They are folded into the theme's [SuperTokensData] by SuperMaterialThemeData
+  // (only when the caller did not pass an explicit `tokens:` bundle).
+
+  /// Palette-specific informational solid, or null to use the brand default.
+  final Color? infoColor;
+
+  /// Palette-specific success solid, or null to use the brand default.
+  final Color? successColor;
+
+  /// Palette-specific warning solid, or null to use the brand default.
+  final Color? warningColor;
+
+  /// Palette-specific danger solid, or null to use the brand default.
+  final Color? dangerColor;
+
   // ── Semantic convenience getters ──────────────────────────────────────────
 
   /// Primary brand color for light mode — [shade500].
   Color get primary => shade500;
 
-  /// Primary brand color for dark mode — [shade300] (lighter for contrast).
-  Color get primaryDark => shade300;
+  /// Primary brand color for dark mode — [shade400] (lifted but still
+  /// saturated, so the accent stays vivid on near-black surfaces).
+  Color get primaryDark => shade400;
 
   /// Foreground on [primary] in light mode (white or near-black by luminance).
   Color get onPrimary => _onColor(shade500);
@@ -78,26 +106,74 @@ class SuperPalette {
   /// Foreground on [primaryDark] — always [shade900].
   Color get onPrimaryDark => shade900;
 
+  // ── Shade lookup ──────────────────────────────────────────────────────────
+
+  /// This palette's ten shades ordered lightest → darkest (indices 0–9).
+  List<Color> get shades => <Color>[
+        shade50, shade100, shade200, shade300, shade400,
+        shade500, shade600, shade700, shade800, shade900,
+      ];
+
+  /// Looks up a shade by its Material [step] (50, 100, 200 … 900). Any other
+  /// value snaps to the nearest defined step.
+  Color shade(int step) {
+    const steps = <int>[50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+    var idx = 0;
+    var bestDelta = (steps[0] - step).abs();
+    for (var i = 1; i < steps.length; i++) {
+      final d = (steps[i] - step).abs();
+      if (d < bestDelta) {
+        bestDelta = d;
+        idx = i;
+      }
+    }
+    return shades[idx];
+  }
+
+  /// Indexed access to the 0–9 shade ramp (`palette[5]` == [shade500]).
+  Color operator [](int index) => shades[index.clamp(0, 9)];
+
   // ── Cross-palette semantic colors (GeniusLink standard) ──────────────────
   // These are identical across all palettes — they are GeniusLink brand tokens.
 
-  /// Error / danger — GeniusLink red `#EF4444`.
-  Color get error => const Color(0xFFEF4444);
+  /// Error / danger — the palette override or GeniusLink red `#EF4444`.
+  Color get error => dangerColor ?? const Color(0xFFEF4444);
 
   /// Error in dark mode (softened) — `#F87171`.
   Color get errorDark => const Color(0xFFF87171);
 
-  /// Success / ledger — GeniusLink green `#1DB88A`.
-  Color get success => const Color(0xFF1DB88A);
+  /// Informational — the palette override or GeniusLink sky blue `#0EA5E9`.
+  Color get info => infoColor ?? const Color(0xFF0EA5E9);
 
-  /// Warning / notes — GeniusLink orange `#F97316`.
-  Color get warning => const Color(0xFFF97316);
+  /// Success / ledger — the palette override or GeniusLink green `#1DB88A`.
+  Color get success => successColor ?? const Color(0xFF1DB88A);
+
+  /// Warning / notes — the palette override or GeniusLink orange `#F97316`.
+  Color get warning => warningColor ?? const Color(0xFFF97316);
+
+  /// Folds this palette's non-null semantic overrides into [base], returning a
+  /// token bundle whose `info` / `success` / `warning` / `danger` reflect the
+  /// palette. Fields the palette leaves null are carried through from [base].
+  SuperTokensData applySemanticsTo(SuperTokensData base) {
+    if (infoColor == null &&
+        successColor == null &&
+        warningColor == null &&
+        dangerColor == null) {
+      return base;
+    }
+    return base.copyWith(
+      info: infoColor,
+      success: successColor,
+      warning: warningColor,
+      danger: dangerColor,
+    );
+  }
 
   // ── GeniusLink-standard neutral surface tokens ────────────────────────────
   // All six palettes share these surfaces; accent/primary is the only variable.
 
   // Light surfaces
-  static const Color _lightBg        = Color(0xFFF7F8FA);
+  static const Color _lightBg        = Color(0xFFEBEEF4); // page (deeper, lifts white cards)
   static const Color _lightSurface   = Color(0xFFFFFFFF);
   static const Color _lightInputBg   = Color(0xFFF1F3F8);
   static const Color _lightHover     = Color(0xFFEEF1F7);
@@ -109,7 +185,7 @@ class SuperPalette {
   static const Color _lightFg4       = Color(0xFFAEB4C2);
 
   // Dark surfaces
-  static const Color _darkBg         = Color(0xFF111318);
+  static const Color _darkBg         = Color(0xFF0A0B0E); // page (near-black, lifts cards)
   static const Color _darkSurface    = Color(0xFF1E2025);
   static const Color _darkSurface2   = Color(0xFF292D38);
   static const Color _darkInputBg    = Color(0xFF33353A);
@@ -184,15 +260,8 @@ class SuperPalette {
         tertiaryFixedDim: shade200,
         onTertiaryFixed: shade900,
         onTertiaryFixedVariant: shade700,
-        // Surfaces — neutral GeniusLink standard.
-        // `surface` is the base page background (the Scaffold color); cards,
-        // panels and fields sit ABOVE it on the brighter surfaceContainer ramp
-        // so they stay clearly separated from the Scaffold.
-        background: _lightBg,
-        onBackground: _lightFg1,
         surface: _lightBg,
         onSurface: _lightFg1,
-        surfaceVariant: _lightInputBg,
         onSurfaceVariant: _lightFg2,
         // Surface container ramp — brightest (lowest) → dimmest (highest).
         // Cards default to surfaceContainerLowest (#FFFFFF), clearly lifted off
@@ -220,21 +289,25 @@ class SuperPalette {
 
   /// Generates a [ColorScheme] tuned for dark [ThemeData].
   ///
-  /// Primary becomes [shade300] for legibility on dark surfaces.
+  /// Primary uses [shade400] — the lifted-but-saturated brand accent. This
+  /// keeps the electric-royal-blue identity vivid on near-black surfaces
+  /// (~5.5:1 as accent text, AA) while staying dark enough for a crisp
+  /// [shade900] on-color on filled buttons (~4.6:1). Deriving primary from the
+  /// paler [shade300] instead reads washed-out and drops the brand character.
   /// Surface tokens use the GeniusLink-standard near-black neutral ramp.
   ColorScheme toDarkColorScheme() => ColorScheme(
         brightness: Brightness.dark,
-        primary: shade300,
+        primary: shade400,
         onPrimary: shade900,
-        primaryContainer: shade700,
+        primaryContainer: shade800,
         onPrimaryContainer: shade100,
         secondary: shade400,
         onSecondary: shade900,
         secondaryContainer: _darkSurface2,
         onSecondaryContainer: shade200,
-        tertiary: shade300,
+        tertiary: shade400,
         onTertiary: shade900,
-        tertiaryContainer: shade700,
+        tertiaryContainer: shade800,
         onTertiaryContainer: shade100,
         error: errorDark,
         onError: const Color(0xFF7F1D1D),
@@ -253,15 +326,8 @@ class SuperPalette {
         tertiaryFixedDim: shade200,
         onTertiaryFixed: shade900,
         onTertiaryFixedVariant: shade700,
-        // Surfaces — neutral GeniusLink standard (dark).
-        // `surface` is the near-black base page background (the Scaffold color);
-        // cards, panels and fields sit ABOVE it on the brighter surfaceContainer
-        // ramp so they stay clearly separated from the Scaffold.
-        background: _darkBg,
-        onBackground: _darkFg1,
         surface: _darkBg,
         onSurface: _darkFg1,
-        surfaceVariant: _darkInputBg,
         onSurfaceVariant: _darkFg3,
         // Surface container ramp — dimmest (lowest) → brightest (highest).
         // Cards default to surfaceContainer (#1E2025), clearly lifted off the
@@ -276,7 +342,7 @@ class SuperPalette {
         // Inverse
         inverseSurface: _lightSurface,
         onInverseSurface: _lightFg1,
-        inversePrimary: shade600,
+        inversePrimary: shade500,
         // Borders / outlines
         outline: _darkBorderStr,
         outlineVariant: _darkBorder,
@@ -393,12 +459,76 @@ class SuperPalette {
     shade900: Color(0xFF171717),
   );
 
-  /// All six built-in palettes in display order.
+  /// Teal / cyan palette — cool, calm accent harmonious with the blue family.
+  static const SuperPalette tealPalette = SuperPalette(
+    name: 'Teal',
+    shade50:  Color(0xFFECFDF7),
+    shade100: Color(0xFFCFFAEC),
+    shade200: Color(0xFF9FF3DA),
+    shade300: Color(0xFF5FE6C6),
+    shade400: Color(0xFF2BD0AE),
+    shade500: Color(0xFF12B39A),
+    shade600: Color(0xFF0E9080),
+    shade700: Color(0xFF0C7268),
+    shade800: Color(0xFF0A5A53),
+    shade900: Color(0xFF083F3B),
+  );
+
+  /// Rose / red palette — warm crimson accent (distinct from the danger red).
+  static const SuperPalette rosePalette = SuperPalette(
+    name: 'Rose',
+    shade50:  Color(0xFFFFF1F3),
+    shade100: Color(0xFFFFE0E6),
+    shade200: Color(0xFFFEC5D2),
+    shade300: Color(0xFFFB9AB1),
+    shade400: Color(0xFFF56A8B),
+    shade500: Color(0xFFE8446C),
+    shade600: Color(0xFFCF2F57),
+    shade700: Color(0xFFAD2247),
+    shade800: Color(0xFF881B39),
+    shade900: Color(0xFF64142B),
+  );
+
+  /// Indigo palette — deep blue-violet, a richer sibling to [bluePalette].
+  static const SuperPalette indigoPalette = SuperPalette(
+    name: 'Indigo',
+    shade50:  Color(0xFFEEF0FF),
+    shade100: Color(0xFFE0E3FF),
+    shade200: Color(0xFFC6CBFF),
+    shade300: Color(0xFFA3A9FF),
+    shade400: Color(0xFF7C80FA),
+    shade500: Color(0xFF5B5BE8),
+    shade600: Color(0xFF4848CC),
+    shade700: Color(0xFF3A39A6),
+    shade800: Color(0xFF2D2C82),
+    shade900: Color(0xFF1F1E5E),
+  );
+
+  /// Slate palette — cool blue-gray neutral accent (a bluer [grayPalette]).
+  static const SuperPalette slatePalette = SuperPalette(
+    name: 'Slate',
+    shade50:  Color(0xFFF6F8FB),
+    shade100: Color(0xFFEDF1F6),
+    shade200: Color(0xFFDCE2EC),
+    shade300: Color(0xFFC0C9D8),
+    shade400: Color(0xFF94A0B5),
+    shade500: Color(0xFF64748B),
+    shade600: Color(0xFF4B586C),
+    shade700: Color(0xFF3A4556),
+    shade800: Color(0xFF29323F),
+    shade900: Color(0xFF1A2029),
+  );
+
+  /// All ten built-in palettes in display order.
   static const List<SuperPalette> values = [
     bluePalette,
     purplePalette,
     greenPalette,
     goldenPalette,
+    tealPalette,
+    rosePalette,
+    indigoPalette,
+    slatePalette,
     grayPalette,
     monochromePalette,
   ];

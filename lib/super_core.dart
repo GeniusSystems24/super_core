@@ -17,9 +17,10 @@
 /// final tokens = SuperThemeData.of(context).tokens; // read at a call site
 /// ```
 ///
-/// Every field keeps its historical value as a `SuperTokensData.default*`
-/// compile-time constant (e.g. `SuperTokensData.defaultSpace4`), so const call
-/// sites still resolve.
+/// There are NO static token constants — read every token dynamically from
+/// the ambient theme (`SuperThemeData.of(context).tokens.x`). The default
+/// values live only as the literals in the `SuperTokensData` constructor; the
+/// single default instance is `SuperTokensData.fallback`.
 ///
 /// **Custom fonts.** [SuperMaterialThemeData.light] / `.dark` accept a
 /// `fontFamily`, and a `textTheme` whose family is honored when
