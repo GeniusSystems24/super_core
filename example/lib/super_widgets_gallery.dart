@@ -40,21 +40,24 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
     final cs = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('SUPER CORE',
-                style: SuperText.eyebrow.copyWith(color: cs.primary)),
-            const Text('Widget Gallery'),
-          ],
-        ),
+      appBar: SuperAppBar(
+        maxMobileActions: 1,
+        title: const Text('Widget Gallery'),
+        subtitle: Text('SUPER CORE • v2.2.0',
+            style: SuperText.eyebrow.copyWith(color: cs.primary)),
         actions: [
           if (widget.onThemeModeChanged != null) ...[
-            _ModeBtn(ThemeMode.light, widget.themeMode, Icons.light_mode_outlined,
-                'Light', () => widget.onThemeModeChanged!(ThemeMode.light)),
-            _ModeBtn(ThemeMode.system, widget.themeMode,
-                Icons.brightness_auto_outlined, 'System',
+            _ModeBtn(
+                ThemeMode.light,
+                widget.themeMode,
+                Icons.light_mode_outlined,
+                'Light',
+                () => widget.onThemeModeChanged!(ThemeMode.light)),
+            _ModeBtn(
+                ThemeMode.system,
+                widget.themeMode,
+                Icons.brightness_auto_outlined,
+                'System',
                 () => widget.onThemeModeChanged!(ThemeMode.system)),
             _ModeBtn(ThemeMode.dark, widget.themeMode, Icons.dark_mode_outlined,
                 'Dark', () => widget.onThemeModeChanged!(ThemeMode.dark)),
@@ -99,7 +102,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 danger: true,
                 onPressed: () {}),
             const SizedBox(width: 8),
-            const SuperIconButton(icon: Icons.lock_outline, tooltip: 'Disabled'),
+            const SuperIconButton(
+                icon: Icons.lock_outline, tooltip: 'Disabled'),
           ]),
 
           // ══ StatusPill ═══════════════════════════════════════════════════
@@ -138,12 +142,15 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
           // ══ Hairline ═════════════════════════════════════════════════════
           const _G('Hairline'),
           Row(children: [
-            Expanded(child: Text('Left', style: SuperText.body.copyWith(color: t.fg2))),
+            Expanded(
+                child:
+                    Text('Left', style: SuperText.body.copyWith(color: t.fg2))),
             const SizedBox(height: 24, child: Hairline(vertical: true)),
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.only(left: 12),
-              child: Text('Right', style: SuperText.body.copyWith(color: t.fg2)),
+              child:
+                  Text('Right', style: SuperText.body.copyWith(color: t.fg2)),
             )),
           ]),
           const SizedBox(height: 12),
@@ -322,7 +329,9 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             selected: _sectionSelected,
             onTap: () => setState(() => _sectionSelected = !_sectionSelected),
             title: 'Selectable Section',
-            subtitle: _sectionSelected ? 'Selected — tap to deselect' : 'Tap to select',
+            subtitle: _sectionSelected
+                ? 'Selected — tap to deselect'
+                : 'Tap to select',
             headerStyle: SuperSectionHeaderStyle.style2,
             leading: const Icon(Icons.check_circle_outline),
             child: Text('Accent border + tint appear when selected.',
@@ -413,8 +422,15 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
               subtitle: const Text('STR-0043 • Dammam'),
               badge: const StatusPill('LOW STOCK', tone: PillTone.warning),
               trailingActions: [
-                SuperIconButton(icon: Icons.edit_outlined, tooltip: 'Edit', onPressed: () {}),
-                SuperIconButton(icon: Icons.delete_outline, tooltip: 'Delete', danger: true, onPressed: () {}),
+                SuperIconButton(
+                    icon: Icons.edit_outlined,
+                    tooltip: 'Edit',
+                    onPressed: () {}),
+                SuperIconButton(
+                    icon: Icons.delete_outline,
+                    tooltip: 'Delete',
+                    danger: true,
+                    onPressed: () {}),
               ],
               selected: _listSelected == 1,
               onTap: () => setState(() => _listSelected = 1),
@@ -464,7 +480,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('\$248,200.00',
-                      style: SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
+                      style:
+                          SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
                 ),
               ),
               SuperGridTile(
@@ -474,12 +491,16 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 selected: _gridSelected == 1,
                 onTap: () => setState(() => _gridSelected = 1),
                 actions: [
-                  SuperIconButton(icon: Icons.open_in_full, tooltip: 'Expand', onPressed: () {}),
+                  SuperIconButton(
+                      icon: Icons.open_in_full,
+                      tooltip: 'Expand',
+                      onPressed: () {}),
                 ],
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('18',
-                      style: SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
+                      style:
+                          SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
                 ),
               ),
               const SuperGridTile(loading: true, mediaHeight: 60),
@@ -490,7 +511,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('—',
-                      style: SuperText.mono.copyWith(color: t.fg3, fontSize: 22)),
+                      style:
+                          SuperText.mono.copyWith(color: t.fg3, fontSize: 22)),
                 ),
               ),
             ],
@@ -510,7 +532,9 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
               maxActions: 2,
               actions: [
                 SuperIconButton(
-                    icon: Icons.help_outline, tooltip: 'Help', onPressed: () {}),
+                    icon: Icons.help_outline,
+                    tooltip: 'Help',
+                    onPressed: () {}),
                 SuperIconButton(
                     icon: Icons.download_outlined,
                     tooltip: 'Export',
@@ -581,7 +605,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
 
   Widget _rule(SuperThemeData t) => Divider(height: 28, color: t.border);
 
-  Widget _kpi(SuperThemeData t, String label, String value, SuperMarker marker) {
+  Widget _kpi(
+      SuperThemeData t, String label, String value, SuperMarker marker) {
     final k = t.tokens;
     return Container(
       padding: const EdgeInsets.all(18),
@@ -608,10 +633,12 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             Expanded(
               child: Text(label,
                   style: SuperText.label.copyWith(color: t.fg3),
-                  maxLines: 1, overflow: TextOverflow.ellipsis),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
             ),
           ]),
-          Text(value, style: SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
+          Text(value,
+              style: SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
         ],
       ),
     );

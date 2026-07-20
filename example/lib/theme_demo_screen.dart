@@ -102,8 +102,16 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                   style: Theme.of(context).textTheme.bodySmall),
               const SizedBox(height: 24),
               for (final item in [
-                (Icons.table_chart_outlined, 'CSV Spreadsheet', 'Comma-separated values'),
-                (Icons.picture_as_pdf_outlined, 'PDF Document', 'Formatted printable report'),
+                (
+                  Icons.table_chart_outlined,
+                  'CSV Spreadsheet',
+                  'Comma-separated values'
+                ),
+                (
+                  Icons.picture_as_pdf_outlined,
+                  'PDF Document',
+                  'Formatted printable report'
+                ),
                 (Icons.code_outlined, 'JSON Data', 'Machine-readable format'),
               ])
                 ListTile(
@@ -119,7 +127,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
 
   void _showSnackBar() => ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Journal entry JV-2024-0042 posted successfully.'),
+          content:
+              const Text('Journal entry JV-2024-0042 posted successfully.'),
           action: SnackBarAction(label: 'View', onPressed: () {}),
           duration: const Duration(seconds: 4),
         ),
@@ -161,7 +170,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
+    final cs = SuperMaterialThemeData.of(context).colorScheme;
     final t = SuperThemeData.of(context);
     final palette = widget.selectedPalette;
 
@@ -171,15 +180,11 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       endDrawer: _buildEndDrawer(context, cs, t),
 
       // ── App Bar ─────────────────────────────────────────────────────────────
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('SUPER CORE',
-                style: SuperText.eyebrow.copyWith(color: cs.primary)),
-            const Text('Material Theme Showcase'),
-          ],
-        ),
+      appBar: SuperAppBar(
+        title: const Text('Super Material Theme'),
+        subtitle: const Text('Super core • v2.2.0'),
+        subtitleTextStyle: SuperText.eyebrow.copyWith(color: cs.primary),
+        maxMobileActions: 1,
         actions: [
           IconButton(
             icon: const Icon(Icons.widgets_outlined),
@@ -193,16 +198,24 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               ),
             ),
           ),
-          _ThemeModeBtn(ThemeMode.light, widget.themeMode,
-              Icons.light_mode_outlined, 'Light',
+          _ThemeModeBtn(
+              ThemeMode.light,
+              widget.themeMode,
+              Icons.light_mode_outlined,
+              'Light',
               () => widget.onThemeModeChanged(ThemeMode.light)),
-          _ThemeModeBtn(ThemeMode.system, widget.themeMode,
-              Icons.brightness_auto_outlined, 'System',
+          _ThemeModeBtn(
+              ThemeMode.system,
+              widget.themeMode,
+              Icons.brightness_auto_outlined,
+              'System',
               () => widget.onThemeModeChanged(ThemeMode.system)),
-          _ThemeModeBtn(ThemeMode.dark, widget.themeMode,
-              Icons.dark_mode_outlined, 'Dark',
+          _ThemeModeBtn(
+              ThemeMode.dark,
+              widget.themeMode,
+              Icons.dark_mode_outlined,
+              'Dark',
               () => widget.onThemeModeChanged(ThemeMode.dark)),
-          const SizedBox(width: 4),
           Builder(
             builder: (ctx) => IconButton(
               icon: const Icon(Icons.settings_outlined),
@@ -210,28 +223,22 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               onPressed: () => Scaffold.of(ctx).openEndDrawer(),
             ),
           ),
-          const SizedBox(width: 4),
         ],
       ),
-
-      // ── FAB ─────────────────────────────────────────────────────────────────
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _showDialog,
-        icon: const Icon(Icons.add),
-        label: const Text('Create Entry'),
-        tooltip: 'Open dialog demo',
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
       // ── Bottom Navigation Bar ────────────────────────────────────────────────
       bottomNavigationBar: NavigationBar(
         selectedIndex: _navIndex,
         onDestinationSelected: (i) => setState(() => _navIndex = i),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.palette_outlined), label: 'Theme'),
-          NavigationDestination(icon: Icon(Icons.widgets_outlined), label: 'Widgets'),
-          NavigationDestination(icon: Icon(Icons.table_chart_outlined), label: 'Data'),
-          NavigationDestination(icon: Icon(Icons.text_fields_outlined), label: 'Type'),
+          NavigationDestination(
+              icon: Icon(Icons.palette_outlined), label: 'Theme'),
+          NavigationDestination(
+              icon: Icon(Icons.widgets_outlined), label: 'Widgets'),
+          NavigationDestination(
+              icon: Icon(Icons.table_chart_outlined), label: 'Data'),
+          NavigationDestination(
+              icon: Icon(Icons.text_fields_outlined), label: 'Type'),
         ],
       ),
 
@@ -239,7 +246,6 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
         children: [
-
           // ════════════════════════════════════════════════════════════════════
           // 1 · PALETTE
           // ════════════════════════════════════════════════════════════════════
@@ -254,7 +260,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 selected: sel,
                 avatar: CircleAvatar(backgroundColor: p.shade500, radius: 8),
                 onSelected: (_) => widget.onPaletteChanged(p),
-                selectedColor: cs.primary.withValues(alpha:0.15),
+                selectedColor: cs.primary.withValues(alpha: 0.15),
                 side: sel
                     ? BorderSide(color: cs.primary, width: 2)
                     : BorderSide(color: t.border),
@@ -306,7 +312,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           Wrap(spacing: 8, runSpacing: 8, children: [
             ElevatedButton(onPressed: () {}, child: const Text('Elevated')),
             FilledButton(onPressed: () {}, child: const Text('Filled')),
-            FilledButton.tonal(onPressed: () {}, child: const Text('Filled Tonal')),
+            FilledButton.tonal(
+                onPressed: () {}, child: const Text('Filled Tonal')),
             OutlinedButton(onPressed: () {}, child: const Text('Outlined')),
             TextButton(onPressed: () {}, child: const Text('Text')),
             const ElevatedButton(onPressed: null, child: Text('Disabled')),
@@ -331,39 +338,77 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           const _Sec('ICON BUTTONS'),
           Row(children: [
             IconButton(
-                icon: const Icon(Icons.favorite_border), onPressed: () {}, tooltip: 'Standard'),
+                icon: const Icon(Icons.favorite_border),
+                onPressed: () {},
+                tooltip: 'Standard'),
             IconButton.filled(
-                icon: const Icon(Icons.favorite), onPressed: () {}, tooltip: 'Filled'),
+                icon: const Icon(Icons.favorite),
+                onPressed: () {},
+                tooltip: 'Filled'),
             IconButton.filledTonal(
-                icon: const Icon(Icons.bookmark_border), onPressed: () {}, tooltip: 'Filled Tonal'),
+                icon: const Icon(Icons.bookmark_border),
+                onPressed: () {},
+                tooltip: 'Filled Tonal'),
             IconButton.outlined(
-                icon: const Icon(Icons.share_outlined), onPressed: () {}, tooltip: 'Outlined'),
-            IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}, tooltip: 'More'),
+                icon: const Icon(Icons.share_outlined),
+                onPressed: () {},
+                tooltip: 'Outlined'),
+            IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: () {},
+                tooltip: 'More'),
             const SizedBox(width: 8),
             const VerticalDivider(width: 1, indent: 8, endIndent: 8),
             const SizedBox(width: 8),
-            IconButton(icon: const Icon(Icons.delete_outline), color: cs.error, onPressed: () {}, tooltip: 'Danger'),
+            IconButton(
+                icon: const Icon(Icons.delete_outline),
+                color: cs.error,
+                onPressed: () {},
+                tooltip: 'Danger'),
           ]),
 
           // ── FAB Row ────────────────────────────────────────────────────────
           const _Sec('FLOATING ACTION BUTTONS'),
-          Wrap(spacing: 12, runSpacing: 12, crossAxisAlignment: WrapCrossAlignment.center, children: [
-            FloatingActionButton.small(heroTag: 'fab_sm', onPressed: () {}, child: const Icon(Icons.add)),
-            FloatingActionButton(heroTag: 'fab_std', onPressed: () {}, child: const Icon(Icons.edit_outlined)),
-            FloatingActionButton.large(heroTag: 'fab_lg', onPressed: () {}, child: const Icon(Icons.create)),
-            FloatingActionButton.extended(
-                heroTag: 'fab_ext', onPressed: _showDialog,
-                icon: const Icon(Icons.post_add_outlined),
-                label: const Text('New Journal')),
-          ]),
+          Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                FloatingActionButton.small(
+                    heroTag: 'fab_sm',
+                    onPressed: () {},
+                    child: const Icon(Icons.add)),
+                FloatingActionButton(
+                    heroTag: 'fab_std',
+                    onPressed: () {},
+                    child: const Icon(Icons.edit_outlined)),
+                FloatingActionButton.large(
+                    heroTag: 'fab_lg',
+                    onPressed: () {},
+                    child: const Icon(Icons.create)),
+                FloatingActionButton.extended(
+                    heroTag: 'fab_ext',
+                    onPressed: _showDialog,
+                    icon: const Icon(Icons.post_add_outlined),
+                    label: const Text('New Journal')),
+              ]),
 
           // ── Segmented Button ───────────────────────────────────────────────
           const _Sec('SEGMENTED BUTTON'),
           SegmentedButton<int>(
             segments: const [
-              ButtonSegment(value: 0, icon: Icon(Icons.view_list_outlined), label: Text('List')),
-              ButtonSegment(value: 1, icon: Icon(Icons.grid_view_outlined), label: Text('Grid')),
-              ButtonSegment(value: 2, icon: Icon(Icons.bar_chart_outlined), label: Text('Chart')),
+              ButtonSegment(
+                  value: 0,
+                  icon: Icon(Icons.view_list_outlined),
+                  label: Text('List')),
+              ButtonSegment(
+                  value: 1,
+                  icon: Icon(Icons.grid_view_outlined),
+                  label: Text('Grid')),
+              ButtonSegment(
+                  value: 2,
+                  icon: Icon(Icons.bar_chart_outlined),
+                  label: Text('Chart')),
             ],
             selected: {_tabIndex},
             onSelectionChanged: (s) => setState(() => _tabIndex = s.first),
@@ -483,7 +528,11 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             controlAffinity: ListTileControlAffinity.leading,
           ),
           const Divider(height: 8),
-          for (final (val, label) in [(1, 'Journal Entry'), (2, 'Payment Voucher'), (3, 'Adjustment')])
+          for (final (val, label) in [
+            (1, 'Journal Entry'),
+            (2, 'Payment Voucher'),
+            (3, 'Adjustment')
+          ])
             RadioListTile<int>(
               title: Text(label),
               value: val,
@@ -498,9 +547,12 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               children: [
                 Text('Confidence Threshold  ${(_slider * 100).round()}%',
                     style: SuperText.label.copyWith(color: t.fg3)),
-                Slider(value: _slider, onChanged: (v) => setState(() => _slider = v)),
+                Slider(
+                    value: _slider,
+                    onChanged: (v) => setState(() => _slider = v)),
                 const SizedBox(height: 4),
-                Text('Amount Range  ${(_range.start * 100).round()}k – ${(_range.end * 100).round()}k SAR',
+                Text(
+                    'Amount Range  ${(_range.start * 100).round()}k – ${(_range.end * 100).round()}k SAR',
                     style: SuperText.label.copyWith(color: t.fg3)),
                 RangeSlider(
                   values: _range,
@@ -516,18 +568,39 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           const _Sec('CHIPS'),
           Wrap(spacing: 8, runSpacing: 8, children: [
             // Action chips
-            ActionChip(label: const Text('Refresh'), avatar: const Icon(Icons.refresh, size: 16), onPressed: () {}),
-            ActionChip(label: const Text('Export'), avatar: const Icon(Icons.download_outlined, size: 16), onPressed: () {}),
+            ActionChip(
+                label: const Text('Refresh'),
+                avatar: const Icon(Icons.refresh, size: 16),
+                onPressed: () {}),
+            ActionChip(
+                label: const Text('Export'),
+                avatar: const Icon(Icons.download_outlined, size: 16),
+                onPressed: () {}),
             // Filter chips
-            FilterChip(label: const Text('Active'), selected: true, onSelected: (_) {}),
-            FilterChip(label: const Text('Pending'), selected: false, onSelected: (_) {}),
-            FilterChip(label: const Text('Archived'), selected: false, onSelected: (_) {}),
+            FilterChip(
+                label: const Text('Active'),
+                selected: true,
+                onSelected: (_) {}),
+            FilterChip(
+                label: const Text('Pending'),
+                selected: false,
+                onSelected: (_) {}),
+            FilterChip(
+                label: const Text('Archived'),
+                selected: false,
+                onSelected: (_) {}),
             // Input chips
             InputChip(label: const Text('Damascus Branch'), onDeleted: () {}),
             InputChip(label: const Text('Q4 2024'), onDeleted: () {}),
             // Suggestion chips (choice chips)
-            ChoiceChip(label: const Text('This Month'), selected: true, onSelected: (_) {}),
-            ChoiceChip(label: const Text('This Year'), selected: false, onSelected: (_) {}),
+            ChoiceChip(
+                label: const Text('This Month'),
+                selected: true,
+                onSelected: (_) {}),
+            ChoiceChip(
+                label: const Text('This Year'),
+                selected: false,
+                onSelected: (_) {}),
           ]),
 
           // ── Status Pills ───────────────────────────────────────────────────
@@ -591,7 +664,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 ('ACTIVE STORES', '42', '+2', SuperMarker.identity),
                 ('INVENTORY VALUE', '\$96,540.00', '+1.8%', SuperMarker.ledger),
               ])
-                _KpiSlide(label: label, value: value, delta: delta, marker: marker),
+                _KpiSlide(
+                    label: label, value: value, delta: delta, marker: marker),
             ],
           ),
 
@@ -715,7 +789,10 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ),
           const SizedBox(height: 8),
           // Filled
-          Card(elevation: 0, surfaceTintColor: Colors.transparent, color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          Card(
+            elevation: 0,
+            surfaceTintColor: Colors.transparent,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             child: ListTile(
               leading: Icon(Icons.inventory_2_outlined, color: cs.primary),
               title: const Text('Filled Card'),
@@ -727,7 +804,10 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // Outlined
           Card(
             elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant)),
             child: ListTile(
               leading: Icon(Icons.account_balance_outlined, color: cs.primary),
               title: const Text('Outlined Card'),
@@ -745,19 +825,25 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 children: [
                   Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Container(
-                      width: 4, height: 40,
+                      width: 4,
+                      height: 40,
                       decoration: BoxDecoration(
                           color: cs.primary,
                           borderRadius: BorderRadius.circular(12)),
                     ),
                     const SizedBox(width: 16),
-                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('Section Card', style: SuperText.heading.copyWith(color: t.fg1)),
-                      Text('GeniusLink 4 px marker bar — identity', style: SuperText.caption.copyWith(color: t.fg3)),
-                    ]),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Section Card',
+                              style: SuperText.heading.copyWith(color: t.fg1)),
+                          Text('GeniusLink 4 px marker bar — identity',
+                              style: SuperText.caption.copyWith(color: t.fg3)),
+                        ]),
                   ]),
                   Divider(height: 28, color: t.border),
-                  Text('The 4 px vertical pill is the most distinctive GeniusLink visual device. '
+                  Text(
+                      'The 4 px vertical pill is the most distinctive GeniusLink visual device. '
                       'Blue = identity, green = ledger, orange = notes.',
                       style: SuperText.body.copyWith(color: t.fg2)),
                 ],
@@ -845,8 +931,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               style: SuperText.caption.copyWith(color: t.fg3)),
           const SizedBox(height: 8),
           ClipRRect(
-            borderRadius:
-                BorderRadius.circular(SuperThemeData.of(context).tokens.radiusCard),
+            borderRadius: BorderRadius.circular(
+                SuperThemeData.of(context).tokens.radiusCard),
             child: SuperAppBar(
               primary: false,
               automaticallyImplyLeading: false,
@@ -857,7 +943,9 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               maxActions: 2,
               actions: [
                 SuperIconButton(
-                    icon: Icons.help_outline, tooltip: 'Help', onPressed: () {}),
+                    icon: Icons.help_outline,
+                    tooltip: 'Help',
+                    onPressed: () {}),
                 SuperIconButton(
                     icon: Icons.download_outlined,
                     tooltip: 'Export',
@@ -930,10 +1018,14 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           const _Sec('LIST TILES'),
           Card(
             elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant)),
             child: Column(children: [
               ListTile(
-                leading: const CircleAvatar(child: Icon(Icons.person_outline, size: 18)),
+                leading: const CircleAvatar(
+                    child: Icon(Icons.person_outline, size: 18)),
                 title: const Text('Ahmad Al-Rashid'),
                 subtitle: const Text('Senior Accountant • Finance'),
                 trailing: const Icon(Icons.chevron_right),
@@ -944,12 +1036,14 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 leading: Icon(Icons.store_outlined, color: cs.primary),
                 title: const Text('Downtown Central Store'),
                 subtitle: const Text('Store ID: STR-0042 • Active'),
-                trailing: _Pill('ACTIVE', SuperThemeData.of(context).tokens.success, t),
+                trailing: _Pill(
+                    'ACTIVE', SuperThemeData.of(context).tokens.success, t),
                 onTap: () {},
               ),
               const Divider(height: 1, indent: 56),
               ListTile(
-                leading: Icon(Icons.warning_amber_outlined, color: SuperThemeData.of(context).tokens.warning),
+                leading: Icon(Icons.warning_amber_outlined,
+                    color: SuperThemeData.of(context).tokens.warning),
                 title: const Text('Pending Reconciliation'),
                 subtitle: const Text('3 entries require review before closing'),
                 isThreeLine: false,
@@ -970,7 +1064,10 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           Card(
             elevation: 0,
             clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant)),
             child: Column(children: [
               ExpansionTile(
                 leading: Icon(Icons.folder_outlined, color: cs.primary),
@@ -983,17 +1080,23 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                   ])
                     ListTile(
                       dense: true,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 0),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 0),
                       title: Text(name),
-                      leading: Text(code, style: SuperText.mono.copyWith(color: t.fg3, fontSize: 11)),
+                      leading: Text(code,
+                          style: SuperText.mono
+                              .copyWith(color: t.fg3, fontSize: 11)),
                       trailing: Text(bal,
-                          style: SuperText.mono.copyWith(color: SuperThemeData.of(context).tokens.success, fontSize: 12)),
+                          style: SuperText.mono.copyWith(
+                              color: SuperThemeData.of(context).tokens.success,
+                              fontSize: 12)),
                     ),
                 ],
               ),
               const Divider(height: 1),
               ExpansionTile(
-                leading: Icon(Icons.folder_outlined, color: SuperThemeData.of(context).tokens.warning),
+                leading: Icon(Icons.folder_outlined,
+                    color: SuperThemeData.of(context).tokens.warning),
                 title: const Text('Current Liabilities'),
                 subtitle: const Text('2 accounts · SAR 3,800.00'),
                 children: [
@@ -1002,7 +1105,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                     contentPadding: const EdgeInsets.symmetric(horizontal: 32),
                     title: const Text('Short-term Payables'),
                     trailing: Text('-3,800.00',
-                        style: SuperText.mono.copyWith(color: cs.error, fontSize: 12)),
+                        style: SuperText.mono
+                            .copyWith(color: cs.error, fontSize: 12)),
                   ),
                 ],
               ),
@@ -1019,20 +1123,29 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           Card(
             elevation: 0,
             clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant)),
             child: Column(children: [
               TabBar(
                 controller: _tabController,
                 tabs: const [
                   Tab(icon: Icon(Icons.receipt_outlined), text: 'Journals'),
-                  Tab(icon: Icon(Icons.account_balance_wallet_outlined), text: 'Accounts'),
+                  Tab(
+                      icon: Icon(Icons.account_balance_wallet_outlined),
+                      text: 'Accounts'),
                   Tab(icon: Icon(Icons.bar_chart_outlined), text: 'Reports'),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  ['Journal entries list view', 'Chart of accounts', 'Financial reports'][_tabIndex],
+                  [
+                    'Journal entries list view',
+                    'Chart of accounts',
+                    'Financial reports'
+                  ][_tabIndex],
                   style: SuperText.body.copyWith(color: t.fg2),
                 ),
               ),
@@ -1063,17 +1176,19 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               label: const Text('Snack Bar'),
             ),
             // Drawer
-            Builder(builder: (ctx) => OutlinedButton.icon(
-              onPressed: () => Scaffold.of(ctx).openDrawer(),
-              icon: const Icon(Icons.menu, size: 16),
-              label: const Text('Navigation Drawer'),
-            )),
+            Builder(
+                builder: (ctx) => OutlinedButton.icon(
+                      onPressed: () => Scaffold.of(ctx).openDrawer(),
+                      icon: const Icon(Icons.menu, size: 16),
+                      label: const Text('Navigation Drawer'),
+                    )),
             // End Drawer
-            Builder(builder: (ctx) => OutlinedButton.icon(
-              onPressed: () => Scaffold.of(ctx).openEndDrawer(),
-              icon: const Icon(Icons.settings_outlined, size: 16),
-              label: const Text('End Drawer'),
-            )),
+            Builder(
+                builder: (ctx) => OutlinedButton.icon(
+                      onPressed: () => Scaffold.of(ctx).openEndDrawer(),
+                      icon: const Icon(Icons.settings_outlined, size: 16),
+                      label: const Text('End Drawer'),
+                    )),
             // Popup Menu
             PopupMenuButton<String>(
               child: OutlinedButton.icon(
@@ -1083,24 +1198,44 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               ),
               onSelected: (_) {},
               itemBuilder: (_) => [
-                const PopupMenuItem(value: 'edit', child: ListTile(leading: Icon(Icons.edit_outlined), title: Text('Edit'))),
-                const PopupMenuItem(value: 'dup', child: ListTile(leading: Icon(Icons.copy_outlined), title: Text('Duplicate'))),
+                const PopupMenuItem(
+                    value: 'edit',
+                    child: ListTile(
+                        leading: Icon(Icons.edit_outlined),
+                        title: Text('Edit'))),
+                const PopupMenuItem(
+                    value: 'dup',
+                    child: ListTile(
+                        leading: Icon(Icons.copy_outlined),
+                        title: Text('Duplicate'))),
                 const PopupMenuDivider(),
-                PopupMenuItem(value: 'del', child: ListTile(
-                  leading: Icon(Icons.delete_outline, color: cs.error),
-                  title: Text('Delete', style: TextStyle(color: cs.error)),
-                )),
+                PopupMenuItem(
+                    value: 'del',
+                    child: ListTile(
+                      leading: Icon(Icons.delete_outline, color: cs.error),
+                      title: Text('Delete', style: TextStyle(color: cs.error)),
+                    )),
               ],
             ),
             // Menu Anchor
             MenuAnchor(
               menuChildren: [
-                MenuItemButton(leadingIcon: const Icon(Icons.print_outlined), child: const Text('Print'), onPressed: () {}),
-                MenuItemButton(leadingIcon: const Icon(Icons.share_outlined), child: const Text('Share'), onPressed: () {}),
-                MenuItemButton(leadingIcon: const Icon(Icons.download_outlined), child: const Text('Download'), onPressed: () {}),
+                MenuItemButton(
+                    leadingIcon: const Icon(Icons.print_outlined),
+                    child: const Text('Print'),
+                    onPressed: () {}),
+                MenuItemButton(
+                    leadingIcon: const Icon(Icons.share_outlined),
+                    child: const Text('Share'),
+                    onPressed: () {}),
+                MenuItemButton(
+                    leadingIcon: const Icon(Icons.download_outlined),
+                    child: const Text('Download'),
+                    onPressed: () {}),
               ],
               builder: (ctx, controller, _) => OutlinedButton.icon(
-                onPressed: () => controller.isOpen ? controller.close() : controller.open(),
+                onPressed: () =>
+                    controller.isOpen ? controller.close() : controller.open(),
                 icon: const Icon(Icons.arrow_drop_down, size: 16),
                 label: const Text('Menu Anchor'),
               ),
@@ -1112,12 +1247,14 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           Wrap(spacing: 12, children: [
             Tooltip(
               message: 'Post journal entry to the ledger',
-              child: FilledButton(onPressed: () {}, child: const Text('Hover Me')),
+              child:
+                  FilledButton(onPressed: () {}, child: const Text('Hover Me')),
             ),
             Tooltip(
               message: 'View full audit trail',
               preferBelow: false,
-              child: IconButton(icon: const Icon(Icons.history), onPressed: () {}),
+              child:
+                  IconButton(icon: const Icon(Icons.history), onPressed: () {}),
             ),
             Tooltip(
               message: 'Download supporting documents',
@@ -1130,15 +1267,25 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
 
           // ── Badges ─────────────────────────────────────────────────────────
           const _Sec('BADGES'),
-          Wrap(spacing: 20, crossAxisAlignment: WrapCrossAlignment.center, children: [
-            const Badge(child: Icon(Icons.notifications_outlined, size: 28)),
-            const Badge(label: Text('3'), child: Icon(Icons.mail_outline, size: 28)),
-            const Badge(label: Text('12'), child: Icon(Icons.shopping_cart_outlined, size: 28)),
-            Badge(
-              label: Text('99+', style: SuperText.pill.copyWith(color: cs.onError, fontSize: 9)),
-              child: const Icon(Icons.inbox_outlined, size: 28),
-            ),
-          ]),
+          Wrap(
+              spacing: 20,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                const Badge(
+                    child: Icon(Icons.notifications_outlined, size: 28)),
+                const Badge(
+                    label: Text('3'),
+                    child: Icon(Icons.mail_outline, size: 28)),
+                const Badge(
+                    label: Text('12'),
+                    child: Icon(Icons.shopping_cart_outlined, size: 28)),
+                Badge(
+                  label: Text('99+',
+                      style: SuperText.pill
+                          .copyWith(color: cs.onError, fontSize: 9)),
+                  child: const Icon(Icons.inbox_outlined, size: 28),
+                ),
+              ]),
 
           // ════════════════════════════════════════════════════════════════════
           // 12 · PROGRESS INDICATORS
@@ -1146,25 +1293,31 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           const _Sec('PROGRESS INDICATORS'),
           Row(children: [
             const SizedBox(
-              width: 48, height: 48,
+              width: 48,
+              height: 48,
               child: CircularProgressIndicator(value: 0.72, strokeWidth: 4),
             ),
             const SizedBox(width: 12),
             const SizedBox(
-              width: 48, height: 48,
+              width: 48,
+              height: 48,
               child: CircularProgressIndicator(strokeWidth: 3),
             ),
             const SizedBox(width: 20),
             Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Sync progress  72%', style: SuperText.label.copyWith(color: t.fg3)),
-                const SizedBox(height: 6),
-                const LinearProgressIndicator(value: 0.72),
-                const SizedBox(height: 12),
-                Text('Loading…', style: SuperText.label.copyWith(color: t.fg3)),
-                const SizedBox(height: 6),
-                const LinearProgressIndicator(),
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Sync progress  72%',
+                        style: SuperText.label.copyWith(color: t.fg3)),
+                    const SizedBox(height: 6),
+                    const LinearProgressIndicator(value: 0.72),
+                    const SizedBox(height: 12),
+                    Text('Loading…',
+                        style: SuperText.label.copyWith(color: t.fg3)),
+                    const SizedBox(height: 6),
+                    const LinearProgressIndicator(),
+                  ]),
             ),
           ]),
 
@@ -1177,11 +1330,17 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           const Divider(indent: 16, endIndent: 16, thickness: 2),
           const SizedBox(height: 4),
           Row(children: [
-            Expanded(child: Text('Left content', style: SuperText.body.copyWith(color: t.fg2))),
+            Expanded(
+                child: Text('Left content',
+                    style: SuperText.body.copyWith(color: t.fg2))),
             const SizedBox(height: 32, child: VerticalDivider()),
-            Expanded(child: Text('Right content', style: SuperText.body.copyWith(color: t.fg2))),
+            Expanded(
+                child: Text('Right content',
+                    style: SuperText.body.copyWith(color: t.fg2))),
             const SizedBox(height: 32, child: VerticalDivider()),
-            Expanded(child: Text('Third content', style: SuperText.body.copyWith(color: t.fg2))),
+            Expanded(
+                child: Text('Third content',
+                    style: SuperText.body.copyWith(color: t.fg2))),
           ]),
 
           // ════════════════════════════════════════════════════════════════════
@@ -1192,17 +1351,32 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             scrollDirection: Axis.horizontal,
             child: DataTable(
               columns: [
-                DataColumn(label: Text('#', style: SuperText.mono.copyWith(color: t.fg3))),
-                DataColumn(label: Text('ACCOUNT', style: SuperText.label.copyWith(color: t.fg3))),
-                DataColumn(label: Text('TYPE', style: SuperText.label.copyWith(color: t.fg3))),
-                DataColumn(label: Text('NATURE', style: SuperText.label.copyWith(color: t.fg3))),
-                DataColumn(label: Text('BALANCE', style: SuperText.label.copyWith(color: t.fg3)), numeric: true),
+                DataColumn(
+                    label: Text('#',
+                        style: SuperText.mono.copyWith(color: t.fg3))),
+                DataColumn(
+                    label: Text('ACCOUNT',
+                        style: SuperText.label.copyWith(color: t.fg3))),
+                DataColumn(
+                    label: Text('TYPE',
+                        style: SuperText.label.copyWith(color: t.fg3))),
+                DataColumn(
+                    label: Text('NATURE',
+                        style: SuperText.label.copyWith(color: t.fg3))),
+                DataColumn(
+                    label: Text('BALANCE',
+                        style: SuperText.label.copyWith(color: t.fg3)),
+                    numeric: true),
               ],
               rows: [
-                _row(cs, t, '1', 'Cash & Equivalents', 'Asset', 'DR', '+\$12,400.00'),
-                _row(cs, t, '2', 'Accounts Receivable', 'Asset', 'DR', '+\$5,240.00'),
-                _row(cs, t, '3', 'Short-term Liabilities', 'Liability', 'CR', '-\$3,800.00'),
-                _row(cs, t, '4', 'Retained Earnings', 'Equity', 'CR', '+\$13,840.00'),
+                _row(cs, t, '1', 'Cash & Equivalents', 'Asset', 'DR',
+                    '+\$12,400.00'),
+                _row(cs, t, '2', 'Accounts Receivable', 'Asset', 'DR',
+                    '+\$5,240.00'),
+                _row(cs, t, '3', 'Short-term Liabilities', 'Liability', 'CR',
+                    '-\$3,800.00'),
+                _row(cs, t, '4', 'Retained Earnings', 'Equity', 'CR',
+                    '+\$13,840.00'),
               ],
             ),
           ),
@@ -1273,13 +1447,20 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                CircleAvatar(radius: 28, backgroundColor: cs.primaryContainer,
-                    child: Icon(Icons.account_balance, color: cs.primary, size: 28)),
-                const SizedBox(height: 12),
-                Text('GeniusLink ERP', style: SuperText.heading.copyWith(color: t.fg1)),
-                Text('Precision System v1.0', style: SuperText.caption.copyWith(color: t.fg3)),
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                        radius: 28,
+                        backgroundColor: cs.primaryContainer,
+                        child: Icon(Icons.account_balance,
+                            color: cs.primary, size: 28)),
+                    const SizedBox(height: 12),
+                    Text('GeniusLink ERP',
+                        style: SuperText.heading.copyWith(color: t.fg1)),
+                    Text('Precision System v1.0',
+                        style: SuperText.caption.copyWith(color: t.fg3)),
+                  ]),
             ),
             const Divider(),
             for (final (icon, label, sel) in [
@@ -1297,14 +1478,16 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                         color: sel ? cs.primary : t.fg1,
                         fontWeight: sel ? FontWeight.w600 : FontWeight.w400)),
                 selected: sel,
-                selectedTileColor: cs.primary.withValues(alpha:0.08),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                selectedTileColor: cs.primary.withValues(alpha: 0.08),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
                 onTap: () => Navigator.pop(context),
               ),
             const Divider(),
             ListTile(
               leading: Icon(Icons.settings_outlined, color: t.fg3),
-              title: Text('Settings', style: SuperText.body.copyWith(color: t.fg1)),
+              title: Text('Settings',
+                  style: SuperText.body.copyWith(color: t.fg1)),
               onTap: () => Navigator.pop(context),
             ),
           ],
@@ -1313,7 +1496,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
     );
   }
 
-  Widget _buildEndDrawer(BuildContext context, ColorScheme cs, SuperThemeData t) {
+  Widget _buildEndDrawer(
+      BuildContext context, ColorScheme cs, SuperThemeData t) {
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -1322,35 +1506,48 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
               child: Row(children: [
-                Expanded(child: Text('Settings', style: SuperText.heading.copyWith(color: t.fg1))),
-                IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
+                Expanded(
+                    child: Text('Settings',
+                        style: SuperText.heading.copyWith(color: t.fg1))),
+                IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context)),
               ]),
             ),
             const Divider(),
             SwitchListTile(
               title: const Text('Dark Mode'),
               value: widget.themeMode == ThemeMode.dark,
-              onChanged: (v) => widget.onThemeModeChanged(v ? ThemeMode.dark : ThemeMode.light),
+              onChanged: (v) => widget
+                  .onThemeModeChanged(v ? ThemeMode.dark : ThemeMode.light),
             ),
-            SwitchListTile(title: const Text('Compact Density'), value: false, onChanged: (_) {}),
-            SwitchListTile(title: const Text('RTL Layout'), value: false, onChanged: (_) {}),
+            SwitchListTile(
+                title: const Text('Compact Density'),
+                value: false,
+                onChanged: (_) {}),
+            SwitchListTile(
+                title: const Text('RTL Layout'),
+                value: false,
+                onChanged: (_) {}),
             const Divider(),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Text('PALETTE', style: SuperText.eyebrow.copyWith(color: t.fg4)),
+              child: Text('PALETTE',
+                  style: SuperText.eyebrow.copyWith(color: t.fg4)),
             ),
             const SizedBox(height: 8),
             ...SuperPalette.values.map((p) => ListTile(
-              leading: CircleAvatar(backgroundColor: p.shade500, radius: 10),
-              title: Text(p.name),
-              trailing: widget.selectedPalette.name == p.name
-                  ? Icon(Icons.check, color: cs.primary, size: 18)
-                  : null,
-              onTap: () {
-                widget.onPaletteChanged(p);
-                Navigator.pop(context);
-              },
-            )),
+                  leading:
+                      CircleAvatar(backgroundColor: p.shade500, radius: 10),
+                  title: Text(p.name),
+                  trailing: widget.selectedPalette.name == p.name
+                      ? Icon(Icons.check, color: cs.primary, size: 18)
+                      : null,
+                  onTap: () {
+                    widget.onPaletteChanged(p);
+                    Navigator.pop(context);
+                  },
+                )),
           ],
         ),
       ),
@@ -1359,15 +1556,16 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
 
   // ── Table row helper ─────────────────────────────────────────────────────────
 
-  DataRow _row(ColorScheme cs, SuperThemeData t,
-      String n, String name, String type, String nature, String bal) {
+  DataRow _row(ColorScheme cs, SuperThemeData t, String n, String name,
+      String type, String nature, String bal) {
     final neg = bal.startsWith('-');
     final typeColor = type == 'Asset'
         ? SuperThemeData.of(context).tokens.success
         : type == 'Liability'
             ? cs.error
             : cs.primary;
-    final natureColor = nature == 'DR' ? cs.primary : SuperThemeData.of(context).tokens.warning;
+    final natureColor =
+        nature == 'DR' ? cs.primary : SuperThemeData.of(context).tokens.warning;
     return DataRow(cells: [
       DataCell(Text(n, style: SuperText.mono.copyWith(color: t.fg3))),
       DataCell(Text(name, style: SuperText.body.copyWith(color: t.fg1))),
@@ -1375,13 +1573,16 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       DataCell(Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-          color: natureColor.withValues(alpha:0.12),
+          color: natureColor.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Text(nature, style: SuperText.mono.copyWith(color: natureColor, fontSize: 11)),
+        child: Text(nature,
+            style: SuperText.mono.copyWith(color: natureColor, fontSize: 11)),
       )),
       DataCell(Text(bal,
-          style: SuperText.mono.copyWith(color: neg ? cs.error : SuperThemeData.of(context).tokens.success))),
+          style: SuperText.mono.copyWith(
+              color:
+                  neg ? cs.error : SuperThemeData.of(context).tokens.success))),
     ]);
   }
 }
@@ -1435,7 +1636,8 @@ class _Pill extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
           color: t.tintFill(color, 0.14),
-          borderRadius: BorderRadius.circular(SuperThemeData.of(context).tokens.radiusPill),
+          borderRadius: BorderRadius.circular(
+              SuperThemeData.of(context).tokens.radiusPill),
         ),
         child: Text(label, style: SuperText.pill.copyWith(color: color)),
       );
@@ -1453,8 +1655,11 @@ class _TypeRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(children: [
-        Expanded(flex: 2, child: Text('Aa', style: style.copyWith(color: color))),
-        Expanded(flex: 5, child: Text(name, style: SuperText.caption.copyWith(color: t.fg4))),
+        Expanded(
+            flex: 2, child: Text('Aa', style: style.copyWith(color: color))),
+        Expanded(
+            flex: 5,
+            child: Text(name, style: SuperText.caption.copyWith(color: t.fg4))),
       ]),
     );
   }
@@ -1486,7 +1691,8 @@ class _SemanticColorsDemo extends StatelessWidget {
             child: Row(children: [
               // solid swatch
               Container(
-                width: 40, height: 40,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: c.solid,
                   borderRadius: BorderRadius.circular(t.tokens.radiusCard),
@@ -1499,7 +1705,8 @@ class _SemanticColorsDemo extends StatelessWidget {
               ),
               // filled badge (solid + onSolid)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: c.solid,
                   borderRadius: BorderRadius.circular(t.tokens.radiusPill),
@@ -1510,7 +1717,8 @@ class _SemanticColorsDemo extends StatelessWidget {
               const SizedBox(width: 8),
               // subtle pill (subtle + border + onSubtle)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: c.subtle,
                   borderRadius: BorderRadius.circular(t.tokens.radiusPill),
@@ -1527,7 +1735,9 @@ class _SemanticColorsDemo extends StatelessWidget {
               Icon(
                 c.subtle.meetsAA(c.onSubtle) ? Icons.check_circle : Icons.error,
                 size: 14,
-                color: c.subtle.meetsAA(c.onSubtle) ? sem.success.solid : sem.danger.solid,
+                color: c.subtle.meetsAA(c.onSubtle)
+                    ? sem.success.solid
+                    : sem.danger.solid,
               ),
             ]),
           ),
@@ -1572,9 +1782,12 @@ class _ColorUtilsDemo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(label, style: SuperText.pill.copyWith(color: on, fontSize: 8)),
+                      Text(label,
+                          style:
+                              SuperText.pill.copyWith(color: on, fontSize: 8)),
                       Text(color.toHex(),
-                          style: SuperText.mono.copyWith(color: on, fontSize: 9)),
+                          style:
+                              SuperText.mono.copyWith(color: on, fontSize: 9)),
                     ],
                   ),
                 ),
@@ -1588,7 +1801,8 @@ class _ColorUtilsDemo extends StatelessWidget {
           Text('SuperColorX.fromHex("#4A7CFF")  →  ',
               style: SuperText.mono.copyWith(color: t.fg3, fontSize: 11)),
           Container(
-            width: 18, height: 18,
+            width: 18,
+            height: 18,
             decoration: BoxDecoration(
               color: SuperColorX.fromHex('#4A7CFF'),
               borderRadius: BorderRadius.circular(4),
@@ -1598,7 +1812,8 @@ class _ColorUtilsDemo extends StatelessWidget {
           Text('.tintOver(surface)  →  ',
               style: SuperText.mono.copyWith(color: t.fg3, fontSize: 11)),
           Container(
-            width: 18, height: 18,
+            width: 18,
+            height: 18,
             decoration: BoxDecoration(
               color: seed.tintOver(t.surface, 0.14),
               borderRadius: BorderRadius.circular(4),
@@ -1655,15 +1870,19 @@ class _KpiSlide extends StatelessWidget {
             Expanded(
               child: Text(label,
                   style: SuperText.label.copyWith(color: t.fg3),
-                  maxLines: 1, overflow: TextOverflow.ellipsis),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
             ),
           ]),
-          Text(value, style: SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
+          Text(value,
+              style: SuperText.mono.copyWith(color: t.fg1, fontSize: 22)),
           Row(children: [
             Icon(up ? Icons.trending_up : Icons.trending_down,
                 size: 14, color: deltaColor),
             const SizedBox(width: 4),
-            Text(delta, style: SuperText.mono.copyWith(color: deltaColor, fontSize: 12)),
+            Text(delta,
+                style:
+                    SuperText.mono.copyWith(color: deltaColor, fontSize: 12)),
           ]),
         ],
       ),
@@ -1678,27 +1897,37 @@ class _ShadeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shades = [
-      (50, palette.shade50), (100, palette.shade100), (200, palette.shade200),
-      (300, palette.shade300), (400, palette.shade400), (500, palette.shade500),
-      (600, palette.shade600), (700, palette.shade700), (800, palette.shade800),
+      (50, palette.shade50),
+      (100, palette.shade100),
+      (200, palette.shade200),
+      (300, palette.shade300),
+      (400, palette.shade400),
+      (500, palette.shade500),
+      (600, palette.shade600),
+      (700, palette.shade700),
+      (800, palette.shade800),
       (900, palette.shade900),
     ];
     return ClipRRect(
-      borderRadius: BorderRadius.circular(SuperThemeData.of(context).tokens.radiusCard),
+      borderRadius:
+          BorderRadius.circular(SuperThemeData.of(context).tokens.radiusCard),
       child: Row(
         children: shades.map((s) {
           final (label, color) = s;
           final fg = color.computeLuminance() > 0.35
-              ? const Color(0xFF0F172A) : const Color(0xFFFFFFFF);
+              ? const Color(0xFF0F172A)
+              : const Color(0xFFFFFFFF);
           return Expanded(
             child: Tooltip(
-              message: '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
+              message:
+                  '#${color.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
               child: Container(
                 height: 56,
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.only(bottom: 4),
                 color: color,
-                child: Text('$label', style: SuperText.pill.copyWith(color: fg)),
+                child:
+                    Text('$label', style: SuperText.pill.copyWith(color: fg)),
               ),
             ),
           );
@@ -1722,7 +1951,8 @@ class _SurfaceSeparationDemo extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(SuperThemeData.of(context).tokens.radiusCard),
+            borderRadius: BorderRadius.circular(
+                SuperThemeData.of(context).tokens.radiusCard),
             border: Border.all(color: t.border),
           ),
           child: Column(
@@ -1797,20 +2027,24 @@ class _ColorSchemeGrid extends StatelessWidget {
       ('tertiaryFixed', cs.tertiaryFixed, cs.onTertiaryFixed),
     ];
     return Wrap(
-      spacing: 8, runSpacing: 8,
+      spacing: 8,
+      runSpacing: 8,
       children: roles.map((r) {
         final (name, bg, fg) = r;
         return Container(
-          width: 132, height: 52,
+          width: 132,
+          height: 52,
           decoration: BoxDecoration(
             color: bg,
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.black.withValues(alpha:0.06)),
+            border: Border.all(color: Colors.black.withValues(alpha: 0.06)),
           ),
           padding: const EdgeInsets.all(7),
           alignment: Alignment.bottomLeft,
-          child: Text(name, style: SuperText.pill.copyWith(color: fg),
-              maxLines: 1, overflow: TextOverflow.ellipsis),
+          child: Text(name,
+              style: SuperText.pill.copyWith(color: fg),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis),
         );
       }).toList(),
     );
@@ -1835,7 +2069,10 @@ class _AppBarPreview extends StatelessWidget {
     return Card(
       elevation: 0,
       clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side:
+              BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
       child: Column(
         children: [
           Container(
@@ -1843,22 +2080,32 @@ class _AppBarPreview extends StatelessWidget {
             color: t.surface,
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: Row(children: [
-              IconButton(icon: const Icon(Icons.menu, size: 20), onPressed: () {}),
+              IconButton(
+                  icon: const Icon(Icons.menu, size: 20), onPressed: () {}),
               const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(subtitle, style: SuperText.eyebrow.copyWith(color: cs.primary, fontSize: 9)),
-                    Text(title, style: SuperText.heading.copyWith(color: t.fg1, fontSize: 14)),
+                    Text(subtitle,
+                        style: SuperText.eyebrow
+                            .copyWith(color: cs.primary, fontSize: 9)),
+                    Text(title,
+                        style: SuperText.heading
+                            .copyWith(color: t.fg1, fontSize: 14)),
                   ],
                 ),
               ),
               if (showSearch)
-                IconButton(icon: const Icon(Icons.search, size: 20), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.notifications_outlined, size: 20), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.account_circle_outlined, size: 20), onPressed: () {}),
+                IconButton(
+                    icon: const Icon(Icons.search, size: 20), onPressed: () {}),
+              IconButton(
+                  icon: const Icon(Icons.notifications_outlined, size: 20),
+                  onPressed: () {}),
+              IconButton(
+                  icon: const Icon(Icons.account_circle_outlined, size: 20),
+                  onPressed: () {}),
             ]),
           ),
           Divider(height: 1, color: t.border),
@@ -1868,7 +2115,8 @@ class _AppBarPreview extends StatelessWidget {
               Icon(Icons.info_outline, size: 14, color: t.fg4),
               const SizedBox(width: 6),
               Text('App bar preview — not interactive',
-                  style: SuperText.caption.copyWith(color: t.fg4, fontSize: 11)),
+                  style:
+                      SuperText.caption.copyWith(color: t.fg4, fontSize: 11)),
             ]),
           ),
         ],
@@ -1894,7 +2142,10 @@ class _NavRailPreviewState extends State<_NavRailPreview> {
     return Card(
       elevation: 0,
       clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side:
+              BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
       child: SizedBox(
         height: 240,
         child: Row(
@@ -1926,7 +2177,12 @@ class _NavRailPreviewState extends State<_NavRailPreview> {
             Expanded(
               child: Center(
                 child: Text(
-                  ['Dashboard view', 'Journal entries', 'Chart of accounts', 'Reports'][_sel],
+                  [
+                    'Dashboard view',
+                    'Journal entries',
+                    'Chart of accounts',
+                    'Reports'
+                  ][_sel],
                   style: SuperText.body.copyWith(color: widget.t.fg3),
                 ),
               ),
