@@ -258,75 +258,79 @@ class SuperMetrics {
   // const SuperMetrics presets (for use as const defaults). No value is
   // duplicated.
 
-  // Spacing — gaps grow with the viewport.
+  // Spacing — gaps grow with the viewport. Compact scale (v2.2.0): the ERP
+  // surfaces are dense, so gaps are one step tighter than the v2.1 values and
+  // stacked cards sit ~12–16px apart instead of 20–32px.
   static const SuperSpacing _spacingMobile =
-      SuperSpacing(xs: 4, sm: 8, md: 12, lg: 16, xl: 20, section: 20);
+      SuperSpacing(xs: 4, sm: 6, md: 10, lg: 14, xl: 20, section: 12);
   static const SuperSpacing _spacingTablet =
-      SuperSpacing(xs: 4, sm: 8, md: 14, lg: 20, xl: 28, section: 28);
+      SuperSpacing(xs: 4, sm: 6, md: 12, lg: 16, xl: 22, section: 14);
   static const SuperSpacing _spacingDesktop =
-      SuperSpacing(xs: 4, sm: 8, md: 16, lg: 24, xl: 32, section: 32);
+      SuperSpacing(xs: 4, sm: 8, md: 12, lg: 16, xl: 24, section: 16);
 
   // Sizing — controls shrink as the pointer gets more precise.
   static const SuperSizing _sizingMobile = SuperSizing(
     control: 48,
     iconButton: 44,
     icon: 22,
-    fieldComfortable: 48,
-    fieldCompact: 42,
+    fieldComfortable: 44,
+    fieldCompact: 38,
     contentColumn: 480,
   );
   static const SuperSizing _sizingTablet = SuperSizing(
     control: 44,
     iconButton: 40,
     icon: 21,
-    fieldComfortable: 44,
-    fieldCompact: 42,
+    fieldComfortable: 42,
+    fieldCompact: 38,
     contentColumn: 600,
   );
   static const SuperSizing _sizingDesktop = SuperSizing(
     control: 40,
     iconButton: 32,
     icon: 20,
-    fieldComfortable: 42,
-    fieldCompact: 42,
+    fieldComfortable: 40,
+    fieldCompact: 36,
     contentColumn: 680,
   );
 
-  // Padding — inner space widens with the viewport.
+  // Padding — inner space widens with the viewport. Compact scale (v2.2.0):
+  // the card interior is a single even inset (no tall bottom tail) so section
+  // cards no longer carry dead space under their last row.
   static const SuperPadding _paddingMobile = SuperPadding(
-    card: EdgeInsets.all(16),
-    control: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-    field: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-    page: EdgeInsets.all(16),
+    card: EdgeInsets.all(14),
+    control: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+    field: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    page: EdgeInsets.all(12),
   );
   static const SuperPadding _paddingTablet = SuperPadding(
-    card: EdgeInsets.all(20),
-    control: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    field: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-    page: EdgeInsets.symmetric(horizontal: 32, vertical: 28),
+    card: EdgeInsets.all(16),
+    control: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+    field: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    page: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
   );
   static const SuperPadding _paddingDesktop = SuperPadding(
-    card: EdgeInsets.fromLTRB(24, 24, 24, 40),
+    card: EdgeInsets.all(18),
     control: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    field: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-    page: EdgeInsets.symmetric(horizontal: 80, vertical: 40),
+    field: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+    page: EdgeInsets.symmetric(horizontal: 48, vertical: 24),
   );
 
-  // Margin — outer space widens with the viewport.
+  // Margin — outer space widens with the viewport (compact scale, v2.2.0).
   static const SuperMargin _marginMobile = SuperMargin(
     card: EdgeInsets.zero,
-    section: EdgeInsets.only(bottom: 20),
+    section: EdgeInsets.only(bottom: 12),
     page: EdgeInsets.zero,
   );
   static const SuperMargin _marginTablet = SuperMargin(
     card: EdgeInsets.zero,
-    section: EdgeInsets.only(bottom: 28),
-    page: EdgeInsets.symmetric(horizontal: 40),
+    section: EdgeInsets.only(bottom: 14),
+    page: EdgeInsets.symmetric(horizontal: 24),
   );
   static const SuperMargin _marginDesktop = SuperMargin(
     card: EdgeInsets.zero,
-    section: EdgeInsets.only(bottom: 32),
-    page: EdgeInsets.symmetric(horizontal: 120),
+    section: EdgeInsets.only(bottom: 16),
+    page: EdgeInsets.symmetric(horizontal: 64),
   );
 
   /// Responsive spacing scale.

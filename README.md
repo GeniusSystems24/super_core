@@ -140,7 +140,35 @@ The generated `TextTheme` and `InputDecorationTheme` also scale per mode
 icon constraints). Caller `textTheme:` / `formFieldTheme:` override these
 wholesale.
 
+### Compact density (v2.3.0)
+
+Every inset a card draws comes from the responsive scales below — cards no
+longer hard-code `space6` / `space10`, so overriding the metrics (or the card
+theme) retunes the whole app's density:
+
+| Token | mobile | tablet | desktop |
+|---|---|---|---|
+| `padding.card` | 14 | 16 | 18 |
+| `padding.page` | 12 | 20 / 16 | 48 / 24 |
+| `padding.field` | 12 / 10 | 12 / 10 | 14 / 8 |
+| `spacing.section` (gap between cards) | 12 | 14 | 16 |
+| `spacing.xl` (header → body) | 20 | 22 | 24 |
+| `spacing.md` (card slot gap) | 10 | 12 | 12 |
+| `margin.section` | 12 | 14 | 16 |
+| `sizing.fieldComfortable` | 44 | 42 | 40 |
+
+```dart
+// Roomier again, app-wide:
+SuperMaterialThemeData.light(
+  cardTheme: const SuperCardTheme(padding: EdgeInsets.all(24)),
+);
+// …or per card:
+SuperSection(padding: const EdgeInsets.all(20), title: 'Account Details', child: form);
+```
+
 ### Runtime palette switching
+
+```dart
   SuperPalette _palette = SuperPalette.bluePalette;
 
   @override
@@ -153,7 +181,6 @@ wholesale.
       ),
     );
   }
-}
 ```
 
 ### What's configured

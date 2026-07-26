@@ -1,8 +1,9 @@
 // ============================================================
 // core/widgets/section_header.dart
 // ------------------------------------------------------------
-// The brand's signature device: a 4x40 colored pill bar + a heading (16/700)
-// + a subtitle (12/400 in fg3), separated by 16px. The bar color encodes the
+// The brand's signature device: a 4px colored pill bar sized to the heading
+// (18px title-only / `markerHeight` with a subtitle) + a heading (16/700) + a
+// subtitle (12/400 in fg3), separated by 12px. The bar color encodes the
 // section's intent (identity / ledger / notes) and is resolved dynamically from
 // the ambient theme's [SuperTokensData].
 // ============================================================
@@ -42,8 +43,8 @@ class SectionHeader extends StatelessWidget {
         // Section-marker bar.
         Container(
           width: k.markerWidth,
-          height: subtitle == null ? 20 : k.markerHeight,
-          margin: EdgeInsetsDirectional.only(top: 1, end: k.space4),
+          height: subtitle == null ? 18 : k.markerHeight,
+          margin: EdgeInsetsDirectional.only(top: 1, end: k.space3),
           decoration: BoxDecoration(
             color: marker.resolve(k),
             borderRadius: BorderRadius.circular(k.radiusPill),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
+import 'create_account_screen.dart';
 import 'super_widgets_gallery.dart';
 
 /// Comprehensive Material 3 theme showcase for [SuperMaterialThemeData].
@@ -187,6 +188,13 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
         maxMobileActions: 1,
         actions: [
           IconButton(
+            icon: const Icon(Icons.person_add_alt_outlined),
+            tooltip: 'Create Account — compact form screen',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const CreateAccountScreen()),
+            ),
+          ),
+          IconButton(
             icon: const Icon(Icons.widgets_outlined),
             tooltip: 'Component Gallery',
             onPressed: () => Navigator.of(context).push(
@@ -216,6 +224,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               Icons.dark_mode_outlined,
               'Dark',
               () => widget.onThemeModeChanged(ThemeMode.dark)),
+          const SizedBox(width: 4),
           Builder(
             builder: (ctx) => IconButton(
               icon: const Icon(Icons.settings_outlined),
@@ -223,8 +232,18 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               onPressed: () => Scaffold.of(ctx).openEndDrawer(),
             ),
           ),
+          const SizedBox(width: 4),
         ],
       ),
+
+      // ── FAB ─────────────────────────────────────────────────────────────────
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _showDialog,
+        icon: const Icon(Icons.add),
+        label: const Text('Create Entry'),
+        tooltip: 'Open dialog demo',
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
       // ── Bottom Navigation Bar ────────────────────────────────────────────────
       bottomNavigationBar: NavigationBar(

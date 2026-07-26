@@ -2,9 +2,11 @@
 // core/widgets/section_card.dart
 // ------------------------------------------------------------
 // The fundamental layout unit: an 8px-radius card with a hairline border and
-// the theme's card shadow, 24px padding, an optional SectionHeader, and a 32px
-// gap before its body. Cards stack with 32px between them. Spacing / radius are
-// resolved dynamically from the ambient theme's [SuperTokensData].
+// the theme's card shadow, the responsive COMPACT card inset (14 mobile / 16
+// tablet / 18 desktop), an optional SectionHeader, and `spacing.xl` before its
+// body. Cards stack with `spacing.section` (12–16px) between them. Radius comes
+// from [SuperTokensData]; every inset comes from the theme's [SuperMetrics], so
+// one theme override retunes the density app-wide.
 // ============================================================
 
 import 'package:flutter/widgets.dart';
@@ -35,8 +37,8 @@ class SectionCard extends StatelessWidget {
   final Widget? headerTrailing;
   final Widget child;
 
-  /// Interior padding. Defaults to `24 24 24 40` (the GeniusLink card interior)
-  /// resolved from the theme tokens when null.
+  /// Interior padding. Defaults to the theme's responsive compact card inset
+  /// (`SuperThemeData.padding.card`) when null.
   final EdgeInsetsGeometry? padding;
 
   @override
@@ -60,15 +62,14 @@ class SectionCard extends StatelessWidget {
         border: Border.all(color: t.border),
         boxShadow: t.cardShadow,
       ),
-      padding: padding ??
-          EdgeInsets.fromLTRB(k.space6, k.space6, k.space6, k.space10),
+      padding: padding ?? t.padding.card,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
           if (resolvedHeader != null) ...[
             resolvedHeader,
-            SizedBox(height: k.space8),
+            SizedBox(height: t.spacing.xl),
           ],
           child,
         ],

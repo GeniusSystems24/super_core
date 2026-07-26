@@ -6,6 +6,73 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [2.3.0] — 2026-07-26
+
+Compact card density. Cards, sections and tiles lost their oversized insets: the
+responsive **`SuperMetrics`** scales are one step tighter, the card interior is a
+single even inset (the 40px bottom tail is gone), and every card widget now
+resolves its padding from the theme instead of hard-coding a token — so one
+theme override retunes the whole app's density.
+
+### Changed
+
+- **`SuperMetrics.padding.card`** — `16 / 20 / 24 24 24 40` →
+  `14 / 16 / 18` (mobile / tablet / desktop), an even inset on all sides.
+- **`SuperMetrics.padding.page`** — mobile `16` → `12`; tablet `32/28` →
+  `20/16`; desktop `80/40` → `48/24`.
+- **`SuperMetrics.padding.field`** — mobile `14/14` → `12/10`; tablet
+  `14/12` → `12/10`; desktop `16/10` → `14/8`.
+- **`SuperMetrics.padding.control`** — mobile `16/14` → `14/10`; tablet
+  `16/12` → `16/10`.
+- **`SuperMetrics.spacing`** — `sm` 8 → 6 (mobile/tablet), `md` 12/14/16 →
+  10/12/12, `lg` 16/20/24 → 14/16/16, `xl` 20/28/32 → 20/22/24,
+  `section` 20/28/32 → **12/14/16**.
+- **`SuperMetrics.margin.section`** — `20/28/32` → `12/14/16`;
+  `margin.page` tablet `40` → `24`, desktop `120` → `64`.
+- **`SuperMetrics.sizing`** — `fieldComfortable` 48/44/42 → **44/42/40**,
+  `fieldCompact` 42/42/42 → **38/38/36**. Control, icon-button and touch-target
+  sizes are unchanged (mobile hit targets stay ≥ 44px).
+- **`SectionCard`**, **`SuperCard`**, **`SuperSection`** — interior padding now
+  defaults to `SuperThemeData.padding.card` (responsive) instead of
+  `EdgeInsets.all(space6)` / `fromLTRB(24, 24, 24, 40)`. `SuperSection` no longer
+  adds a taller bottom inset when it has no footer.
+- **Header → body gap** — `SectionCard` / `SuperSection` use `spacing.xl`
+  (20–24) instead of `space8` (32); `SuperSection` footer gap uses `spacing.lg`;
+  `SuperCard` slot gap uses `spacing.md` instead of `space4`.
+- **`SuperCardTheme`** installed by `SuperMaterialThemeData` — `padding` is
+  `m.padding.card`, `gap` is `m.spacing.md`.
+- **Section markers** — `SuperTokensData.markerHeight` 40 → 34; a title-only
+  header draws an 18px bar (was 20) and sits `space3` from the title (was
+  `space4`). `SuperSectionHeader` style2: bar height 36 → 28, icon chip 30 → 26.
+  `SuperTileMarker.height` default 40 → 28.
+- **`SuperTileDensity`** — `compact` minHeight 40 → 36, `comfortable` 56 → 48,
+  `expanded` 72 → 60, with one step less interior padding and gap each.
+- **`SuperSectionFooter`** — vertical padding `space4` → `space3`, action
+  spacing `space6` → `space4`.
+
+### Added
+
+- **Example** — `example/lib/create_account_screen.dart`: the GeniusLink mobile
+  "Create Account" form (segmented type selector, group select, parent-account
+  search, bilingual name fields, main-account switch, notes) built only from
+  `SuperAppBar` + `SuperSection` + `SuperSectionHeader.style2` + `FieldShell`,
+  with every inset read from `SuperMetrics`. Reachable from the theme demo's
+  app bar.
+
+### Migration
+
+Nothing to change — the new values are defaults. To restore the old roomier
+density, override the metrics on the theme:
+
+```dart
+SuperMaterialThemeData.light(
+  cardTheme: const SuperCardTheme(padding: EdgeInsets.all(24)),
+  // or per widget: SectionCard(padding: …), SuperSection(padding: …)
+);
+```
+
+---
+
 ## [2.1.0] — 2026-07-18
 
 Color-system enhancement plus one **breaking** cleanup: the last static token

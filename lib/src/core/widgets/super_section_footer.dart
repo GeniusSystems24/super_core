@@ -77,17 +77,17 @@ class SuperSectionFooter extends StatelessWidget {
         if (divider) const Hairline(),
         Padding(
           padding: EdgeInsets.symmetric(
-              vertical: th.verticalPadding ?? k.space4),
+              vertical: th.verticalPadding ?? k.space3),
           child: Wrap(
             alignment: WrapAlignment.spaceBetween,
             crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: th.runSpacing ?? k.space3,
-            spacing: th.spacing ?? k.space6,
+            runSpacing: th.runSpacing ?? k.space2,
+            spacing: th.spacing ?? k.space4,
             children: [
               Text(brand.toUpperCase(), style: brandStyle),
               if (actions.isNotEmpty)
                 Wrap(
-                    spacing: th.spacing ?? k.space6,
+                    spacing: th.spacing ?? k.space4,
                     runSpacing: k.space2,
                     children: actions),
             ],

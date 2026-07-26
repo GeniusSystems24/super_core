@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>super_core — Create Account (compact card density)</title>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/geniuslink-design-system-ed61ebae-3f97-4399-9406-ae6ffb2508bf/colors_and_type.css">
+<link rel="stylesheet" href="_ds/geniuslink-design-system-ed61ebae-3f97-4399-9406-ae6ffb2508bf/design_system/tokens.css">
+<link rel="stylesheet" href="_ds/geniuslink-design-system-ed61ebae-3f97-4399-9406-ae6ffb2508bf/styles.css">
+<style>
+body{margin:0;font-family:var(--gl-font-body);color:var(--gl-fg-1);background:#8A8F9B}
+a{color:var(--gl-blue-500);text-decoration:none}a:hover{color:var(--gl-blue-700)}
+.frame{position:absolute;width:390px}
+.cap{font:700 11px/1.3 var(--gl-font-body);letter-spacing:1.65px;text-transform:uppercase;color:#fff;margin-bottom:8px;display:flex;gap:8px;align-items:baseline}
+.cap b{font-weight:700;color:#fff}.cap span{font-weight:500;letter-spacing:.4px;text-transform:none;color:rgba(255,255,255,.72)}
+.phone{background:var(--gl-bg);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px -18px rgba(0,0,0,.5)}
+/* app bar — SuperAppBar on the elevated card surface */
+.bar{display:flex;align-items:center;gap:10px;height:56px;padding:0 8px;background:var(--gl-surface);border-bottom:1px solid var(--gl-border)}
+.bar .ic{width:40px;height:40px;display:grid;place-items:center;color:var(--gl-fg-1)}
+.bar .ic.ok{color:var(--gl-blue-500)}
+.bar h1{flex:1;margin:0;font:700 18px/1.2 var(--gl-font-display);letter-spacing:-.3px}
+/* page + card shell — every value below comes from SuperMetrics */
+.page{display:flex;flex-direction:column;padding:var(--pg);gap:var(--sec);box-sizing:border-box}
+.card{background:var(--gl-surface);border:1px solid var(--gl-border);border-radius:var(--gl-radius-lg);box-shadow:var(--gl-shadow-card-light);padding:var(--cardpad)}
+.card>.body{display:flex;flex-direction:column;gap:16px;margin-top:var(--hgap)}
+/* SuperSectionHeader — style2 */
+.hd{display:flex;align-items:center;gap:12px}
+.hd .mk{width:4px;height:var(--mk);border-radius:0 12px 12px 0;background:var(--gl-marker-blue);flex:none}
+.hd.notes .mk{background:var(--gl-marker-orange)}
+.hd h2{flex:1;margin:0;font:700 12.5px/1.3 var(--gl-font-body);letter-spacing:.7px;text-transform:uppercase;color:var(--gl-fg-1)}
+.hd .chev{color:var(--gl-fg-3);display:grid;place-items:center}
+/* FieldShell */
+.f{display:flex;flex-direction:column;gap:8px}
+.f>label{font:700 11px/1.3 var(--gl-font-body);letter-spacing:.55px;text-transform:uppercase;color:var(--gl-fg-2)}
+.f>label i{color:var(--gl-danger-500,#EF4444);font-style:normal}
+.ctl{background:var(--gl-input-bg);border-radius:var(--gl-radius-sm);height:var(--fh);padding:var(--fpad);box-sizing:border-box;display:flex;align-items:center;gap:8px;font:400 14px/1.45 var(--gl-font-body);color:var(--gl-fg-1)}
+.ctl.ph{color:var(--gl-fg-4)}
+.ctl.area{height:auto;min-height:calc(var(--fh) + 34px);align-items:flex-start}
+.ctl svg{flex:none;color:var(--gl-fg-2)}
+.ctl .grow{flex:1}
+.ctl.rtl{direction:rtl;font-family:var(--gl-font-arabic)}
+/* segmented */
+.seg{display:flex;background:var(--gl-input-bg);border-radius:var(--gl-radius-sm);height:var(--fh)}
+.seg div{flex:1;display:grid;place-items:center;border-radius:var(--gl-radius-sm);font:700 12px/1 var(--gl-font-body);letter-spacing:.55px;color:var(--gl-fg-2)}
+.seg div.on{background:var(--gl-blue-500);color:#fff}
+/* switch row */
+.row{display:flex;align-items:center;gap:12px}
+.row span{flex:1;font:700 12.5px/1.3 var(--gl-font-body);letter-spacing:.7px;text-transform:uppercase;color:var(--gl-fg-1)}
+.sw{width:44px;height:24px;border-radius:999px;background:var(--gl-blue-500);position:relative;flex:none}
+.sw::after{content:"";position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:999px;background:#fff}
+/* measurement callouts */
+.legend{position:absolute;width:300px;color:#fff;font:400 13px/1.6 var(--gl-font-body)}
+.legend h3{font:700 11px/1.3 var(--gl-font-body);letter-spacing:1.65px;text-transform:uppercase;margin:0 0 10px}
+.legend table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.legend td{padding:3px 0;font-size:12.5px;color:rgba(255,255,255,.86)}
+.legend td:first-child{color:#fff}
+.legend td+td{text-align:right;color:rgba(255,255,255,.6);text-decoration:line-through}
+.legend td+td+td{text-align:right;width:52px;color:#9DE7CB;text-decoration:none;font-weight:700}
+.legend p{margin:14px 0 0;font-size:12px;color:rgba(255,255,255,.66)}
+</style>
+</head>
+<body>
+<div class="frame" id="after" style="left:80px;top:60px"></div>
+<div class="frame" id="before" style="left:530px;top:60px"></div>
+<div class="legend" style="left:980px;top:88px">
+<h3>Compact pass · v2.2.0</h3>
+<table>
+<tr><td>padding.card (mobile)</td><td>16</td><td>14</td></tr>
+<tr><td>card bottom inset (desktop)</td><td>40</td><td>18</td></tr>
+<tr><td>header → body</td><td>32</td><td>20</td></tr>
+<tr><td>spacing.section</td><td>20</td><td>12</td></tr>
+<tr><td>padding.page</td><td>16</td><td>12</td></tr>
+<tr><td>padding.field</td><td>14/14</td><td>12/10</td></tr>
+<tr><td>fieldComfortable</td><td>48</td><td>44</td></tr>
+<tr><td>marker bar (title only)</td><td>36</td><td>28</td></tr>
+</table>
+<p>Both frames are the same widget tree — <code>SuperAppBar</code> + <code>SuperSection</code> + <code>SuperSectionHeader.style2</code> + <code>FieldShell</code> — rendered with the old and new <code>SuperMetrics</code>. The screen sets no insets of its own, so the density is a theme-level change.</p>
+<p>Flutter source: <code>example/lib/create_account_screen.dart</code></p>
+</div>
+<script>
+const chev='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 6 6 6-6 6"/></svg>';
+const down='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>';
+const search='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>';
+const close='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+const check='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m4 13 5.5 5.5L20 7"/></svg>';
+function screen(o){return `<div class="cap"><b>${o.label}</b><span>${o.note}</span></div>
+<div class="phone" style="--pg:${o.page}px;--sec:${o.section}px;--cardpad:${o.card};--hgap:${o.headerGap}px;--fh:${o.field}px;--fpad:${o.fieldPad};--mk:${o.marker}px">
+<div class="bar"><div class="ic">${close}</div><h1>Create Account</h1><div class="ic ok">${check}</div></div>
+<div class="page">
+  <div class="card">
+    <div class="hd"><div class="mk"></div><h2>Account Details</h2></div>
+    <div class="body">
+      <div class="f"><label>Account type <i>*</i></label><div class="seg"><div class="on">DEBIT</div><div>CREDIT</div></div></div>
+      <div class="f"><label>Account group</label><div class="ctl"><span class="grow">Current Assets</span>${down}</div></div>
+      <div class="f"><label>Parent account</label><div class="ctl ph">${search}<span class="grow">Search accounts…</span></div></div>
+      <div class="f"><label>Name (Arabic) <i>*</i></label><div class="ctl ph rtl"><span class="grow">مثال: صندوق النقدية</span></div></div>
+      <div class="f"><label>Name (English) <i>*</i></label><div class="ctl ph"><span class="grow">e.g. Cash Box</span></div></div>
+      <div class="row"><span>Main account</span><div class="sw"></div></div>
+    </div>
+  </div>
+  <div class="card"><div class="hd"><div class="mk"></div><h2>User Relationship</h2><div class="chev">${chev}</div></div></div>
+  <div class="card">
+    <div class="hd notes"><div class="mk"></div><h2>Additional Information</h2></div>
+    <div class="body"><div class="f"><label>Note</label><div class="ctl area ph"><span class="grow">Add notes about this account…</span></div></div></div>
+  </div>
+</div></div>`}
+document.getElementById('after').innerHTML=screen({label:'After — v2.2.0 compact',note:'SuperMetrics.mobile',page:12,section:12,card:'14px',headerGap:20,field:44,fieldPad:'0 12px',marker:28});
+document.getElementById('before').innerHTML=screen({label:'Before — v2.1.0',note:'same code, old metrics',page:16,section:20,card:'24px 24px 40px',headerGap:32,field:48,fieldPad:'0 14px',marker:36});
+</script>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" fill="#4A7CFF"/><rect x="36" y="30" width="48" height="26" rx="4" fill="#fff"/><rect x="36" y="62" width="48" height="12" rx="3" fill="#fff" opacity=".75"/><rect x="36" y="80" width="48" height="12" rx="3" fill="#fff" opacity=".5"/></svg></template>
+</body>
+</html>

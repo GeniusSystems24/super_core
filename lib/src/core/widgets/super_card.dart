@@ -93,7 +93,9 @@ class SuperCard extends StatefulWidget {
   /// Defaults to the [SuperCardTheme] value (`true`).
   final bool? showExpandIcon;
 
-  /// Interior padding. Defaults to the [SuperCardTheme] padding (24px).
+  /// Interior padding. Defaults to the [SuperCardTheme] padding, which
+  /// `SuperMaterialThemeData` sets to the responsive compact card inset
+  /// (14 mobile / 16 tablet / 18 desktop).
   final EdgeInsetsGeometry? padding;
 
   /// Optional exterior margin around the card.
@@ -157,7 +159,7 @@ class _SuperCardState extends State<SuperCard> {
     final toggleOnTap = widget.toggleOnTap ?? cardTheme.toggleOnTap ?? true;
     final showExpandIcon =
         widget.showExpandIcon ?? cardTheme.showExpandIcon ?? true;
-    final gap = cardTheme.gap ?? k.space4;
+    final gap = cardTheme.gap ?? t.spacing.md;
 
     final interactive = expandable || widget.onTap != null;
     final borderColor = widget.selected
@@ -173,7 +175,7 @@ class _SuperCardState extends State<SuperCard> {
             shape.borderRadius is BorderRadius)
         ? shape.borderRadius as BorderRadius
         : BorderRadius.circular(k.radiusCard);
-    final padding = widget.padding ?? cardTheme.padding ?? EdgeInsets.all(k.space6);
+    final padding = widget.padding ?? cardTheme.padding ?? t.padding.card;
 
     // ── Header + body column ──
     final bodyColumn = Column(

@@ -122,7 +122,8 @@ class SuperSection extends StatefulWidget {
   /// Spacing between [children]. Defaults to `space4`.
   final double? gap;
 
-  /// Interior padding. Defaults to the responsive card padding.
+  /// Interior padding. Defaults to the theme's responsive compact card inset
+  /// (`SuperThemeData.padding.card` — 14 mobile / 16 tablet / 18 desktop).
   final EdgeInsetsGeometry? padding;
 
   @override
@@ -150,8 +151,8 @@ class _SuperSectionState extends State<SuperSection>
         widget.dividerAfterHeader ?? th.dividerAfterHeader ?? false;
     final expandDuration = th.expandDuration ?? k.durExpand;
     final expandCurve = th.expandCurve ?? k.curveOut;
-    final headerGap = th.headerGap ?? k.space8;
-    final footerGap = th.footerGap ?? k.space6;
+    final headerGap = th.headerGap ?? t.spacing.xl;
+    final footerGap = th.footerGap ?? t.spacing.lg;
 
     // ── Header ──────────────────────────────────────────────────────────────
     Widget? resolvedHeader = widget.header;
@@ -278,12 +279,7 @@ class _SuperSectionState extends State<SuperSection>
             color: borderColor, width: widget.selected ? 1.5 : 1),
         boxShadow: t.cardShadow,
       ),
-      padding: widget.padding ??
-          th.padding ??
-          EdgeInsets.fromLTRB(k.space6, k.space6, k.space6,
-              resolvedFooter != null || (widget.collapsible && !showBody)
-                  ? k.space6
-                  : k.space10),
+      padding: widget.padding ?? th.padding ?? t.padding.card,
       child: content,
     );
 

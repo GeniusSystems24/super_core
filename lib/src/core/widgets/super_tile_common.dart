@@ -53,22 +53,22 @@ class SuperTileMetrics {
   factory SuperTileMetrics.of(SuperTileDensity density, SuperTokensData k) {
     return switch (density) {
       SuperTileDensity.compact => SuperTileMetrics(
-          minHeight: 40,
+          minHeight: 36,
+          paddingV: k.space1,
+          paddingH: k.space3,
+          gap: k.space2,
+        ),
+      SuperTileDensity.comfortable => SuperTileMetrics(
+          minHeight: 48,
           paddingV: k.space2,
           paddingH: k.space3,
           gap: k.space3,
         ),
-      SuperTileDensity.comfortable => SuperTileMetrics(
-          minHeight: 56,
+      SuperTileDensity.expanded => SuperTileMetrics(
+          minHeight: 60,
           paddingV: k.space3,
           paddingH: k.space4,
-          gap: k.space4,
-        ),
-      SuperTileDensity.expanded => SuperTileMetrics(
-          minHeight: 72,
-          paddingV: k.space4,
-          paddingH: k.space6,
-          gap: k.space4,
+          gap: k.space3,
         ),
     };
   }
@@ -134,7 +134,7 @@ Border? superTileBorder(
 
 /// A section-marker pill (the GeniusLink signature 4px bar), sized to [height].
 class SuperTileMarker extends StatelessWidget {
-  const SuperTileMarker({super.key, required this.marker, this.height = 40});
+  const SuperTileMarker({super.key, required this.marker, this.height = 28});
 
   final SuperMarker marker;
   final double height;

@@ -56,10 +56,13 @@ class SuperCardTheme extends CardThemeData {
   /// expandable card. Defaults to `true`.
   final bool? showExpandIcon;
 
-  /// Interior padding. Defaults to the `space6` (24px) card interior.
+  /// Interior padding. `SuperMaterialThemeData` sets this to the responsive
+  /// compact card inset (`metrics.padding.card` — 14 mobile / 16 tablet /
+  /// 18 desktop).
   final EdgeInsetsGeometry? padding;
 
-  /// Gap between the leading / body / trailing slots. Defaults to `space4`.
+  /// Gap between the leading / body / trailing slots. Defaults to
+  /// `metrics.spacing.md` (10 mobile / 12 tablet+).
   final double? gap;
 
   /// Resting border color. Defaults to [SuperThemeData.border].

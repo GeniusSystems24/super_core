@@ -4,7 +4,7 @@
 // SuperSectionHeader — the page/section header pattern of the GeniusLink design
 // system. Two styles:
 //
-//   • style1 — the signature 4x40 marker bar + title (16/700), with an optional
+//   • style1 — the signature 4px marker bar + title (16/700), with an optional
 //     ALL-CAPS breadcrumb eyebrow above and an inline Arabic translation beside
 //     the title. The classic form-page section header.
 //   • style2 — a compact list/row header: a tinted rounded icon chip ([leading])
@@ -86,8 +86,8 @@ class SuperSectionHeader extends StatelessWidget {
     final gap = th.gap ?? k.space3;
     final hasEyebrow = eyebrow != null && eyebrow!.isNotEmpty;
     final double barHeight = (subtitle == null && !hasEyebrow)
-        ? 20
-        : (hasEyebrow ? k.markerHeight + 16 : k.markerHeight);
+        ? 18
+        : (hasEyebrow ? k.markerHeight + 14 : k.markerHeight);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +95,7 @@ class SuperSectionHeader extends StatelessWidget {
         Container(
           width: th.markerWidth ?? k.markerWidth,
           height: barHeight,
-          margin: EdgeInsetsDirectional.only(top: 1, end: k.space4),
+          margin: EdgeInsetsDirectional.only(top: 1, end: k.space3),
           decoration: BoxDecoration(
             color: k.markerColor(marker),
             borderRadius:
@@ -157,7 +157,7 @@ class SuperSectionHeader extends StatelessWidget {
     final th = SuperSectionHeaderThemeData.of(context);
     final accent = k.markerColor(marker);
     final gap = th.gap ?? k.space3;
-    final chip = th.iconChipSize ?? 30;
+    final chip = th.iconChipSize ?? 26;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -165,7 +165,7 @@ class SuperSectionHeader extends StatelessWidget {
         // Marker bar flush to the leading edge, rounded on the trailing side.
         Container(
           width: th.style2BarWidth ?? 4,
-          height: th.style2BarHeight ?? 36,
+          height: th.style2BarHeight ?? 28,
           decoration: BoxDecoration(
             color: accent,
             borderRadius: BorderRadiusDirectional.horizontal(

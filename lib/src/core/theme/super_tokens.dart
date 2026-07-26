@@ -72,7 +72,7 @@ class SuperTokensData {
     this.controlHeight = 40,
     this.iconButton = 32,
     this.markerWidth = 4,
-    this.markerHeight = 40,
+    this.markerHeight = 34,
     this.contentColumn = 680,
     this.fieldComfortable = 42,
     this.fieldCompact = 36,
@@ -176,7 +176,8 @@ class SuperTokensData {
   /// Section-marker bar width.
   final double markerWidth;
 
-  /// Section-marker bar height.
+  /// Section-marker bar height for a title + subtitle header. A title-only
+  /// header uses an 18px bar sized to its cap height.
   final double markerHeight;
 
   /// Centered page content-column width.
