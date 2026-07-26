@@ -46,6 +46,7 @@ class SuperCard extends StatefulWidget {
     this.onExpansionChanged,
     this.toggleOnTap,
     this.showExpandIcon,
+    this.background,
     this.padding,
     this.margin,
     this.onTap,
@@ -92,6 +93,11 @@ class SuperCard extends StatefulWidget {
   /// Whether to show the animated chevron affordance on an expandable card.
   /// Defaults to the [SuperCardTheme] value (`true`).
   final bool? showExpandIcon;
+
+  /// Overrides the card background. Defaults to [SuperCardTheme.color] and then
+  /// the active theme surface. The selected tint still wins when [selected] is
+  /// true.
+  final Color? background;
 
   /// Interior padding. Defaults to the [SuperCardTheme] padding, which
   /// `SuperMaterialThemeData` sets to the responsive compact card inset
@@ -165,14 +171,15 @@ class _SuperCardState extends State<SuperCard> {
     final borderColor = widget.selected
         ? (cardTheme.selectedBorderColor ?? cs.primary)
         : (_hover && interactive)
-            ? t.borderStrong
-            : (cardTheme.borderColor ?? t.border);
-    final fill =
-        widget.selected ? t.selectionFill(0.08) : (cardTheme.color ?? t.surface);
+        ? t.borderStrong
+        : (cardTheme.borderColor ?? t.border);
+    final fill = widget.selected
+        ? t.selectionFill(0.08)
+        : (widget.background ?? cardTheme.color ?? t.surface);
 
     final shape = cardTheme.shape;
-    final radius = (shape is RoundedRectangleBorder &&
-            shape.borderRadius is BorderRadius)
+    final radius =
+        (shape is RoundedRectangleBorder && shape.borderRadius is BorderRadius)
         ? shape.borderRadius as BorderRadius
         : BorderRadius.circular(k.radiusCard);
     final padding = widget.padding ?? cardTheme.padding ?? t.padding.card;
@@ -182,10 +189,7 @@ class _SuperCardState extends State<SuperCard> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (widget.header != null) ...[
-          widget.header!,
-          SizedBox(height: gap),
-        ],
+        if (widget.header != null) ...[widget.header!, SizedBox(height: gap)],
         widget.child,
       ],
     );
@@ -221,15 +225,9 @@ class _SuperCardState extends State<SuperCard> {
     final row = Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (widget.leading != null) ...[
-          widget.leading!,
-          SizedBox(width: gap),
-        ],
+        if (widget.leading != null) ...[widget.leading!, SizedBox(width: gap)],
         Expanded(child: bodyColumn),
-        if (trailingArea != null) ...[
-          SizedBox(width: gap),
-          trailingArea,
-        ],
+        if (trailingArea != null) ...[SizedBox(width: gap), trailingArea],
       ],
     );
 
@@ -261,7 +259,10 @@ class _SuperCardState extends State<SuperCard> {
           : Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: [Flexible(child: row), revealed],
+              children: [
+                Flexible(child: row),
+                revealed,
+              ],
             );
     }
 

@@ -82,7 +82,12 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   // ── Card elevation ──
   /// Dark-mode card shadow — lifts panels off the near-black page.
   static const List<BoxShadow> cardShadowDark = [
-    BoxShadow(color: Color(0x40000000), blurRadius: 50, spreadRadius: -12, offset: Offset(0, 25)),
+    BoxShadow(
+      color: Color(0x40000000),
+      blurRadius: 50,
+      spreadRadius: -12,
+      offset: Offset(0, 25),
+    ),
   ];
 
   /// Light-mode card shadow — a subtler two-step stack.
@@ -93,11 +98,17 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
 
   /// Overlay / popover shadow (menus, flyouts, suggestion lists).
   static const List<BoxShadow> popShadow = [
-    BoxShadow(color: Color(0x59000000), blurRadius: 24, spreadRadius: -6, offset: Offset(0, 10)),
+    BoxShadow(
+      color: Color(0x59000000),
+      blurRadius: 24,
+      spreadRadius: -6,
+      offset: Offset(0, 10),
+    ),
   ];
 
   /// The card shadow appropriate for this theme's brightness.
-  List<BoxShadow> get cardShadow => brightness == Brightness.dark ? cardShadowDark : cardShadowLight;
+  List<BoxShadow> get cardShadow =>
+      brightness == Brightness.dark ? cardShadowDark : cardShadowLight;
 
   // ── Convenience responsive accessors ──
   /// The active spacing scale (shorthand for `metrics.spacing`).
@@ -114,26 +125,26 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
 
   // ── Presets ──
   static const SuperThemeData dark = SuperThemeData(
-    bg: Color(0xFF111318),
-    surface: Color(0xFF1E2025),
-    inputBg: Color(0xFF33353A),
-    hover: Color(0xFF2F3540),
-    border: Color(0x6643464F),
-    borderStrong: Color(0xFF434654),
-    fg1: Color(0xFFE2E2E9),
-    fg2: Color(0xFFC3C6D7),
-    fg3: Color(0xFF8D90A0),
-    fg4: Color(0xFF5A5D68),
+    bg: Color(0xFF09131D),
+    surface: Color(0xFF0D151C),
+    inputBg: Color(0xFF1B2738),
+    hover: Color(0xFF162231),
+    border: Color(0x66304456),
+    borderStrong: Color(0xFF30445A),
+    fg1: Color(0xFFF2F5FA),
+    fg2: Color(0xFFC6CEDA),
+    fg3: Color(0xFF8F9BAD),
+    fg4: Color(0xFF5C6675),
     brightness: Brightness.dark,
   );
 
   static const SuperThemeData light = SuperThemeData(
-    bg: Color(0xFFF7F8FA),
-    surface: Color(0xFFFFFFFF),
-    inputBg: Color(0xFFF1F3F8),
-    hover: Color(0xFFEEF1F7),
-    border: Color(0xFFE2E8F0),
-    borderStrong: Color(0xFFC2C6D6),
+    bg: Color(0xFFE9EDF3),
+    surface: Color(0xFFF8FAFD),
+    inputBg: Color(0xFFFFFFFF),
+    hover: Color(0xFFEEF2F7),
+    border: Color(0xFFDDE4EC),
+    borderStrong: Color(0xFFC8D2DE),
     fg1: Color(0xFF0F172A),
     fg2: Color(0xFF424754),
     fg3: Color(0xFF64748B),
@@ -148,20 +159,20 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   /// A selection / accent tint at [pct] opacity blended over [surface]
   /// (mirrors the web `color-mix(... accent N%, surface)` highlight).
   Color selectionFill([double pct = 0.10]) =>
-      Color.alphaBlend(tokens.accent.withValues(alpha:pct), surface);
+      Color.alphaBlend(tokens.accent.withValues(alpha: pct), surface);
 
   /// A semantic [base] color softened to a pill background over [surface].
   Color tintFill(Color base, [double pct = 0.20]) =>
-      Color.alphaBlend(base.withValues(alpha:pct), surface);
+      Color.alphaBlend(base.withValues(alpha: pct), surface);
 
   /// A semantic [base] color softened to a subtle tint over [surface]
   /// (mirrors the web `color-mix(... base N%, surface)` fill).
   Color tint(Color base, [double pct = 0.14]) =>
-      Color.alphaBlend(base.withValues(alpha:pct), surface);
+      Color.alphaBlend(base.withValues(alpha: pct), surface);
 
   /// A semantic [base] tint over the page [bg] (e.g. a drag-over drop zone).
   Color tintOnBg(Color base, [double pct = 0.07]) =>
-      Color.alphaBlend(base.withValues(alpha:pct), bg);
+      Color.alphaBlend(base.withValues(alpha: pct), bg);
 
   @override
   SuperThemeData copyWith({
@@ -180,24 +191,23 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
     SuperMetrics? metrics,
     SuperInteractiveStateThemeData? interactiveStates,
     SuperTokensData? tokens,
-  }) =>
-      SuperThemeData(
-        bg: bg ?? this.bg,
-        surface: surface ?? this.surface,
-        inputBg: inputBg ?? this.inputBg,
-        hover: hover ?? this.hover,
-        border: border ?? this.border,
-        borderStrong: borderStrong ?? this.borderStrong,
-        fg1: fg1 ?? this.fg1,
-        fg2: fg2 ?? this.fg2,
-        fg3: fg3 ?? this.fg3,
-        fg4: fg4 ?? this.fg4,
-        brightness: brightness ?? this.brightness,
-        mode: mode ?? this.mode,
-        metrics: metrics ?? this.metrics,
-        interactiveStates: interactiveStates ?? this.interactiveStates,
-        tokens: tokens ?? this.tokens,
-      );
+  }) => SuperThemeData(
+    bg: bg ?? this.bg,
+    surface: surface ?? this.surface,
+    inputBg: inputBg ?? this.inputBg,
+    hover: hover ?? this.hover,
+    border: border ?? this.border,
+    borderStrong: borderStrong ?? this.borderStrong,
+    fg1: fg1 ?? this.fg1,
+    fg2: fg2 ?? this.fg2,
+    fg3: fg3 ?? this.fg3,
+    fg4: fg4 ?? this.fg4,
+    brightness: brightness ?? this.brightness,
+    mode: mode ?? this.mode,
+    metrics: metrics ?? this.metrics,
+    interactiveStates: interactiveStates ?? this.interactiveStates,
+    tokens: tokens ?? this.tokens,
+  );
 
   @override
   SuperThemeData lerp(ThemeExtension<SuperThemeData>? other, double t) {
@@ -217,8 +227,7 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
       // Device mode is discrete — snap at the midpoint.
       mode: t < 0.5 ? mode : other.mode,
       metrics: SuperMetrics.lerp(metrics, other.metrics, t),
-      interactiveStates:
-          interactiveStates.lerp(other.interactiveStates, t),
+      interactiveStates: interactiveStates.lerp(other.interactiveStates, t),
       tokens: SuperTokensData.lerp(tokens, other.tokens, t),
     );
   }

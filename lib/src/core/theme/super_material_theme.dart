@@ -943,13 +943,17 @@ class SuperMaterialThemeData extends ThemeData {
     // carried by a provided [textTheme] > the token bundle's default. A resolved
     // custom family is applied over the default GeniusLink type ramp so its
     // sizes / weights / letter-spacing are preserved.
-    final baseTokens = tokens ?? palette.applySemanticsTo(SuperTokensData.fallback);
+    final baseTokens =
+        tokens ?? palette.applySemanticsTo(SuperTokensData.fallback);
     final String? mergedFamily =
         fontFamily ??
         ((textTheme != null && mergeTextTheme) ? _familyOf(textTheme) : null);
     final effectiveTokens = mergedFamily == null
         ? baseTokens
-        : baseTokens.copyWith(bodyFont: mergedFamily, displayFont: mergedFamily);
+        : baseTokens.copyWith(
+            bodyFont: mergedFamily,
+            displayFont: mergedFamily,
+          );
 
     final fg1t = isDark ? palette.darkFg1 : palette.lightFg1;
     final fg3t = isDark ? palette.darkFg3 : palette.lightFg3;
@@ -1254,10 +1258,9 @@ class SuperMaterialThemeData extends ThemeData {
     final tt = textTheme ?? _textTheme(m.mode, fg1, fg3, tokens);
     iconTheme ??= IconThemeData(color: fg1, size: m.sizing.icon);
 
-    // App-bar background — deliberately the elevated card surface so the bar is
-    // visually distinct from the Scaffold (which is now the page background,
-    // cs.surface). Shared by the AppBarTheme and its system-overlay style.
-    final appBarBg = surface;
+    // App-bar background follows the page background so the top chrome blends
+    // with the Scaffold while cards and fields define the elevated layers.
+    final appBarBg = cs.surface;
 
     // Responsive input chrome — computed once and reused by both
     // inputDecorationTheme and dropdownMenuTheme.
@@ -1324,9 +1327,9 @@ class SuperMaterialThemeData extends ThemeData {
             backgroundColor: appBarBg,
             foregroundColor: fg1,
             surfaceTintColor: Colors.transparent,
-            elevation: isDark ? 0 : 1,
-            shadowColor: Colors.black26,
-            scrolledUnderElevation: isDark ? 1 : 2,
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            scrolledUnderElevation: isDark ? 1 : 0,
             centerTitle: false,
             toolbarHeight: 56,
             titleTextStyle: tt.titleLarge,
@@ -1790,14 +1793,22 @@ class SuperMaterialThemeData extends ThemeData {
       floatingActionButtonTheme:
           floatingActionButtonTheme ??
           FloatingActionButtonThemeData(
-            backgroundColor: cs.primary,
-            foregroundColor: cs.onPrimary,
+            backgroundColor: tokens.accent,
+            foregroundColor: const Color(0xFFFFFFFF),
+            focusColor: tokens.accentHover,
+            hoverColor: tokens.accentHover,
+            splashColor: tokens.accentPressed.withValues(alpha: 0.24),
             elevation: 4,
             focusElevation: 6,
             hoverElevation: 8,
             highlightElevation: 12,
+            iconSize: 24,
+            sizeConstraints: const BoxConstraints.tightFor(
+              width: 54,
+              height: 54,
+            ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(18),
             ),
           ),
 
@@ -2032,9 +2043,7 @@ class SuperMaterialThemeData extends ThemeData {
               elevation: const WidgetStatePropertyAll(0),
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    tokens.radiusControl,
-                  ),
+                  borderRadius: BorderRadius.circular(tokens.radiusControl),
                 ),
               ),
               padding: WidgetStatePropertyAll(

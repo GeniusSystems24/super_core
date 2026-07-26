@@ -192,12 +192,11 @@ SuperSection(padding: const EdgeInsets.all(20), title: 'Account Details', child:
   `surfaceContainerLowest` → `surfaceContainerHighest`)
 - Typography wired to Manrope / Inter / JetBrains Mono
 - **Scaffold background = `ColorScheme.surface`** (the GeniusLink page
-  background). Cards, panels, fields and app bars sit on the brighter
-  `surfaceContainer` ramp / card surface so they stay clearly separated from the
-  Scaffold
-- **App bar** painted on the elevated card surface (distinct from the Scaffold)
-  with a `systemOverlayStyle` that paints the **status bar and navigation bar**
-  the same color and picks status/nav icon brightness automatically for contrast
+  background). Cards, panels and fields sit on lifted surface tokens so the
+  screen matches the mobile light/dark surface stack.
+- **App bar** painted on the same page background as the Scaffold, with a
+  `systemOverlayStyle` that paints the **status bar and navigation bar** the
+  same color and picks status/nav icon brightness automatically for contrast
 - All button variants (elevated, outlined, text, filled, icon)
 - Input decoration (4 px radius, `fieldComfortable` height)
 - Navigation bar, rail, drawer, bottom navigation bar, bottom app bar
@@ -336,6 +335,7 @@ SuperCard(
   leading: const Icon(Icons.storefront_outlined),
   header: const SectionHeader(title: 'Downtown Central Store'),
   trailing: const StatusPill('ACTIVE', tone: PillTone.success),
+  background: context.superTheme.inputBg,
   expandedChild: const StoreDetailTable(), // revealed on tap / chevron
   // expandDirection: Axis.horizontal, initiallyExpanded, isExpanded, onExpansionChanged…
   child: const StoreSummary(),

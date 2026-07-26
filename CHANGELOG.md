@@ -16,6 +16,13 @@ theme override retunes the whole app's density.
 
 ### Changed
 
+- **Theme surface stack** — light/dark defaults now follow the provided mobile
+  references: Scaffold + app bar share the page background, cards sit on a
+  softly lifted surface, and fields/search controls use the highest field
+  surface (`#FFFFFF` light, `#1B2738` dark).
+- **FAB theme** — default floating action buttons now use the brand blue
+  `#4A7CFF` in both light and dark themes, white icons/text, and the mobile
+  reference's compact 54px rounded-square shape.
 - **`SuperMetrics.padding.card`** — `16 / 20 / 24 24 24 40` →
   `14 / 16 / 18` (mobile / tablet / desktop), an even inset on all sides.
 - **`SuperMetrics.padding.page`** — mobile `16` → `12`; tablet `32/28` →
@@ -52,6 +59,8 @@ theme override retunes the whole app's density.
 
 ### Added
 
+- **`SuperCard.background`** — per-card background override that wins over
+  `SuperCardTheme.color` while preserving the selected-card tint behavior.
 - **Example** — `example/lib/create_account_screen.dart`: the GeniusLink mobile
   "Create Account" form (segmented type selector, group select, parent-account
   search, bilingual name fields, main-account switch, notes) built only from

@@ -110,9 +110,17 @@ class SuperPalette {
 
   /// This palette's ten shades ordered lightest → darkest (indices 0–9).
   List<Color> get shades => <Color>[
-        shade50, shade100, shade200, shade300, shade400,
-        shade500, shade600, shade700, shade800, shade900,
-      ];
+    shade50,
+    shade100,
+    shade200,
+    shade300,
+    shade400,
+    shade500,
+    shade600,
+    shade700,
+    shade800,
+    shade900,
+  ];
 
   /// Looks up a shade by its Material [step] (50, 100, 200 … 900). Any other
   /// value snaps to the nearest defined step.
@@ -173,54 +181,54 @@ class SuperPalette {
   // All six palettes share these surfaces; accent/primary is the only variable.
 
   // Light surfaces
-  static const Color _lightBg        = Color(0xFFEBEEF4); // page (deeper, lifts white cards)
-  static const Color _lightSurface   = Color(0xFFFFFFFF);
-  static const Color _lightInputBg   = Color(0xFFF1F3F8);
-  static const Color _lightHover     = Color(0xFFEEF1F7);
-  static const Color _lightBorder    = Color(0xFFE2E8F0);
-  static const Color _lightBorderStr = Color(0xFFC2C6D6);
-  static const Color _lightFg1       = Color(0xFF0F172A);
-  static const Color _lightFg2       = Color(0xFF424754);
-  static const Color _lightFg3       = Color(0xFF64748B);
-  static const Color _lightFg4       = Color(0xFFAEB4C2);
+  static const Color _lightBg = Color(0xFFE9EDF3);
+  static const Color _lightSurface = Color(0xFFF8FAFD);
+  static const Color _lightInputBg = Color(0xFFFFFFFF);
+  static const Color _lightHover = Color(0xFFEEF2F7);
+  static const Color _lightBorder = Color(0xFFDDE4EC);
+  static const Color _lightBorderStr = Color(0xFFC8D2DE);
+  static const Color _lightFg1 = Color(0xFF0F172A);
+  static const Color _lightFg2 = Color(0xFF424754);
+  static const Color _lightFg3 = Color(0xFF64748B);
+  static const Color _lightFg4 = Color(0xFFAEB4C2);
 
   // Dark surfaces
-  static const Color _darkBg         = Color(0xFF0A0B0E); // page (near-black, lifts cards)
-  static const Color _darkSurface    = Color(0xFF1E2025);
-  static const Color _darkSurface2   = Color(0xFF292D38);
-  static const Color _darkInputBg    = Color(0xFF33353A);
-  static const Color _darkHover      = Color(0xFF2F3540);
-  static const Color _darkBorder     = Color(0x6643464F);
-  static const Color _darkBorderStr  = Color(0xFF434654);
-  static const Color _darkFg1        = Color(0xFFE2E2E9);
-  static const Color _darkFg2        = Color(0xFFC3C6D7);
-  static const Color _darkFg3        = Color(0xFF8D90A0);
-  static const Color _darkFg4        = Color(0xFF5A5D68);
+  static const Color _darkBg = Color(0xFF09131D);
+  static const Color _darkSurface = Color(0xFF0D151C);
+  static const Color _darkSurface2 = Color(0xFF172436);
+  static const Color _darkInputBg = Color(0xFF1B2738);
+  static const Color _darkHover = Color(0xFF162231);
+  static const Color _darkBorder = Color(0x66304456);
+  static const Color _darkBorderStr = Color(0xFF30445A);
+  static const Color _darkFg1 = Color(0xFFF2F5FA);
+  static const Color _darkFg2 = Color(0xFFC6CEDA);
+  static const Color _darkFg3 = Color(0xFF8F9BAD);
+  static const Color _darkFg4 = Color(0xFF5C6675);
 
   // ── Surface token accessors (used by SuperMaterialThemeData) ──────────────
 
-  Color get lightBg        => _lightBg;
-  Color get lightSurface   => _lightSurface;
-  Color get lightInputBg   => _lightInputBg;
-  Color get lightHover     => _lightHover;
-  Color get lightBorder    => _lightBorder;
+  Color get lightBg => _lightBg;
+  Color get lightSurface => _lightSurface;
+  Color get lightInputBg => _lightInputBg;
+  Color get lightHover => _lightHover;
+  Color get lightBorder => _lightBorder;
   Color get lightBorderStr => _lightBorderStr;
-  Color get lightFg1       => _lightFg1;
-  Color get lightFg2       => _lightFg2;
-  Color get lightFg3       => _lightFg3;
-  Color get lightFg4       => _lightFg4;
+  Color get lightFg1 => _lightFg1;
+  Color get lightFg2 => _lightFg2;
+  Color get lightFg3 => _lightFg3;
+  Color get lightFg4 => _lightFg4;
 
-  Color get darkBg         => _darkBg;
-  Color get darkSurface    => _darkSurface;
-  Color get darkSurface2   => _darkSurface2;
-  Color get darkInputBg    => _darkInputBg;
-  Color get darkHover      => _darkHover;
-  Color get darkBorder     => _darkBorder;
-  Color get darkBorderStr  => _darkBorderStr;
-  Color get darkFg1        => _darkFg1;
-  Color get darkFg2        => _darkFg2;
-  Color get darkFg3        => _darkFg3;
-  Color get darkFg4        => _darkFg4;
+  Color get darkBg => _darkBg;
+  Color get darkSurface => _darkSurface;
+  Color get darkSurface2 => _darkSurface2;
+  Color get darkInputBg => _darkInputBg;
+  Color get darkHover => _darkHover;
+  Color get darkBorder => _darkBorder;
+  Color get darkBorderStr => _darkBorderStr;
+  Color get darkFg1 => _darkFg1;
+  Color get darkFg2 => _darkFg2;
+  Color get darkFg3 => _darkFg3;
+  Color get darkFg4 => _darkFg4;
 
   // ── ColorScheme generation ────────────────────────────────────────────────
 
@@ -230,62 +238,62 @@ class SuperPalette {
   /// Surface tokens use the GeniusLink-standard neutral light ramp so all
   /// palettes maintain the same high-contrast precision-instrument feel.
   ColorScheme toLightColorScheme() => ColorScheme(
-        brightness: Brightness.light,
-        primary: shade500,
-        onPrimary: _onColor(shade500),
-        primaryContainer: shade100,
-        onPrimaryContainer: shade800,
-        secondary: shade600,
-        onSecondary: _onColor(shade600),
-        secondaryContainer: shade50,
-        onSecondaryContainer: shade700,
-        tertiary: shade400,
-        onTertiary: _onColor(shade400),
-        tertiaryContainer: shade100,
-        onTertiaryContainer: shade700,
-        error: error,
-        onError: const Color(0xFFFFFFFF),
-        errorContainer: const Color(0xFFFEE2E2),
-        onErrorContainer: const Color(0xFF7F1D1D),
-        // Fixed accent roles (identical across light & dark, per Material 3)
-        primaryFixed: shade100,
-        primaryFixedDim: shade200,
-        onPrimaryFixed: shade900,
-        onPrimaryFixedVariant: shade700,
-        secondaryFixed: shade100,
-        secondaryFixedDim: shade200,
-        onSecondaryFixed: shade900,
-        onSecondaryFixedVariant: shade700,
-        tertiaryFixed: shade100,
-        tertiaryFixedDim: shade200,
-        onTertiaryFixed: shade900,
-        onTertiaryFixedVariant: shade700,
-        surface: _lightBg,
-        onSurface: _lightFg1,
-        onSurfaceVariant: _lightFg2,
-        // Surface container ramp — brightest (lowest) → dimmest (highest).
-        // Cards default to surfaceContainerLowest (#FFFFFF), clearly lifted off
-        // the #F7F8FA page background.
-        surfaceDim: const Color(0xFFDFE3EC),
-        surfaceBright: _lightSurface,
-        surfaceContainerLowest: _lightSurface,
-        surfaceContainerLow: const Color(0xFFF4F6FA),
-        surfaceContainer: _lightHover,
-        surfaceContainerHigh: const Color(0xFFE7EAF1),
-        surfaceContainerHighest: const Color(0xFFDFE3EC),
-        // Inverse
-        inverseSurface: _darkSurface,
-        onInverseSurface: _darkFg1,
-        inversePrimary: shade200,
-        // Borders / outlines
-        outline: _lightBorder,
-        outlineVariant: _lightBorderStr,
-        // Shadows
-        shadow: const Color(0xFF000000),
-        scrim: const Color(0xFF000000),
-        // Surface tint — disabled per GeniusLink flat-surface spec
-        surfaceTint: Colors.transparent,
-      );
+    brightness: Brightness.light,
+    primary: shade500,
+    onPrimary: _onColor(shade500),
+    primaryContainer: shade100,
+    onPrimaryContainer: shade800,
+    secondary: shade600,
+    onSecondary: _onColor(shade600),
+    secondaryContainer: shade50,
+    onSecondaryContainer: shade700,
+    tertiary: shade400,
+    onTertiary: _onColor(shade400),
+    tertiaryContainer: shade100,
+    onTertiaryContainer: shade700,
+    error: error,
+    onError: const Color(0xFFFFFFFF),
+    errorContainer: const Color(0xFFFEE2E2),
+    onErrorContainer: const Color(0xFF7F1D1D),
+    // Fixed accent roles (identical across light & dark, per Material 3)
+    primaryFixed: shade100,
+    primaryFixedDim: shade200,
+    onPrimaryFixed: shade900,
+    onPrimaryFixedVariant: shade700,
+    secondaryFixed: shade100,
+    secondaryFixedDim: shade200,
+    onSecondaryFixed: shade900,
+    onSecondaryFixedVariant: shade700,
+    tertiaryFixed: shade100,
+    tertiaryFixedDim: shade200,
+    onTertiaryFixed: shade900,
+    onTertiaryFixedVariant: shade700,
+    surface: _lightBg,
+    onSurface: _lightFg1,
+    onSurfaceVariant: _lightFg2,
+    // Surface container ramp — brightest (lowest) → dimmest (highest).
+    // Cards default to surfaceContainerLowest (#F8FAFD), clearly lifted off
+    // the #E9EDF3 page background.
+    surfaceDim: const Color(0xFFD8DFE9),
+    surfaceBright: _lightSurface,
+    surfaceContainerLowest: _lightSurface,
+    surfaceContainerLow: const Color(0xFFF2F6FA),
+    surfaceContainer: _lightHover,
+    surfaceContainerHigh: const Color(0xFFE2E8F0),
+    surfaceContainerHighest: const Color(0xFFD8DFE9),
+    // Inverse
+    inverseSurface: _darkSurface,
+    onInverseSurface: _darkFg1,
+    inversePrimary: shade200,
+    // Borders / outlines
+    outline: _lightBorder,
+    outlineVariant: _lightBorderStr,
+    // Shadows
+    shadow: const Color(0xFF000000),
+    scrim: const Color(0xFF000000),
+    // Surface tint — disabled per GeniusLink flat-surface spec
+    surfaceTint: Colors.transparent,
+  );
 
   /// Generates a [ColorScheme] tuned for dark [ThemeData].
   ///
@@ -296,62 +304,62 @@ class SuperPalette {
   /// paler [shade300] instead reads washed-out and drops the brand character.
   /// Surface tokens use the GeniusLink-standard near-black neutral ramp.
   ColorScheme toDarkColorScheme() => ColorScheme(
-        brightness: Brightness.dark,
-        primary: shade400,
-        onPrimary: shade900,
-        primaryContainer: shade800,
-        onPrimaryContainer: shade100,
-        secondary: shade400,
-        onSecondary: shade900,
-        secondaryContainer: _darkSurface2,
-        onSecondaryContainer: shade200,
-        tertiary: shade400,
-        onTertiary: shade900,
-        tertiaryContainer: shade800,
-        onTertiaryContainer: shade100,
-        error: errorDark,
-        onError: const Color(0xFF7F1D1D),
-        errorContainer: const Color(0xFF991B1B),
-        onErrorContainer: const Color(0xFFFEE2E2),
-        // Fixed accent roles (identical across light & dark, per Material 3)
-        primaryFixed: shade100,
-        primaryFixedDim: shade200,
-        onPrimaryFixed: shade900,
-        onPrimaryFixedVariant: shade700,
-        secondaryFixed: shade100,
-        secondaryFixedDim: shade200,
-        onSecondaryFixed: shade900,
-        onSecondaryFixedVariant: shade700,
-        tertiaryFixed: shade100,
-        tertiaryFixedDim: shade200,
-        onTertiaryFixed: shade900,
-        onTertiaryFixedVariant: shade700,
-        surface: _darkBg,
-        onSurface: _darkFg1,
-        onSurfaceVariant: _darkFg3,
-        // Surface container ramp — dimmest (lowest) → brightest (highest).
-        // Cards default to surfaceContainer (#1E2025), clearly lifted off the
-        // #111318 page background.
-        surfaceDim: const Color(0xFF0C0D10),
-        surfaceBright: const Color(0xFF35373D),
-        surfaceContainerLowest: const Color(0xFF0C0D10),
-        surfaceContainerLow: const Color(0xFF16181D),
-        surfaceContainer: _darkSurface,
-        surfaceContainerHigh: const Color(0xFF24262C),
-        surfaceContainerHighest: _darkSurface2,
-        // Inverse
-        inverseSurface: _lightSurface,
-        onInverseSurface: _lightFg1,
-        inversePrimary: shade500,
-        // Borders / outlines
-        outline: _darkBorderStr,
-        outlineVariant: _darkBorder,
-        // Shadows
-        shadow: const Color(0xFF000000),
-        scrim: const Color(0xFF000000),
-        // Surface tint — disabled per GeniusLink flat-surface spec
-        surfaceTint: Colors.transparent,
-      );
+    brightness: Brightness.dark,
+    primary: shade400,
+    onPrimary: shade900,
+    primaryContainer: shade800,
+    onPrimaryContainer: shade100,
+    secondary: shade400,
+    onSecondary: shade900,
+    secondaryContainer: _darkSurface2,
+    onSecondaryContainer: shade200,
+    tertiary: shade400,
+    onTertiary: shade900,
+    tertiaryContainer: shade800,
+    onTertiaryContainer: shade100,
+    error: errorDark,
+    onError: const Color(0xFF7F1D1D),
+    errorContainer: const Color(0xFF991B1B),
+    onErrorContainer: const Color(0xFFFEE2E2),
+    // Fixed accent roles (identical across light & dark, per Material 3)
+    primaryFixed: shade100,
+    primaryFixedDim: shade200,
+    onPrimaryFixed: shade900,
+    onPrimaryFixedVariant: shade700,
+    secondaryFixed: shade100,
+    secondaryFixedDim: shade200,
+    onSecondaryFixed: shade900,
+    onSecondaryFixedVariant: shade700,
+    tertiaryFixed: shade100,
+    tertiaryFixedDim: shade200,
+    onTertiaryFixed: shade900,
+    onTertiaryFixedVariant: shade700,
+    surface: _darkBg,
+    onSurface: _darkFg1,
+    onSurfaceVariant: _darkFg3,
+    // Surface container ramp — dimmest (lowest) → brightest (highest).
+    // Cards default to surfaceContainer (#0D151C), clearly lifted off the
+    // #09131D page background while inputs sit one layer higher.
+    surfaceDim: const Color(0xFF060D14),
+    surfaceBright: const Color(0xFF243247),
+    surfaceContainerLowest: const Color(0xFF060D14),
+    surfaceContainerLow: const Color(0xFF0A1118),
+    surfaceContainer: _darkSurface,
+    surfaceContainerHigh: const Color(0xFF121C29),
+    surfaceContainerHighest: _darkSurface2,
+    // Inverse
+    inverseSurface: _lightSurface,
+    onInverseSurface: _lightFg1,
+    inversePrimary: shade500,
+    // Borders / outlines
+    outline: _darkBorderStr,
+    outlineVariant: _darkBorder,
+    // Shadows
+    shadow: const Color(0xFF000000),
+    scrim: const Color(0xFF000000),
+    // Surface tint — disabled per GeniusLink flat-surface spec
+    surfaceTint: Colors.transparent,
+  );
 
   // ── Internal helpers ──────────────────────────────────────────────────────
 
@@ -367,7 +375,7 @@ class SuperPalette {
   /// shade500 = #4A7CFF — matches SuperTokens.accent exactly.
   static const SuperPalette bluePalette = SuperPalette(
     name: 'Blue',
-    shade50:  Color(0xFFEEF2FF),
+    shade50: Color(0xFFEEF2FF),
     shade100: Color(0xFFE0E9FF),
     shade200: Color(0xFFC7D5FF),
     shade300: Color(0xFFA3B9FF),
@@ -382,7 +390,7 @@ class SuperPalette {
   /// Violet / indigo palette — harmonious with [bluePalette].
   static const SuperPalette purplePalette = SuperPalette(
     name: 'Purple',
-    shade50:  Color(0xFFF3F0FF),
+    shade50: Color(0xFFF3F0FF),
     shade100: Color(0xFFE9E4FF),
     shade200: Color(0xFFD4CAFF),
     shade300: Color(0xFFB8AAFF),
@@ -399,7 +407,7 @@ class SuperPalette {
   /// shade500 = #1DB88A — matches SuperTokens.success exactly.
   static const SuperPalette greenPalette = SuperPalette(
     name: 'Green',
-    shade50:  Color(0xFFE8FBF5),
+    shade50: Color(0xFFE8FBF5),
     shade100: Color(0xFFCDF7E9),
     shade200: Color(0xFF9AEFD3),
     shade300: Color(0xFF60E4BA),
@@ -414,7 +422,7 @@ class SuperPalette {
   /// Warm amber / gold palette.
   static const SuperPalette goldenPalette = SuperPalette(
     name: 'Golden',
-    shade50:  Color(0xFFFFFBEB),
+    shade50: Color(0xFFFFFBEB),
     shade100: Color(0xFFFEF3C7),
     shade200: Color(0xFFFDE68A),
     shade300: Color(0xFFFCD34D),
@@ -432,7 +440,7 @@ class SuperPalette {
   /// shade50  = light bg (#F7F8FA).
   static const SuperPalette grayPalette = SuperPalette(
     name: 'Gray',
-    shade50:  Color(0xFFF7F8FA),
+    shade50: Color(0xFFF7F8FA),
     shade100: Color(0xFFEEF1F7),
     shade200: Color(0xFFE2E8F0),
     shade300: Color(0xFFC2C6D6),
@@ -447,7 +455,7 @@ class SuperPalette {
   /// Pure black / white monochrome palette — maximum neutrality.
   static const SuperPalette monochromePalette = SuperPalette(
     name: 'Monochrome',
-    shade50:  Color(0xFFFAFAFA),
+    shade50: Color(0xFFFAFAFA),
     shade100: Color(0xFFF5F5F5),
     shade200: Color(0xFFE5E5E5),
     shade300: Color(0xFFD4D4D4),
@@ -462,7 +470,7 @@ class SuperPalette {
   /// Teal / cyan palette — cool, calm accent harmonious with the blue family.
   static const SuperPalette tealPalette = SuperPalette(
     name: 'Teal',
-    shade50:  Color(0xFFECFDF7),
+    shade50: Color(0xFFECFDF7),
     shade100: Color(0xFFCFFAEC),
     shade200: Color(0xFF9FF3DA),
     shade300: Color(0xFF5FE6C6),
@@ -477,7 +485,7 @@ class SuperPalette {
   /// Rose / red palette — warm crimson accent (distinct from the danger red).
   static const SuperPalette rosePalette = SuperPalette(
     name: 'Rose',
-    shade50:  Color(0xFFFFF1F3),
+    shade50: Color(0xFFFFF1F3),
     shade100: Color(0xFFFFE0E6),
     shade200: Color(0xFFFEC5D2),
     shade300: Color(0xFFFB9AB1),
@@ -492,7 +500,7 @@ class SuperPalette {
   /// Indigo palette — deep blue-violet, a richer sibling to [bluePalette].
   static const SuperPalette indigoPalette = SuperPalette(
     name: 'Indigo',
-    shade50:  Color(0xFFEEF0FF),
+    shade50: Color(0xFFEEF0FF),
     shade100: Color(0xFFE0E3FF),
     shade200: Color(0xFFC6CBFF),
     shade300: Color(0xFFA3A9FF),
@@ -507,7 +515,7 @@ class SuperPalette {
   /// Slate palette — cool blue-gray neutral accent (a bluer [grayPalette]).
   static const SuperPalette slatePalette = SuperPalette(
     name: 'Slate',
-    shade50:  Color(0xFFF6F8FB),
+    shade50: Color(0xFFF6F8FB),
     shade100: Color(0xFFEDF1F6),
     shade200: Color(0xFFDCE2EC),
     shade300: Color(0xFFC0C9D8),

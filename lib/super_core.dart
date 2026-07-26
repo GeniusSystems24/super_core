@@ -39,10 +39,10 @@
 /// [SuperMaterialThemeData] now generates a GeniusLink default for *every*
 /// [ThemeData] property (top-level colors, density, the remaining component
 /// themes) and [SuperPalette]'s color schemes fill *every* Material 3 role
-/// (the fixed accent roles + the full surface-container ramp). The Scaffold is
-/// painted [ColorScheme.surface] (the page background); the app bar rides the
-/// card surface and keeps the OS status + navigation bars in sync via
-/// `systemOverlayStyle`. Precedence is unchanged:
+/// (the fixed accent roles + the full surface-container ramp). The Scaffold and
+/// app bar are painted [ColorScheme.surface] (the page background) while cards
+/// and fields sit on lifted surface tokens; the OS status + navigation bars are
+/// kept in sync via `systemOverlayStyle`. Precedence is unchanged:
 /// explicit override > palette-generated > Flutter default.
 ///
 /// ## v1.0.0 — SuperPalette + SuperMaterialThemeData
