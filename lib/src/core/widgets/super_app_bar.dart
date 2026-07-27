@@ -38,6 +38,7 @@ import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
 import '../theme/super_app_bar_theme.dart';
 import '../theme/super_device_mode.dart';
+import '../theme/super_theme.dart';
 
 export '../theme/super_app_bar_theme.dart' show SubtitlePosition, SuperAppBarTheme;
 
@@ -278,10 +279,9 @@ class _SuperAppBarState extends State<SuperAppBar> {
     final ScaffoldState? scaffold = Scaffold.maybeOf(context);
 
     final bool hasDrawer = scaffold?.hasDrawer ?? false;
-    final bool hasEndDrawer = scaffold?.hasEndDrawer ?? false;
-    final bool canPop = parentRoute?.canPop ?? false;
     final bool useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
 
+    final SuperThemeData t = SuperThemeData.of(context);
     final Color backgroundColor =
         widget.backgroundColor ?? appBarTheme.backgroundColor ?? colorScheme.surface;
     final Color foregroundColor =
@@ -303,12 +303,15 @@ class _SuperAppBarState extends State<SuperAppBar> {
     final TextStyle? toolbarTextStyle = widget.toolbarTextStyle ??
         appBarTheme.toolbarTextStyle ??
         theme.textTheme.bodyMedium?.copyWith(color: foregroundColor);
-    final TextStyle? titleTextStyle = widget.titleTextStyle ??
+    final TextStyle titleTextStyle = widget.titleTextStyle ??
         appBarTheme.titleTextStyle ??
-        theme.textTheme.titleLarge?.copyWith(color: foregroundColor);
-    final TextStyle? subtitleStyle = widget.subtitleTextStyle ??
+        t.textTheme.headlineSm.copyWith(color: foregroundColor);
+    final TextStyle subtitleStyle = widget.subtitleTextStyle ??
         appBarTheme.subtitleTextStyle ??
-        theme.textTheme.bodySmall?.copyWith(color: foregroundColor.withValues(alpha: 0.75));
+        t.textTheme.labelSm.copyWith(
+          color: foregroundColor.withValues(alpha: 0.75),
+          letterSpacing: 1.2,
+        );
 
     final bool centerTitle = _getEffectiveCenterTitle(theme, appBarTheme);
     final double titleSpacing =
@@ -319,8 +322,13 @@ class _SuperAppBarState extends State<SuperAppBar> {
     if (leading == null && widget.automaticallyImplyLeading) {
       if (hasDrawer) {
         leading = DrawerButton(onPressed: () => Scaffold.of(context).openDrawer());
-      } else if (!hasEndDrawer && canPop) {
-        leading = useCloseButton ? const CloseButton() : const BackButton();
+      } else if (parentRoute?.impliesAppBarDismissal ?? false) {
+        leading = useCloseButton
+            ? const CloseButton()
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                onPressed: () => Navigator.of(context).pop(),
+              );
       }
     }
     if (leading != null) {
@@ -334,7 +342,7 @@ class _SuperAppBarState extends State<SuperAppBar> {
     Widget? title = widget.title;
     if (title != null) {
       title = DefaultTextStyle(
-        style: titleTextStyle ?? const TextStyle(),
+        style: titleTextStyle,
         softWrap: false,
         overflow: TextOverflow.ellipsis,
         child: title,
@@ -343,7 +351,7 @@ class _SuperAppBarState extends State<SuperAppBar> {
         final SubtitlePosition pos =
             widget.subtitlePosition ?? appBarTheme.effectiveSubtitlePosition;
         final Widget sub = DefaultTextStyle(
-          style: subtitleStyle ?? const TextStyle(),
+          style: subtitleStyle,
           softWrap: false,
           overflow: TextOverflow.ellipsis,
           child: widget.subtitle!,

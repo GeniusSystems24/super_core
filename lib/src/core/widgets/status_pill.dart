@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
 import '../theme/super_semantic_colors.dart';
-import '../theme/super_text_styles.dart';
 
 /// The semantic intent of a [StatusPill].
 enum PillTone { neutral, accent, info, success, warning, danger }
@@ -43,7 +42,7 @@ class StatusPill extends StatelessWidget {
         borderRadius: BorderRadius.circular(k.radiusPill),
       ),
       child: Text(label.toUpperCase(),
-          style: SuperText.pill.copyWith(color: color.onSubtle)),
+          style: context.superTheme.textTheme.pill.copyWith(color: color.onSubtle)),
     );
   }
 }

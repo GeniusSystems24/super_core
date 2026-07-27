@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v2.1.0)
+# super_core — ChatGPT / Codex agent instructions (v2.4.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,9 +10,10 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 2.1.0
+version: 2.4.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
+deps:    google_fonts >=6.2.1 <7.0.0
 ```
 
 ## When to use
@@ -23,6 +24,50 @@ Apply this skill when the user asks for:
 - "responsive spacing / sizing / typography for mobile, tablet, desktop"
 - reading Super surface tokens (`bg`, `surface`, `fg1…fg4`, `border`) in a widget
 - building or modifying any `super_*` package theme
+
+## What changed in 2.4.0 (additive + breaking removals)
+
+1. **`SuperTextTheme extends TextTheme`** replaces the removed `SuperText` static
+   class. Factory `SuperTextTheme.fromTokens(tokens, {isDesktop, isArabic})`
+   populates all 15 Material `TextTheme` slots via Google Fonts:
+   `GoogleFonts.manrope()` (display/headline), `GoogleFonts.inter()`
+   (body/label), `GoogleFonts.notoNaskhArabic()` (Arabic). Nine named fields:
+   `displayLg`, `headlineSm`, `titleMd`, `bodyLg`, `bodySm`, `labelMd`,
+   `labelSm`, `mono`, `eyebrow`. Convenience getters: `heading`, `body`, `label`,
+   `caption`, `button`, `pill`, `h1`. Read via
+   `context.superTheme.textTheme.<field>`. `colorize(fg1, fg3)` applies fg tints;
+   `superCopyWith({...})` preserves the type. `SuperThemeData.textTheme` gives a
+   colorless instance for component-level use.
+   - **Breaking:** `SuperText` (static class) **removed**. Replace
+     `SuperText.<field>` with `context.superTheme.textTheme.<field>`.
+2. **Surface colors** updated to match GeniusLink reference tokens: light bg
+   `#E6E8EB`, light surface `#F5F6F8`, dark bg `#0E141E`.
+3. **Card shadows** — single-layer diffuse: dark `BoxShadow(0x1F000000, blur 28,
+   dy 6)` / light `BoxShadow(0x0A000000, blur 32, dy 4)`.
+4. **`AccentSectionCard`** — new widget: 3 px leading accent bar + tinted header
+   strip. Props: `title`, `icon`, `trailing`, `accentColor`, `child`,
+   `bodyPadding`, `headerPadding`, `backgroundColor`.
+5. **`SectionCard` redesign** — background `surfaceContainerLow`, shadow-only (no
+   default border). Added: `accentColor`, `icon`, `collapsible`,
+   `initiallyExpanded`. **Removed:** `leading`, `trailing`.
+6. **`SuperCard` redesign** — `background` → `color`; full Material `Card` parity
+   (`shadowColor`, `surfaceTintColor`, `elevation`, `shape`, `borderOnForeground`,
+   `clipBehavior`, `semanticContainer`); border transparent at rest.
+   **Removed:** `leading`, `trailing`.
+7. **`SuperAppBar`/`SuperSliverAppBar` chrome** — auto back button uses
+   `Icons.arrow_back_ios_new_rounded` in a plain `IconButton`; route guard checks
+   `parentRoute?.impliesAppBarDismissal`; title falls back to
+   `t.textTheme.headlineSm`; subtitle falls back to `t.textTheme.labelSm` with
+   `letterSpacing: 1.2`.
+8. **`google_fonts: ^6.2.1`** added as a package dependency.
+
+## What changed in 2.3.0 (compact density)
+
+Cards, sections and tiles use tighter responsive insets — every padding value
+comes from `SuperMetrics` so one theme override retunes the whole app:
+`padding.card` 14/16/18 px, `spacing.section` 12/14/16 px,
+`sizing.fieldComfortable` 44/42/40 px (mobile/tablet/desktop). See the 2.3.0
+changelog entry for the full token delta.
 
 ## What changed in 2.1.0 (additive — one token break)
 
@@ -234,7 +279,7 @@ else just read `SuperThemeData`. Never duplicate palette/responsive math.
 
 ---
 
-## Design-system widgets (v2.0.0)
+## Design-system widgets (v2.4.0)
 
 Prefer these over hand-rolling GeniusLink chrome from raw `Container` / Material
 widgets. All exported from the barrel; names start with `Super`.
@@ -242,22 +287,45 @@ widgets. All exported from the barrel; names start with `Super`.
 `SectionCard` · `SectionHeader` · `StatusPill` · `SuperButton` /
 `SuperIconButton` · `Hairline` · `FieldShell` and:
 
-### `SuperCard` — general surface card (expandable in v2)
+### `SuperCard` — general surface card (expandable)
 
-8 px radius, hairline border, theme card shadow. Optional `header`; `leading` /
-`trailing` slots; `onTap` makes it interactive; `selected` draws the active
-treatment. **Expandable:** pass `expandedChild` (revealed on tap or via the
-chevron) with `expandDirection` (`Axis.vertical` default, or `.horizontal`);
-control via `initiallyExpanded` / `isExpanded` / `onExpansionChanged`. Defaults
-from `SuperCardTheme` in `ThemeData.cardTheme`.
+`surfaceContainerLow` background, shadow-only at rest (transparent border;
+border appears on hover / when `selected`). Optional `header`; `onTap` makes it
+interactive; `selected` draws the accent border + tint. **Expandable:** pass
+`expandedChild` (revealed on tap or via chevron) with `expandDirection`
+(`Axis.vertical` default, or `.horizontal`); control via `initiallyExpanded` /
+`isExpanded` / `onExpansionChanged`. Full Material `Card` parity: `color`,
+`elevation`, `shadowColor`, `surfaceTintColor`, `shape`, `clipBehavior`,
+`semanticContainer`. Defaults from `SuperCardTheme` in `ThemeData.cardTheme`.
+
+> `leading` and `trailing` were **removed in v2.4.0** — put them in `header` or
+> `child`. `background` was renamed `color`.
 
 ```dart
 SuperCard(
-  leading: const Icon(Icons.storefront_outlined),
   header: const SectionHeader(title: 'Downtown Central Store'),
-  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
-  expandedChild: const StoreDetailTable(),   // revealed on tap / chevron
+  expandedChild: const StoreDetailTable(),
   child: const StoreSummary(),
+);
+```
+
+### `SectionCard` — form-section card (redesigned in v2.4.0)
+
+`surfaceContainerLow` background, shadow-only, optional collapsible body.
+`leading` / `trailing` **removed**; use `accentColor` / `icon` for the header
+accent; set `collapsible: true` for an animated expand/collapse chevron.
+
+### `AccentSectionCard` — accent-bar section card (new in v2.4.0)
+
+3 px leading accent bar + tinted header strip. Best for sidebar / grouped
+sections where the accent communicates the section intent.
+
+```dart
+AccentSectionCard(
+  title: 'Bank Account',
+  icon: const Icon(Icons.account_balance_outlined),
+  accentColor: Colors.blue,
+  child: const AccountForm(),
 );
 ```
 
@@ -298,6 +366,12 @@ positionable `subtitle` (`SubtitlePosition.above` / `.below`) and responsive
 action overflow: extras past `maxActions` collapse into a ⋮ menu (per-device
 default 3/4/5, overridable via `maxActions` / `maxMobileActions` /
 `maxTabletActions` / `maxDesktopActions`).
+
+GeniusLink-specific chrome (v2.4.0): auto back button →
+`Icons.arrow_back_ios_new_rounded` in a plain `IconButton`; route guard →
+`parentRoute?.impliesAppBarDismissal`; title default style →
+`t.textTheme.headlineSm` (Manrope 700); subtitle default style →
+`t.textTheme.labelSm` with `letterSpacing: 1.2`.
 
 ```dart
 Scaffold(
@@ -388,11 +462,16 @@ final t = SuperMaterialThemeData.dark().copyWith(
 
 Additive first; `@Deprecated('Use X. Removed after vN.')` for ≥1 minor before
 removal. `ThemeData(extensions: const [SuperThemeData.light])` and
-`SuperThemeData.of(context)` must keep working. Bump a dependent's `super_core`
-constraint to `>=2.0.0 <3.0.0` when it uses a 2.0.0 API. v2.0.0 is a breaking
-release: `SuperTokens` (static) is gone — read tokens from
-`SuperThemeData.of(context).tokens` (no static token constants remain) — and
-`SuperDialog` is removed.
+`SuperThemeData.of(context)` must keep working.
+
+**v2.4.0 breaking removals:** `SuperText` (static class) removed — replace every
+`SuperText.<field>` with `context.superTheme.textTheme.<field>`. `SuperCard`
+`leading`/`trailing` removed; `background` renamed `color`. `SectionCard`
+`leading`/`trailing` removed. Bump dependent constraints to `>=2.4.0 <3.0.0`.
+
+**v2.0.0 breaking:** `SuperTokens` (static) removed — read tokens from
+`SuperThemeData.of(context).tokens` (no static constants remain). `SuperDialog`
+removed. Bump to `>=2.0.0 <3.0.0`.
 
 ## Commands
 

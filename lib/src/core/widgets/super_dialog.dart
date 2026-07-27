@@ -23,7 +23,6 @@
 import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
-import '../theme/super_text_styles.dart';
 import '../theme/super_theme.dart';
 import '../theme/super_tokens.dart';
 import 'super_button.dart';
@@ -239,7 +238,7 @@ class SuperDialog extends StatelessWidget {
                       actions.isNotEmpty ? 0.0 : k.space6,
                     ),
                     child: DefaultTextStyle.merge(
-                      style: SuperText.body.copyWith(color: t.fg2),
+                      style: t.textTheme.body.copyWith(color: t.fg2),
                       child: content!,
                     ),
                   ),
@@ -313,12 +312,12 @@ class _Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (title != null)
-                Text(title!, style: SuperText.heading.copyWith(color: t.fg1)),
+                Text(title!, style: t.textTheme.heading.copyWith(color: t.fg1)),
               if (subtitle != null) ...[
                 SizedBox(height: t.tokens.space1),
                 Text(
                   subtitle!,
-                  style: SuperText.caption.copyWith(color: t.fg3),
+                  style: t.textTheme.caption.copyWith(color: t.fg3),
                 ),
               ],
             ],

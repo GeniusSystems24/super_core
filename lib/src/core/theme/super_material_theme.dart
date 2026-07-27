@@ -41,7 +41,7 @@ import 'super_metrics.dart';
 import 'super_palette.dart';
 import 'super_section_theme.dart';
 import 'super_semantic_colors.dart';
-import 'super_text_styles.dart';
+import 'super_text_styles.dart' show SuperTextTheme;
 import 'super_theme.dart';
 import 'super_tokens.dart';
 import 'super_app_bar_theme.dart';
@@ -202,7 +202,7 @@ class SuperMaterialThemeData extends ThemeData {
     String? fontFamily,
     bool mergeTextTheme = true,
     // ── General Configuration ──
-    bool? applyElevationOverlayColor,
+    bool? applyElevationOverlayColor = false,
     NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
     MaterialTapTargetSize? materialTapTargetSize,
     PageTransitionsTheme? pageTransitionsTheme,
@@ -392,7 +392,7 @@ class SuperMaterialThemeData extends ThemeData {
     String? fontFamily,
     bool mergeTextTheme = true,
     // ── General Configuration ──
-    bool? applyElevationOverlayColor,
+    bool? applyElevationOverlayColor = true,
     NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
     MaterialTapTargetSize? materialTapTargetSize,
     PageTransitionsTheme? pageTransitionsTheme,
@@ -1338,30 +1338,31 @@ class SuperMaterialThemeData extends ThemeData {
             // Status bar + navigation bar backgrounds track the app-bar color;
             // icon brightness is chosen automatically for contrast.
             systemOverlayStyle: _systemOverlayStyle(appBarBg),
-            shape: isDark
-                ? Border(
-                    bottom: BorderSide(
-                      color: palette.darkBorder.withValues(alpha: 0.6),
-                      width: 1,
-                    ),
-                  )
-                : Border(
-                    bottom: BorderSide(color: palette.lightBorder, width: 1),
-                  ),
+            // shape: isDark
+            //     ? Border(
+            //         bottom: BorderSide(
+            //           color: palette.darkBorder.withValues(alpha: 0.6),
+            //           width: 1,
+            //         ),
+            //       )
+            //     : Border(
+            //         bottom: BorderSide(color: palette.lightBorder, width: 1),
+            //       ),
           ),
 
       // ── Card ──
+      // No hairline border at rest — shadow provides depth.
+      // borderColor is kept as the hover border (shown by SuperCard on hover).
       cardTheme:
           cardTheme ??
           SuperCardTheme(
-            color: isDark ? palette.darkSurface : surface,
+            color: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
-            elevation: isDark ? 0 : 1,
-            shadowColor: Colors.black26,
+            elevation: 0,
+            shadowColor: Colors.black,
             margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(tokens.radiusCard),
-              side: BorderSide(color: border, width: 1),
             ),
             expandDirection: Axis.vertical,
             expandDuration: tokens.durExpand,
@@ -1370,7 +1371,6 @@ class SuperMaterialThemeData extends ThemeData {
             showExpandIcon: true,
             padding: m.padding.card,
             gap: m.spacing.md,
-            borderColor: border,
             selectedBorderColor: cs.primary,
           ),
 
@@ -2241,75 +2241,16 @@ class SuperMaterialThemeData extends ThemeData {
       t.displaySmall?.fontFamily ??
       t.displayLarge?.fontFamily;
 
-  /// Builds the GeniusLink type ramp scaled for [mode]. Font size, line height
-  /// and (where meaningful) letter spacing differ per device: mobile is the
-  /// most generous for touch legibility, desktop the most compact.
-  static TextTheme _textTheme(
+  /// Builds the GeniusLink type ramp scaled for [mode], colored with [fg1]
+  /// and [fg3]. Returns a [SuperTextTheme] (a [TextTheme] subclass) so all 15
+  /// Material slots and the branded named getters are available.
+  static SuperTextTheme _textTheme(
     SuperDeviceMode mode,
     Color fg1,
     Color fg3,
     SuperTokensData tokens,
-  ) {
-    // Per-mode multiplier on the desktop-baseline SuperText sizes.
-    final f = switch (mode) {
-      SuperDeviceMode.mobile => 1.06,
-      SuperDeviceMode.tablet => 1.02,
-      SuperDeviceMode.desktop => 1.0,
-    };
-
-    TextStyle sc(TextStyle base, {Color? color}) => base.copyWith(
-      fontSize: (base.fontSize ?? 14) * f,
-      color: color,
-      fontFamily: tokens.bodyFont,
-    );
-
-    return TextTheme(
-      displayLarge: TextStyle(
-        fontFamily: tokens.displayFont,
-        fontSize: 57 * f,
-        height: 1.12,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.25,
-        color: fg1,
-      ),
-      displayMedium: TextStyle(
-        fontFamily: tokens.displayFont,
-        fontSize: 45 * f,
-        height: 1.16,
-        fontWeight: FontWeight.w700,
-        color: fg1,
-      ),
-      displaySmall: TextStyle(
-        fontFamily: tokens.displayFont,
-        fontSize: 36 * f,
-        height: 1.22,
-        fontWeight: FontWeight.w700,
-        color: fg1,
-      ),
-      headlineLarge: SuperText.h1.copyWith(
-        fontFamily: tokens.displayFont,
-        fontSize: 32 * f,
-        color: fg1,
-      ),
-      headlineMedium: SuperText.h1.copyWith(
-        fontFamily: tokens.displayFont,
-        fontSize: 26 * f,
-        color: fg1,
-      ),
-      headlineSmall: SuperText.h1.copyWith(
-        fontFamily: tokens.displayFont,
-        fontSize: 22 * f,
-        color: fg1,
-      ),
-      titleLarge: sc(SuperText.heading, color: fg1).copyWith(fontSize: 22 * f),
-      titleMedium: sc(SuperText.heading, color: fg1),
-      titleSmall: sc(SuperText.button, color: fg1),
-      bodyLarge: sc(SuperText.body, color: fg1).copyWith(fontSize: 16 * f),
-      bodyMedium: sc(SuperText.body, color: fg1),
-      bodySmall: sc(SuperText.caption, color: fg3),
-      labelLarge: sc(SuperText.button, color: fg1),
-      labelMedium: sc(SuperText.label, color: fg1),
-      labelSmall: sc(SuperText.pill, color: fg3),
-    );
-  }
+  ) => SuperTextTheme.fromTokens(
+    tokens,
+    isDesktop: mode == SuperDeviceMode.desktop,
+  ).colorize(fg1, fg3);
 }

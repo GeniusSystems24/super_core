@@ -1,4 +1,4 @@
-# super_core · Examples (v1.3.0)
+# super_core · Examples (v2.4.0)
 
 Runnable, copy-pasteable snippets. All assume `import
 'package:super_core/super_core.dart';`.
@@ -170,29 +170,44 @@ final s = SuperThemeData.of(context); // falls back to .dark when unregistered
 ```
 
 
-## 11 · Design-system widgets (v2.0.0)
+## 11 · Design-system widgets (v2.4.0)
 
 ```dart
-// SuperCard — general surface card; interactive + selectable variants:
+// SuperCard — surfaceContainerLow, shadow-only; interactive + selectable:
 SuperCard(
   header: const SectionHeader(title: 'Downtown Central Store'),
-  child: const Text('Static card — 8px radius, hairline, card shadow.'),
+  child: const Text('Shadow-only card — border appears on hover/selected.'),
 );
 SuperCard(
-  padding: const EdgeInsets.all(16),
+  color: context.superTheme.surface, // explicit background override
   selected: id == _selected,
-  onTap: () => setState(() => _selected = id), // hover deepens the border
+  onTap: () => setState(() => _selected = id),
   child: const Text('Selectable row'),
 );
 
-// Expandable SuperCard (v2) — vertical or horizontal, with leading/trailing:
+// Expandable SuperCard:
 SuperCard(
-  leading: const Icon(Icons.storefront_outlined),
   header: const SectionHeader(title: 'Downtown Central Store'),
-  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
   expandedChild: const Text('Balance SAR 48,200.00 across 3 sub-accounts.'),
-  // expandDirection: Axis.horizontal, initiallyExpanded / isExpanded / onExpansionChanged…
-  child: const Text('Tap the card or the chevron to reveal details'),
+  // expandDirection: Axis.horizontal, initiallyExpanded, isExpanded, onExpansionChanged…
+  child: const Text('Tap the card or chevron to reveal details.'),
+);
+
+// AccentSectionCard (new in v2.4.0) — 3px bar + tinted header:
+AccentSectionCard(
+  title: 'Bank Account',
+  icon: const Icon(Icons.account_balance_outlined),
+  accentColor: Colors.indigo,
+  child: const AccountForm(),
+);
+
+// SectionCard (redesigned in v2.4.0) — collapsible, no leading/trailing:
+SectionCard(
+  title: 'Account Details',
+  subtitle: 'BASIC INFO',
+  accentColor: Colors.blue,
+  collapsible: true,
+  child: const AccountDetailsForm(),
 );
 
 // Dialogs — SuperDialog was removed in v2; use themed showDialog / AlertDialog:
@@ -214,7 +229,7 @@ SuperSnackBar.success(context, 'Journal entry JV-2024-0042 posted.');
 SuperSnackBar.warning(context, '3 entries require review before closing.');
 SuperSnackBar.danger(context, 'Transfer failed — accounts out of balance.');
 
-// SuperAppBar — subtitle position + responsive action overflow:
+// SuperAppBar — iOS-style back chevron, headlineSm title, labelSm subtitle:
 Scaffold(
   appBar: SuperAppBar(
     title: const Text('Create Store'),
@@ -261,6 +276,31 @@ SuperMaterialThemeData.light(fontFamily: 'IBM Plex Sans');
 SuperMaterialThemeData.light(textTheme: myTextTheme, mergeTextTheme: true);
 ```
 
+
+## 11c · SuperTextTheme — typography (v2.4.0)
+
+`SuperText` is **removed**. Use `context.superTheme.textTheme.<field>` instead.
+
+```dart
+// Reading named type-ramp fields:
+final t = context.superTheme;           // SuperThemeData
+final tt = t.textTheme;                 // SuperTextTheme (colorless)
+
+Text('Account Name', style: tt.titleMd.copyWith(color: t.fg1));
+Text('SECTION LABEL', style: tt.labelSm.copyWith(color: t.fg3, letterSpacing: 1.2));
+Text('Body copy', style: tt.bodySm.copyWith(color: t.fg2));
+Text('SAR 48,200.00', style: tt.mono.copyWith(color: t.fg1));
+
+// Named fields:   displayLg · headlineSm · titleMd · bodyLg · bodySm
+//                 labelMd · labelSm · mono · eyebrow
+// Convenience:    heading (= titleMedium) · body (= bodyMedium) ·
+//                 label (= labelMedium) · caption (= bodySmall) ·
+//                 button (= labelLarge) · pill (= labelSmall) · h1 (= titleLarge)
+
+// The Material TextTheme (colored) is also a SuperTextTheme:
+final mtt = Theme.of(context).textTheme as SuperTextTheme;
+Text('Colored heading', style: mtt.headlineSm);
+```
 
 ## 12 · Complete ColorScheme, Scaffold & system bars (v1.3.0)
 

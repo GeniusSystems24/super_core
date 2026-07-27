@@ -27,6 +27,7 @@ import 'package:flutter/material.dart';
 import 'super_device_mode.dart';
 import 'super_interactive_state_theme.dart';
 import 'super_metrics.dart';
+import 'super_text_styles.dart';
 import 'super_tokens.dart';
 
 @immutable
@@ -80,20 +81,22 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   });
 
   // ── Card elevation ──
-  /// Dark-mode card shadow — lifts panels off the near-black page.
+  /// Dark-mode card shadow — a single soft lift.
   static const List<BoxShadow> cardShadowDark = [
     BoxShadow(
-      color: Color(0x40000000),
-      blurRadius: 50,
-      spreadRadius: -12,
-      offset: Offset(0, 25),
+      color: Color(0x1F000000),
+      blurRadius: 28,
+      offset: Offset(0, 6),
     ),
   ];
 
-  /// Light-mode card shadow — a subtler two-step stack.
+  /// Light-mode card shadow — a single diffuse lift.
   static const List<BoxShadow> cardShadowLight = [
-    BoxShadow(color: Color(0x0F000000), blurRadius: 2, offset: Offset(0, 1)),
-    BoxShadow(color: Color(0x14000000), blurRadius: 24, offset: Offset(0, 8)),
+    BoxShadow(
+      color: Color(0x0A000000),
+      blurRadius: 32,
+      offset: Offset(0, 4),
+    ),
   ];
 
   /// Overlay / popover shadow (menus, flyouts, suggestion lists).
@@ -125,7 +128,7 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
 
   // ── Presets ──
   static const SuperThemeData dark = SuperThemeData(
-    bg: Color(0xFF09131D),
+    bg: Color(0xFF0E141E),
     surface: Color(0xFF0D151C),
     inputBg: Color(0xFF1B2738),
     hover: Color(0xFF162231),
@@ -139,8 +142,8 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   );
 
   static const SuperThemeData light = SuperThemeData(
-    bg: Color(0xFFE9EDF3),
-    surface: Color(0xFFF8FAFD),
+    bg: Color(0xFFE6E8EB),
+    surface: Color(0xFFF5F6F8),
     inputBg: Color(0xFFFFFFFF),
     hover: Color(0xFFEEF2F7),
     border: Color(0xFFDDE4EC),
@@ -155,6 +158,15 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   /// Reads the registered extension, falling back to [dark] (the default theme).
   static SuperThemeData of(BuildContext context) =>
       Theme.of(context).extension<SuperThemeData>() ?? dark;
+
+  /// The theme-appropriate text style ramp, built from [tokens] and [mode].
+  ///
+  /// Desktop mode uses tighter (Windows-density) metrics; mobile/tablet uses
+  /// the larger (Android-density) scale. Colorless — apply `fg*` at the call site.
+  SuperTextTheme get textTheme => SuperTextTheme.fromTokens(
+    tokens,
+    isDesktop: mode == SuperDeviceMode.desktop,
+  );
 
   /// A selection / accent tint at [pct] opacity blended over [surface]
   /// (mirrors the web `color-mix(... accent N%, surface)` highlight).

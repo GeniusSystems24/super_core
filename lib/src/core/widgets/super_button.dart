@@ -10,7 +10,6 @@
 import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
-import '../theme/super_text_styles.dart';
 
 enum SuperButtonVariant { primary, secondary }
 
@@ -86,7 +85,7 @@ class _SuperButtonState extends State<SuperButton> {
               ),
               SizedBox(width: k.space2),
             ],
-            Text(widget.label, style: SuperText.button.copyWith(color: fg)),
+            Text(widget.label, style: t.textTheme.button.copyWith(color: fg)),
           ],
         ),
       ),

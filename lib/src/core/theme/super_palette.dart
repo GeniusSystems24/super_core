@@ -181,10 +181,10 @@ class SuperPalette {
   // All six palettes share these surfaces; accent/primary is the only variable.
 
   // Light surfaces
-  static const Color _lightBg = Color(0xFFE9EDF3);
-  static const Color _lightSurface = Color(0xFFF8FAFD);
+  static const Color _lightBg = Color.fromRGBO(230, 232, 235, 1);
+  static const Color _lightSurface = Color(0xFFdde0e4);
   static const Color _lightInputBg = Color(0xFFFFFFFF);
-  static const Color _lightHover = Color(0xFFEEF2F7);
+  static const Color _lightHover = Color(0xFFeff1f4);
   static const Color _lightBorder = Color(0xFFDDE4EC);
   static const Color _lightBorderStr = Color(0xFFC8D2DE);
   static const Color _lightFg1 = Color(0xFF0F172A);
@@ -193,9 +193,9 @@ class SuperPalette {
   static const Color _lightFg4 = Color(0xFFAEB4C2);
 
   // Dark surfaces
-  static const Color _darkBg = Color(0xFF09131D);
-  static const Color _darkSurface = Color(0xFF0D151C);
-  static const Color _darkSurface2 = Color(0xFF172436);
+  static Color get _darkBg => Color(0xFF0e141e);
+  static const Color _darkSurface = Color(0xFF182030);
+  static const Color _darkSurface2 = Color(0xFF1c2535);
   static const Color _darkInputBg = Color(0xFF1B2738);
   static const Color _darkHover = Color(0xFF162231);
   static const Color _darkBorder = Color(0x66304456);
@@ -239,6 +239,12 @@ class SuperPalette {
   /// palettes maintain the same high-contrast precision-instrument feel.
   ColorScheme toLightColorScheme() => ColorScheme(
     brightness: Brightness.light,
+    surface: _lightBg,
+    surfaceContainerLowest: _lightSurface,
+    surfaceContainer: _lightHover,
+    surfaceContainerLow: const Color.fromARGB(130, 255, 255, 255),
+    surfaceContainerHigh: const Color(0xFFf5f6f8),
+    surfaceContainerHighest: const Color(0xFFffffff),
     primary: shade500,
     onPrimary: _onColor(shade500),
     primaryContainer: shade100,
@@ -268,19 +274,14 @@ class SuperPalette {
     tertiaryFixedDim: shade200,
     onTertiaryFixed: shade900,
     onTertiaryFixedVariant: shade700,
-    surface: _lightBg,
+
     onSurface: _lightFg1,
     onSurfaceVariant: _lightFg2,
     // Surface container ramp — brightest (lowest) → dimmest (highest).
-    // Cards default to surfaceContainerLowest (#F8FAFD), clearly lifted off
-    // the #E9EDF3 page background.
+    // Cards default to surfaceContainerLowest (#F5F6F8), clearly lifted off
+    // the #E6E8EB page background.
     surfaceDim: const Color(0xFFD8DFE9),
     surfaceBright: _lightSurface,
-    surfaceContainerLowest: _lightSurface,
-    surfaceContainerLow: const Color(0xFFF2F6FA),
-    surfaceContainer: _lightHover,
-    surfaceContainerHigh: const Color(0xFFE2E8F0),
-    surfaceContainerHighest: const Color(0xFFD8DFE9),
     // Inverse
     inverseSurface: _darkSurface,
     onInverseSurface: _darkFg1,
@@ -339,14 +340,14 @@ class SuperPalette {
     onSurfaceVariant: _darkFg3,
     // Surface container ramp — dimmest (lowest) → brightest (highest).
     // Cards default to surfaceContainer (#0D151C), clearly lifted off the
-    // #09131D page background while inputs sit one layer higher.
+    // #0E141E page background while inputs sit one layer higher.
+    surfaceContainer: _darkSurface,
+    surfaceContainerHighest: _darkSurface2,
+    surfaceContainerLowest: Color(0xFF0a0f17),
+    surfaceContainerLow: Color.fromARGB(70, 0, 0, 0),
+    surfaceContainerHigh: Color(0xFF1a2336),
     surfaceDim: const Color(0xFF060D14),
     surfaceBright: const Color(0xFF243247),
-    surfaceContainerLowest: const Color(0xFF060D14),
-    surfaceContainerLow: const Color(0xFF0A1118),
-    surfaceContainer: _darkSurface,
-    surfaceContainerHigh: const Color(0xFF121C29),
-    surfaceContainerHighest: _darkSurface2,
     // Inverse
     inverseSurface: _lightSurface,
     onInverseSurface: _lightFg1,
@@ -356,7 +357,7 @@ class SuperPalette {
     outlineVariant: _darkBorder,
     // Shadows
     shadow: const Color(0xFF000000),
-    scrim: const Color(0xFF000000),
+    scrim: Color(0xFF000000),
     // Surface tint — disabled per GeniusLink flat-surface spec
     surfaceTint: Colors.transparent,
   );

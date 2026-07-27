@@ -42,32 +42,36 @@ import 'package:super_core/super_core.dart';
 
 | Symbol | Purpose |
 |---|---|
-| `SuperPalette` | Six swappable color palettes, each with 10 shades + semantic getters |
+| `SuperPalette` | Ten swappable color palettes, each with 10 shades + semantic getters |
 | `SuperMaterialThemeData` | Complete Material 3 theme — **a `ThemeData` subclass** (palette + responsive `SuperDeviceMode`) |
 | `SuperDeviceMode` | `mobile` / `tablet` / `desktop` device mode + `SuperResponsive<T>` container |
 | `SuperMetrics` | Responsive spacing / sizing / padding / margin token bundle |
 | `SuperInteractiveStateThemeData` | Hover / focus / pressed / selected overlay treatment (`ThemeExtension`) |
-| `SuperTokensData` | **Dynamic** brand tokens carried by the theme (accent + semantic palette, font families, spacing, radii, motion). Read via `SuperThemeData.of(context).tokens`. Replaces the removed `static const` `SuperTokens` — no static token constants remain. |
-| `SuperThemeData` | Swappable light/dark `ThemeExtension` — surfaces, borders, `fg1…fg4` text ramp, and `tokens` |
+| `SuperTokensData` | **Dynamic** brand tokens carried by the theme (accent + semantic palette, font families, spacing, radii, motion). Read via `SuperThemeData.of(context).tokens`. |
+| `SuperThemeData` | Swappable light/dark `ThemeExtension` — surfaces, borders, `fg1…fg4` text ramp, `tokens`, and `textTheme` |
+| `SuperTextTheme` | `TextTheme` subclass — all 15 Material slots + 9 named fields (`displayLg`, `headlineSm`, `titleMd`, `bodyLg`, `bodySm`, `labelMd`, `labelSm`, `mono`, `eyebrow`). Powered by Google Fonts (Manrope / Inter / Noto Naskh Arabic). Read via `context.superTheme.textTheme`. |
 | `SuperAppBarTheme` | `AppBarTheme` subclass — adds `subtitlePosition` + responsive `maxActions` / `maxMobileActions` / `maxTabletActions` / `maxDesktopActions` |
-| `SuperCardTheme` | `CardThemeData` subclass — adds expand direction / duration / curve, tap-to-toggle, chevron, padding, border colors |
-| `SuperText` | GeniusLink type ramp as `TextStyle`s (Manrope / Inter / JetBrains Mono) |
+| `SuperCardTheme` | `CardThemeData` subclass — expand direction / duration / curve, tap-to-toggle, chevron, padding, border colors |
+| `SuperSemanticColors` | Structured status-color bundle (`info`/`success`/`warning`/`danger`/`accent`/`neutral`), each with `solid`/`onSolid`/`subtle`/`onSubtle`/`border` |
+| `SuperColorX` | Color-extension helpers — HSL tonal ops, WCAG 2.1 contrast, hex parse/format |
 | `SuperFormat` | Intl-free number / currency / byte / serial formatters |
 | `SuperMarker` | Three section-marker intents (identity / ledger / notes) |
-| Widgets | `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell`, `SuperCard`, `SuperSnackBar`, `SuperAppBar`, `SuperSliverAppBar` |
+| Widgets | `SectionCard`, `SectionHeader`, `AccentSectionCard`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell`, `SuperCard`, `SuperSnackBar`, `SuperAppBar`, `SuperSliverAppBar`, `SuperSection`, `SuperSectionHeader`, `SuperSectionFooter`, `SuperListTile`, `SuperGridTile`, `SuperSlider` |
 | Plumbing | Failures, typedefs, usecases, key-direction + `BuildContext` helpers |
 
-> **Migrating from v1?** `SuperTokens.x` → `SuperThemeData.of(context).tokens.x`
-> (fully dynamic — there are no static token constants; drop `const` on the
-> enclosing widget, or use a brand-value literal where `const` is mandatory).
-> `SuperDialog` is removed — use Flutter's `showDialog` / `AlertDialog` (already
-> styled by `SuperMaterialThemeData`). See the `skill/migration_v1_to_v2/` guides.
+> **Migrating from v2.3?** `SuperText.<field>` → `context.superTheme.textTheme.<field>`.
+> `SuperCard.background` → `SuperCard.color`. `SectionCard` and `SuperCard` no
+> longer have `leading` / `trailing` slots — remove those parameters.
+>
+> **Migrating from v1?** `SuperTokens.x` → `SuperThemeData.of(context).tokens.x`.
+> `SuperDialog` is removed — use Flutter's `showDialog` / `AlertDialog`.
+> See the `skill/migration_v1_to_v2/` guides.
 
 ---
 
 ## SuperPalette
 
-Six built-in palettes:
+Ten built-in palettes:
 
 | Palette | `shade500` | Notes |
 |---|---|---|
@@ -75,17 +79,21 @@ Six built-in palettes:
 | `SuperPalette.purplePalette` | `#7C5CFC` | Violet / indigo |
 | `SuperPalette.greenPalette` | `#1DB88A` | GeniusLink success green |
 | `SuperPalette.goldenPalette` | `#F59E0B` | Warm amber / gold |
+| `SuperPalette.tealPalette` | — | Teal |
+| `SuperPalette.rosePalette` | — | Rose |
+| `SuperPalette.indigoPalette` | — | Indigo |
+| `SuperPalette.slatePalette` | — | Slate |
 | `SuperPalette.grayPalette` | `#64748B` | Neutral grays |
 | `SuperPalette.monochromePalette` | `#737373` | Pure black / white |
 
 Each palette exposes ten shades (`shade50` … `shade900`) and semantic
-accessors: `primary`, `primaryDark`, `onPrimary`, `error`, `success`,
+accessors: `primary`, `primaryDark`, `onPrimary`, `error`, `info`, `success`,
 `warning`, plus light/dark surface tokens (`lightBg`, `darkSurface`,
 `darkFg1`, …).
 
-All six palettes use the same **GeniusLink-standard neutral surfaces** — only
-the accent/primary color varies. This preserves the precision-instrument feel
-of the design system regardless of which palette is active.
+All palettes use the same **GeniusLink-standard neutral surfaces** — only the
+accent/primary color varies. This preserves the precision-instrument feel of
+the design system regardless of which palette is active.
 
 ---
 
@@ -228,7 +236,7 @@ brightness- and device-mode-derived tokens automatically:
 ```dart
 // In any Super component — no extra setup needed when using SuperMaterialThemeData:
 final t = SuperThemeData.of(context);
-Text('TOTAL', style: SuperText.label.copyWith(color: t.fg2));
+Text('TOTAL', style: t.textTheme.label.copyWith(color: t.fg2));
 ```
 
 ---
@@ -296,6 +304,16 @@ customizable) plus two GeniusLink features: a positionable **subtitle** and
 **responsive action overflow** — extra actions past the limit collapse into a
 three-dot menu. The limit is resolved per device class (mobile 3 / tablet 4 /
 desktop 5) unless you set `maxActions` or the per-device overrides.
+
+GeniusLink-specific chrome (v2.4.0):
+
+- Auto-implied **back button** uses `Icons.arrow_back_ios_new_rounded` in a
+  plain `IconButton` (not Flutter's platform-default `BackButton`).
+- Auto-implied button appears when `parentRoute?.impliesAppBarDismissal` is
+  true; suppressed correctly on root routes.
+- Default **title style** falls back to `t.textTheme.headlineSm` (Manrope 700).
+- Default **subtitle style** falls back to `t.textTheme.labelSm` with
+  `letterSpacing: 1.2` — matching the ALL-CAPS breadcrumb style.
 
 ```dart
 Scaffold(

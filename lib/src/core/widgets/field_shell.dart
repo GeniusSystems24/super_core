@@ -11,7 +11,6 @@
 import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
-import '../theme/super_text_styles.dart';
 
 /// Vertical density of a field.
 enum FieldDensity { comfortable, compact }
@@ -70,7 +69,7 @@ class FieldShell extends StatelessWidget {
             SizedBox(height: gap),
             Text(
               error ?? hint!,
-              style: SuperText.caption.copyWith(
+              style: t.textTheme.caption.copyWith(
                 color: error != null ? cs.error : t.fg3,
               ),
             ),
@@ -90,8 +89,9 @@ class _Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.superTheme;
     final cs = Theme.of(context).colorScheme;
-    final style = SuperText.label.copyWith(color: color);
+    final style = t.textTheme.label.copyWith(color: color);
     if (!required) return Text(text.toUpperCase(), style: style);
     return Text.rich(
       TextSpan(

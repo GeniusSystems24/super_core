@@ -6,6 +6,125 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [2.4.0] — 2026-07-27
+
+Design-system visual alignment: surface colors, card shadows, typography, and
+app-bar chrome are brought into full fidelity with the GeniusLink reference
+design tokens. `SuperTextTheme` replaces the former `SuperText` static class,
+becoming a real `TextTheme` subclass powered by Google Fonts. Cards shed their
+default borders and `leading`/`trailing` slots, gain Material `Card` parity, and
+a new `AccentSectionCard` widget is added. App bars adopt the iOS-style rounded
+back chevron and `headlineSm` title weight.
+
+### Added
+
+- **`SuperTextTheme extends TextTheme`** (`super_text_styles.dart`) — a full
+  `TextTheme` subclass that populates all 15 Material slots and additionally
+  exposes nine named fields (`displayLg`, `headlineSm`, `titleMd`, `bodyLg`,
+  `bodySm`, `labelMd`, `labelSm`, `mono`, `eyebrow`) and convenience getters
+  (`heading`, `body`, `label`, `caption`, `button`, `pill`, `h1`).
+  - `SuperTextTheme.fromTokens(tokens, {isDesktop, isArabic})` — factory driven
+    by Google Fonts: `GoogleFonts.manrope()` (display), `GoogleFonts.inter()`
+    (body/label), `GoogleFonts.notoNaskhArabic()` (Arabic script).
+  - `colorize(Color fg1, Color fg3)` — returns a `SuperTextTheme` with heading
+    and body/label slots tinted by the two foreground ramp values.
+  - `superCopyWith({...})` — preserves the concrete type while overriding any
+    of the nine named fields.
+  - `SuperThemeData.textTheme` getter — returns a colorless `SuperTextTheme`
+    (for component-level use before `fg*` colors are applied).
+- **`AccentSectionCard`** — new card widget with a 3 px leading accent bar and a
+  tinted header strip. Props: `title`, `icon`, `trailing`, `accentColor`, `child`,
+  `bodyPadding`, `headerPadding`, `backgroundColor`. Background defaults to
+  `colorScheme.surfaceContainerLow`; shadow from `t.cardShadow`. Exported through
+  the barrel.
+- **`google_fonts: ^6.2.1`** added as a package dependency. `SuperTextTheme` uses
+  it exclusively — no asset font files required.
+
+### Changed
+
+#### Theme colors
+
+- **`SuperPalette`** light/dark surface constants updated to match the GeniusLink
+  reference tokens (`GeniusColorTokens`):
+  - Light background: `#E9EDF3` → `#E6E8EB`
+  - Light surface (card): `#F8FAFD` → `#F5F6F8`
+  - Dark background: `#09131D` → `#0E141E`
+- **`SuperThemeData`** static preset literals updated to match.
+
+#### Card shadows
+
+- `SuperThemeData.cardShadowDark` — replaced with a single diffuse shadow:
+  `BoxShadow(color: 0x1F000000, blurRadius: 28, offset: Offset(0, 6))`.
+- `SuperThemeData.cardShadowLight` — replaced with a single soft shadow:
+  `BoxShadow(color: 0x0A000000, blurRadius: 32, offset: Offset(0, 4))`.
+
+#### `SuperText` removed — migrate to `t.textTheme.*`
+
+- **`SuperText`** static class is **removed**. All usages across the library and
+  example files are migrated to `context.superTheme.textTheme.<field>`:
+  - `SuperText.body` → `t.textTheme.body`
+  - `SuperText.caption` → `t.textTheme.caption`
+  - `SuperText.label` → `t.textTheme.label`
+  - `SuperText.button` → `t.textTheme.button`
+  - `SuperText.heading` → `t.textTheme.heading`
+  - `SuperText.eyebrow` → `t.textTheme.eyebrow`
+  - `SuperText.pill` → `t.textTheme.pill`
+  - `SuperText.mono` → `t.textTheme.mono`
+  - `SuperText.h1` → `t.textTheme.h1`
+
+#### `SectionCard` redesign
+
+- Background changed from `surface` to `colorScheme.surfaceContainerLow`;
+  hairline border removed (shadow-only resting state).
+- Shadow sourced from `t.cardShadow` (tokens-driven, dark/light adaptive).
+- Removed `leading` and `trailing` props.
+- Added `accentColor`, `icon`, `collapsible`, `initiallyExpanded` props.
+- Animated chevron (`Icons.keyboard_arrow_down_rounded`) when `collapsible: true`;
+  body animates with `AnimatedAlign(heightFactor: …)`.
+- Title uses `t.textTheme.titleMd`; subtitle uses `t.textTheme.labelSm` with
+  `letterSpacing: 1.2` (ALL-CAPS).
+
+#### `SuperCard` redesign
+
+- Removed `leading` and `trailing` props.
+- Renamed `background` → `color` (parity with Material `Card`).
+- Added all standard Material `Card` properties: `shadowColor`,
+  `surfaceTintColor`, `elevation`, `shape`, `borderOnForeground`,
+  `clipBehavior`, `semanticContainer`.
+- Border logic: transparent at rest → `t.border` on hover → `cs.primary` when
+  selected. `elevation == 0` → no shadow; explicit `shadowColor` → proportional
+  shadow; otherwise `t.cardShadow`.
+- `SuperCardTheme` defaults: `color: cs.surfaceContainerLow`, shape has no
+  default `side` (hairline border removed at rest).
+
+#### `SuperAppBar` / `SuperSliverAppBar` — reference design alignment
+
+- **Back button**: the auto-implied back button now renders
+  `Icons.arrow_back_ios_new_rounded` inside a plain `IconButton` (was Flutter's
+  `BackButton` with the platform-default `arrow_back` icon).
+- **Route guard**: auto-leading now checks
+  `parentRoute?.impliesAppBarDismissal` instead of `parentRoute?.canPop`, which
+  correctly suppresses the back button when the route is the root.
+- **Title style**: the default title `TextStyle` falls back to
+  `t.textTheme.headlineSm` (Manrope 24/700) instead of Material's `titleLarge`.
+- **Subtitle style**: the default subtitle `TextStyle` falls back to
+  `t.textTheme.labelSm` with `letterSpacing: 1.2` instead of `bodySmall`.
+- `SuperSliverAppBar` inherits all of the above (it delegates to `SuperAppBar`).
+
+### Migration
+
+`SuperText` is the only removed API. Replace every `SuperText.<field>` with
+`context.superTheme.textTheme.<field>` (or `t.textTheme.<field>` where `t` is
+the local `SuperThemeData`). The `import` of `super_text_styles.dart` can be
+removed from any file that previously imported it for `SuperText` alone.
+
+`SuperCard`'s `background` parameter was renamed to `color` and `leading` /
+`trailing` were removed; update any call sites.
+
+`SectionCard`'s `leading` and `trailing` were removed; update any call sites.
+
+---
+
 ## [2.3.0] — 2026-07-26
 
 Compact card density. Cards, sections and tiles lost their oversized insets: the

@@ -17,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../extensions/context_extensions.dart';
-import '../theme/super_text_styles.dart';
 import '../theme/super_tokens.dart';
 import 'super_tile_common.dart';
 
@@ -384,7 +383,7 @@ class _SuperListTileState extends State<SuperListTile> {
                 widget.titleText!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: SuperText.body.copyWith(
+                style: t.textTheme.body.copyWith(
                     color: t.fg1, fontWeight: FontWeight.w600),
               )
             : null);
@@ -399,7 +398,7 @@ class _SuperListTileState extends State<SuperListTile> {
             children: [
               Flexible(
                 child: DefaultTextStyle.merge(
-                  style: SuperText.body.copyWith(color: t.fg1),
+                  style: t.textTheme.body.copyWith(color: t.fg1),
                   child: titleWidget,
                 ),
               ),
@@ -412,14 +411,14 @@ class _SuperListTileState extends State<SuperListTile> {
         if (widget.subtitle != null) ...[
           SizedBox(height: k.space1),
           DefaultTextStyle.merge(
-            style: SuperText.caption.copyWith(color: t.fg3),
+            style: t.textTheme.caption.copyWith(color: t.fg3),
             child: widget.subtitle!,
           ),
         ],
         if (widget.supporting != null) ...[
           SizedBox(height: k.space2),
           DefaultTextStyle.merge(
-            style: SuperText.caption.copyWith(color: t.fg3),
+            style: t.textTheme.caption.copyWith(color: t.fg3),
             child: widget.supporting!,
           ),
         ],
@@ -444,7 +443,7 @@ class _SuperListTileState extends State<SuperListTile> {
     if (widget.trailing != null) {
       final t = context.superTheme;
       return DefaultTextStyle.merge(
-        style: SuperText.mono.copyWith(color: t.fg2),
+        style: t.textTheme.mono.copyWith(color: t.fg2),
         child: IconTheme.merge(
           data: IconThemeData(color: t.fg3, size: 20),
           child: widget.trailing!,

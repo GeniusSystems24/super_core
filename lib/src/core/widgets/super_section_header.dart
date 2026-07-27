@@ -19,7 +19,6 @@ import 'package:flutter/widgets.dart';
 
 import '../extensions/context_extensions.dart';
 import '../theme/super_section_theme.dart';
-import '../theme/super_text_styles.dart';
 import '../theme/super_tokens.dart';
 
 /// The visual style of a [SuperSectionHeader].
@@ -113,7 +112,7 @@ class SuperSectionHeader extends StatelessWidget {
               if (hasEyebrow) ...[
                 Text(eyebrow!,
                     style: th.eyebrowStyle ??
-                        SuperText.eyebrow.copyWith(color: k.accent)),
+                        t.textTheme.eyebrow.copyWith(color: k.accent)),
                 SizedBox(height: k.space2),
               ],
               Row(
@@ -123,13 +122,13 @@ class SuperSectionHeader extends StatelessWidget {
                   Flexible(
                     child: Text(title,
                         style: th.titleStyle ??
-                            SuperText.heading.copyWith(color: t.fg1)),
+                            t.textTheme.heading.copyWith(color: t.fg1)),
                   ),
                   if (titleArabic != null && titleArabic!.isNotEmpty) ...[
                     SizedBox(width: k.space2),
                     Text(titleArabic!,
                         style: th.arabicStyle ??
-                            SuperText.body.copyWith(color: k.accent)),
+                            t.textTheme.body.copyWith(color: k.accent)),
                   ],
                 ],
               ),
@@ -137,7 +136,7 @@ class SuperSectionHeader extends StatelessWidget {
                 SizedBox(height: k.space1),
                 Text(subtitle!,
                     style: th.subtitleStyle ??
-                        SuperText.caption.copyWith(color: t.fg3)),
+                        t.textTheme.caption.copyWith(color: t.fg3)),
               ],
             ],
           ),
@@ -198,7 +197,7 @@ class SuperSectionHeader extends StatelessWidget {
               Text(
                 title.toUpperCase(),
                 style: th.style2TitleStyle ??
-                    SuperText.heading.copyWith(
+                    t.textTheme.heading.copyWith(
                       color: t.fg1,
                       fontSize: 12.5,
                       fontWeight: FontWeight.w700,
@@ -209,7 +208,7 @@ class SuperSectionHeader extends StatelessWidget {
                 const SizedBox(height: 3),
                 Text(subtitle!,
                     style: th.style2SubtitleStyle ??
-                        SuperText.caption
+                        t.textTheme.caption
                             .copyWith(color: t.fg3, fontSize: 11.5)),
               ],
             ],

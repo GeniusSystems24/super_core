@@ -12,7 +12,7 @@ void main() {
       MaterialApp(
         theme: SuperMaterialThemeData.light(),
         home: const Scaffold(
-          body: SuperCard(background: background, child: Text('Card content')),
+          body: SuperCard(color: background, child: Text('Card content')),
         ),
       ),
     );

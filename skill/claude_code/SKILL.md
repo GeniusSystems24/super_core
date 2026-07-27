@@ -2,18 +2,18 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v2.1.0) — the shared GeniusLink design-system foundation for the Super
+  (v2.4.0) — the shared GeniusLink design-system foundation for the Super
   toolkit. super_core ships SuperPalette (ten palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
   metrics + dynamic tokens), SuperMetrics / SuperResponsive responsive tokens,
   SuperTokensData dynamic brand tokens, SuperSemanticColors + SuperColorX color
-  utilities, the SuperText type ramp, and design-system widgets. Use this skill
-  whenever you build, theme, or modify anything in super_core or in a package
-  that depends on it.
+  utilities, SuperTextTheme (a TextTheme subclass powered by Google Fonts), and
+  design-system widgets. Use this skill whenever you build, theme, or modify
+  anything in super_core or in a package that depends on it.
 ---
 
-# super_core · v2.1.0
+# super_core · v2.4.0
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -21,6 +21,48 @@ Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
 `super_navigation_sidebar`, `super_table_field`, `super_tree`) reads its colors,
 type, spacing, and component themes from here so the whole toolkit looks like one
 product.
+
+**What changed in 2.4.0 (additive + breaking removals — read Migration):**
+
+1. **`SuperTextTheme extends TextTheme`** replaces the removed `SuperText` static
+   class. `SuperTextTheme.fromTokens(tokens, {isDesktop, isArabic})` populates
+   all 15 Material `TextTheme` slots via Google Fonts (`GoogleFonts.manrope()` /
+   `GoogleFonts.inter()` / `GoogleFonts.notoNaskhArabic()`). Nine named fields
+   (`displayLg`, `headlineSm`, `titleMd`, `bodyLg`, `bodySm`, `labelMd`,
+   `labelSm`, `mono`, `eyebrow`) plus convenience getters (`heading`, `body`,
+   `label`, `caption`, `button`, `pill`, `h1`). Read via
+   `context.superTheme.textTheme.<field>`. `colorize(fg1, fg3)` applies the `fg*`
+   ramp; `superCopyWith({...})` preserves the type.
+   - `SuperThemeData.textTheme` getter — colorless `SuperTextTheme` for component
+     use before foreground colors are applied.
+   - **Breaking:** `SuperText` (static class) is **removed**. Migrate every
+     `SuperText.<field>` → `context.superTheme.textTheme.<field>`.
+2. **Surface colors updated** to match GeniusLink reference tokens: light
+   background `#E6E8EB` (was `#E9EDF3`), light surface `#F5F6F8` (was
+   `#F8FAFD`), dark background `#0E141E` (was `#09131D`).
+3. **Card shadows** replaced with single-layer diffuse shadows:
+   dark `BoxShadow(0x1F000000, blur 28, dy 6)` / light `BoxShadow(0x0A000000,
+   blur 32, dy 4)`.
+4. **`AccentSectionCard`** — new widget with a 3 px leading accent bar and a
+   tinted header strip. Exported from the barrel.
+5. **`SectionCard` redesign** — background `surfaceContainerLow`, shadow-only
+   (no default border), collapsible support (`collapsible`, `initiallyExpanded`),
+   `accentColor`, `icon`. `leading` / `trailing` **removed**.
+6. **`SuperCard` redesign** — `background` renamed to `color`, all standard
+   Material `Card` props added, border transparent at rest. `leading` /
+   `trailing` **removed**.
+7. **`SuperAppBar` / `SuperSliverAppBar` chrome** — auto back button now
+   `Icons.arrow_back_ios_new_rounded` in a plain `IconButton`; route guard uses
+   `parentRoute?.impliesAppBarDismissal`; title falls back to
+   `t.textTheme.headlineSm`; subtitle falls back to `t.textTheme.labelSm` with
+   `letterSpacing: 1.2`.
+8. **`google_fonts: ^6.2.1`** added as a package dependency.
+
+**What changed in 2.3.0 (compact card density):**
+
+Cards, sections and tiles use tighter responsive insets — every padding value
+comes from the responsive `SuperMetrics` scales so one theme override retunes
+the whole app density. See the 2.3.0 changelog entry for the full token delta.
 
 **What changed in 2.1.0 (additive — backward compatible, plus one token break):**
 
@@ -150,16 +192,19 @@ super_core/
 │   └── src/core/
 │       ├── core.dart                # internal barrel (re-exported by super_core.dart)
 │       ├── theme/
-│       │   ├── super_palette.dart               # SuperPalette (6 palettes, ColorScheme gen)
+│       │   ├── super_palette.dart               # SuperPalette (10 palettes, ColorScheme gen)
 │       │   ├── super_material_theme.dart         # SuperMaterialThemeData (extends ThemeData)
-│       │   ├── super_theme.dart                  # SuperThemeData (ThemeExtension + responsive layer)
+│       │   ├── super_theme.dart                  # SuperThemeData (ThemeExtension + responsive layer + textTheme getter)
 │       │   ├── super_metrics.dart                # SuperMetrics / SuperSpacing/Sizing/Padding/Margin
 │       │   ├── super_device_mode.dart            # SuperDeviceMode enum + SuperResponsive<T>
 │       │   ├── super_interactive_state_theme.dart# SuperInteractiveStateThemeData (hover/focus/…)
-│       │   ├── super_tokens.dart                 # SuperTokensData dynamic tokens (+ default* consts) + SuperMarker
-│       │   └── super_text_styles.dart            # SuperText type ramp
+│       │   ├── super_tokens.dart                 # SuperTokensData dynamic tokens + SuperMarker
+│       │   └── super_text_styles.dart            # SuperTextTheme extends TextTheme (Google Fonts)
 │       ├── constants/  errors/  extensions/  typedefs/  usecases/  utils/
-│       └── widgets/                 # SectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell
+│       └── widgets/                 # SectionCard, AccentSectionCard, SectionHeader, StatusPill,
+│                                    # SuperButton, Hairline, FieldShell, SuperCard, SuperSnackBar,
+│                                    # SuperAppBar, SuperSliverAppBar, SuperSection, SuperSectionHeader,
+│                                    # SuperSectionFooter, SuperListTile, SuperGridTile, SuperSlider
 ├── example/                         # runnable palette / mode showcase
 ├── CHANGELOG.md   README.md   pubspec.yaml   analysis_options.yaml
 ```
@@ -173,10 +218,14 @@ Rules of the layout:
   `super_metrics.dart` (`spacingResponsive` / `sizingResponsive` /
   `paddingResponsive` / `marginResponsive`). Never hard-code responsive numbers
   anywhere else.
-- Brand tokens are the instance fields of `SuperTokensData` in
-  `super_tokens.dart` (with `default*` compile-time mirrors). The active bundle
-  rides the theme (`SuperThemeData.tokens`). Swappable surfaces live in
-  `SuperThemeData`.
+- Brand tokens are instance fields of `SuperTokensData` in `super_tokens.dart`.
+  The active bundle rides the theme (`SuperThemeData.tokens`). Swappable surfaces
+  live in `SuperThemeData`.
+- **Typography** lives in `super_text_styles.dart` as `SuperTextTheme extends
+  TextTheme`. Read it via `context.superTheme.textTheme` (colorless) or from
+  `Theme.of(context).textTheme` (colored, after `colorize()` is applied by
+  `SuperMaterialThemeData`). Never import `super_text_styles.dart` directly in
+  widgets — go through `context.superTheme.textTheme`.
 
 ---
 
@@ -500,21 +549,27 @@ barrel). Compose these instead of restyling raw `Container` / Material widgets.
 
 Pre-1.2.0: `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton` /
 `SuperIconButton`, `Hairline`, `FieldShell`. Added in 1.2.0 and reshaped in
-**2.0.0**:
+2.0.0 / 2.4.0:
 
 | Widget | What it is | Key API |
 |---|---|---|
-| `SuperCard` | General surface card (8 px radius, hairline, card shadow). **Expandable** (v2). | `header` · `leading` / `trailing` slots · `expandedChild` + `expandDirection` (`Axis.vertical`/`.horizontal`) · `initiallyExpanded` / `isExpanded` / `onExpansionChanged` · `onTap` · `selected` |
-| `SuperAppBar` | `PreferredSizeWidget` fork of `AppBar` (all props) | `title` · `subtitle` + `subtitlePosition` · `actions` (overflow past `maxActions` / per-device limits) · `leading` · `bottom` · `flexibleSpace` · … |
-| `SuperSliverAppBar` | Fork of `SliverAppBar` (all props) | same subtitle/overflow features · `pinned` / `floating` / `snap` / `stretch` · `expandedHeight` · `flexibleSpace` |
-| `SuperSnackBar` | Floating toast over `ScaffoldMessenger` | `.info/.success/.warning/.danger(ctx, msg, actionLabel:, onAction:)` · `.build(...)` · `SuperSnackBarTone` |
-| `SuperSectionHeader` | Section/page header, **two styles** (v2.1) | `title` · `titleArabic` · `subtitle` · `eyebrow` · `marker` · `leading` / `trailing` · `style` (`SuperSectionHeaderStyle.style1`/`.style2`) |
-| `SuperSectionFooter` | ALL-CAPS footer row + `SuperFooterLink` (v2.1) | `brand` · `actions` · `showDivider`; link `emphasized` |
-| `SuperSection` | Card shell composing header + body + footer (v2.1) | `child`/`children` · header fields · `footerBrand`/`footerActions` · `collapsible` · `selected`/`onTap` · `dividerAfterHeader` · `card` |
-| `SuperSlider` | Responsive content carousel (v2.1) | `children`/`itemBuilder` · `visibleItems` (`SuperResponsive<int>`) · `peek` · `autoPlay` · `loop` · `controller` (`SuperSliderController`) · `onIndexChanged` |
+| `SuperCard` | General surface card (`surfaceContainerLow`, shadow-only at rest). **Expandable**. | `header` · `color` · `expandedChild` + `expandDirection` · `initiallyExpanded` / `isExpanded` / `onExpansionChanged` · `onTap` · `selected` · `elevation` · `shape` · `shadowColor` · `clipBehavior` · `semanticContainer` |
+| `SectionCard` | Form-section card with header + collapsible body. | `title` · `subtitle` · `accentColor` · `icon` · `collapsible` · `initiallyExpanded` · `child`/`children` · `padding` |
+| `AccentSectionCard` | Card with 3 px leading accent bar + tinted header (v2.4). | `title` · `icon` · `trailing` · `accentColor` · `child` · `bodyPadding` · `headerPadding` · `backgroundColor` |
+| `SuperAppBar` | `PreferredSizeWidget` fork of `AppBar` (all props). Back button: `arrow_back_ios_new_rounded`. | `title` · `subtitle` + `subtitlePosition` · `actions` (overflow past `maxActions`) · `leading` · `bottom` · `flexibleSpace` |
+| `SuperSliverAppBar` | Fork of `SliverAppBar` (all props). | same subtitle/overflow · `pinned` / `floating` / `snap` / `stretch` · `expandedHeight` · `flexibleSpace` |
+| `SuperSnackBar` | Floating toast over `ScaffoldMessenger`. | `.info/.success/.warning/.danger(ctx, msg)` · `.build(...)` · `SuperSnackBarTone` |
+| `SuperSectionHeader` | Section/page header, two styles. | `title` · `titleArabic` · `subtitle` · `eyebrow` · `marker` · `leading` / `trailing` · `style` (`style1`/`style2`) |
+| `SuperSectionFooter` | ALL-CAPS footer row + `SuperFooterLink`. | `brand` · `actions` · `showDivider` |
+| `SuperSection` | Card shell composing header + body + footer. | `child`/`children` · header fields · `footerBrand`/`footerActions` · `collapsible` · `selected`/`onTap` · `card` |
+| `SuperListTile` | GeniusLink list row with density presets + states. | `density` · `selected` · `badge` · `marker` · `leadingIcon` · `subtitle` · `trailingActions` · `loading` |
+| `SuperGridTile` | Dashboard / catalog card with hover-reveal actions. | `header`/`child`/`footer` · `media` · `badge` · `overlay` · `actions` · `aspectRatio` · `loading` |
+| `SuperSlider` | Responsive content carousel. | `children`/`itemBuilder` · `visibleItems` · `peek` · `autoPlay` · `loop` · `controller` · `onIndexChanged` |
 
 > `SuperDialog` was **removed in 2.0.0** — use Flutter's `showDialog` /
 > `AlertDialog`, which `SuperMaterialThemeData` themes for you.
+>
+> `SuperText` was **removed in 2.4.0** — use `context.superTheme.textTheme.<field>`.
 
 ```dart
 // Expandable, selectable card with header + slots:
@@ -553,7 +608,7 @@ Scaffold(
 ```
 
 A new widget follows the same recipe as the existing ones: read
-`context.superTheme` (its `.tokens` + `SuperText`), drive motion from
+`context.superTheme` (its `.tokens` and `.textTheme`), drive motion from
 `context.superTheme.tokens.durBase` / `.curveStandard`, never hardcode
 colors/spacing, and add its export to `lib/src/core/core.dart`.
 
@@ -629,8 +684,10 @@ InkWell(
 
 - **`CHANGELOG.md`** — add under the current version using Keep-a-Changelog
   sections (Added / Changed / Deprecated / Fixed). super_core is at
-  **`## [2.1.0]`**.
+  **`## [2.4.0]`**.
 - **`README.md`** — update the symbol table and any example whose API changed.
+- **`skill/claude_code/SKILL.md`** — update the version header, "What changed"
+  summary, architecture block, and widget table.
 - **API docs** — the `///` comments ARE the API docs; keep them accurate and add
   them for every new public member.
 - Bump `version:` in `pubspec.yaml` (SemVer) and dependent constraints.

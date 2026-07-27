@@ -43,6 +43,7 @@ export 'widgets/super_section_header.dart';
 export 'widgets/super_section_footer.dart';
 export 'widgets/super_section.dart';
 export 'widgets/section_card.dart';
+export 'widgets/accent_section_card.dart';
 export 'widgets/status_pill.dart';
 export 'widgets/super_button.dart';
 export 'widgets/field_shell.dart';

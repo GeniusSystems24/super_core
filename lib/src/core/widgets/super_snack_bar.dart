@@ -14,7 +14,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../theme/super_text_styles.dart';
 import '../theme/super_theme.dart';
 import '../theme/super_tokens.dart';
 
@@ -115,7 +114,8 @@ abstract final class SuperSnackBar {
     Duration duration = const Duration(seconds: 4),
   }) {
     final cs = Theme.of(context).colorScheme;
-    final k = SuperThemeData.of(context).tokens;
+    final t = SuperThemeData.of(context);
+    final k = t.tokens;
     final color = _toneColor(tone, cs, k);
     // Snackbars are dark in both themes — keep the text near-white.
     const fg = Color(0xFFE2E2E9);
@@ -131,7 +131,7 @@ abstract final class SuperSnackBar {
           Icon(_toneIcon(tone), size: 20, color: color),
           SizedBox(width: k.space3),
           Expanded(
-            child: Text(message, style: SuperText.body.copyWith(color: fg)),
+            child: Text(message, style: t.textTheme.body.copyWith(color: fg)),
           ),
         ],
       ),

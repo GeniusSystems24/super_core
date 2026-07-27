@@ -11,7 +11,6 @@ import 'package:flutter/widgets.dart';
 
 import '../extensions/context_extensions.dart';
 import '../theme/super_section_theme.dart';
-import '../theme/super_text_styles.dart';
 import 'hairline.dart';
 
 /// A single ALL-CAPS footer action link.
@@ -29,7 +28,7 @@ class SuperFooterLink extends StatelessWidget {
     final t = context.superTheme;
     final th = SuperSectionFooterThemeData.of(context);
     final color = emphasized ? (th.emphasizedColor ?? t.tokens.accent) : t.fg4;
-    final base = th.linkStyle ?? SuperText.label;
+    final base = th.linkStyle ?? t.textTheme.label;
     final text = Text(label.toUpperCase(),
         style: base.copyWith(
             color: color, letterSpacing: th.letterSpacing ?? 1.1));
@@ -69,7 +68,7 @@ class SuperSectionFooter extends StatelessWidget {
     final k = t.tokens;
     final th = SuperSectionFooterThemeData.of(context);
     final divider = showDivider ?? th.showDivider ?? true;
-    final brandStyle = (th.brandStyle ?? SuperText.label)
+    final brandStyle = (th.brandStyle ?? t.textTheme.label)
         .copyWith(color: t.fg4, letterSpacing: th.letterSpacing ?? 1.1);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

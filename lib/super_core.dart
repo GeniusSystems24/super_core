@@ -89,10 +89,11 @@
 /// | [SuperThemeData] | Swappable light/dark ThemeExtension (carries `tokens`) |
 /// | [SuperAppBarTheme] | `AppBarTheme` + subtitle position + responsive action limits |
 /// | [SuperCardTheme] | `CardThemeData` + expand / leading-trailing defaults |
-/// | [SuperText] | GeniusLink type ramp as TextStyles |
+/// | [SuperText] | GeniusLink static type ramp as TextStyles |
+/// | [SuperTextTheme] | Responsive named type ramp (displayLg → labelSm), built from tokens via `GoogleFonts` |
 /// | [SuperFormat] | Intl-free formatters |
 /// | [SuperMarker] | Section-marker bar intents |
-/// | Widgets | SectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell, SuperCard, SuperSnackBar, SuperAppBar, SuperSliverAppBar |
+/// | Widgets | SectionCard, AccentSectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell, SuperCard, SuperSnackBar, SuperAppBar, SuperSliverAppBar |
 ///
 /// Import this single barrel to get the whole foundation:
 ///

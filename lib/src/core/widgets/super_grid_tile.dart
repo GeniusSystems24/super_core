@@ -17,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../extensions/context_extensions.dart';
-import '../theme/super_text_styles.dart';
 import '../theme/super_tokens.dart';
 import 'super_tile_common.dart';
 
@@ -339,7 +338,7 @@ class _SuperGridTileState extends State<SuperGridTile> {
     final header = widget.header == null
         ? null
         : DefaultTextStyle.merge(
-            style: SuperText.label.copyWith(color: t.fg3),
+            style: t.textTheme.label.copyWith(color: t.fg3),
             child: widget.header!,
           );
     if (widget.marker == null) return header ?? const SizedBox.shrink();
@@ -355,7 +354,7 @@ class _SuperGridTileState extends State<SuperGridTile> {
   Widget _buildFooter(BuildContext context) {
     final t = context.superTheme;
     return DefaultTextStyle.merge(
-      style: SuperText.caption.copyWith(color: t.fg3),
+      style: t.textTheme.caption.copyWith(color: t.fg3),
       child: widget.footer!,
     );
   }
