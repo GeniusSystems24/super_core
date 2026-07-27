@@ -943,8 +943,7 @@ class SuperMaterialThemeData extends ThemeData {
     // carried by a provided [textTheme] > the token bundle's default. A resolved
     // custom family is applied over the default GeniusLink type ramp so its
     // sizes / weights / letter-spacing are preserved.
-    final baseTokens =
-        tokens ?? palette.applySemanticsTo(SuperTokensData.fallback);
+    final baseTokens = tokens ?? palette.applyTo(SuperTokensData.fallback);
     final String? mergedFamily =
         fontFamily ??
         ((textTheme != null && mergeTextTheme) ? _familyOf(textTheme) : null);
@@ -1245,14 +1244,22 @@ class SuperMaterialThemeData extends ThemeData {
     final isDark = cs.brightness == Brightness.dark;
     final m = metrics;
 
-    // Surface aliases.
-    final surface = isDark ? palette.darkSurface : palette.lightSurface;
+    // Neutral surface aliases. Component chrome reads from ColorScheme so an
+    // explicitly supplied scheme remains authoritative; only the dedicated
+    // input fill and tertiary text token come from SuperPalette.
+    final surface = cs.surfaceContainer;
+    final surfaceHigh = cs.surfaceContainerHigh;
+    final surfaceHighest = cs.surfaceContainerHighest;
+    final inverseSurface = cs.inverseSurface;
+    final onInverseSurface = cs.onInverseSurface;
     final inputBg = isDark ? palette.darkInputBg : palette.lightInputBg;
-    final hover = isDark ? palette.darkHover : palette.lightHover;
-    final border = isDark ? palette.darkBorder : palette.lightBorder;
-    final brdStr = isDark ? palette.darkBorderStr : palette.lightBorderStr;
-    final fg1 = isDark ? palette.darkFg1 : palette.lightFg1;
+    final hover = surfaceHighest;
+    final border = cs.outlineVariant;
+    final brdStr = cs.outline;
+    final fg1 = cs.onSurface;
     final fg3 = isDark ? palette.darkFg3 : palette.lightFg3;
+    final softShadow = cs.shadow.withValues(alpha: isDark ? 0.28 : 0.12);
+    final strongShadow = cs.shadow.withValues(alpha: isDark ? 0.48 : 0.24);
 
     // Responsive typography (explicit override wins).
     final tt = textTheme ?? _textTheme(m.mode, fg1, fg3, tokens);
@@ -1315,7 +1322,7 @@ class SuperMaterialThemeData extends ThemeData {
       primaryColorDark: primaryColorDark ?? palette.shade700,
       primaryColorLight: primaryColorLight ?? palette.shade300,
       secondaryHeaderColor: secondaryHeaderColor ?? hover,
-      shadowColor: shadowColor ?? const Color(0xFF000000),
+      shadowColor: shadowColor ?? cs.shadow,
       splashColor: splashColor ?? cs.primary.withValues(alpha: 0.10),
       unselectedWidgetColor: unselectedWidgetColor ?? fg3,
 
@@ -1356,10 +1363,10 @@ class SuperMaterialThemeData extends ThemeData {
       cardTheme:
           cardTheme ??
           SuperCardTheme(
-            color: cs.surfaceContainer,
+            color: surface,
             surfaceTintColor: Colors.transparent,
             elevation: 0,
-            shadowColor: Colors.black,
+            shadowColor: softShadow,
             margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(tokens.radiusCard),
@@ -1496,7 +1503,7 @@ class SuperMaterialThemeData extends ThemeData {
       navigationBarTheme:
           navigationBarTheme ??
           NavigationBarThemeData(
-            backgroundColor: isDark ? palette.darkSurface : surface,
+            backgroundColor: surface,
             surfaceTintColor: Colors.transparent,
             elevation: isDark ? 0 : 1,
             indicatorColor: cs.primary.withValues(alpha: 0.15),
@@ -1520,7 +1527,7 @@ class SuperMaterialThemeData extends ThemeData {
       navigationRailTheme:
           navigationRailTheme ??
           NavigationRailThemeData(
-            backgroundColor: isDark ? palette.darkSurface : surface,
+            backgroundColor: surface,
             elevation: 0,
             selectedIconTheme: IconThemeData(
               color: cs.primary,
@@ -1546,10 +1553,10 @@ class SuperMaterialThemeData extends ThemeData {
       drawerTheme:
           drawerTheme ??
           DrawerThemeData(
-            backgroundColor: isDark ? palette.darkSurface : surface,
+            backgroundColor: surface,
             surfaceTintColor: Colors.transparent,
             elevation: 8,
-            shadowColor: Colors.black38,
+            shadowColor: strongShadow,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(tokens.radiusCard),
@@ -1563,10 +1570,10 @@ class SuperMaterialThemeData extends ThemeData {
       dialogTheme:
           dialogTheme ??
           DialogThemeData(
-            backgroundColor: isDark ? palette.darkSurface : surface,
+            backgroundColor: surface,
             surfaceTintColor: Colors.transparent,
             elevation: 24,
-            shadowColor: Colors.black38,
+            shadowColor: strongShadow,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(tokens.radiusCard),
             ),
@@ -1578,10 +1585,10 @@ class SuperMaterialThemeData extends ThemeData {
       bottomSheetTheme:
           bottomSheetTheme ??
           BottomSheetThemeData(
-            backgroundColor: isDark ? palette.darkSurface : surface,
+            backgroundColor: surface,
             surfaceTintColor: Colors.transparent,
             elevation: 16,
-            shadowColor: Colors.black38,
+            shadowColor: strongShadow,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(tokens.radiusCard),
@@ -1595,7 +1602,7 @@ class SuperMaterialThemeData extends ThemeData {
       chipTheme:
           chipTheme ??
           ChipThemeData(
-            backgroundColor: isDark ? palette.darkSurface2 : palette.lightHover,
+            backgroundColor: surfaceHigh,
             deleteIconColor: fg3,
             disabledColor: fg1.withValues(alpha: 0.12),
             selectedColor: cs.primary.withValues(alpha: 0.20),
@@ -1620,10 +1627,10 @@ class SuperMaterialThemeData extends ThemeData {
       popupMenuTheme:
           popupMenuTheme ??
           PopupMenuThemeData(
-            color: isDark ? palette.darkSurface : surface,
+            color: surface,
             surfaceTintColor: Colors.transparent,
             elevation: 8,
-            shadowColor: Colors.black38,
+            shadowColor: strongShadow,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(tokens.radiusCard),
               side: BorderSide(color: brdStr),
@@ -1638,10 +1645,10 @@ class SuperMaterialThemeData extends ThemeData {
           tooltipTheme ??
           TooltipThemeData(
             decoration: BoxDecoration(
-              color: isDark ? palette.darkSurface2 : palette.darkSurface,
+              color: inverseSurface,
               borderRadius: BorderRadius.circular(tokens.radiusControl),
             ),
-            textStyle: tt.bodySmall!.copyWith(color: palette.darkFg1),
+            textStyle: tt.bodySmall!.copyWith(color: onInverseSurface),
             padding: EdgeInsets.symmetric(
               horizontal: m.spacing.sm,
               vertical: m.spacing.xs,
@@ -1654,10 +1661,8 @@ class SuperMaterialThemeData extends ThemeData {
       snackBarTheme:
           snackBarTheme ??
           SnackBarThemeData(
-            backgroundColor: isDark
-                ? palette.darkSurface2
-                : palette.darkSurface,
-            contentTextStyle: tt.bodyMedium!.copyWith(color: palette.darkFg1),
+            backgroundColor: inverseSurface,
+            contentTextStyle: tt.bodyMedium!.copyWith(color: onInverseSurface),
             actionTextColor: palette.shade300,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -1710,7 +1715,7 @@ class SuperMaterialThemeData extends ThemeData {
               if (states.contains(WidgetState.disabled)) {
                 return fg1.withValues(alpha: 0.38);
               }
-              return isDark ? palette.shade400 : palette.shade300;
+              return cs.onSurfaceVariant;
             }),
             trackColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
@@ -1719,7 +1724,7 @@ class SuperMaterialThemeData extends ThemeData {
               if (states.contains(WidgetState.disabled)) {
                 return fg1.withValues(alpha: 0.12);
               }
-              return isDark ? palette.darkSurface2 : palette.lightBorderStr;
+              return surfaceHigh;
             }),
             trackOutlineColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
@@ -1793,22 +1798,22 @@ class SuperMaterialThemeData extends ThemeData {
       floatingActionButtonTheme:
           floatingActionButtonTheme ??
           FloatingActionButtonThemeData(
-            backgroundColor: tokens.accent,
-            foregroundColor: const Color(0xFFFFFFFF),
-            focusColor: tokens.accentHover,
-            hoverColor: tokens.accentHover,
-            splashColor: tokens.accentPressed.withValues(alpha: 0.24),
+            backgroundColor: cs.primary,
+            foregroundColor: cs.onPrimary,
+            focusColor: cs.onPrimary.withValues(alpha: 0.12),
+            hoverColor: cs.onPrimary.withValues(alpha: 0.08),
+            splashColor: cs.onPrimary.withValues(alpha: 0.16),
             elevation: 4,
             focusElevation: 6,
             hoverElevation: 8,
-            highlightElevation: 12,
+            highlightElevation: 10,
             iconSize: 24,
             sizeConstraints: const BoxConstraints.tightFor(
               width: 54,
               height: 54,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(tokens.radiusControl),
             ),
           ),
 
@@ -1868,7 +1873,7 @@ class SuperMaterialThemeData extends ThemeData {
           segmentedButtonTheme ??
           SegmentedButtonThemeData(
             style: SegmentedButton.styleFrom(
-              backgroundColor: isDark ? palette.darkSurface2 : hover,
+              backgroundColor: surfaceHigh,
               selectedBackgroundColor: cs.primary,
               selectedForegroundColor: cs.onPrimary,
               foregroundColor: fg1,
@@ -1885,12 +1890,10 @@ class SuperMaterialThemeData extends ThemeData {
           menuTheme ??
           MenuThemeData(
             style: MenuStyle(
-              backgroundColor: WidgetStateProperty.all(
-                isDark ? palette.darkSurface : surface,
-              ),
+              backgroundColor: WidgetStateProperty.all(surface),
               surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
               elevation: WidgetStateProperty.all(8),
-              shadowColor: WidgetStateProperty.all(Colors.black38),
+              shadowColor: WidgetStateProperty.all(strongShadow),
               shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(tokens.radiusCard),
@@ -1962,7 +1965,7 @@ class SuperMaterialThemeData extends ThemeData {
             color: surface,
             surfaceTintColor: Colors.transparent,
             elevation: isDark ? 0 : 1,
-            shadowColor: Colors.black26,
+            shadowColor: softShadow,
             height: m.sizing.control + m.spacing.md,
             padding: EdgeInsets.symmetric(horizontal: m.spacing.sm),
           ),
@@ -1998,7 +2001,7 @@ class SuperMaterialThemeData extends ThemeData {
             backgroundColor: surface,
             surfaceTintColor: Colors.transparent,
             elevation: 24,
-            shadowColor: Colors.black38,
+            shadowColor: strongShadow,
             headerBackgroundColor: cs.primary,
             headerForegroundColor: cs.onPrimary,
             headerHeadlineStyle: tt.headlineSmall,
@@ -2023,7 +2026,7 @@ class SuperMaterialThemeData extends ThemeData {
                 Colors.transparent,
               ),
               elevation: const WidgetStatePropertyAll(8),
-              shadowColor: const WidgetStatePropertyAll(Colors.black38),
+              shadowColor: WidgetStatePropertyAll(strongShadow),
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(tokens.radiusCard),

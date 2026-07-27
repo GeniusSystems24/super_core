@@ -20,8 +20,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
-/// GeniusLink default light on-color (near-black slate `#0F172A`).
-const Color _kOnLight = Color(0xFF0F172A);
+/// GeniusLink default light on-color (neutral near-black `#171717`).
+const Color _kOnLight = Color(0xFF171717);
 
 /// GeniusLink default dark on-color (white).
 const Color _kOnDark = Color(0xFFFFFFFF);
@@ -131,7 +131,7 @@ extension SuperColorX on Color {
 
   /// Picks the more legible foreground for text placed **on** this color —
   /// whichever of [dark] / [light] has the higher contrast ratio. Defaults to
-  /// the GeniusLink near-black slate and white.
+  /// the GeniusLink neutral near-black and white.
   Color onColor({Color dark = _kOnLight, Color light = _kOnDark}) =>
       contrastRatio(dark) >= contrastRatio(light) ? dark : light;
 

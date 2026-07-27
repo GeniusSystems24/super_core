@@ -11,7 +11,6 @@
 
 import 'package:flutter/material.dart';
 
-
 /// The interactive-state treatment for Super components.
 ///
 /// Stores an [accent] plus the overlay opacity applied for each
@@ -73,14 +72,13 @@ class SuperInteractiveStateThemeData
     selectedOpacity: 0.10,
     draggedOpacity: 0.16,
     disabledOpacity: 0.40,
-    hoverSurface: Color(0xFF2F3540),
+    hoverSurface: Color(0xFF2A2A2A),
   );
 
   /// Derives an interactive-state treatment from a Material [ColorScheme]:
-  /// overlays follow `cs.primary`; the neutral hover surface follows the
-  /// scheme's brightness.
+  /// overlays follow `cs.primary`; large-surface hover follows
+  /// `cs.surfaceContainerHighest`.
   factory SuperInteractiveStateThemeData.fromColorScheme(ColorScheme cs) {
-    final isDark = cs.brightness == Brightness.dark;
     return SuperInteractiveStateThemeData(
       accent: cs.primary,
       hoverOpacity: 0.08,
@@ -89,8 +87,7 @@ class SuperInteractiveStateThemeData
       selectedOpacity: 0.10,
       draggedOpacity: 0.16,
       disabledOpacity: 0.40,
-      hoverSurface:
-          isDark ? const Color(0xFF2F3540) : const Color(0xFFEEF1F7),
+      hoverSurface: cs.surfaceContainerHighest,
     );
   }
 
