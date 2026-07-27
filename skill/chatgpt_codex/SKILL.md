@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v2.4.0)
+# super_core — ChatGPT / Codex agent instructions (v3.0.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 2.4.0
+version: 3.0.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 deps:    google_fonts >=6.2.1 <7.0.0
@@ -24,6 +24,24 @@ Apply this skill when the user asks for:
 - "responsive spacing / sizing / typography for mobile, tablet, desktop"
 - reading Super surface tokens (`bg`, `surface`, `fg1…fg4`, `border`) in a widget
 - building or modifying any `super_*` package theme
+
+
+## What changed in 3.0.0 (breaking consolidation + layout)
+
+1. **Layout primitives added.** Use `SuperBreakpoint`, `SuperBreakpoints`,
+   `SuperBreakpointProvider`, `SuperGrid`, `SuperGridCell`, `SuperGridScope`, and
+   `SuperScaffold` from `package:super_core/super_core.dart`.
+2. **Section/card consolidation.** `SectionCard`, `SuperSection`, and
+   `SuperCard` are removed. Use `SuperSectionCard` for plain cards, headed
+   sections, collapsible sections, selectable/tappable cards, and expandable
+   detail cards.
+3. **Header consolidation.** `SectionHeader` is removed. Use
+   `SuperSectionHeader` for both marker-bar and compact row headers.
+4. **Spacing system carries forward.** Read spacing, radii, insets, and control
+   heights from `context.superTheme.spacing`; do not revive old static token
+   access or hard-coded section/card padding.
+5. **Migration guide.** Use `skill/migration_v2.4.0_to_v3.0.0/` for before/after
+   replacements and layout examples.
 
 ## What changed in 2.4.0 (additive + breaking removals)
 
@@ -279,43 +297,51 @@ else just read `SuperThemeData`. Never duplicate palette/responsive math.
 
 ---
 
-## Design-system widgets (v2.4.0)
+## Design-system widgets (v3.0.0)
 
 Prefer these over hand-rolling GeniusLink chrome from raw `Container` / Material
 widgets. All exported from the barrel; names start with `Super`.
 
-`SectionCard` · `SectionHeader` · `StatusPill` · `SuperButton` /
-`SuperIconButton` · `Hairline` · `FieldShell` and:
+`SuperSectionCard` - consolidated section/card surface.
+`SuperSectionHeader` - marker-bar or compact row header.
+`SuperSectionFooter` / `SuperFooterLink` - branded footer actions.
+`AccentSectionCard`, `StatusPill`, `SuperButton` / `SuperIconButton`,
+`Hairline`, `FieldShell`, `SuperSnackBar`, `SuperAppBar`, `SuperSliverAppBar`,
+`SuperListTile`, `SuperGridTile`, `SuperSlider`, and the layout primitives.
 
-### `SuperCard` — general surface card (expandable)
+### `SuperSectionCard` - consolidated surface
 
-`surfaceContainerLow` background, shadow-only at rest (transparent border;
-border appears on hover / when `selected`). Optional `header`; `onTap` makes it
-interactive; `selected` draws the accent border + tint. **Expandable:** pass
-`expandedChild` (revealed on tap or via chevron) with `expandDirection`
-(`Axis.vertical` default, or `.horizontal`); control via `initiallyExpanded` /
-`isExpanded` / `onExpansionChanged`. Full Material `Card` parity: `color`,
-`elevation`, `shadowColor`, `surfaceTintColor`, `shape`, `clipBehavior`,
-`semanticContainer`. Defaults from `SuperCardTheme` in `ThemeData.cardTheme`.
-
-> `leading` and `trailing` were **removed in v2.4.0** — put them in `header` or
-> `child`. `background` was renamed `color`.
+Use `SuperSectionCard` instead of the removed `SectionCard`, `SuperSection`, and
+`SuperCard`. It supports optional generated headers, custom headers, footers,
+`child` or spaced `children`, collapse, selectable/tappable states, Material-card
+`color`/`elevation`/`shape` options, and expandable detail content.
 
 ```dart
-SuperCard(
-  header: const SectionHeader(title: 'Downtown Central Store'),
+SuperSectionCard(
+  title: 'Downtown Central Store',
+  subtitle: 'Store ID: STR-0042',
+  marker: SuperMarker.identity,
   expandedChild: const StoreDetailTable(),
   child: const StoreSummary(),
 );
 ```
 
-### `SectionCard` — form-section card (redesigned in v2.4.0)
+### Layout primitives (v3.0.0)
 
-`surfaceContainerLow` background, shadow-only, optional collapsible body.
-`leading` / `trailing` **removed**; use `accentColor` / `icon` for the header
-accent; set `collapsible: true` for an animated expand/collapse chevron.
+```dart
+SuperScaffold(
+  maxWidth: 1120,
+  child: SuperGrid(
+    scope: SuperGridScope.current,
+    children: const [
+      SuperGridCell(mobile: 4, tablet: 4, desktop: 3, child: KpiCard()),
+      SuperGridCell(mobile: 4, tablet: 4, desktop: 9, child: DetailsPanel()),
+    ],
+  ),
+);
+```
 
-### `AccentSectionCard` — accent-bar section card (new in v2.4.0)
+### `AccentSectionCard` - accent-bar section card (new in v2.4.0)
 
 3 px leading accent bar + tinted header strip. Best for sidebar / grouped
 sections where the accent communicates the section intent.
@@ -393,25 +419,20 @@ CustomScrollView(slivers: [
 ]);
 ```
 
-### `SuperSectionHeader` / `SuperSectionFooter` / `SuperSection` (v2.1)
+### `SuperSectionHeader` / `SuperSectionFooter` / `SuperSectionCard` (v2.5)
 
-`SuperSectionHeader` — section/page header, two styles: `style1` (marker-bar +
-title/subtitle, optional `eyebrow` + inline `titleArabic`) and `style2` (flush
-marker-tab + tinted icon-chip `leading` + ALL-CAPS title + `trailing` chevron).
-`SuperSectionFooter` + `SuperFooterLink` — hairline + ALL-CAPS brand string +
-action links (`emphasized` → accent). `SuperSection` — card shell composing an
-optional header + body (`child` or spaced `children`) + optional footer;
-`collapsible` (animated), `selected`/`onTap`, `dividerAfterHeader`, `markerColor`,
-`card:false`. Configurable via `SuperSectionHeaderThemeData` /
-`SuperSectionFooterThemeData` / `SuperSectionThemeData` (registered by the
-material theme; widgets read `X.of(context)`, widget params win).
+`SuperSectionHeader` handles both former header shapes: style1 marker-bar form
+headers and style2 compact row headers. `SuperSectionCard` composes the header,
+body, and optional footer, and is the only section/card surface in v3.0.0.
 
 ```dart
-SuperSection(
-  title: 'Financial', subtitle: 'Linked control account and terms',
-  headerStyle: SuperSectionHeaderStyle.style2, leading: const Icon(Icons.sync_alt),
+SuperSectionCard(
+  title: 'Financial',
+  subtitle: 'Linked control account and terms',
+  headerStyle: SuperSectionHeaderStyle.style2,
+  icon: Icons.sync_alt,
   collapsible: true,
-  footerBrand: '© 2024 GeniusLink ERP',
+  footerBrand: 'GeniusLink ERP',
   footerActions: [SuperFooterLink('Audit Log', onTap: open, emphasized: true)],
   child: const AccountTerms(),
 );

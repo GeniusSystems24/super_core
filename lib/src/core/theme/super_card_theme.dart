@@ -2,18 +2,18 @@
 // core/theme/super_card_theme.dart
 // ------------------------------------------------------------
 // SuperCardTheme — a [CardThemeData] subclass that carries the extra defaults
-// [SuperCard] needs for its expand/collapse behavior, its leading/trailing
-// slots, and its border treatment, on top of the stock card surface fields
+// [SuperSectionCard] needs for its expand/collapse behavior and border
+// treatment, on top of the stock card surface fields
 // (color, elevation, shadow, shape, margin, clip).
 //
 // Because it IS a [CardThemeData], a SuperCardTheme instance drops straight
 // into `ThemeData.cardTheme`; `SuperMaterialThemeData` installs one by default.
-// [SuperCard] reads it via [SuperCardTheme.of].
+// [SuperSectionCard] reads it via [SuperCardTheme.of].
 // ============================================================
 
 import 'package:flutter/material.dart';
 
-/// A [CardThemeData] extended with [SuperCard] configuration: the expand
+/// A [CardThemeData] extended with [SuperSectionCard] configuration: the expand
 /// direction + animation, whether a tap toggles expansion, whether a chevron
 /// affordance is shown, the interior padding, and the resting / selected border
 /// colors.

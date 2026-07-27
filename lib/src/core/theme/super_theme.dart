@@ -27,6 +27,7 @@ import 'package:flutter/material.dart';
 import 'super_device_mode.dart';
 import 'super_interactive_state_theme.dart';
 import 'super_metrics.dart';
+import 'super_spacing.dart';
 import 'super_text_styles.dart';
 import 'super_tokens.dart';
 
@@ -46,8 +47,9 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   final Brightness brightness;
 
   /// Dynamic brand tokens — the accent + semantic palette, font families,
-  /// radii, the 4px spacing scale, control metrics and motion. Replaces the
-  /// former `static const` `SuperTokens`; override via `tokens:` on
+  /// marker geometry and motion. Spacing, radii, control heights and insets
+  /// live in [spacing] ([SuperSpacing]). Replaces the former `static const`
+  /// `SuperTokens`; override via `tokens:` on
   /// `SuperMaterialThemeData.light` / `.dark`.
   final SuperTokensData tokens;
 
@@ -83,20 +85,12 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   // ── Card elevation ──
   /// Dark-mode card shadow — a single soft lift.
   static const List<BoxShadow> cardShadowDark = [
-    BoxShadow(
-      color: Color(0x1F000000),
-      blurRadius: 28,
-      offset: Offset(0, 6),
-    ),
+    BoxShadow(color: Color(0x1F000000), blurRadius: 28, offset: Offset(0, 6)),
   ];
 
   /// Light-mode card shadow — a single diffuse lift.
   static const List<BoxShadow> cardShadowLight = [
-    BoxShadow(
-      color: Color(0x0A000000),
-      blurRadius: 32,
-      offset: Offset(0, 4),
-    ),
+    BoxShadow(color: Color(0x0A000000), blurRadius: 32, offset: Offset(0, 4)),
   ];
 
   /// Overlay / popover shadow (menus, flyouts, suggestion lists).
@@ -114,17 +108,12 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
       brightness == Brightness.dark ? cardShadowDark : cardShadowLight;
 
   // ── Convenience responsive accessors ──
-  /// The active spacing scale (shorthand for `metrics.spacing`).
+  /// The active spacing bundle — the numbered scale, radii, control height and
+  /// container insets (shorthand for `metrics.spacing`).
   SuperSpacing get spacing => metrics.spacing;
 
   /// The active sizing scale (shorthand for `metrics.sizing`).
   SuperSizing get sizing => metrics.sizing;
-
-  /// The active inner-padding scale (shorthand for `metrics.padding`).
-  SuperPadding get padding => metrics.padding;
-
-  /// The active outer-margin scale (shorthand for `metrics.margin`).
-  SuperMargin get margin => metrics.margin;
 
   // ── Presets ──
   static const SuperThemeData dark = SuperThemeData(

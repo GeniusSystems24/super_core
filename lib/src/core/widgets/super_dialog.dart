@@ -188,7 +188,7 @@ class SuperDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
+    final k = t.spacing;
     final hasHeader = title != null || icon != null;
 
     return Dialog(
@@ -214,9 +214,7 @@ class SuperDialog extends StatelessWidget {
                     k.space6,
                     k.space6,
                     k.space6,
-                    content != null || actions.isNotEmpty
-                        ? 0.0
-                        : k.space6,
+                    content != null || actions.isNotEmpty ? 0.0 : k.space6,
                   ),
                   child: _Header(
                     title: title,
@@ -278,6 +276,7 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final s = t.spacing;
     final cs = Theme.of(context).colorScheme;
     final badgeColor = iconColor ?? cs.primary;
 
@@ -289,10 +288,10 @@ class _Header extends StatelessWidget {
             width: 40,
             height: 40,
             alignment: Alignment.center,
-            margin: EdgeInsetsDirectional.only(end: t.tokens.space3),
+            margin: EdgeInsetsDirectional.only(end: s.space3),
             decoration: BoxDecoration(
               color: badgeColor.withValues(alpha: 0.14),
-              borderRadius: BorderRadius.circular(t.tokens.radiusControl),
+              borderRadius: BorderRadius.circular(s.radiusControl),
             ),
             child: Icon(icon, size: 20, color: badgeColor),
           )
@@ -300,10 +299,10 @@ class _Header extends StatelessWidget {
           Container(
             width: t.tokens.markerWidth,
             height: t.tokens.markerHeight,
-            margin: EdgeInsetsDirectional.only(top: 2, end: t.tokens.space4),
+            margin: EdgeInsetsDirectional.only(top: 2, end: t.spacing.space4),
             decoration: BoxDecoration(
               color: iconColor,
-              borderRadius: BorderRadius.circular(t.tokens.radiusPill),
+              borderRadius: BorderRadius.circular(t.spacing.radiusPill),
             ),
           ),
         Expanded(
@@ -314,7 +313,7 @@ class _Header extends StatelessWidget {
               if (title != null)
                 Text(title!, style: t.textTheme.heading.copyWith(color: t.fg1)),
               if (subtitle != null) ...[
-                SizedBox(height: t.tokens.space1),
+                SizedBox(height: t.spacing.space1),
                 Text(
                   subtitle!,
                   style: t.textTheme.caption.copyWith(color: t.fg3),
@@ -324,7 +323,7 @@ class _Header extends StatelessWidget {
           ),
         ),
         if (showClose) ...[
-          SizedBox(width: t.tokens.space2),
+          SizedBox(width: s.space2),
           SuperIconButton(
             icon: Icons.close,
             tooltip: 'Close',
@@ -344,9 +343,10 @@ class _ActionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
+    final s = t.spacing;
     final children = <Widget>[];
     for (var i = 0; i < actions.length; i++) {
-      if (i > 0) children.add(SizedBox(width: t.tokens.space3));
+      if (i > 0) children.add(SizedBox(width: s.space3));
       children.add(actions[i]);
     }
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: children);

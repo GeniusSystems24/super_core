@@ -1,36 +1,23 @@
-// ============================================================
-// core/widgets/super_section_header.dart
-// ------------------------------------------------------------
-// SuperSectionHeader — the page/section header pattern of the GeniusLink design
-// system. Two styles:
-//
-//   • style1 — the signature 4px marker bar + title (16/700), with an optional
-//     ALL-CAPS breadcrumb eyebrow above and an inline Arabic translation beside
-//     the title. The classic form-page section header.
-//   • style2 — a compact list/row header: a tinted rounded icon chip ([leading])
-//     + ALL-CAPS title + subtitle + a [trailing] slot (e.g. a chevron). Used for
-//     expandable rows, settings groups and linked-account cards.
-//
-// Both styles take [leading] and [trailing]. Everything resolves from the
-// ambient [SuperThemeData].
-// ============================================================
-
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
 import '../theme/super_section_theme.dart';
 import '../theme/super_tokens.dart';
 
-/// The visual style of a [SuperSectionHeader].
+/// Visual variants for [SuperSectionHeader].
 enum SuperSectionHeaderStyle {
-  /// Marker-bar + title/subtitle form-page header.
+  /// Marker-bar + title/subtitle form header.
   style1,
 
-  /// Icon-chip + ALL-CAPS title/subtitle row header.
+  /// Marker tab + optional icon chip row header.
   style2,
 }
 
-/// A section / page header — see [SuperSectionHeaderStyle] for the two forms.
+/// Consolidated section header for Super section and card surfaces.
+///
+/// This replaces the older `SectionHeader` and the previous
+/// `SuperSectionHeader` implementation. Use [style1] for form/page sections
+/// and [style2] for compact rows, expandable cards, and settings groups.
 class SuperSectionHeader extends StatelessWidget {
   const SuperSectionHeader({
     super.key,
@@ -39,35 +26,50 @@ class SuperSectionHeader extends StatelessWidget {
     this.subtitle,
     this.eyebrow,
     this.marker = SuperMarker.identity,
+    this.markerColor,
+    this.accentColor,
+    this.icon,
     this.leading,
     this.trailing,
     this.style = SuperSectionHeaderStyle.style1,
   });
 
-  /// Primary heading text (Title Case for style1, upper-cased for style2).
+  /// Primary heading text.
   final String title;
 
-  /// Optional inline Arabic translation rendered in tertiary blue beside [title]
-  /// (style1 only — e.g. `Opening Journal Entry قيد افتتاحي`).
+  /// Optional inline Arabic translation for [style1].
   final String? titleArabic;
 
-  /// One-line plain-English explainer beneath the title.
+  /// Optional supporting text.
   final String? subtitle;
 
-  /// Optional ALL-CAPS breadcrumb / eyebrow above the title (style1 only).
+  /// Optional all-caps breadcrumb shown above [title] in [style1].
   final String? eyebrow;
 
-  /// The marker-bar / icon-chip intent (identity / ledger / notes).
+  /// Marker-bar or icon-chip intent.
   final SuperMarker marker;
 
-  /// Leading widget. In style1 it sits between the marker bar and the text; in
-  /// style2 it is wrapped in a tinted rounded icon chip.
+  /// Explicit marker/accent color. Takes precedence over [marker].
+  final Color? markerColor;
+
+  /// Compatibility alias for the old `SectionHeader.accentColor`.
+  ///
+  /// [markerColor] wins when both are provided.
+  final Color? accentColor;
+
+  /// Compatibility icon from the old `SectionHeader` API.
+  ///
+  /// In [style1] it is shown as a tinted chip before the marker bar. In
+  /// [style2] it is used as the chip content when [leading] is null.
+  final IconData? icon;
+
+  /// Optional leading widget.
   final Widget? leading;
 
-  /// Trailing widget (an action button, a count, a chevron, a toggle).
+  /// Optional trailing widget such as an action, count, status pill, or chevron.
   final Widget? trailing;
 
-  /// Which visual style to render.
+  /// Header visual style.
   final SuperSectionHeaderStyle style;
 
   @override
@@ -77,91 +79,130 @@ class SuperSectionHeader extends StatelessWidget {
         : _buildStyle1(context);
   }
 
-  // ── style1 — marker bar + title/subtitle ─────────────────────────────────
   Widget _buildStyle1(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
+    final tokens = t.tokens;
+    final s = t.spacing;
     final th = SuperSectionHeaderThemeData.of(context);
-    final gap = th.gap ?? k.space3;
+    final effectiveMarker = th.defaultMarker ?? marker;
+    final accent =
+        markerColor ?? accentColor ?? tokens.markerColor(effectiveMarker);
+    final gap = th.gap ?? s.space3;
     final hasEyebrow = eyebrow != null && eyebrow!.isNotEmpty;
-    final double barHeight = (subtitle == null && !hasEyebrow)
-        ? 18
-        : (hasEyebrow ? k.markerHeight + 14 : k.markerHeight);
+    final hasSubtitle = subtitle != null && subtitle!.isNotEmpty;
+    final barHeight = !hasSubtitle && !hasEyebrow
+        ? 18.0
+        : hasEyebrow
+        ? tokens.markerHeight + 14
+        : tokens.markerHeight;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (icon != null)
+          Container(
+            width: 24,
+            height: barHeight,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: t.tint(accent, 0.12),
+              borderRadius: const BorderRadiusDirectional.horizontal(
+                start: Radius.circular(2),
+              ),
+            ),
+            child: Icon(icon, size: 14, color: accent),
+          ),
         Container(
-          width: th.markerWidth ?? k.markerWidth,
+          width: th.markerWidth ?? tokens.markerWidth,
           height: barHeight,
-          margin: EdgeInsetsDirectional.only(top: 1, end: k.space3),
+          margin: EdgeInsetsDirectional.only(top: 1, end: s.space3),
           decoration: BoxDecoration(
-            color: k.markerColor(marker),
-            borderRadius:
-                BorderRadius.circular(th.markerRadius ?? k.radiusPill),
+            color: accent,
+            borderRadius: BorderRadius.circular(
+              th.markerRadius ?? s.radiusPill,
+            ),
           ),
         ),
-        if (leading != null) ...[
-          leading!,
-          SizedBox(width: gap),
-        ],
+        if (leading != null) ...[leading!, SizedBox(width: gap)],
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (hasEyebrow) ...[
-                Text(eyebrow!,
-                    style: th.eyebrowStyle ??
-                        t.textTheme.eyebrow.copyWith(color: k.accent)),
-                SizedBox(height: k.space2),
+                Text(
+                  eyebrow!,
+                  style:
+                      th.eyebrowStyle ??
+                      t.textTheme.eyebrow.copyWith(color: accent),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: s.space2),
               ],
               Row(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   Flexible(
-                    child: Text(title,
-                        style: th.titleStyle ??
-                            t.textTheme.heading.copyWith(color: t.fg1)),
+                    child: Text(
+                      title,
+                      style:
+                          th.titleStyle ??
+                          t.textTheme.heading.copyWith(color: t.fg1),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   if (titleArabic != null && titleArabic!.isNotEmpty) ...[
-                    SizedBox(width: k.space2),
-                    Text(titleArabic!,
-                        style: th.arabicStyle ??
-                            t.textTheme.body.copyWith(color: k.accent)),
+                    SizedBox(width: s.space2),
+                    Flexible(
+                      child: Text(
+                        titleArabic!,
+                        style:
+                            th.arabicStyle ??
+                            t.textTheme.body.copyWith(color: accent),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ],
               ),
-              if (subtitle != null) ...[
-                SizedBox(height: k.space1),
-                Text(subtitle!,
-                    style: th.subtitleStyle ??
-                        t.textTheme.caption.copyWith(color: t.fg3)),
+              if (hasSubtitle) ...[
+                SizedBox(height: s.space1),
+                Text(
+                  subtitle!,
+                  style:
+                      th.subtitleStyle ??
+                      t.textTheme.caption.copyWith(color: t.fg3),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ],
           ),
         ),
-        if (trailing != null) ...[
-          SizedBox(width: gap),
-          trailing!,
-        ],
+        if (trailing != null) ...[SizedBox(width: gap), trailing!],
       ],
     );
   }
 
-  // ── style2 — flush left marker tab + icon chip + ALL-CAPS title/subtitle ──
   Widget _buildStyle2(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
+    final tokens = t.tokens;
+    final s = t.spacing;
     final th = SuperSectionHeaderThemeData.of(context);
-    final accent = k.markerColor(marker);
-    final gap = th.gap ?? k.space3;
+    final effectiveMarker = th.defaultMarker ?? marker;
+    final accent =
+        markerColor ?? accentColor ?? tokens.markerColor(effectiveMarker);
+    final gap = th.gap ?? s.space3;
     final chip = th.iconChipSize ?? 26;
+    final effectiveLeading = leading ?? (icon == null ? null : Icon(icon));
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Marker bar flush to the leading edge, rounded on the trailing side.
         Container(
           width: th.style2BarWidth ?? 4,
           height: th.style2BarHeight ?? 28,
@@ -173,7 +214,7 @@ class SuperSectionHeader extends StatelessWidget {
           ),
         ),
         SizedBox(width: gap),
-        if (leading != null) ...[
+        if (effectiveLeading != null) ...[
           Container(
             width: chip,
             height: chip,
@@ -184,7 +225,7 @@ class SuperSectionHeader extends StatelessWidget {
             ),
             child: IconTheme.merge(
               data: IconThemeData(color: accent, size: th.iconSize ?? 16),
-              child: leading!,
+              child: effectiveLeading,
             ),
           ),
           SizedBox(width: gap),
@@ -196,20 +237,30 @@ class SuperSectionHeader extends StatelessWidget {
             children: [
               Text(
                 title.toUpperCase(),
-                style: th.style2TitleStyle ??
+                style:
+                    th.style2TitleStyle ??
                     t.textTheme.heading.copyWith(
                       color: t.fg1,
                       fontSize: 12.5,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 0.7,
                     ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              if (subtitle != null) ...[
+              if (subtitle != null && subtitle!.isNotEmpty) ...[
                 const SizedBox(height: 3),
-                Text(subtitle!,
-                    style: th.style2SubtitleStyle ??
-                        t.textTheme.caption
-                            .copyWith(color: t.fg3, fontSize: 11.5)),
+                Text(
+                  subtitle!,
+                  style:
+                      th.style2SubtitleStyle ??
+                      t.textTheme.caption.copyWith(
+                        color: t.fg3,
+                        fontSize: 11.5,
+                      ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ],
           ),
@@ -217,8 +268,7 @@ class SuperSectionHeader extends StatelessWidget {
         if (trailing != null) ...[
           SizedBox(width: gap),
           IconTheme.merge(
-            data: IconThemeData(
-                color: t.fg3, size: th.trailingIconSize ?? 18),
+            data: IconThemeData(color: t.fg3, size: th.trailingIconSize ?? 18),
             child: trailing!,
           ),
         ],

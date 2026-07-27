@@ -38,7 +38,7 @@ Apply this skill when the user asks for:
 3. **`SuperAppBar` + `SuperSliverAppBar`** fork `AppBar` / `SliverAppBar` with
    `subtitle` + `subtitlePosition` and responsive action overflow past
    `maxActions` (`SuperAppBarTheme`).
-4. **`SuperCard`** is expandable (v/h) with `leading`/`trailing`
+4. **`SuperSectionCard`** is expandable (v/h) with `leading`/`trailing`
    (`SuperCardTheme`).
 5. **`SuperDialog` removed** — use themed `showDialog` / `AlertDialog`.
 6. Dependents require `super_core: ">=2.0.0 <3.0.0"`; see
@@ -190,10 +190,10 @@ else just read `SuperThemeData`. Never duplicate palette/responsive math.
 Prefer these over hand-rolling GeniusLink chrome. All exported from the barrel;
 names start with `Super`.
 
-`SectionCard` · `SectionHeader` · `StatusPill` · `SuperButton` /
+`SuperSectionCard` · `SuperSectionHeader` · `StatusPill` · `SuperButton` /
 `SuperIconButton` · `Hairline` · `FieldShell` and:
 
-### `SuperCard` — general surface card (expandable in v2)
+### `SuperSectionCard` — general surface card (expandable in v2)
 
 Optional `header`; `leading` / `trailing` slots; `onTap` (interactive);
 `selected` (active treatment). **Expandable:** `expandedChild` +
@@ -202,10 +202,10 @@ Optional `header`; `leading` / `trailing` slots; `onTap` (interactive);
 `SuperCardTheme`.
 
 ```dart
-SuperCard(
+SuperSectionCard(
   leading: const Icon(Icons.storefront_outlined),
-  header: const SectionHeader(title: 'Downtown Central Store'),
-  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
+  header: const SuperSectionHeader(title: 'Downtown Central Store'),
+  headerTrailing: const StatusPill('ACTIVE', tone: PillTone.success),
   expandedChild: const StoreDetailTable(),
   child: const StoreSummary(),
 );

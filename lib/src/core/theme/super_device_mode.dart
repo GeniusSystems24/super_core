@@ -30,10 +30,10 @@ enum SuperDeviceMode {
   /// this mode becomes appropriate. Handy when picking a mode from a
   /// `LayoutBuilder` / `MediaQuery`.
   double get minWidth => switch (this) {
-        SuperDeviceMode.mobile => 0,
-        SuperDeviceMode.tablet => 600,
-        SuperDeviceMode.desktop => 1024,
-      };
+    SuperDeviceMode.mobile => 0,
+    SuperDeviceMode.tablet => 600,
+    SuperDeviceMode.desktop => 1024,
+  };
 
   /// Picks the mode for a given logical [width] using [minWidth] breakpoints.
   ///
@@ -41,8 +41,12 @@ enum SuperDeviceMode {
   /// final mode = SuperDeviceMode.forWidth(MediaQuery.sizeOf(context).width);
   /// ```
   static SuperDeviceMode forWidth(double width) {
-    if (width >= SuperDeviceMode.desktop.minWidth) return SuperDeviceMode.desktop;
-    if (width >= SuperDeviceMode.tablet.minWidth) return SuperDeviceMode.tablet;
+    if (width >= SuperDeviceMode.desktop.minWidth) {
+      return SuperDeviceMode.desktop;
+    }
+    if (width >= SuperDeviceMode.tablet.minWidth) {
+      return SuperDeviceMode.tablet;
+    }
     return SuperDeviceMode.mobile;
   }
 
@@ -75,9 +79,9 @@ class SuperResponsive<T> {
 
   /// A [SuperResponsive] whose value is identical across all three modes.
   const SuperResponsive.all(T value)
-      : mobile = value,
-        tablet = value,
-        desktop = value;
+    : mobile = value,
+      tablet = value,
+      desktop = value;
 
   final T mobile;
   final T tablet;
@@ -85,17 +89,17 @@ class SuperResponsive<T> {
 
   /// The value for [mode] — the "active" configuration.
   T resolve(SuperDeviceMode mode) => switch (mode) {
-        SuperDeviceMode.mobile => mobile,
-        SuperDeviceMode.tablet => tablet,
-        SuperDeviceMode.desktop => desktop,
-      };
+    SuperDeviceMode.mobile => mobile,
+    SuperDeviceMode.tablet => tablet,
+    SuperDeviceMode.desktop => desktop,
+  };
 
   /// Returns a new [SuperResponsive] with each value mapped through [f].
   SuperResponsive<R> map<R>(R Function(T value) f) => SuperResponsive<R>(
-        mobile: f(mobile),
-        tablet: f(tablet),
-        desktop: f(desktop),
-      );
+    mobile: f(mobile),
+    tablet: f(tablet),
+    desktop: f(desktop),
+  );
 
   @override
   bool operator ==(Object other) =>

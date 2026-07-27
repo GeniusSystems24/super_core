@@ -1,4 +1,4 @@
-# super_core · Examples (v2.4.0)
+# super_core · Examples (v3.0.0)
 
 Runnable, copy-pasteable snippets. All assume `import
 'package:super_core/super_core.dart';`.
@@ -169,25 +169,24 @@ MaterialApp(
 final s = SuperThemeData.of(context); // falls back to .dark when unregistered
 ```
 
-
-## 11 · Design-system widgets (v2.4.0)
+## 11 · Design-system widgets (v3.0.0)
 
 ```dart
-// SuperCard — surfaceContainerLow, shadow-only; interactive + selectable:
-SuperCard(
-  header: const SectionHeader(title: 'Downtown Central Store'),
+// SuperSectionCard — surfaceContainerLow, shadow-only; interactive + selectable:
+SuperSectionCard(
+  header: const SuperSectionHeader(title: 'Downtown Central Store'),
   child: const Text('Shadow-only card — border appears on hover/selected.'),
 );
-SuperCard(
+SuperSectionCard(
   color: context.superTheme.surface, // explicit background override
   selected: id == _selected,
   onTap: () => setState(() => _selected = id),
   child: const Text('Selectable row'),
 );
 
-// Expandable SuperCard:
-SuperCard(
-  header: const SectionHeader(title: 'Downtown Central Store'),
+// Expandable SuperSectionCard:
+SuperSectionCard(
+  header: const SuperSectionHeader(title: 'Downtown Central Store'),
   expandedChild: const Text('Balance SAR 48,200.00 across 3 sub-accounts.'),
   // expandDirection: Axis.horizontal, initiallyExpanded, isExpanded, onExpansionChanged…
   child: const Text('Tap the card or chevron to reveal details.'),
@@ -201,13 +200,25 @@ AccentSectionCard(
   child: const AccountForm(),
 );
 
-// SectionCard (redesigned in v2.4.0) — collapsible, no leading/trailing:
-SectionCard(
+// SuperSectionCard (consolidated in v3.0.0):
+SuperSectionCard(
   title: 'Account Details',
   subtitle: 'BASIC INFO',
   accentColor: Colors.blue,
   collapsible: true,
   child: const AccountDetailsForm(),
+);
+
+// Layout primitives (v3.0.0):
+SuperScaffold(
+  maxWidth: 1120,
+  child: SuperGrid(
+    scope: SuperGridScope.current,
+    children: const [
+      SuperGridCell(mobile: 4, tablet: 4, desktop: 3, child: KpiCard()),
+      SuperGridCell(mobile: 4, tablet: 4, desktop: 9, child: DetailsPanel()),
+    ],
+  ),
 );
 
 // Dialogs — SuperDialog was removed in v2; use themed showDialog / AlertDialog:
@@ -255,7 +266,6 @@ CustomScrollView(slivers: [
 ]);
 ```
 
-
 ## 11b · Dynamic tokens + custom font (v2.0.0)
 
 ```dart
@@ -275,7 +285,6 @@ const SizedBox(height: 16); // space4
 SuperMaterialThemeData.light(fontFamily: 'IBM Plex Sans');
 SuperMaterialThemeData.light(textTheme: myTextTheme, mergeTextTheme: true);
 ```
-
 
 ## 11c · SuperTextTheme — typography (v2.4.0)
 

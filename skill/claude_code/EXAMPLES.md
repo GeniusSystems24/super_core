@@ -173,23 +173,23 @@ final s = SuperThemeData.of(context); // falls back to .dark when unregistered
 ## 11 · Design-system widgets (v2.0.0)
 
 ```dart
-// SuperCard — general surface card; interactive + selectable variants:
-SuperCard(
-  header: const SectionHeader(title: 'Downtown Central Store'),
+// SuperSectionCard — general surface card; interactive + selectable variants:
+SuperSectionCard(
+  header: const SuperSectionHeader(title: 'Downtown Central Store'),
   child: const Text('Static card — 8px radius, hairline, card shadow.'),
 );
-SuperCard(
+SuperSectionCard(
   padding: const EdgeInsets.all(16),
   selected: id == _selected,
   onTap: () => setState(() => _selected = id), // hover deepens the border
   child: const Text('Selectable row'),
 );
 
-// Expandable SuperCard (v2) — vertical or horizontal, with leading/trailing:
-SuperCard(
+// Expandable SuperSectionCard (v2.5) — vertical or horizontal:
+SuperSectionCard(
   leading: const Icon(Icons.storefront_outlined),
-  header: const SectionHeader(title: 'Downtown Central Store'),
-  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
+  header: const SuperSectionHeader(title: 'Downtown Central Store'),
+  headerTrailing: const StatusPill('ACTIVE', tone: PillTone.success),
   expandedChild: const Text('Balance SAR 48,200.00 across 3 sub-accounts.'),
   // expandDirection: Axis.horizontal, initiallyExpanded / isExpanded / onExpansionChanged…
   child: const Text('Tap the card or the chevron to reveal details'),

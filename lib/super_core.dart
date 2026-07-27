@@ -2,6 +2,18 @@
 /// toolkit. Single source of truth for the visual identity that every Super
 /// package reads from, so the whole toolkit looks like one product.
 ///
+/// ## v3.0.0 - layout primitives and consolidated section surfaces
+///
+/// Adds the Super layout family: [SuperBreakpoint], [SuperBreakpoints],
+/// [SuperBreakpointProvider], [SuperGrid], [SuperGridCell], [SuperGridScope],
+/// and [SuperScaffold].
+///
+/// **Breaking.** `SectionCard`, `SuperSection`, and `SuperCard` are replaced by
+/// [SuperSectionCard]. `SectionHeader` is replaced by [SuperSectionHeader].
+/// The consolidated card keeps section headers, footers, `child`/`children`,
+/// collapse, selected/tap states, Material-card fill/elevation/shape options,
+/// and expandable detail content in one public widget.
+///
 /// ## v2.0.0 — dynamic brand tokens, custom fonts, forked app bars
 ///
 /// **Breaking.** The former `static const` `SuperTokens` class is removed. Brand
@@ -30,8 +42,8 @@
 /// **Widgets.** [SuperAppBar] and [SuperSliverAppBar] are full forks of
 /// Flutter's `AppBar` / `SliverAppBar` with a positionable subtitle
 /// ([SubtitlePosition]) and responsive action overflow ([SuperAppBarTheme]).
-/// [SuperCard] gains expand/collapse (vertical or horizontal) plus `leading` /
-/// `trailing` slots ([SuperCardTheme]). `SuperDialog` is removed — use Flutter's
+/// [SuperSectionCard] carries the section/card expand-collapse behavior and
+/// reads defaults from [SuperCardTheme]. `SuperDialog` is removed ? use Flutter's
 /// themed `showDialog` / `AlertDialog` (styled by [SuperMaterialThemeData]).
 ///
 /// ## v1.3.0 — complete ThemeData + ColorScheme
@@ -88,12 +100,12 @@
 /// | [SuperTokensData] | Dynamic brand tokens carried by the theme (with `default*` constants) |
 /// | [SuperThemeData] | Swappable light/dark ThemeExtension (carries `tokens`) |
 /// | [SuperAppBarTheme] | `AppBarTheme` + subtitle position + responsive action limits |
-/// | [SuperCardTheme] | `CardThemeData` + expand / leading-trailing defaults |
-/// | [SuperText] | GeniusLink static type ramp as TextStyles |
+/// | [SuperCardTheme] | `CardThemeData` + section-card expand / border defaults |
 /// | [SuperTextTheme] | Responsive named type ramp (displayLg → labelSm), built from tokens via `GoogleFonts` |
 /// | [SuperFormat] | Intl-free formatters |
 /// | [SuperMarker] | Section-marker bar intents |
-/// | Widgets | SectionCard, AccentSectionCard, SectionHeader, StatusPill, SuperButton, Hairline, FieldShell, SuperCard, SuperSnackBar, SuperAppBar, SuperSliverAppBar |
+/// | Layout | SuperBreakpoint, SuperBreakpoints, SuperBreakpointProvider, SuperGrid, SuperGridCell, SuperGridScope, SuperScaffold |
+/// | Widgets | SuperSectionCard, SuperSectionHeader, SuperSectionFooter, AccentSectionCard, StatusPill, SuperButton, Hairline, FieldShell, SuperSnackBar, SuperAppBar, SuperSliverAppBar |
 ///
 /// Import this single barrel to get the whole foundation:
 ///

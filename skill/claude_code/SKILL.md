@@ -2,7 +2,7 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v2.4.0) — the shared GeniusLink design-system foundation for the Super
+  (v3.0.0) — the shared GeniusLink design-system foundation for the Super
   toolkit. super_core ships SuperPalette (ten palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
@@ -13,7 +13,7 @@ description: >
   anything in super_core or in a package that depends on it.
 ---
 
-# super_core · v2.4.0
+# super_core ? v3.0.0
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -21,6 +21,24 @@ Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
 `super_navigation_sidebar`, `super_table_field`, `super_tree`) reads its colors,
 type, spacing, and component themes from here so the whole toolkit looks like one
 product.
+
+
+## What changed in 3.0.0 (breaking consolidation + layout)
+
+1. **Layout primitives added.** Use `SuperBreakpoint`, `SuperBreakpoints`,
+   `SuperBreakpointProvider`, `SuperGrid`, `SuperGridCell`, `SuperGridScope`, and
+   `SuperScaffold` from `package:super_core/super_core.dart`.
+2. **Section/card consolidation.** `SectionCard`, `SuperSection`, and
+   `SuperCard` are removed. Use `SuperSectionCard` for plain cards, headed
+   sections, collapsible sections, selectable/tappable cards, and expandable
+   detail cards.
+3. **Header consolidation.** `SectionHeader` is removed. Use
+   `SuperSectionHeader` for both marker-bar and compact row headers.
+4. **Spacing system carries forward.** Read spacing, radii, insets, and control
+   heights from `context.superTheme.spacing`; do not revive old static token
+   access or hard-coded section/card padding.
+5. **Migration guide.** Use `skill/migration_v2.4.0_to_v3.0.0/` for before/after
+   replacements and layout examples.
 
 **What changed in 2.4.0 (additive + breaking removals — read Migration):**
 
@@ -544,41 +562,54 @@ math in the package — read it from `SuperThemeData` / `SuperMetrics`.
 
 ## Design-system widgets
 
-Ready-made GeniusLink components (all `Super`-prefixed, exported from the
-barrel). Compose these instead of restyling raw `Container` / Material widgets.
-
-Pre-1.2.0: `SectionCard`, `SectionHeader`, `StatusPill`, `SuperButton` /
-`SuperIconButton`, `Hairline`, `FieldShell`. Added in 1.2.0 and reshaped in
-2.0.0 / 2.4.0:
+Ready-made GeniusLink components (all exported from the barrel). Compose these
+instead of restyling raw `Container` / Material widgets.
 
 | Widget | What it is | Key API |
 |---|---|---|
-| `SuperCard` | General surface card (`surfaceContainerLow`, shadow-only at rest). **Expandable**. | `header` · `color` · `expandedChild` + `expandDirection` · `initiallyExpanded` / `isExpanded` / `onExpansionChanged` · `onTap` · `selected` · `elevation` · `shape` · `shadowColor` · `clipBehavior` · `semanticContainer` |
-| `SectionCard` | Form-section card with header + collapsible body. | `title` · `subtitle` · `accentColor` · `icon` · `collapsible` · `initiallyExpanded` · `child`/`children` · `padding` |
-| `AccentSectionCard` | Card with 3 px leading accent bar + tinted header (v2.4). | `title` · `icon` · `trailing` · `accentColor` · `child` · `bodyPadding` · `headerPadding` · `backgroundColor` |
-| `SuperAppBar` | `PreferredSizeWidget` fork of `AppBar` (all props). Back button: `arrow_back_ios_new_rounded`. | `title` · `subtitle` + `subtitlePosition` · `actions` (overflow past `maxActions`) · `leading` · `bottom` · `flexibleSpace` |
-| `SuperSliverAppBar` | Fork of `SliverAppBar` (all props). | same subtitle/overflow · `pinned` / `floating` / `snap` / `stretch` · `expandedHeight` · `flexibleSpace` |
-| `SuperSnackBar` | Floating toast over `ScaffoldMessenger`. | `.info/.success/.warning/.danger(ctx, msg)` · `.build(...)` · `SuperSnackBarTone` |
-| `SuperSectionHeader` | Section/page header, two styles. | `title` · `titleArabic` · `subtitle` · `eyebrow` · `marker` · `leading` / `trailing` · `style` (`style1`/`style2`) |
-| `SuperSectionFooter` | ALL-CAPS footer row + `SuperFooterLink`. | `brand` · `actions` · `showDivider` |
-| `SuperSection` | Card shell composing header + body + footer. | `child`/`children` · header fields · `footerBrand`/`footerActions` · `collapsible` · `selected`/`onTap` · `card` |
-| `SuperListTile` | GeniusLink list row with density presets + states. | `density` · `selected` · `badge` · `marker` · `leadingIcon` · `subtitle` · `trailingActions` · `loading` |
-| `SuperGridTile` | Dashboard / catalog card with hover-reveal actions. | `header`/`child`/`footer` · `media` · `badge` · `overlay` · `actions` · `aspectRatio` · `loading` |
-| `SuperSlider` | Responsive content carousel. | `children`/`itemBuilder` · `visibleItems` · `peek` · `autoPlay` · `loop` · `controller` · `onIndexChanged` |
+| `SuperSectionCard` | Consolidated section/card surface replacing `SectionCard`, `SuperSection`, and `SuperCard`. | `title` / `header` - `child`/`children` - `footerBrand`/`footerActions` - `collapsible` - `expandedChild` - `selected`/`onTap` - `color` - `elevation` - `shape` |
+| `SuperSectionHeader` | Section/page header, two styles. | `title` - `titleArabic` - `subtitle` - `eyebrow` - `marker` - `icon` - `leading` / `trailing` - `style` (`style1`/`style2`) |
+| `SuperSectionFooter` | ALL-CAPS footer row + `SuperFooterLink`. | `brand` - `actions` - `showDivider` |
+| `SuperGrid` / `SuperGridCell` | Responsive column grid. | `scope` - `overrideBreakpoint` - `mobile`/`tablet`/`desktop`/`large` spans and order |
+| `SuperBreakpointProvider` | Provides a controlled local breakpoint. | `breakpoint` - `defaultWidth` - `child` |
+| `SuperScaffold` | Responsive page-frame wrapper. | `maxWidth` - `padding` - `backgroundColor` - `child` |
+| `AccentSectionCard` | Card with 3 px leading accent bar + tinted header (v2.4). | `title` - `icon` - `trailing` - `accentColor` - `child` - `bodyPadding` - `headerPadding` - `backgroundColor` |
+| `SuperAppBar` | `PreferredSizeWidget` fork of `AppBar` (all props). Back button: `arrow_back_ios_new_rounded`. | `title` - `subtitle` + `subtitlePosition` - `actions` (overflow past `maxActions`) - `leading` - `bottom` - `flexibleSpace` |
+| `SuperSliverAppBar` | Fork of `SliverAppBar` (all props). | same subtitle/overflow - `pinned` / `floating` / `snap` / `stretch` - `expandedHeight` - `flexibleSpace` |
+| `SuperSnackBar` | Floating toast over `ScaffoldMessenger`. | `.info/.success/.warning/.danger(ctx, msg)` - `.build(...)` - `SuperSnackBarTone` |
+| `SuperListTile` | GeniusLink list row with density presets + states. | `density` - `selected` - `badge` - `marker` - `leadingIcon` - `subtitle` - `trailingActions` - `loading` |
+| `SuperGridTile` | Dashboard / catalog card with hover-reveal actions. | `header`/`child`/`footer` - `media` - `badge` - `overlay` - `actions` - `aspectRatio` - `loading` |
+| `SuperSlider` | Responsive content carousel. | `children`/`itemBuilder` - `visibleItems` - `peek` - `autoPlay` - `loop` - `controller` - `onIndexChanged` |
 
-> `SuperDialog` was **removed in 2.0.0** — use Flutter's `showDialog` /
+> `SuperDialog` was **removed in 2.0.0** - use Flutter's `showDialog` /
 > `AlertDialog`, which `SuperMaterialThemeData` themes for you.
 >
-> `SuperText` was **removed in 2.4.0** — use `context.superTheme.textTheme.<field>`.
+> `SuperText` was **removed in 2.4.0** - use `context.superTheme.textTheme.<field>`.
+>
+> `SectionCard`, `SectionHeader`, `SuperSection`, and `SuperCard` were
+> **removed in 3.0.0** - use `SuperSectionCard` and `SuperSectionHeader`.
 
 ```dart
-// Expandable, selectable card with header + slots:
-SuperCard(
-  leading: const Icon(Icons.storefront_outlined),
-  header: const SectionHeader(title: 'Downtown Central Store'),
-  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
-  expandedChild: const StoreDetailTable(), // revealed on tap / chevron
+// Expandable, selectable card with a generated header:
+SuperSectionCard(
+  title: 'Downtown Central Store',
+  subtitle: 'Store ID: STR-0042',
+  marker: SuperMarker.identity,
+  headerTrailing: const StatusPill('ACTIVE', tone: PillTone.success),
+  expandedChild: const StoreDetailTable(),
   child: const StoreSummary(),
+);
+
+// Responsive page frame + grid:
+SuperScaffold(
+  maxWidth: 1120,
+  child: SuperGrid(
+    scope: SuperGridScope.current,
+    children: const [
+      SuperGridCell(mobile: 4, tablet: 4, desktop: 3, child: KpiCard()),
+      SuperGridCell(mobile: 4, tablet: 4, desktop: 9, child: DetailsPanel()),
+    ],
+  ),
 );
 
 // Themed dialog (SuperDialog is gone):

@@ -15,7 +15,12 @@ import 'hairline.dart';
 
 /// A single ALL-CAPS footer action link.
 class SuperFooterLink extends StatelessWidget {
-  const SuperFooterLink(this.label, {super.key, this.onTap, this.emphasized = false});
+  const SuperFooterLink(
+    this.label, {
+    super.key,
+    this.onTap,
+    this.emphasized = false,
+  });
 
   final String label;
   final VoidCallback? onTap;
@@ -29,9 +34,13 @@ class SuperFooterLink extends StatelessWidget {
     final th = SuperSectionFooterThemeData.of(context);
     final color = emphasized ? (th.emphasizedColor ?? t.tokens.accent) : t.fg4;
     final base = th.linkStyle ?? t.textTheme.label;
-    final text = Text(label.toUpperCase(),
-        style: base.copyWith(
-            color: color, letterSpacing: th.letterSpacing ?? 1.1));
+    final text = Text(
+      label.toUpperCase(),
+      style: base.copyWith(
+        color: color,
+        letterSpacing: th.letterSpacing ?? 1.1,
+      ),
+    );
     if (onTap == null) return text;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -65,30 +74,34 @@ class SuperSectionFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
+    final s = t.spacing;
     final th = SuperSectionFooterThemeData.of(context);
     final divider = showDivider ?? th.showDivider ?? true;
-    final brandStyle = (th.brandStyle ?? t.textTheme.label)
-        .copyWith(color: t.fg4, letterSpacing: th.letterSpacing ?? 1.1);
+    final brandStyle = (th.brandStyle ?? t.textTheme.label).copyWith(
+      color: t.fg4,
+      letterSpacing: th.letterSpacing ?? 1.1,
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (divider) const Hairline(),
         Padding(
           padding: EdgeInsets.symmetric(
-              vertical: th.verticalPadding ?? k.space3),
+            vertical: th.verticalPadding ?? s.space3,
+          ),
           child: Wrap(
             alignment: WrapAlignment.spaceBetween,
             crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: th.runSpacing ?? k.space2,
-            spacing: th.spacing ?? k.space4,
+            runSpacing: th.runSpacing ?? s.space2,
+            spacing: th.spacing ?? s.space4,
             children: [
               Text(brand.toUpperCase(), style: brandStyle),
               if (actions.isNotEmpty)
                 Wrap(
-                    spacing: th.spacing ?? k.space4,
-                    runSpacing: k.space2,
-                    children: actions),
+                  spacing: th.spacing ?? s.space4,
+                  runSpacing: s.space2,
+                  children: actions,
+                ),
             ],
           ),
         ),

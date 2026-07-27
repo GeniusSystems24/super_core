@@ -103,7 +103,7 @@ class SuperGridTile extends StatefulWidget {
 
   /// Builds a context menu shown on right-click / long-press.
   final List<PopupMenuEntry<Object?>> Function(BuildContext context)?
-      contextMenuBuilder;
+  contextMenuBuilder;
 
   final bool selected;
   final bool enabled;
@@ -172,7 +172,8 @@ class _SuperGridTileState extends State<SuperGridTile> {
   Widget build(BuildContext context) {
     final t = context.superTheme;
     final k = t.tokens;
-    final m = SuperTileMetrics.of(widget.density, k);
+    final s = t.spacing;
+    final m = SuperTileMetrics.of(widget.density, s);
     final disabled = !widget.enabled;
     final vs = SuperTileVisualState(
       hovered: _hovered,
@@ -181,7 +182,7 @@ class _SuperGridTileState extends State<SuperGridTile> {
       selected: widget.selected,
       disabled: disabled,
     );
-    final radius = widget.borderRadius ?? BorderRadius.circular(k.radiusCard);
+    final radius = widget.borderRadius ?? BorderRadius.circular(s.radiusCard);
     final fill = widget.selected
         ? superTileFill(t, vs, base: widget.background)
         : (widget.background ?? t.surface);
@@ -196,7 +197,7 @@ class _SuperGridTileState extends State<SuperGridTile> {
       duration: k.durBase,
       curve: k.curveStandard,
       transform: lifted
-          ? (Matrix4.identity()..translate(0.0, -2.0))
+          ? Matrix4.translationValues(0.0, -2.0, 0.0)
           : Matrix4.identity(),
       transformAlignment: Alignment.center,
       decoration: BoxDecoration(
@@ -240,8 +241,8 @@ class _SuperGridTileState extends State<SuperGridTile> {
         onLongPress: !widget.enabled || widget.loading
             ? null
             : (widget.contextMenuBuilder != null
-                ? () => _openContextMenu(context, _tapDown)
-                : widget.onLongPress),
+                  ? () => _openContextMenu(context, _tapDown)
+                  : widget.onLongPress),
         onTapDown: (d) {
           _tapDown = d.globalPosition;
           if (widget._interactive) setState(() => _pressed = true);
@@ -252,8 +253,8 @@ class _SuperGridTileState extends State<SuperGridTile> {
         onSecondaryTap: !widget.enabled || widget.loading
             ? null
             : (widget.contextMenuBuilder != null
-                ? () => _openContextMenu(context, _tapDown)
-                : widget.onSecondaryTap),
+                  ? () => _openContextMenu(context, _tapDown)
+                  : widget.onSecondaryTap),
         child: card,
       ),
     );
@@ -275,8 +276,11 @@ class _SuperGridTileState extends State<SuperGridTile> {
   // ── Content assembly ───────────────────────────────────────────────────────
 
   Widget _buildContent(
-      BuildContext context, SuperTileMetrics m, BorderRadius radius) {
-    final k = context.superTheme.tokens;
+    BuildContext context,
+    SuperTileMetrics m,
+    BorderRadius radius,
+  ) {
+    final s = context.superTheme.spacing;
     final pad = widget.padding ?? EdgeInsets.all(m.paddingH);
 
     final body = Column(
@@ -285,11 +289,11 @@ class _SuperGridTileState extends State<SuperGridTile> {
       children: [
         if (widget.header != null || widget.marker != null) ...[
           _buildHeader(context),
-          SizedBox(height: k.space3),
+          SizedBox(height: s.space3),
         ],
         if (widget.child != null) Flexible(child: widget.child!),
         if (widget.footer != null) ...[
-          SizedBox(height: k.space3),
+          SizedBox(height: s.space3),
           _buildFooter(context),
         ],
       ],
@@ -313,8 +317,8 @@ class _SuperGridTileState extends State<SuperGridTile> {
         Positioned.fill(child: stack),
         if (widget.badge != null)
           PositionedDirectional(
-            top: k.space3,
-            end: k.space3,
+            top: s.space3,
+            end: s.space3,
             child: widget.badge!,
           ),
         if (widget.actions != null && widget.actions!.isNotEmpty)
@@ -334,7 +338,7 @@ class _SuperGridTileState extends State<SuperGridTile> {
 
   Widget _buildHeader(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
+    final s = t.spacing;
     final header = widget.header == null
         ? null
         : DefaultTextStyle.merge(
@@ -345,7 +349,7 @@ class _SuperGridTileState extends State<SuperGridTile> {
     return Row(
       children: [
         SuperTileMarker(marker: widget.marker!, height: 16),
-        SizedBox(width: k.space3),
+        SizedBox(width: s.space3),
         if (header != null) Expanded(child: header),
       ],
     );
@@ -360,7 +364,9 @@ class _SuperGridTileState extends State<SuperGridTile> {
   }
 
   Widget _buildActions(BuildContext context) {
-    final k = context.superTheme.tokens;
+    final t = context.superTheme;
+    final k = t.tokens;
+    final s = t.spacing;
     final show = !widget.revealActionsOnHover || _hovered || _focused;
     return IgnorePointer(
       ignoring: !show,
@@ -370,12 +376,12 @@ class _SuperGridTileState extends State<SuperGridTile> {
         child: Align(
           alignment: AlignmentDirectional.topStart,
           child: Padding(
-            padding: EdgeInsets.all(k.space3),
+            padding: EdgeInsets.all(s.space3),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 for (var i = 0; i < widget.actions!.length; i++) ...[
-                  if (i > 0) SizedBox(width: k.space2),
+                  if (i > 0) SizedBox(width: s.space2),
                   widget.actions![i],
                 ],
               ],
@@ -387,7 +393,7 @@ class _SuperGridTileState extends State<SuperGridTile> {
   }
 
   Widget _buildSkeleton(BuildContext context, SuperTileMetrics m) {
-    final k = context.superTheme.tokens;
+    final s = context.superTheme.spacing;
     final pad = widget.padding ?? EdgeInsets.all(m.paddingH);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -402,9 +408,9 @@ class _SuperGridTileState extends State<SuperGridTile> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SuperTileShimmer(width: 90, height: 10),
-              SizedBox(height: k.space3),
+              SizedBox(height: s.space3),
               const SuperTileShimmer(width: 140, height: 20),
-              SizedBox(height: k.space3),
+              SizedBox(height: s.space3),
               const SuperTileShimmer(width: 70, height: 10),
             ],
           ),

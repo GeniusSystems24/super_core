@@ -52,8 +52,8 @@ class _SuperButtonState extends State<SuperButton> {
       bg = _down
           ? Color.alphaBlend(const Color(0x1A000000), cs.primary)
           : _hover
-              ? Color.alphaBlend(const Color(0x14FFFFFF), cs.primary)
-              : cs.primary;
+          ? Color.alphaBlend(const Color(0x14FFFFFF), cs.primary)
+          : cs.primary;
       fg = const Color(0xFFFFFFFF);
     } else {
       bg = _hover ? t.hover : const Color(0x00000000);
@@ -68,12 +68,12 @@ class _SuperButtonState extends State<SuperButton> {
       child: AnimatedContainer(
         duration: k.durBase,
         curve: k.curveStandard,
-        height: k.controlHeight,
-        padding: EdgeInsets.symmetric(horizontal: k.space4),
+        height: t.spacing.controlHeight,
+        padding: EdgeInsets.symmetric(horizontal: t.spacing.space4),
         decoration: BoxDecoration(
           color: bg,
           border: border,
-          borderRadius: BorderRadius.circular(k.radiusControl),
+          borderRadius: BorderRadius.circular(t.spacing.radiusControl),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -83,7 +83,7 @@ class _SuperButtonState extends State<SuperButton> {
                 data: IconThemeData(color: fg, size: 16),
                 child: widget.icon!,
               ),
-              SizedBox(width: k.space2),
+              SizedBox(width: t.spacing.space2),
             ],
             Text(widget.label, style: t.textTheme.button.copyWith(color: fg)),
           ],
@@ -94,13 +94,21 @@ class _SuperButtonState extends State<SuperButton> {
     return Opacity(
       opacity: widget._enabled ? 1 : 0.4,
       child: MouseRegion(
-        cursor: widget._enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+        cursor: widget._enabled
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.basic,
         onEnter: (_) => setState(() => _hover = true),
         onExit: (_) => setState(() => _hover = false),
         child: GestureDetector(
-          onTapDown: widget._enabled ? (_) => setState(() => _down = true) : null,
-          onTapUp: widget._enabled ? (_) => setState(() => _down = false) : null,
-          onTapCancel: widget._enabled ? () => setState(() => _down = false) : null,
+          onTapDown: widget._enabled
+              ? (_) => setState(() => _down = true)
+              : null,
+          onTapUp: widget._enabled
+              ? (_) => setState(() => _down = false)
+              : null,
+          onTapCancel: widget._enabled
+              ? () => setState(() => _down = false)
+              : null,
           onTap: widget.onPressed,
           child: child,
         ),
@@ -149,11 +157,11 @@ class _SuperIconButtonState extends State<SuperIconButton> {
         onTap: widget.onPressed,
         child: AnimatedContainer(
           duration: k.durBase,
-          width: k.iconButton,
-          height: k.iconButton,
+          width: t.sizing.iconButton,
+          height: t.sizing.iconButton,
           decoration: BoxDecoration(
             color: _hover ? t.inputBg : const Color(0x00000000),
-            borderRadius: BorderRadius.circular(k.radiusControl),
+            borderRadius: BorderRadius.circular(t.spacing.radiusControl),
           ),
           child: Icon(widget.icon, size: 16, color: fg),
         ),

@@ -1247,7 +1247,6 @@ class SuperMaterialThemeData extends ThemeData {
     // Neutral surface aliases. Component chrome reads from ColorScheme so an
     // explicitly supplied scheme remains authoritative; only the dedicated
     // input fill and tertiary text token come from SuperPalette.
-    final surface = cs.surfaceContainer;
     final surfaceHigh = cs.surfaceContainerHigh;
     final surfaceHighest = cs.surfaceContainerHighest;
     final inverseSurface = cs.inverseSurface;
@@ -1256,24 +1255,22 @@ class SuperMaterialThemeData extends ThemeData {
     final hover = surfaceHighest;
     final border = cs.outlineVariant;
     final brdStr = cs.outline;
-    final fg1 = cs.onSurface;
     final fg3 = isDark ? palette.darkFg3 : palette.lightFg3;
     final softShadow = cs.shadow.withValues(alpha: isDark ? 0.28 : 0.12);
     final strongShadow = cs.shadow.withValues(alpha: isDark ? 0.48 : 0.24);
 
     // Responsive typography (explicit override wins).
-    final tt = textTheme ?? _textTheme(m.mode, fg1, fg3, tokens);
-    iconTheme ??= IconThemeData(color: fg1, size: m.sizing.icon);
+    final tt = textTheme ?? _textTheme(m.mode, cs.onSurface, fg3, tokens);
+    iconTheme ??= IconThemeData(color: cs.onSurface, size: m.sizing.icon);
 
     // App-bar background follows the page background so the top chrome blends
     // with the Scaffold while cards and fields define the elevated layers.
-    final appBarBg = cs.surface;
 
     // Responsive input chrome — computed once and reused by both
     // inputDecorationTheme and dropdownMenuTheme.
     final inputDec =
         inputDecoration ??
-        _inputDecorationTheme(m, cs, tt, inputBg, border, fg1, fg3, tokens);
+        _inputDecorationTheme(m, cs, tt, inputBg, border, cs.onSurface, fg3);
 
     return ThemeData(
       // ── General Configuration ──
@@ -1311,8 +1308,8 @@ class SuperMaterialThemeData extends ThemeData {
       // ramp so they remain clearly separated from the Scaffold.
       scaffoldBackgroundColor: scaffoldBackgroundColor ?? cs.surface,
       canvasColor: canvasColor ?? cs.surface,
-      cardColor: cardColor ?? surface,
-      disabledColor: disabledColor ?? fg1.withValues(alpha: 0.38),
+      cardColor: cardColor ?? cs.surface,
+      disabledColor: disabledColor ?? cs.onSurface.withValues(alpha: 0.38),
       dividerColor: dividerColor ?? border,
       focusColor: focusColor ?? cs.primary.withValues(alpha: 0.12),
       highlightColor: highlightColor ?? cs.primary.withValues(alpha: 0.10),
@@ -1331,8 +1328,8 @@ class SuperMaterialThemeData extends ThemeData {
           appBarTheme ??
           SuperAppBarTheme(
             subtitleTextStyle: tt.bodySmall?.copyWith(color: fg3),
-            backgroundColor: appBarBg,
-            foregroundColor: fg1,
+            backgroundColor: cs.surface,
+            foregroundColor: cs.onSurface,
             surfaceTintColor: Colors.transparent,
             elevation: 0,
             shadowColor: Colors.transparent,
@@ -1340,11 +1337,14 @@ class SuperMaterialThemeData extends ThemeData {
             centerTitle: false,
             toolbarHeight: 56,
             titleTextStyle: tt.titleLarge,
-            iconTheme: IconThemeData(color: fg1, size: m.sizing.icon),
-            actionsIconTheme: IconThemeData(color: fg1, size: m.sizing.icon),
+            iconTheme: IconThemeData(color: cs.onSurface, size: m.sizing.icon),
+            actionsIconTheme: IconThemeData(
+              color: cs.onSurface,
+              size: m.sizing.icon,
+            ),
             // Status bar + navigation bar backgrounds track the app-bar color;
             // icon brightness is chosen automatically for contrast.
-            systemOverlayStyle: _systemOverlayStyle(appBarBg),
+            systemOverlayStyle: _systemOverlayStyle(cs.surface),
             // shape: isDark
             //     ? Border(
             //         bottom: BorderSide(
@@ -1359,24 +1359,24 @@ class SuperMaterialThemeData extends ThemeData {
 
       // ── Card ──
       // No hairline border at rest — shadow provides depth.
-      // borderColor is kept as the hover border (shown by SuperCard on hover).
+      // borderColor is kept as the hover border (shown by SuperSectionCard on hover).
       cardTheme:
           cardTheme ??
           SuperCardTheme(
-            color: surface,
+            color: isDark ? cs.surfaceContainerLow : cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: 0,
             shadowColor: softShadow,
             margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(m.spacing.radiusCard),
             ),
             expandDirection: Axis.vertical,
             expandDuration: tokens.durExpand,
             expandCurve: tokens.curveOut,
             toggleOnTap: true,
             showExpandIcon: true,
-            padding: m.padding.card,
+            padding: m.spacing.cardPadding,
             gap: m.spacing.md,
             selectedBorderColor: cs.primary,
           ),
@@ -1388,15 +1388,15 @@ class SuperMaterialThemeData extends ThemeData {
             style: ElevatedButton.styleFrom(
               backgroundColor: cs.primary,
               foregroundColor: cs.onPrimary,
-              disabledBackgroundColor: fg1.withValues(alpha: 0.12),
-              disabledForegroundColor: fg1.withValues(alpha: 0.38),
+              disabledBackgroundColor: cs.onSurface.withValues(alpha: 0.12),
+              disabledForegroundColor: cs.onSurface.withValues(alpha: 0.38),
               elevation: 0,
               shadowColor: Colors.transparent,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(tokens.radiusControl),
+                borderRadius: BorderRadius.circular(m.spacing.radiusControl),
               ),
-              minimumSize: Size(64, m.sizing.control),
-              padding: m.padding.control,
+              minimumSize: Size(64, m.spacing.controlHeight),
+              padding: m.spacing.controlPadding,
               textStyle: tt.labelLarge,
             ),
           ),
@@ -1407,13 +1407,13 @@ class SuperMaterialThemeData extends ThemeData {
           OutlinedButtonThemeData(
             style: OutlinedButton.styleFrom(
               foregroundColor: cs.primary,
-              disabledForegroundColor: fg1.withValues(alpha: 0.38),
+              disabledForegroundColor: cs.onSurface.withValues(alpha: 0.38),
               side: BorderSide(color: brdStr),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(tokens.radiusControl),
+                borderRadius: BorderRadius.circular(m.spacing.radiusControl),
               ),
-              minimumSize: Size(64, m.sizing.control),
-              padding: m.padding.control,
+              minimumSize: Size(64, m.spacing.controlHeight),
+              padding: m.spacing.controlPadding,
               textStyle: tt.labelLarge,
             ),
           ),
@@ -1424,11 +1424,11 @@ class SuperMaterialThemeData extends ThemeData {
           TextButtonThemeData(
             style: TextButton.styleFrom(
               foregroundColor: cs.primary,
-              disabledForegroundColor: fg1.withValues(alpha: 0.38),
+              disabledForegroundColor: cs.onSurface.withValues(alpha: 0.38),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(tokens.radiusControl),
+                borderRadius: BorderRadius.circular(m.spacing.radiusControl),
               ),
-              minimumSize: Size(48, m.sizing.control),
+              minimumSize: Size(48, m.spacing.controlHeight),
               padding: EdgeInsets.symmetric(
                 horizontal: m.spacing.md,
                 vertical: m.spacing.sm,
@@ -1444,13 +1444,13 @@ class SuperMaterialThemeData extends ThemeData {
             style: FilledButton.styleFrom(
               backgroundColor: cs.primary,
               foregroundColor: cs.onPrimary,
-              disabledBackgroundColor: fg1.withValues(alpha: 0.12),
-              disabledForegroundColor: fg1.withValues(alpha: 0.38),
+              disabledBackgroundColor: cs.onSurface.withValues(alpha: 0.12),
+              disabledForegroundColor: cs.onSurface.withValues(alpha: 0.38),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(tokens.radiusControl),
+                borderRadius: BorderRadius.circular(m.spacing.radiusControl),
               ),
-              minimumSize: Size(64, m.sizing.control),
-              padding: m.padding.control,
+              minimumSize: Size(64, m.spacing.controlHeight),
+              padding: m.spacing.controlPadding,
               textStyle: tt.labelLarge,
             ),
           ),
@@ -1460,11 +1460,11 @@ class SuperMaterialThemeData extends ThemeData {
           iconButtonTheme ??
           IconButtonThemeData(
             style: IconButton.styleFrom(
-              foregroundColor: fg1,
+              foregroundColor: cs.onSurface,
               highlightColor: cs.primary.withValues(alpha: 0.12),
               minimumSize: Size(m.sizing.iconButton, m.sizing.iconButton),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(tokens.radiusControl),
+                borderRadius: BorderRadius.circular(m.spacing.radiusControl),
               ),
             ),
           ),
@@ -1489,13 +1489,13 @@ class SuperMaterialThemeData extends ThemeData {
             selectedTileColor: cs.primary.withValues(alpha: 0.10),
             selectedColor: cs.primary,
             iconColor: fg3,
-            textColor: fg1,
+            textColor: cs.onSurface,
             subtitleTextStyle: tt.bodySmall,
             titleTextStyle: tt.bodyMedium,
             dense: false,
             minLeadingWidth: 24,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusControl),
+              borderRadius: BorderRadius.circular(m.spacing.radiusControl),
             ),
           ),
 
@@ -1503,12 +1503,12 @@ class SuperMaterialThemeData extends ThemeData {
       navigationBarTheme:
           navigationBarTheme ??
           NavigationBarThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             surfaceTintColor: Colors.transparent,
             elevation: isDark ? 0 : 1,
             indicatorColor: cs.primary.withValues(alpha: 0.15),
             indicatorShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusControl),
+              borderRadius: BorderRadius.circular(m.spacing.radiusControl),
             ),
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             iconTheme: WidgetStateProperty.resolveWith((states) {
@@ -1527,7 +1527,7 @@ class SuperMaterialThemeData extends ThemeData {
       navigationRailTheme:
           navigationRailTheme ??
           NavigationRailThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             elevation: 0,
             selectedIconTheme: IconThemeData(
               color: cs.primary,
@@ -1538,7 +1538,7 @@ class SuperMaterialThemeData extends ThemeData {
             unselectedLabelTextStyle: tt.labelMedium!.copyWith(color: fg3),
             indicatorColor: cs.primary.withValues(alpha: 0.15),
             indicatorShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusControl),
+              borderRadius: BorderRadius.circular(m.spacing.radiusControl),
             ),
             minWidth: 72,
             minExtendedWidth: 200,
@@ -1553,14 +1553,14 @@ class SuperMaterialThemeData extends ThemeData {
       drawerTheme:
           drawerTheme ??
           DrawerThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             surfaceTintColor: Colors.transparent,
             elevation: 8,
             shadowColor: strongShadow,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(tokens.radiusCard),
-                bottomRight: Radius.circular(tokens.radiusCard),
+                topRight: Radius.circular(m.spacing.radiusCard),
+                bottomRight: Radius.circular(m.spacing.radiusCard),
               ),
             ),
             width: 280,
@@ -1570,12 +1570,12 @@ class SuperMaterialThemeData extends ThemeData {
       dialogTheme:
           dialogTheme ??
           DialogThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             surfaceTintColor: Colors.transparent,
             elevation: 24,
             shadowColor: strongShadow,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(m.spacing.radiusCard),
             ),
             titleTextStyle: tt.titleLarge,
             contentTextStyle: tt.bodyMedium!.copyWith(color: fg3),
@@ -1585,13 +1585,13 @@ class SuperMaterialThemeData extends ThemeData {
       bottomSheetTheme:
           bottomSheetTheme ??
           BottomSheetThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             surfaceTintColor: Colors.transparent,
             elevation: 16,
             shadowColor: strongShadow,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
-                top: Radius.circular(tokens.radiusCard),
+                top: Radius.circular(m.spacing.radiusCard),
               ),
             ),
             showDragHandle: true,
@@ -1604,7 +1604,7 @@ class SuperMaterialThemeData extends ThemeData {
           ChipThemeData(
             backgroundColor: surfaceHigh,
             deleteIconColor: fg3,
-            disabledColor: fg1.withValues(alpha: 0.12),
+            disabledColor: cs.onSurface.withValues(alpha: 0.12),
             selectedColor: cs.primary.withValues(alpha: 0.20),
             labelStyle: tt.bodyMedium,
             secondaryLabelStyle: tt.bodyMedium!.copyWith(color: cs.primary),
@@ -1613,7 +1613,7 @@ class SuperMaterialThemeData extends ThemeData {
               vertical: m.spacing.xs,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusPill),
+              borderRadius: BorderRadius.circular(m.spacing.radiusPill),
               side: BorderSide(color: border),
             ),
             elevation: 0,
@@ -1627,12 +1627,12 @@ class SuperMaterialThemeData extends ThemeData {
       popupMenuTheme:
           popupMenuTheme ??
           PopupMenuThemeData(
-            color: surface,
+            color: cs.surface,
             surfaceTintColor: Colors.transparent,
             elevation: 8,
             shadowColor: strongShadow,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(m.spacing.radiusCard),
               side: BorderSide(color: brdStr),
             ),
             textStyle: tt.bodyMedium,
@@ -1646,7 +1646,7 @@ class SuperMaterialThemeData extends ThemeData {
           TooltipThemeData(
             decoration: BoxDecoration(
               color: inverseSurface,
-              borderRadius: BorderRadius.circular(tokens.radiusControl),
+              borderRadius: BorderRadius.circular(m.spacing.radiusControl),
             ),
             textStyle: tt.bodySmall!.copyWith(color: onInverseSurface),
             padding: EdgeInsets.symmetric(
@@ -1666,7 +1666,7 @@ class SuperMaterialThemeData extends ThemeData {
             actionTextColor: palette.shade300,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(m.spacing.radiusCard),
             ),
             elevation: 8,
           ),
@@ -1701,7 +1701,7 @@ class SuperMaterialThemeData extends ThemeData {
             linearTrackColor: cs.primary.withValues(alpha: 0.15),
             circularTrackColor: cs.primary.withValues(alpha: 0.15),
             linearMinHeight: 4,
-            refreshBackgroundColor: surface,
+            refreshBackgroundColor: cs.surface,
           ),
 
       // ── Switch ──
@@ -1713,7 +1713,7 @@ class SuperMaterialThemeData extends ThemeData {
                 return cs.onPrimary;
               }
               if (states.contains(WidgetState.disabled)) {
-                return fg1.withValues(alpha: 0.38);
+                return cs.onSurface.withValues(alpha: 0.38);
               }
               return cs.onSurfaceVariant;
             }),
@@ -1722,7 +1722,7 @@ class SuperMaterialThemeData extends ThemeData {
                 return cs.primary;
               }
               if (states.contains(WidgetState.disabled)) {
-                return fg1.withValues(alpha: 0.12);
+                return cs.onSurface.withValues(alpha: 0.12);
               }
               return surfaceHigh;
             }),
@@ -1743,7 +1743,7 @@ class SuperMaterialThemeData extends ThemeData {
                 return cs.primary;
               }
               if (states.contains(WidgetState.disabled)) {
-                return fg1.withValues(alpha: 0.12);
+                return cs.onSurface.withValues(alpha: 0.12);
               }
               return Colors.transparent;
             }),
@@ -1755,7 +1755,7 @@ class SuperMaterialThemeData extends ThemeData {
               return BorderSide(color: brdStr, width: 2);
             }),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.space1),
+              borderRadius: BorderRadius.circular(m.spacing.space1),
             ),
           ),
 
@@ -1813,7 +1813,7 @@ class SuperMaterialThemeData extends ThemeData {
               height: 54,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusControl),
+              borderRadius: BorderRadius.circular(m.spacing.radiusControl),
             ),
           ),
 
@@ -1821,7 +1821,7 @@ class SuperMaterialThemeData extends ThemeData {
       dataTableTheme:
           dataTableTheme ??
           DataTableThemeData(
-            headingRowColor: WidgetStateProperty.all(hover),
+            headingRowColor: WidgetStateProperty.all(cs.surfaceContainerLow),
             dataRowColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.selected)) {
                 return cs.primary.withValues(alpha: 0.10);
@@ -1831,18 +1831,18 @@ class SuperMaterialThemeData extends ThemeData {
               }
               return null;
             }),
-            headingTextStyle: tt.labelMedium!.copyWith(color: fg3),
+            headingTextStyle: tt.labelMedium!.copyWith(color: cs.onSurface),
             dataTextStyle: tt.bodyMedium,
             dividerThickness: 1,
             decoration: BoxDecoration(
               border: Border.all(color: border),
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(m.spacing.radiusCard),
             ),
             columnSpacing: m.spacing.xl,
             horizontalMargin: m.spacing.lg,
-            dataRowMinHeight: m.sizing.control,
-            dataRowMaxHeight: m.sizing.control,
-            headingRowHeight: m.sizing.control,
+            dataRowMinHeight: m.spacing.controlHeight,
+            dataRowMaxHeight: m.spacing.controlHeight,
+            headingRowHeight: m.spacing.controlHeight,
             checkboxHorizontalMargin: m.spacing.md,
           ),
 
@@ -1855,7 +1855,7 @@ class SuperMaterialThemeData extends ThemeData {
             iconColor: cs.primary,
             collapsedIconColor: fg3,
             textColor: cs.primary,
-            collapsedTextColor: fg1,
+            collapsedTextColor: cs.onSurface,
             childrenPadding: EdgeInsets.symmetric(
               horizontal: m.spacing.lg,
               vertical: m.spacing.sm,
@@ -1876,10 +1876,10 @@ class SuperMaterialThemeData extends ThemeData {
               backgroundColor: surfaceHigh,
               selectedBackgroundColor: cs.primary,
               selectedForegroundColor: cs.onPrimary,
-              foregroundColor: fg1,
+              foregroundColor: cs.onSurface,
               side: BorderSide(color: border),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(tokens.radiusControl),
+                borderRadius: BorderRadius.circular(m.spacing.radiusControl),
               ),
               textStyle: tt.labelLarge,
             ),
@@ -1890,13 +1890,13 @@ class SuperMaterialThemeData extends ThemeData {
           menuTheme ??
           MenuThemeData(
             style: MenuStyle(
-              backgroundColor: WidgetStateProperty.all(surface),
+              backgroundColor: WidgetStateProperty.all(cs.surface),
               surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
               elevation: WidgetStateProperty.all(8),
               shadowColor: WidgetStateProperty.all(strongShadow),
               shape: WidgetStateProperty.all(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(tokens.radiusCard),
+                  borderRadius: BorderRadius.circular(m.spacing.radiusCard),
                   side: BorderSide(color: brdStr),
                 ),
               ),
@@ -1915,12 +1915,12 @@ class SuperMaterialThemeData extends ThemeData {
                   states.contains(WidgetState.hovered)) {
                 return cs.primary.withValues(alpha: 0.70);
               }
-              return fg1.withValues(alpha: 0.25);
+              return cs.onSurface.withValues(alpha: 0.25);
             }),
             trackColor: WidgetStateProperty.all(Colors.transparent),
             trackBorderColor: WidgetStateProperty.all(Colors.transparent),
             thickness: WidgetStateProperty.all(4),
-            radius: Radius.circular(tokens.radiusPill),
+            radius: Radius.circular(m.spacing.radiusPill),
             interactive: true,
           ),
 
@@ -1949,7 +1949,7 @@ class SuperMaterialThemeData extends ThemeData {
       bannerTheme:
           bannerTheme ??
           MaterialBannerThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             surfaceTintColor: Colors.transparent,
             contentTextStyle: tt.bodyMedium,
             elevation: 0,
@@ -1962,17 +1962,17 @@ class SuperMaterialThemeData extends ThemeData {
       bottomAppBarTheme:
           bottomAppBarTheme ??
           BottomAppBarThemeData(
-            color: surface,
+            color: cs.surface,
             surfaceTintColor: Colors.transparent,
             elevation: isDark ? 0 : 1,
             shadowColor: softShadow,
-            height: m.sizing.control + m.spacing.md,
+            height: m.spacing.controlHeight + m.spacing.md,
             padding: EdgeInsets.symmetric(horizontal: m.spacing.sm),
           ),
       bottomNavigationBarTheme:
           bottomNavigationBarTheme ??
           BottomNavigationBarThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             selectedItemColor: cs.primary,
             unselectedItemColor: fg3,
             selectedLabelStyle: tt.labelSmall,
@@ -1989,16 +1989,16 @@ class SuperMaterialThemeData extends ThemeData {
       carouselViewTheme:
           carouselViewTheme ??
           CarouselViewThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             elevation: isDark ? 0 : 1,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(m.spacing.radiusCard),
             ),
           ),
       datePickerTheme:
           datePickerTheme ??
           DatePickerThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             surfaceTintColor: Colors.transparent,
             elevation: 24,
             shadowColor: strongShadow,
@@ -2012,7 +2012,7 @@ class SuperMaterialThemeData extends ThemeData {
             todayBorder: BorderSide(color: cs.primary),
             dividerColor: border,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(m.spacing.radiusCard),
             ),
           ),
       dropdownMenuTheme:
@@ -2021,7 +2021,7 @@ class SuperMaterialThemeData extends ThemeData {
             textStyle: tt.bodyMedium,
             inputDecorationTheme: inputDec,
             menuStyle: MenuStyle(
-              backgroundColor: WidgetStatePropertyAll(surface),
+              backgroundColor: WidgetStatePropertyAll(cs.surface),
               surfaceTintColor: const WidgetStatePropertyAll(
                 Colors.transparent,
               ),
@@ -2029,7 +2029,7 @@ class SuperMaterialThemeData extends ThemeData {
               shadowColor: WidgetStatePropertyAll(strongShadow),
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(tokens.radiusCard),
+                  borderRadius: BorderRadius.circular(m.spacing.radiusCard),
                   side: BorderSide(color: brdStr),
                 ),
               ),
@@ -2039,14 +2039,14 @@ class SuperMaterialThemeData extends ThemeData {
           menuBarTheme ??
           MenuBarThemeData(
             style: MenuStyle(
-              backgroundColor: WidgetStatePropertyAll(surface),
+              backgroundColor: WidgetStatePropertyAll(cs.surface),
               surfaceTintColor: const WidgetStatePropertyAll(
                 Colors.transparent,
               ),
               elevation: const WidgetStatePropertyAll(0),
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(tokens.radiusControl),
+                  borderRadius: BorderRadius.circular(m.spacing.radiusControl),
                 ),
               ),
               padding: WidgetStatePropertyAll(
@@ -2058,7 +2058,7 @@ class SuperMaterialThemeData extends ThemeData {
           menuButtonTheme ??
           MenuButtonThemeData(
             style: MenuItemButton.styleFrom(
-              foregroundColor: fg1,
+              foregroundColor: cs.onSurface,
               textStyle: tt.bodyMedium,
               padding: EdgeInsets.symmetric(
                 horizontal: m.spacing.md,
@@ -2079,7 +2079,7 @@ class SuperMaterialThemeData extends ThemeData {
             side: WidgetStatePropertyAll(BorderSide(color: border)),
             shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(tokens.radiusControl),
+                borderRadius: BorderRadius.circular(m.spacing.radiusControl),
               ),
             ),
             textStyle: WidgetStatePropertyAll(tt.bodyMedium),
@@ -2089,18 +2089,18 @@ class SuperMaterialThemeData extends ThemeData {
             padding: WidgetStatePropertyAll(
               EdgeInsets.symmetric(horizontal: m.spacing.lg),
             ),
-            constraints: BoxConstraints(minHeight: m.sizing.control),
+            constraints: BoxConstraints(minHeight: m.spacing.controlHeight),
           ),
       searchViewTheme:
           searchViewTheme ??
           SearchViewThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             surfaceTintColor: Colors.transparent,
             elevation: 8,
             dividerColor: border,
             side: BorderSide(color: border),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(m.spacing.radiusCard),
             ),
             headerHintStyle: tt.bodyLarge!.copyWith(color: fg3),
             headerTextStyle: tt.bodyLarge,
@@ -2115,7 +2115,7 @@ class SuperMaterialThemeData extends ThemeData {
       timePickerTheme:
           timePickerTheme ??
           TimePickerThemeData(
-            backgroundColor: surface,
+            backgroundColor: cs.surface,
             elevation: 24,
             hourMinuteColor: cs.primary.withValues(alpha: 0.12),
             hourMinuteTextColor: cs.primary,
@@ -2124,38 +2124,38 @@ class SuperMaterialThemeData extends ThemeData {
             dayPeriodBorderSide: BorderSide(color: border),
             dialBackgroundColor: inputBg,
             dialHandColor: cs.primary,
-            dialTextColor: fg1,
+            dialTextColor: cs.onSurface,
             entryModeIconColor: fg3,
             helpTextStyle: tt.labelMedium!.copyWith(color: fg3),
             hourMinuteTextStyle: tt.displaySmall,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(tokens.radiusCard),
+              borderRadius: BorderRadius.circular(m.spacing.radiusCard),
             ),
           ),
       toggleButtonsTheme:
           toggleButtonsTheme ??
           ToggleButtonsThemeData(
-            color: fg1,
+            color: cs.onSurface,
             selectedColor: cs.onPrimary,
             fillColor: cs.primary,
-            disabledColor: fg1.withValues(alpha: 0.38),
+            disabledColor: cs.onSurface.withValues(alpha: 0.38),
             borderColor: border,
             selectedBorderColor: cs.primary,
-            disabledBorderColor: fg1.withValues(alpha: 0.12),
+            disabledBorderColor: cs.onSurface.withValues(alpha: 0.12),
             hoverColor: cs.primary.withValues(alpha: 0.08),
             focusColor: cs.primary.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(tokens.radiusControl),
+            borderRadius: BorderRadius.circular(m.spacing.radiusControl),
             borderWidth: 1,
             textStyle: tt.labelLarge,
             constraints: BoxConstraints(
-              minHeight: m.sizing.control,
-              minWidth: m.sizing.control,
+              minHeight: m.spacing.controlHeight,
+              minWidth: m.spacing.controlHeight,
             ),
           ),
 
       // ── Deprecated ──
       buttonBarTheme: buttonBarTheme,
-      dialogBackgroundColor: dialogBackgroundColor ?? surface,
+      dialogBackgroundColor: dialogBackgroundColor ?? cs.surface,
       indicatorColor: indicatorColor ?? cs.primary,
     );
   }
@@ -2191,18 +2191,17 @@ class SuperMaterialThemeData extends ThemeData {
     Color border,
     Color fg1,
     Color fg3,
-    SuperTokensData tokens,
   ) {
     OutlineInputBorder outline(Color color, [double width = 1]) =>
         OutlineInputBorder(
-          borderRadius: BorderRadius.circular(tokens.radiusControl),
+          borderRadius: BorderRadius.circular(m.spacing.radiusControl),
           borderSide: BorderSide(color: color, width: width),
         );
     return InputDecorationTheme(
       filled: true,
       fillColor: inputBg,
       isDense: m.mode == SuperDeviceMode.desktop,
-      contentPadding: m.padding.field,
+      contentPadding: m.spacing.fieldPadding,
       constraints: BoxConstraints(minHeight: m.sizing.fieldComfortable),
       border: outline(border),
       enabledBorder: outline(border),

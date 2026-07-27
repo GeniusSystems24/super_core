@@ -24,7 +24,6 @@ class StatusPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
     final sem = SuperSemanticColors.of(context);
     final color = switch (tone) {
       PillTone.neutral => sem.neutral,
@@ -36,13 +35,20 @@ class StatusPill extends StatelessWidget {
     };
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: k.space2, vertical: k.space1),
+      padding: EdgeInsets.symmetric(
+        horizontal: t.spacing.space2,
+        vertical: t.spacing.space1,
+      ),
       decoration: BoxDecoration(
         color: color.subtle,
-        borderRadius: BorderRadius.circular(k.radiusPill),
+        borderRadius: BorderRadius.circular(t.spacing.radiusPill),
       ),
-      child: Text(label.toUpperCase(),
-          style: context.superTheme.textTheme.pill.copyWith(color: color.onSubtle)),
+      child: Text(
+        label.toUpperCase(),
+        style: context.superTheme.textTheme.pill.copyWith(
+          color: color.onSubtle,
+        ),
+      ),
     );
   }
 }

@@ -47,12 +47,16 @@ class SuperSliderController extends ChangeNotifier {
 
   /// Advance one page.
   void next() {
-    if (canGoNext) _animate?.call(_loop ? _index + 1 : (_index + 1).clamp(0, _count - 1));
+    if (canGoNext) {
+      _animate?.call(_loop ? _index + 1 : (_index + 1).clamp(0, _count - 1));
+    }
   }
 
   /// Go back one page.
   void previous() {
-    if (canGoPrevious) _animate?.call(_loop ? _index - 1 : (_index - 1).clamp(0, _count - 1));
+    if (canGoPrevious) {
+      _animate?.call(_loop ? _index - 1 : (_index - 1).clamp(0, _count - 1));
+    }
   }
 
   void _bind(int count, bool loop, void Function(int page) animate) {
@@ -76,7 +80,11 @@ class SuperSlider extends StatefulWidget {
     this.children,
     this.itemBuilder,
     this.itemCount,
-    this.visibleItems = const SuperResponsive<int>(mobile: 1, tablet: 2, desktop: 3),
+    this.visibleItems = const SuperResponsive<int>(
+      mobile: 1,
+      tablet: 2,
+      desktop: 3,
+    ),
     this.height,
     this.aspectRatio,
     this.gap,
@@ -89,10 +97,14 @@ class SuperSlider extends StatefulWidget {
     this.padding = EdgeInsets.zero,
     this.onIndexChanged,
     this.controller,
-  })  : assert(children != null || (itemBuilder != null && itemCount != null),
-            'Provide either children or itemBuilder + itemCount.'),
-        assert(height != null || aspectRatio != null,
-            'Provide either a height or an aspectRatio.');
+  }) : assert(
+         children != null || (itemBuilder != null && itemCount != null),
+         'Provide either children or itemBuilder + itemCount.',
+       ),
+       assert(
+         height != null || aspectRatio != null,
+         'Provide either a height or an aspectRatio.',
+       );
 
   /// Static item list. Mutually exclusive with [itemBuilder].
   final List<Widget>? children;
@@ -148,8 +160,9 @@ class _SuperSliderState extends State<SuperSlider> {
 
   int get _count => widget.itemCount ?? widget.children!.length;
 
-  Widget _itemAt(BuildContext c, int i) =>
-      widget.itemBuilder != null ? widget.itemBuilder!(c, i) : widget.children![i];
+  Widget _itemAt(BuildContext c, int i) => widget.itemBuilder != null
+      ? widget.itemBuilder!(c, i)
+      : widget.children![i];
 
   @override
   void initState() {
@@ -188,17 +201,24 @@ class _SuperSliderState extends State<SuperSlider> {
   void _animateTo(int page) {
     if (_page == null || !_page!.hasClients) return;
     final target = widget.loop ? page : page.clamp(0, _count - 1);
-    _page!.animateToPage(target,
-        duration: const Duration(milliseconds: 360), curve: Curves.easeOutCubic);
+    _page!.animateToPage(
+      target,
+      duration: const Duration(milliseconds: 360),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   PageController _ensureController(double fraction) {
     if (_page == null || (_fraction - fraction).abs() > 0.0001) {
-      final keepPage = _page?.hasClients == true ? _page!.page ?? _index.toDouble() : _index.toDouble();
+      final keepPage = _page?.hasClients == true
+          ? _page!.page ?? _index.toDouble()
+          : _index.toDouble();
       _page?.dispose();
       _fraction = fraction;
-      _page = PageController(viewportFraction: fraction, initialPage: keepPage.round())
-        ..addListener(_onScroll);
+      _page = PageController(
+        viewportFraction: fraction,
+        initialPage: keepPage.round(),
+      )..addListener(_onScroll);
       _pageOffset = keepPage;
     }
     return _page!;
@@ -223,7 +243,9 @@ class _SuperSliderState extends State<SuperSlider> {
     final t = context.superTheme;
     final m = t.metrics;
     final gap = widget.gap ?? m.spacing.md;
-    final visible = widget.visibleItems.resolve(SuperDeviceMode.of(context)).clamp(1, 99);
+    final visible = widget.visibleItems
+        .resolve(SuperDeviceMode.of(context))
+        .clamp(1, 99);
 
     return Padding(
       padding: widget.padding,
@@ -232,7 +254,10 @@ class _SuperSliderState extends State<SuperSlider> {
           final w = box.maxWidth;
           // Item extent honoring inter-item gaps and edge peek.
           final itemExtent =
-              ((w - gap * (visible - 1) - widget.peek * 2) / visible).clamp(1.0, w);
+              ((w - gap * (visible - 1) - widget.peek * 2) / visible).clamp(
+                1.0,
+                w,
+              );
           final fraction = ((itemExtent + gap) / w).clamp(0.05, 1.0);
           final controller = _ensureController(fraction);
           final vh = widget.height ?? (itemExtent / (widget.aspectRatio ?? 1));
@@ -274,13 +299,15 @@ class _SuperSliderState extends State<SuperSlider> {
                         _Arrow(
                           start: true,
                           onTap: () => _animateTo(
-                              widget.loop ? _pageOffset.round() - 1 : _index - 1),
+                            widget.loop ? _pageOffset.round() - 1 : _index - 1,
+                          ),
                           enabled: widget.loop || _index > 0,
                         ),
                         _Arrow(
                           start: false,
                           onTap: () => _animateTo(
-                              widget.loop ? _pageOffset.round() + 1 : _index + 1),
+                            widget.loop ? _pageOffset.round() + 1 : _index + 1,
+                          ),
                           enabled: widget.loop || _index < _count - 1,
                         ),
                       ],
@@ -289,7 +316,12 @@ class _SuperSliderState extends State<SuperSlider> {
                 ),
                 if (widget.showIndicator && _count > 1) ...[
                   SizedBox(height: m.spacing.md),
-                  _Indicator(count: _count, active: _index, accent: t.tokens.accent, idle: t.border),
+                  _Indicator(
+                    count: _count,
+                    active: _index,
+                    accent: t.tokens.accent,
+                    idle: t.border,
+                  ),
                 ],
               ],
             ),
@@ -302,7 +334,11 @@ class _SuperSliderState extends State<SuperSlider> {
 
 /// An edge navigation chevron overlaid on the viewport.
 class _Arrow extends StatelessWidget {
-  const _Arrow({required this.start, required this.onTap, required this.enabled});
+  const _Arrow({
+    required this.start,
+    required this.onTap,
+    required this.enabled,
+  });
   final bool start;
   final VoidCallback onTap;
   final bool enabled;
@@ -362,7 +398,8 @@ class _Indicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final k = context.superTheme.tokens;
+    final t = context.superTheme;
+    final k = t.tokens;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(count, (i) {
@@ -375,7 +412,7 @@ class _Indicator extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 3),
           decoration: BoxDecoration(
             color: on ? accent : idle,
-            borderRadius: BorderRadius.circular(k.radiusPill),
+            borderRadius: BorderRadius.circular(t.spacing.radiusPill),
           ),
         );
       }),

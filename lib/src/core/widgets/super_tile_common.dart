@@ -10,6 +10,7 @@
 import 'package:flutter/material.dart';
 
 import '../extensions/context_extensions.dart';
+import '../theme/super_spacing.dart';
 import '../theme/super_theme.dart';
 import '../theme/super_tokens.dart';
 
@@ -49,27 +50,27 @@ class SuperTileMetrics {
   /// Gap between leading / body / trailing clusters.
   final double gap;
 
-  /// Resolves the metrics for [density] against the ambient [tokens].
-  factory SuperTileMetrics.of(SuperTileDensity density, SuperTokensData k) {
+  /// Resolves the metrics for [density] against the ambient [spacing].
+  factory SuperTileMetrics.of(SuperTileDensity density, SuperSpacing s) {
     return switch (density) {
       SuperTileDensity.compact => SuperTileMetrics(
-          minHeight: 36,
-          paddingV: k.space1,
-          paddingH: k.space3,
-          gap: k.space2,
-        ),
+        minHeight: 36,
+        paddingV: s.space1,
+        paddingH: s.space3,
+        gap: s.space2,
+      ),
       SuperTileDensity.comfortable => SuperTileMetrics(
-          minHeight: 48,
-          paddingV: k.space2,
-          paddingH: k.space3,
-          gap: k.space3,
-        ),
+        minHeight: 48,
+        paddingV: s.space2,
+        paddingH: s.space3,
+        gap: s.space3,
+      ),
       SuperTileDensity.expanded => SuperTileMetrics(
-          minHeight: 60,
-          paddingV: k.space3,
-          paddingH: k.space4,
-          gap: k.space3,
-        ),
+        minHeight: 60,
+        paddingV: s.space3,
+        paddingH: s.space4,
+        gap: s.space3,
+      ),
     };
   }
 }
@@ -141,13 +142,14 @@ class SuperTileMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final k = context.superTheme.tokens;
+    final t = context.superTheme;
+    final k = t.tokens;
     return Container(
       width: k.markerWidth,
       height: height,
       decoration: BoxDecoration(
         color: k.markerColor(marker),
-        borderRadius: BorderRadius.circular(k.radiusPill),
+        borderRadius: BorderRadius.circular(t.spacing.radiusPill),
       ),
     );
   }

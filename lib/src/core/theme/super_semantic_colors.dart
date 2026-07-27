@@ -94,18 +94,20 @@ class SuperSemanticColor {
     Color? subtle,
     Color? onSubtle,
     Color? border,
-  }) =>
-      SuperSemanticColor(
-        solid: solid ?? this.solid,
-        onSolid: onSolid ?? this.onSolid,
-        subtle: subtle ?? this.subtle,
-        onSubtle: onSubtle ?? this.onSubtle,
-        border: border ?? this.border,
-      );
+  }) => SuperSemanticColor(
+    solid: solid ?? this.solid,
+    onSolid: onSolid ?? this.onSolid,
+    subtle: subtle ?? this.subtle,
+    onSubtle: onSubtle ?? this.onSubtle,
+    border: border ?? this.border,
+  );
 
   /// Linearly interpolates between two role sets.
   static SuperSemanticColor lerp(
-      SuperSemanticColor a, SuperSemanticColor b, double t) {
+    SuperSemanticColor a,
+    SuperSemanticColor b,
+    double t,
+  ) {
     return SuperSemanticColor(
       solid: Color.lerp(a.solid, b.solid, t)!,
       onSolid: Color.lerp(a.onSolid, b.onSolid, t)!,
@@ -169,13 +171,13 @@ class SuperSemanticColors extends ThemeExtension<SuperSemanticColors> {
 
   /// The role set for [intent].
   SuperSemanticColor byIntent(SuperSemanticIntent intent) => switch (intent) {
-        SuperSemanticIntent.info => info,
-        SuperSemanticIntent.success => success,
-        SuperSemanticIntent.warning => warning,
-        SuperSemanticIntent.danger => danger,
-        SuperSemanticIntent.accent => accent,
-        SuperSemanticIntent.neutral => neutral,
-      };
+    SuperSemanticIntent.info => info,
+    SuperSemanticIntent.success => success,
+    SuperSemanticIntent.warning => warning,
+    SuperSemanticIntent.danger => danger,
+    SuperSemanticIntent.accent => accent,
+    SuperSemanticIntent.neutral => neutral,
+  };
 
   /// Derives the full semantic set from an ambient [SuperThemeData] — using its
   /// token solids (`tokens.info/success/warning/danger/accent`), card [surface],
@@ -185,11 +187,11 @@ class SuperSemanticColors extends ThemeExtension<SuperSemanticColors> {
     final surface = t.surface;
     final dark = t.brightness == Brightness.dark;
     SuperSemanticColor build(Color base) => SuperSemanticColor.fromBase(
-          base,
-          surface: surface,
-          dark: dark,
-          neutralFg: t.fg1,
-        );
+      base,
+      surface: surface,
+      dark: dark,
+      neutralFg: t.fg1,
+    );
     return SuperSemanticColors(
       info: build(k.info),
       success: build(k.success),
@@ -220,19 +222,20 @@ class SuperSemanticColors extends ThemeExtension<SuperSemanticColors> {
     SuperSemanticColor? danger,
     SuperSemanticColor? accent,
     SuperSemanticColor? neutral,
-  }) =>
-      SuperSemanticColors(
-        info: info ?? this.info,
-        success: success ?? this.success,
-        warning: warning ?? this.warning,
-        danger: danger ?? this.danger,
-        accent: accent ?? this.accent,
-        neutral: neutral ?? this.neutral,
-      );
+  }) => SuperSemanticColors(
+    info: info ?? this.info,
+    success: success ?? this.success,
+    warning: warning ?? this.warning,
+    danger: danger ?? this.danger,
+    accent: accent ?? this.accent,
+    neutral: neutral ?? this.neutral,
+  );
 
   @override
   SuperSemanticColors lerp(
-      ThemeExtension<SuperSemanticColors>? other, double t) {
+    ThemeExtension<SuperSemanticColors>? other,
+    double t,
+  ) {
     if (other is! SuperSemanticColors) return this;
     return SuperSemanticColors(
       info: SuperSemanticColor.lerp(info, other.info, t),

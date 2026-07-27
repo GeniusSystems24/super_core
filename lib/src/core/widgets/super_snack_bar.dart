@@ -53,12 +53,14 @@ abstract final class SuperSnackBar {
     String? actionLabel,
     VoidCallback? onAction,
     Duration duration = const Duration(seconds: 4),
-  }) =>
-      show(context, message,
-          tone: SuperSnackBarTone.info,
-          actionLabel: actionLabel,
-          onAction: onAction,
-          duration: duration);
+  }) => show(
+    context,
+    message,
+    tone: SuperSnackBarTone.info,
+    actionLabel: actionLabel,
+    onAction: onAction,
+    duration: duration,
+  );
 
   /// Shows a success toast (ledger green).
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> success(
@@ -67,12 +69,14 @@ abstract final class SuperSnackBar {
     String? actionLabel,
     VoidCallback? onAction,
     Duration duration = const Duration(seconds: 4),
-  }) =>
-      show(context, message,
-          tone: SuperSnackBarTone.success,
-          actionLabel: actionLabel,
-          onAction: onAction,
-          duration: duration);
+  }) => show(
+    context,
+    message,
+    tone: SuperSnackBarTone.success,
+    actionLabel: actionLabel,
+    onAction: onAction,
+    duration: duration,
+  );
 
   /// Shows a warning toast (notes orange).
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> warning(
@@ -81,12 +85,14 @@ abstract final class SuperSnackBar {
     String? actionLabel,
     VoidCallback? onAction,
     Duration duration = const Duration(seconds: 4),
-  }) =>
-      show(context, message,
-          tone: SuperSnackBarTone.warning,
-          actionLabel: actionLabel,
-          onAction: onAction,
-          duration: duration);
+  }) => show(
+    context,
+    message,
+    tone: SuperSnackBarTone.warning,
+    actionLabel: actionLabel,
+    onAction: onAction,
+    duration: duration,
+  );
 
   /// Shows a danger toast (semantic red). Defaults to a longer 6s dwell so the
   /// error is readable.
@@ -96,12 +102,14 @@ abstract final class SuperSnackBar {
     String? actionLabel,
     VoidCallback? onAction,
     Duration duration = const Duration(seconds: 6),
-  }) =>
-      show(context, message,
-          tone: SuperSnackBarTone.danger,
-          actionLabel: actionLabel,
-          onAction: onAction,
-          duration: duration);
+  }) => show(
+    context,
+    message,
+    tone: SuperSnackBarTone.danger,
+    actionLabel: actionLabel,
+    onAction: onAction,
+    duration: duration,
+  );
 
   /// Builds the [SnackBar] without showing it — for passing to a custom
   /// [ScaffoldMessenger] call.
@@ -124,12 +132,12 @@ abstract final class SuperSnackBar {
       behavior: SnackBarBehavior.floating,
       duration: duration,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(k.radiusCard),
+        borderRadius: BorderRadius.circular(t.spacing.radiusCard),
       ),
       content: Row(
         children: [
           Icon(_toneIcon(tone), size: 20, color: color),
-          SizedBox(width: k.space3),
+          SizedBox(width: t.spacing.space3),
           Expanded(
             child: Text(message, style: t.textTheme.body.copyWith(color: fg)),
           ),
@@ -145,18 +153,21 @@ abstract final class SuperSnackBar {
     );
   }
 
-  static Color _toneColor(SuperSnackBarTone tone, ColorScheme cs, SuperTokensData k) =>
-      switch (tone) {
-        SuperSnackBarTone.info => cs.primary,
-        SuperSnackBarTone.success => k.success,
-        SuperSnackBarTone.warning => k.warning,
-        SuperSnackBarTone.danger => cs.error,
-      };
+  static Color _toneColor(
+    SuperSnackBarTone tone,
+    ColorScheme cs,
+    SuperTokensData k,
+  ) => switch (tone) {
+    SuperSnackBarTone.info => cs.primary,
+    SuperSnackBarTone.success => k.success,
+    SuperSnackBarTone.warning => k.warning,
+    SuperSnackBarTone.danger => cs.error,
+  };
 
   static IconData _toneIcon(SuperSnackBarTone tone) => switch (tone) {
-        SuperSnackBarTone.info => Icons.info_outline,
-        SuperSnackBarTone.success => Icons.check_circle_outline,
-        SuperSnackBarTone.warning => Icons.warning_amber_rounded,
-        SuperSnackBarTone.danger => Icons.error_outline,
-      };
+    SuperSnackBarTone.info => Icons.info_outline,
+    SuperSnackBarTone.success => Icons.check_circle_outline,
+    SuperSnackBarTone.warning => Icons.warning_amber_rounded,
+    SuperSnackBarTone.danger => Icons.error_outline,
+  };
 }

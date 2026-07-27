@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
 /// A comprehensive gallery of every `Super*` widget with all of its scenarios.
@@ -43,7 +43,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
       appBar: SuperAppBar(
         maxMobileActions: 1,
         title: const Text('Widget Gallery'),
-        subtitle: Text('SUPER CORE • v2.2.0',
+        subtitle: Text('SUPER CORE • v3.0.0',
             style: t.textTheme.eyebrow.copyWith(color: cs.primary)),
         actions: [
           if (widget.onThemeModeChanged != null) ...[
@@ -143,8 +143,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
           const _G('Hairline'),
           Row(children: [
             Expanded(
-                child:
-                    Text('Left', style: t.textTheme.body.copyWith(color: t.fg2))),
+                child: Text('Left',
+                    style: t.textTheme.body.copyWith(color: t.fg2))),
             const SizedBox(height: 24, child: Hairline(vertical: true)),
             Expanded(
                 child: Padding(
@@ -156,14 +156,14 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
           const SizedBox(height: 12),
           const Hairline(),
 
-          // ══ SuperCard ════════════════════════════════════════════════════
-          const _G('SuperCard'),
-          SuperCard(
+          // ══ SuperSectionCard ════════════════════════════════════════════════════
+          const _G('SuperSectionCard'),
+          SuperSectionCard(
             child: Text('Plain surface card.',
                 style: t.textTheme.body.copyWith(color: t.fg1)),
           ),
           const SizedBox(height: 8),
-          SuperCard(
+          SuperSectionCard(
             selected: _cardSelected,
             onTap: () => setState(() => _cardSelected = !_cardSelected),
             child: Text(
@@ -171,9 +171,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 style: t.textTheme.body.copyWith(color: t.fg1)),
           ),
           const SizedBox(height: 8),
-          SuperCard(
-            
-            header: const SectionHeader(
+          SuperSectionCard(
+            header: const SuperSectionHeader(
               title: 'Expandable — vertical',
               subtitle: 'Tap the card or chevron',
               marker: SuperMarker.ledger,
@@ -187,7 +186,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 style: t.textTheme.body.copyWith(color: t.fg1)),
           ),
           const SizedBox(height: 8),
-          SuperCard(
+          SuperSectionCard(
             expandDirection: Axis.horizontal,
             expandedChild: SizedBox(
               width: 180,
@@ -270,9 +269,9 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             showDivider: false,
           ),
 
-          // ══ SuperSection ═════════════════════════════════════════════════
-          const _G('SuperSection'),
-          SuperSection(
+          // ══ SuperSectionCard ═════════════════════════════════════════════════
+          const _G('SuperSectionCard'),
+          SuperSectionCard(
             eyebrow: 'STORES & PRODUCTS • STORES',
             title: 'Create Store',
             titleArabic: 'إنشاء متجر',
@@ -288,7 +287,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 style: t.textTheme.body.copyWith(color: t.fg2)),
           ),
           const SizedBox(height: 8),
-          SuperSection(
+          SuperSectionCard(
             title: 'Financial',
             subtitle: 'Header-only, style2 (no footer)',
             headerStyle: SuperSectionHeaderStyle.style2,
@@ -298,7 +297,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 style: t.textTheme.body.copyWith(color: t.fg2)),
           ),
           const SizedBox(height: 8),
-          SuperSection(
+          SuperSectionCard(
             card: false,
             title: 'Borderless',
             subtitle: 'card: false — no surface / border / shadow',
@@ -307,7 +306,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 style: t.textTheme.body.copyWith(color: t.fg2)),
           ),
           const SizedBox(height: 8),
-          SuperSection(
+          SuperSectionCard(
             collapsible: true,
             dividerAfterHeader: true,
             title: 'Additional Notes',
@@ -323,7 +322,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             ],
           ),
           const SizedBox(height: 8),
-          SuperSection(
+          SuperSectionCard(
             selected: _sectionSelected,
             onTap: () => setState(() => _sectionSelected = !_sectionSelected),
             title: 'Selectable Section',
@@ -478,8 +477,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('\$248,200.00',
-                      style:
-                          t.textTheme.mono.copyWith(color: t.fg1, fontSize: 22)),
+                      style: t.textTheme.mono
+                          .copyWith(color: t.fg1, fontSize: 22)),
                 ),
               ),
               SuperGridTile(
@@ -497,8 +496,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('18',
-                      style:
-                          t.textTheme.mono.copyWith(color: t.fg1, fontSize: 22)),
+                      style: t.textTheme.mono
+                          .copyWith(color: t.fg1, fontSize: 22)),
                 ),
               ),
               const SuperGridTile(loading: true, mediaHeight: 60),
@@ -509,8 +508,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('—',
-                      style:
-                          t.textTheme.mono.copyWith(color: t.fg3, fontSize: 22)),
+                      style: t.textTheme.mono
+                          .copyWith(color: t.fg3, fontSize: 22)),
                 ),
               ),
             ],
@@ -519,7 +518,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
           // ══ SuperAppBar ══════════════════════════════════════════════════
           const _G('SuperAppBar'),
           ClipRRect(
-            borderRadius: BorderRadius.circular(t.tokens.radiusCard),
+            borderRadius: BorderRadius.circular(t.spacing.radiusCard),
             child: SuperAppBar(
               primary: false,
               automaticallyImplyLeading: false,
@@ -575,7 +574,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
   // ── Local demo helpers ──────────────────────────────────────────────────
 
   Widget _fakeInput(SuperThemeData t, String hint, {bool error = false}) {
-    final k = t.tokens;
+    final k = t.spacing;
     return Container(
       height: k.controlHeight,
       alignment: AlignmentDirectional.centerStart,
@@ -590,14 +589,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
     );
   }
 
-  Widget _panel(SuperThemeData t, List<Widget> children) => Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: t.surface,
-          borderRadius: BorderRadius.circular(t.tokens.radiusCard),
-          border: Border.all(color: t.border),
-          boxShadow: t.cardShadow,
-        ),
+  Widget _panel(SuperThemeData t, List<Widget> children) => SuperSectionCard(
         child: Column(children: children),
       );
 
@@ -605,7 +597,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
 
   Widget _kpi(
       SuperThemeData t, String label, String value, SuperMarker marker) {
-    final k = t.tokens;
+    final k = t.spacing;
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -620,11 +612,11 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
         children: [
           Row(children: [
             Container(
-              width: k.markerWidth,
+              width: t.tokens.markerWidth,
               height: 16,
               margin: EdgeInsetsDirectional.only(end: k.space3),
               decoration: BoxDecoration(
-                color: k.markerColor(marker),
+                color: t.tokens.markerColor(marker),
                 borderRadius: BorderRadius.circular(k.radiusPill),
               ),
             ),

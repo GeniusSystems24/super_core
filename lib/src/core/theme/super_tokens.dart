@@ -2,11 +2,18 @@
 // core/theme/super_tokens.dart
 // ------------------------------------------------------------
 // SuperTokensData — the DYNAMIC brand-token bundle for the GeniusLink design
-// system. Prior to v2.0.0 these were compile-time `static const` values on an
-// `abstract final class SuperTokens`; they are now instance fields on this
-// immutable data class so a theme can override any of them. There are NO static
-// token constants — the only default values are the literals baked into the
-// constructor, and the sole default *instance* is [SuperTokensData.fallback].
+// system: the accent + semantic palette, the font families, the section-marker
+// bar dimensions, and the motion curves. Prior to v2.0.0 these were compile-time
+// `static const` values on an `abstract final class SuperTokens`; they are now
+// instance fields on this immutable data class so a theme can override any of
+// them. There are NO static token constants — the only default values are the
+// literals baked into the constructor, and the sole default *instance* is
+// [SuperTokensData.fallback].
+//
+// The spacing scale, corner radii, control heights and container insets moved
+// out of this bundle in v3.0.0 — read them from [SuperSpacing] instead
+// (`SuperThemeData.of(context).spacing`). SuperTokensData now carries only the
+// brand identity: colors, fonts, motion and the marker-bar geometry.
 //
 // The bundle is carried by [SuperThemeData.tokens] (registered as a
 // `ThemeExtension` by `SuperMaterialThemeData`) and surfaced directly as
@@ -15,8 +22,7 @@
 // static constant.
 //
 //   final tokens = SuperThemeData.of(context).tokens;
-//   SizedBox(height: tokens.space4);
-//   BorderRadius.circular(tokens.radiusCard);
+//   color: SuperMarker.ledger.resolve(tokens);
 //
 // Ported from `colors_and_type.css`.
 // ============================================================
@@ -24,8 +30,8 @@
 import 'package:flutter/widgets.dart';
 
 /// An immutable bundle of the theme-level GeniusLink brand tokens — the accent
-/// + semantic palette, font families, radii, the 4px spacing scale, control
-/// metrics, and motion curves.
+/// + semantic palette, font families, the section-marker bar dimensions, and
+/// the motion curves.
 ///
 /// Read the active bundle from the ambient theme — there are no static token
 /// constants to reach for:
@@ -33,6 +39,9 @@ import 'package:flutter/widgets.dart';
 /// ```dart
 /// final tokens = SuperThemeData.of(context).tokens; // or theme.tokens
 /// ```
+///
+/// Spacing, radii, control heights and insets live in [SuperSpacing]
+/// (`SuperThemeData.of(context).spacing`), not here.
 ///
 /// The default values are the literals baked into the constructor, so
 /// `const SuperTokensData()` is the canonical brand default and
@@ -56,28 +65,8 @@ class SuperTokensData {
     this.bodyFont = 'Inter',
     this.monoFont = 'JetBrainsMono',
     this.arabicFont = 'NotoNaskhArabic',
-    this.radiusControl = 4,
-    this.radiusMd = 6,
-    this.radiusCard = 8,
-    this.radiusPill = 12,
-    this.space1 = 4,
-    this.space2 = 8,
-    this.space3 = 12,
-    this.space4 = 16,
-    this.space6 = 24,
-    this.space8 = 32,
-    this.space10 = 40,
-    this.space16 = 64,
-    this.space20 = 80,
-    this.controlHeight = 40,
-    this.iconButton = 32,
     this.markerWidth = 4,
     this.markerHeight = 34,
-    this.contentColumn = 680,
-    this.fieldComfortable = 42,
-    this.fieldCompact = 36,
-    this.stepperSize = 24,
-    this.trailingIcon = 26,
     this.durFast = const Duration(milliseconds: 100),
     this.durBase = const Duration(milliseconds: 150),
     this.durExpand = const Duration(milliseconds: 200),
@@ -123,55 +112,7 @@ class SuperTokensData {
   /// Arabic face — Arabic glyph runs.
   final String arabicFont;
 
-  // ── Radii ──────────────────────────────────────────────────────────────
-
-  /// Control radius — inputs, buttons.
-  final double radiusControl;
-
-  /// Medium radius.
-  final double radiusMd;
-
-  /// Card radius — section cards (default).
-  final double radiusCard;
-
-  /// Pill radius — status pills, section-marker bar.
-  final double radiusPill;
-
-  // ── Spacing scale (4px base unit) ──────────────────────────────────────
-  /// 4px.
-  final double space1;
-
-  /// 8px.
-  final double space2;
-
-  /// 12px.
-  final double space3;
-
-  /// 16px.
-  final double space4;
-
-  /// 24px.
-  final double space6;
-
-  /// 32px.
-  final double space8;
-
-  /// 40px.
-  final double space10;
-
-  /// 64px.
-  final double space16;
-
-  /// 80px.
-  final double space20;
-
-  // ── Control metrics ────────────────────────────────────────────────────
-
-  /// Default control height — inputs + buttons.
-  final double controlHeight;
-
-  /// Square icon-button hit area.
-  final double iconButton;
+  // ── Section-marker geometry ───────────────────────────────────────────────
 
   /// Section-marker bar width.
   final double markerWidth;
@@ -179,21 +120,6 @@ class SuperTokensData {
   /// Section-marker bar height for a title + subtitle header. A title-only
   /// header uses an 18px bar sized to its cap height.
   final double markerHeight;
-
-  /// Centered page content-column width.
-  final double contentColumn;
-
-  /// Comfortable-density field height.
-  final double fieldComfortable;
-
-  /// Compact-density field height.
-  final double fieldCompact;
-
-  /// The +/- stepper button size on numeric fields.
-  final double stepperSize;
-
-  /// In-field trailing affordance (clear / reveal / calendar / error badge).
-  final double trailingIcon;
 
   // ── Motion ───────────────────────────────────────────────────────────────
 
@@ -247,28 +173,8 @@ class SuperTokensData {
     String? bodyFont,
     String? monoFont,
     String? arabicFont,
-    double? radiusControl,
-    double? radiusMd,
-    double? radiusCard,
-    double? radiusPill,
-    double? space1,
-    double? space2,
-    double? space3,
-    double? space4,
-    double? space6,
-    double? space8,
-    double? space10,
-    double? space16,
-    double? space20,
-    double? controlHeight,
-    double? iconButton,
     double? markerWidth,
     double? markerHeight,
-    double? contentColumn,
-    double? fieldComfortable,
-    double? fieldCompact,
-    double? stepperSize,
-    double? trailingIcon,
     Duration? durFast,
     Duration? durBase,
     Duration? durExpand,
@@ -286,28 +192,8 @@ class SuperTokensData {
     bodyFont: bodyFont ?? this.bodyFont,
     monoFont: monoFont ?? this.monoFont,
     arabicFont: arabicFont ?? this.arabicFont,
-    radiusControl: radiusControl ?? this.radiusControl,
-    radiusMd: radiusMd ?? this.radiusMd,
-    radiusCard: radiusCard ?? this.radiusCard,
-    radiusPill: radiusPill ?? this.radiusPill,
-    space1: space1 ?? this.space1,
-    space2: space2 ?? this.space2,
-    space3: space3 ?? this.space3,
-    space4: space4 ?? this.space4,
-    space6: space6 ?? this.space6,
-    space8: space8 ?? this.space8,
-    space10: space10 ?? this.space10,
-    space16: space16 ?? this.space16,
-    space20: space20 ?? this.space20,
-    controlHeight: controlHeight ?? this.controlHeight,
-    iconButton: iconButton ?? this.iconButton,
     markerWidth: markerWidth ?? this.markerWidth,
     markerHeight: markerHeight ?? this.markerHeight,
-    contentColumn: contentColumn ?? this.contentColumn,
-    fieldComfortable: fieldComfortable ?? this.fieldComfortable,
-    fieldCompact: fieldCompact ?? this.fieldCompact,
-    stepperSize: stepperSize ?? this.stepperSize,
-    trailingIcon: trailingIcon ?? this.trailingIcon,
     durFast: durFast ?? this.durFast,
     durBase: durBase ?? this.durBase,
     durExpand: durExpand ?? this.durExpand,
@@ -322,9 +208,9 @@ class SuperTokensData {
     if (identical(a, b)) return a;
     double d(double x, double y) => x + (y - x) * t;
     Duration dur(Duration x, Duration y) => Duration(
-      microseconds: (x.inMicroseconds +
-              (y.inMicroseconds - x.inMicroseconds) * t)
-          .round(),
+      microseconds:
+          (x.inMicroseconds + (y.inMicroseconds - x.inMicroseconds) * t)
+              .round(),
     );
     final snapB = t >= 0.5;
     return SuperTokensData(
@@ -339,28 +225,8 @@ class SuperTokensData {
       bodyFont: snapB ? b.bodyFont : a.bodyFont,
       monoFont: snapB ? b.monoFont : a.monoFont,
       arabicFont: snapB ? b.arabicFont : a.arabicFont,
-      radiusControl: d(a.radiusControl, b.radiusControl),
-      radiusMd: d(a.radiusMd, b.radiusMd),
-      radiusCard: d(a.radiusCard, b.radiusCard),
-      radiusPill: d(a.radiusPill, b.radiusPill),
-      space1: d(a.space1, b.space1),
-      space2: d(a.space2, b.space2),
-      space3: d(a.space3, b.space3),
-      space4: d(a.space4, b.space4),
-      space6: d(a.space6, b.space6),
-      space8: d(a.space8, b.space8),
-      space10: d(a.space10, b.space10),
-      space16: d(a.space16, b.space16),
-      space20: d(a.space20, b.space20),
-      controlHeight: d(a.controlHeight, b.controlHeight),
-      iconButton: d(a.iconButton, b.iconButton),
       markerWidth: d(a.markerWidth, b.markerWidth),
       markerHeight: d(a.markerHeight, b.markerHeight),
-      contentColumn: d(a.contentColumn, b.contentColumn),
-      fieldComfortable: d(a.fieldComfortable, b.fieldComfortable),
-      fieldCompact: d(a.fieldCompact, b.fieldCompact),
-      stepperSize: d(a.stepperSize, b.stepperSize),
-      trailingIcon: d(a.trailingIcon, b.trailingIcon),
       durFast: dur(a.durFast, b.durFast),
       durBase: dur(a.durBase, b.durBase),
       durExpand: dur(a.durExpand, b.durExpand),
@@ -383,28 +249,8 @@ class SuperTokensData {
       other.bodyFont == bodyFont &&
       other.monoFont == monoFont &&
       other.arabicFont == arabicFont &&
-      other.radiusControl == radiusControl &&
-      other.radiusMd == radiusMd &&
-      other.radiusCard == radiusCard &&
-      other.radiusPill == radiusPill &&
-      other.space1 == space1 &&
-      other.space2 == space2 &&
-      other.space3 == space3 &&
-      other.space4 == space4 &&
-      other.space6 == space6 &&
-      other.space8 == space8 &&
-      other.space10 == space10 &&
-      other.space16 == space16 &&
-      other.space20 == space20 &&
-      other.controlHeight == controlHeight &&
-      other.iconButton == iconButton &&
       other.markerWidth == markerWidth &&
       other.markerHeight == markerHeight &&
-      other.contentColumn == contentColumn &&
-      other.fieldComfortable == fieldComfortable &&
-      other.fieldCompact == fieldCompact &&
-      other.stepperSize == stepperSize &&
-      other.trailingIcon == trailingIcon &&
       other.durFast == durFast &&
       other.durBase == durBase &&
       other.durExpand == durExpand &&
@@ -424,28 +270,8 @@ class SuperTokensData {
     bodyFont,
     monoFont,
     arabicFont,
-    radiusControl,
-    radiusMd,
-    radiusCard,
-    radiusPill,
-    space1,
-    space2,
-    space3,
-    space4,
-    space6,
-    space8,
-    space10,
-    space16,
-    space20,
-    controlHeight,
-    iconButton,
     markerWidth,
     markerHeight,
-    contentColumn,
-    fieldComfortable,
-    fieldCompact,
-    stepperSize,
-    trailingIcon,
     durFast,
     durBase,
     durExpand,

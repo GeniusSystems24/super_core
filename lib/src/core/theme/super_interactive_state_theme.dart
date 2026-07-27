@@ -65,15 +65,15 @@ class SuperInteractiveStateThemeData
   /// brand accent; disabled content drops to 40% opacity.
   static const SuperInteractiveStateThemeData standard =
       SuperInteractiveStateThemeData(
-    accent: Color(0xFF4A7CFF),
-    hoverOpacity: 0.08,
-    focusOpacity: 0.12,
-    pressedOpacity: 0.12,
-    selectedOpacity: 0.10,
-    draggedOpacity: 0.16,
-    disabledOpacity: 0.40,
-    hoverSurface: Color(0xFF2A2A2A),
-  );
+        accent: Color(0xFF4A7CFF),
+        hoverOpacity: 0.08,
+        focusOpacity: 0.12,
+        pressedOpacity: 0.12,
+        selectedOpacity: 0.10,
+        draggedOpacity: 0.16,
+        disabledOpacity: 0.40,
+        hoverSurface: Color(0xFF2A2A2A),
+      );
 
   /// Derives an interactive-state treatment from a Material [ColorScheme]:
   /// overlays follow `cs.primary`; large-surface hover follows
@@ -97,13 +97,13 @@ class SuperInteractiveStateThemeData
 
   /// The overlay opacity for a single [state] (0 if none applies).
   double opacity(WidgetState state) => switch (state) {
-        WidgetState.hovered => hoverOpacity,
-        WidgetState.focused => focusOpacity,
-        WidgetState.pressed => pressedOpacity,
-        WidgetState.selected => selectedOpacity,
-        WidgetState.dragged => draggedOpacity,
-        _ => 0,
-      };
+    WidgetState.hovered => hoverOpacity,
+    WidgetState.focused => focusOpacity,
+    WidgetState.pressed => pressedOpacity,
+    WidgetState.selected => selectedOpacity,
+    WidgetState.dragged => draggedOpacity,
+    _ => 0,
+  };
 
   /// A [WidgetStateProperty] that tints [accent] by the appropriate overlay
   /// opacity for the resolved state set (pressed > focused > hovered).
@@ -134,21 +134,22 @@ class SuperInteractiveStateThemeData
     double? draggedOpacity,
     double? disabledOpacity,
     Color? hoverSurface,
-  }) =>
-      SuperInteractiveStateThemeData(
-        accent: accent ?? this.accent,
-        hoverOpacity: hoverOpacity ?? this.hoverOpacity,
-        focusOpacity: focusOpacity ?? this.focusOpacity,
-        pressedOpacity: pressedOpacity ?? this.pressedOpacity,
-        selectedOpacity: selectedOpacity ?? this.selectedOpacity,
-        draggedOpacity: draggedOpacity ?? this.draggedOpacity,
-        disabledOpacity: disabledOpacity ?? this.disabledOpacity,
-        hoverSurface: hoverSurface ?? this.hoverSurface,
-      );
+  }) => SuperInteractiveStateThemeData(
+    accent: accent ?? this.accent,
+    hoverOpacity: hoverOpacity ?? this.hoverOpacity,
+    focusOpacity: focusOpacity ?? this.focusOpacity,
+    pressedOpacity: pressedOpacity ?? this.pressedOpacity,
+    selectedOpacity: selectedOpacity ?? this.selectedOpacity,
+    draggedOpacity: draggedOpacity ?? this.draggedOpacity,
+    disabledOpacity: disabledOpacity ?? this.disabledOpacity,
+    hoverSurface: hoverSurface ?? this.hoverSurface,
+  );
 
   @override
   SuperInteractiveStateThemeData lerp(
-      ThemeExtension<SuperInteractiveStateThemeData>? other, double t) {
+    ThemeExtension<SuperInteractiveStateThemeData>? other,
+    double t,
+  ) {
     if (other is! SuperInteractiveStateThemeData) return this;
     return SuperInteractiveStateThemeData(
       accent: Color.lerp(accent, other.accent, t)!,

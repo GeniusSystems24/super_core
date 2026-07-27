@@ -40,7 +40,8 @@ import '../theme/super_app_bar_theme.dart';
 import '../theme/super_device_mode.dart';
 import '../theme/super_theme.dart';
 
-export '../theme/super_app_bar_theme.dart' show SubtitlePosition, SuperAppBarTheme;
+export '../theme/super_app_bar_theme.dart'
+    show SubtitlePosition, SuperAppBarTheme;
 
 /// A GeniusLink app bar forked from Material's [AppBar], with a positionable
 /// [subtitle] and responsive action overflow. Implements [PreferredSizeWidget]
@@ -243,7 +244,8 @@ class _SuperAppBarState extends State<SuperAppBar> {
   }
 
   void _handleScrollNotification(ScrollNotification notification) {
-    if (notification is ScrollUpdateNotification && defaultScrollNotificationPredicate(notification)) {
+    if (notification is ScrollUpdateNotification &&
+        defaultScrollNotificationPredicate(notification)) {
       final bool oldScrolledUnder = _scrolledUnder;
       final ScrollMetrics metrics = notification.metrics;
       _scrolledUnder = switch (metrics.axisDirection) {
@@ -252,7 +254,9 @@ class _SuperAppBarState extends State<SuperAppBar> {
         AxisDirection.right || AxisDirection.left => false,
       };
       if (_scrolledUnder != oldScrolledUnder) {
-        setState(() {/* rebuild for the scrolled-under elevation */});
+        setState(() {
+          /* rebuild for the scrolled-under elevation */
+        });
       }
     }
   }
@@ -265,7 +269,8 @@ class _SuperAppBarState extends State<SuperAppBar> {
       TargetPlatform.fuchsia ||
       TargetPlatform.linux ||
       TargetPlatform.windows => false,
-      TargetPlatform.iOS || TargetPlatform.macOS => widget.actions == null || widget.actions!.length < 2,
+      TargetPlatform.iOS || TargetPlatform.macOS =>
+        widget.actions == null || widget.actions!.length < 2,
     };
   }
 
@@ -279,34 +284,50 @@ class _SuperAppBarState extends State<SuperAppBar> {
     final ScaffoldState? scaffold = Scaffold.maybeOf(context);
 
     final bool hasDrawer = scaffold?.hasDrawer ?? false;
-    final bool useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    final bool useCloseButton =
+        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
 
     final SuperThemeData t = SuperThemeData.of(context);
     final Color backgroundColor =
-        widget.backgroundColor ?? appBarTheme.backgroundColor ?? colorScheme.surface;
+        widget.backgroundColor ??
+        appBarTheme.backgroundColor ??
+        colorScheme.surface;
     final Color foregroundColor =
-        widget.foregroundColor ?? appBarTheme.foregroundColor ?? colorScheme.onSurface;
+        widget.foregroundColor ??
+        appBarTheme.foregroundColor ??
+        colorScheme.onSurface;
     final double toolbarHeight =
-        widget.toolbarHeight ?? appBarTheme.toolbarHeight ?? _defaultToolbarHeight;
+        widget.toolbarHeight ??
+        appBarTheme.toolbarHeight ??
+        _defaultToolbarHeight;
     final double elevation = widget.elevation ?? appBarTheme.elevation ?? 0.0;
     final double scrolledUnderElevation =
-        widget.scrolledUnderElevation ?? appBarTheme.scrolledUnderElevation ?? 3.0;
-    final double effectiveElevation = _scrolledUnder ? scrolledUnderElevation : elevation;
+        widget.scrolledUnderElevation ??
+        appBarTheme.scrolledUnderElevation ??
+        3.0;
+    final double effectiveElevation = _scrolledUnder
+        ? scrolledUnderElevation
+        : elevation;
 
-    final IconThemeData overallIconTheme = widget.iconTheme ??
+    final IconThemeData overallIconTheme =
+        widget.iconTheme ??
         appBarTheme.iconTheme ??
         theme.iconTheme.copyWith(color: foregroundColor);
-    final IconThemeData actionsIconTheme = widget.actionsIconTheme ??
+    final IconThemeData actionsIconTheme =
+        widget.actionsIconTheme ??
         appBarTheme.actionsIconTheme ??
         overallIconTheme;
 
-    final TextStyle? toolbarTextStyle = widget.toolbarTextStyle ??
+    final TextStyle? toolbarTextStyle =
+        widget.toolbarTextStyle ??
         appBarTheme.toolbarTextStyle ??
         theme.textTheme.bodyMedium?.copyWith(color: foregroundColor);
-    final TextStyle titleTextStyle = widget.titleTextStyle ??
+    final TextStyle titleTextStyle =
+        widget.titleTextStyle ??
         appBarTheme.titleTextStyle ??
         t.textTheme.headlineSm.copyWith(color: foregroundColor);
-    final TextStyle subtitleStyle = widget.subtitleTextStyle ??
+    final TextStyle subtitleStyle =
+        widget.subtitleTextStyle ??
         appBarTheme.subtitleTextStyle ??
         t.textTheme.labelSm.copyWith(
           color: foregroundColor.withValues(alpha: 0.75),
@@ -315,13 +336,17 @@ class _SuperAppBarState extends State<SuperAppBar> {
 
     final bool centerTitle = _getEffectiveCenterTitle(theme, appBarTheme);
     final double titleSpacing =
-        widget.titleSpacing ?? appBarTheme.titleSpacing ?? NavigationToolbar.kMiddleSpacing;
+        widget.titleSpacing ??
+        appBarTheme.titleSpacing ??
+        NavigationToolbar.kMiddleSpacing;
 
     // ── Leading ──
     Widget? leading = widget.leading;
     if (leading == null && widget.automaticallyImplyLeading) {
       if (hasDrawer) {
-        leading = DrawerButton(onPressed: () => Scaffold.of(context).openDrawer());
+        leading = DrawerButton(
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        );
       } else if (parentRoute?.impliesAppBarDismissal ?? false) {
         leading = useCloseButton
             ? const CloseButton()
@@ -333,7 +358,9 @@ class _SuperAppBarState extends State<SuperAppBar> {
     }
     if (leading != null) {
       leading = ConstrainedBox(
-        constraints: BoxConstraints.tightFor(width: widget.leadingWidth ?? kToolbarHeight),
+        constraints: BoxConstraints.tightFor(
+          width: widget.leadingWidth ?? kToolbarHeight,
+        ),
         child: leading,
       );
     }
@@ -359,8 +386,9 @@ class _SuperAppBarState extends State<SuperAppBar> {
         title = Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment:
-              centerTitle ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+          crossAxisAlignment: centerTitle
+              ? CrossAxisAlignment.center
+              : CrossAxisAlignment.start,
           children: pos == SubtitlePosition.above ? [sub, title] : [title, sub],
         );
       }
@@ -369,7 +397,8 @@ class _SuperAppBarState extends State<SuperAppBar> {
     // ── Actions (with responsive overflow) ──
     Widget? actions;
     if (widget.actions != null && widget.actions!.isNotEmpty) {
-      final int limit = widget.maxActions ??
+      final int limit =
+          widget.maxActions ??
           (widget.maxMobileActions != null ||
                   widget.maxTabletActions != null ||
                   widget.maxDesktopActions != null
@@ -395,7 +424,11 @@ class _SuperAppBarState extends State<SuperAppBar> {
           ),
         ];
       }
-      actions = Row(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center, children: children);
+      actions = Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: children,
+      );
       actions = IconButtonTheme(
         data: IconButtonThemeData(
           style: IconButton.styleFrom(foregroundColor: actionsIconTheme.color),
@@ -442,7 +475,11 @@ class _SuperAppBarState extends State<SuperAppBar> {
           widget.bottomOpacity == 1.0
               ? widget.bottom!
               : Opacity(
-                  opacity: const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(widget.bottomOpacity),
+                  opacity: const Interval(
+                    0.25,
+                    1.0,
+                    curve: Curves.fastOutSlowIn,
+                  ).transform(widget.bottomOpacity),
                   child: widget.bottom,
                 ),
       ],
@@ -453,13 +490,22 @@ class _SuperAppBarState extends State<SuperAppBar> {
       appBar = Stack(
         fit: StackFit.passthrough,
         children: <Widget>[
-          Semantics(sortKey: const OrdinalSortKey(1.0), explicitChildNodes: true, child: widget.flexibleSpace),
-          Semantics(sortKey: const OrdinalSortKey(0.0), explicitChildNodes: true, child: appBar),
+          Semantics(
+            sortKey: const OrdinalSortKey(1.0),
+            explicitChildNodes: true,
+            child: widget.flexibleSpace,
+          ),
+          Semantics(
+            sortKey: const OrdinalSortKey(0.0),
+            explicitChildNodes: true,
+            child: appBar,
+          ),
         ],
       );
     }
 
-    final SystemUiOverlayStyle overlayStyle = widget.systemOverlayStyle ??
+    final SystemUiOverlayStyle overlayStyle =
+        widget.systemOverlayStyle ??
         appBarTheme.systemOverlayStyle ??
         _overlayStyleFor(backgroundColor);
 
@@ -468,18 +514,24 @@ class _SuperAppBarState extends State<SuperAppBar> {
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: overlayStyle,
         child: Material(
-          color: widget.forceMaterialTransparency ? Colors.transparent : backgroundColor,
-          elevation: widget.forceMaterialTransparency ? 0.0 : effectiveElevation,
-          shadowColor: widget.shadowColor ?? appBarTheme.shadowColor ?? theme.shadowColor,
-          surfaceTintColor: widget.surfaceTintColor ?? appBarTheme.surfaceTintColor ?? Colors.transparent,
+          color: widget.forceMaterialTransparency
+              ? Colors.transparent
+              : backgroundColor,
+          elevation: widget.forceMaterialTransparency
+              ? 0.0
+              : effectiveElevation,
+          shadowColor:
+              widget.shadowColor ??
+              appBarTheme.shadowColor ??
+              theme.shadowColor,
+          surfaceTintColor:
+              widget.surfaceTintColor ??
+              appBarTheme.surfaceTintColor ??
+              Colors.transparent,
           shape: widget.shape ?? appBarTheme.shape,
           child: Semantics(
             explicitChildNodes: true,
-            child: SafeArea(
-              bottom: false,
-              top: widget.primary,
-              child: appBar,
-            ),
+            child: SafeArea(bottom: false, top: widget.primary, child: appBar),
           ),
         ),
       ),
@@ -490,9 +542,12 @@ class _SuperAppBarState extends State<SuperAppBar> {
       widget.subtitle != null ? kToolbarHeight + 18.0 : kToolbarHeight;
 
   int _perDeviceLimit(SuperDeviceMode mode) => switch (mode) {
-    SuperDeviceMode.mobile => widget.maxMobileActions ?? SuperAppBarTheme.defaultMobileActions,
-    SuperDeviceMode.tablet => widget.maxTabletActions ?? SuperAppBarTheme.defaultTabletActions,
-    SuperDeviceMode.desktop => widget.maxDesktopActions ?? SuperAppBarTheme.defaultDesktopActions,
+    SuperDeviceMode.mobile =>
+      widget.maxMobileActions ?? SuperAppBarTheme.defaultMobileActions,
+    SuperDeviceMode.tablet =>
+      widget.maxTabletActions ?? SuperAppBarTheme.defaultTabletActions,
+    SuperDeviceMode.desktop =>
+      widget.maxDesktopActions ?? SuperAppBarTheme.defaultDesktopActions,
   };
 
   static SystemUiOverlayStyle _overlayStyleFor(Color background) {
@@ -502,7 +557,9 @@ class _SuperAppBarState extends State<SuperAppBar> {
       statusBarIconBrightness: darkBar ? Brightness.light : Brightness.dark,
       statusBarBrightness: darkBar ? Brightness.dark : Brightness.light,
       systemNavigationBarColor: background,
-      systemNavigationBarIconBrightness: darkBar ? Brightness.light : Brightness.dark,
+      systemNavigationBarIconBrightness: darkBar
+          ? Brightness.light
+          : Brightness.dark,
     );
   }
 }
@@ -532,11 +589,15 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 /// toolbar height plus the bottom's height. When [_hasSubtitle] is set and no
 /// explicit toolbar height was given, an allowance is added for the subtitle.
 class _PreferredSuperAppBarSize extends Size {
-  _PreferredSuperAppBarSize(this.toolbarHeight, this.bottomHeight, this.hasSubtitle)
-      : super.fromHeight(
-          (toolbarHeight ?? (hasSubtitle ? kToolbarHeight + 18.0 : kToolbarHeight)) +
-              (bottomHeight ?? 0),
-        );
+  _PreferredSuperAppBarSize(
+    this.toolbarHeight,
+    this.bottomHeight,
+    this.hasSubtitle,
+  ) : super.fromHeight(
+        (toolbarHeight ??
+                (hasSubtitle ? kToolbarHeight + 18.0 : kToolbarHeight)) +
+            (bottomHeight ?? 0),
+      );
 
   final double? toolbarHeight;
   final double? bottomHeight;

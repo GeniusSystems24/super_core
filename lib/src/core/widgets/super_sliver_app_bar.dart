@@ -31,12 +31,17 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show AsyncCallback;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show PersistentHeaderShowOnScreenConfiguration, FloatingHeaderSnapConfiguration, OverScrollHeaderStretchConfiguration;
+import 'package:flutter/rendering.dart'
+    show
+        PersistentHeaderShowOnScreenConfiguration,
+        FloatingHeaderSnapConfiguration,
+        OverScrollHeaderStretchConfiguration;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
 import 'super_app_bar.dart';
 
-export '../theme/super_app_bar_theme.dart' show SubtitlePosition, SuperAppBarTheme;
+export '../theme/super_app_bar_theme.dart'
+    show SubtitlePosition, SuperAppBarTheme;
 
 /// A GeniusLink sliver app bar forked from Material's [SliverAppBar], with a
 /// positionable [subtitle] and responsive action overflow.
@@ -281,7 +286,8 @@ class _SuperSliverAppBarState extends State<SuperSliverAppBar>
   @override
   void didUpdateWidget(SuperSliverAppBar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.snap != oldWidget.snap || widget.floating != oldWidget.floating) {
+    if (widget.snap != oldWidget.snap ||
+        widget.floating != oldWidget.floating) {
       _updateSnapConfiguration();
     }
     if (widget.stretch != oldWidget.stretch) {
@@ -292,20 +298,20 @@ class _SuperSliverAppBarState extends State<SuperSliverAppBar>
   @override
   Widget build(BuildContext context) {
     final double bottomHeight = widget.bottom?.preferredSize.height ?? 0.0;
-    final double topPadding =
-        widget.primary ? MediaQuery.paddingOf(context).top : 0.0;
+    final double topPadding = widget.primary
+        ? MediaQuery.paddingOf(context).top
+        : 0.0;
     final double collapsedHeight =
         (widget.pinned && widget.floating && widget.bottom != null)
-            ? (widget.collapsedHeight ?? 0.0) + bottomHeight + topPadding
-            : (widget.collapsedHeight ?? widget.toolbarHeight) +
-                bottomHeight +
-                topPadding;
+        ? (widget.collapsedHeight ?? 0.0) + bottomHeight + topPadding
+        : (widget.collapsedHeight ?? widget.toolbarHeight) +
+              bottomHeight +
+              topPadding;
     final double effectiveExpandedHeight =
         (widget.expandedHeight ?? widget.toolbarHeight) +
-            bottomHeight +
-            topPadding;
-    final double maxExtent =
-        math.max(effectiveExpandedHeight, collapsedHeight);
+        bottomHeight +
+        topPadding;
+    final double maxExtent = math.max(effectiveExpandedHeight, collapsedHeight);
 
     return MediaQuery.removePadding(
       context: context,
@@ -413,8 +419,8 @@ class _SuperSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.snapConfiguration,
     required this.stretchConfiguration,
     required this.showOnScreenConfiguration,
-  })  : _minExtent = minExtent,
-        _maxExtent = maxExtent;
+  }) : _minExtent = minExtent,
+       _maxExtent = maxExtent;
 
   @override
   final TickerProvider vsync;
@@ -474,31 +480,39 @@ class _SuperSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _maxExtent;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final double visibleMainHeight = maxExtent - shrinkOffset - topPadding;
-    final double extraToolbarHeight =
-        math.max(minExtent - topPadding - toolbarHeight - bottomHeight, 0.0);
+    final double extraToolbarHeight = math.max(
+      minExtent - topPadding - toolbarHeight - bottomHeight,
+      0.0,
+    );
     final double visibleToolbarHeight =
         visibleMainHeight - bottomHeight - extraToolbarHeight;
-    final bool isPinnedWithOpacityFade =
-        pinned && floating && bottom != null;
+    final bool isPinnedWithOpacityFade = pinned && floating && bottom != null;
     final double toolbarOpacity = (!pinned || isPinnedWithOpacityFade)
         ? (visibleToolbarHeight / toolbarHeight).clamp(0.0, 1.0)
         : 1.0;
     final double bottomOpacity = pinned
         ? 1.0
         : bottomHeight == 0
-            ? 1.0
-            : (visibleMainHeight / bottomHeight).clamp(0.0, 1.0);
+        ? 1.0
+        : (visibleMainHeight / bottomHeight).clamp(0.0, 1.0);
 
     final bool isScrolledUnder =
         overlapsContent || (pinned && shrinkOffset > maxExtent - minExtent);
     final double resting = elevation ?? 0.0;
-    final double effectiveElevation =
-        forceElevated || isScrolledUnder ? (scrolledUnderElevation ?? 3.0) : resting;
+    final double effectiveElevation = forceElevated || isScrolledUnder
+        ? (scrolledUnderElevation ?? 3.0)
+        : resting;
 
     final Color resolvedBg =
-        backgroundColor ?? Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).colorScheme.surface;
+        backgroundColor ??
+        Theme.of(context).appBarTheme.backgroundColor ??
+        Theme.of(context).colorScheme.surface;
     final bool hasFlexible = flexibleSpace != null;
 
     final Widget toolbar = SuperAppBar(

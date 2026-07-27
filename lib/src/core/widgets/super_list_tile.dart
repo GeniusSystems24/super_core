@@ -80,8 +80,10 @@ class SuperListTile extends StatefulWidget {
     this.contentPadding,
     this.borderRadius,
     this.semanticLabel,
-  }) : assert(title == null || titleText == null,
-            'Provide either title or titleText, not both.');
+  }) : assert(
+         title == null || titleText == null,
+         'Provide either title or titleText, not both.',
+       );
 
   // ── Content ────────────────────────────────────────────────────────────────
 
@@ -129,7 +131,7 @@ class SuperListTile extends StatefulWidget {
   /// Builds a context menu shown on right-click / long-press. Receives the
   /// global tap position.
   final List<PopupMenuEntry<Object?>> Function(BuildContext context)?
-      contextMenuBuilder;
+  contextMenuBuilder;
 
   /// Selected state — accent tint + border.
   final bool selected;
@@ -209,7 +211,8 @@ class _SuperListTileState extends State<SuperListTile> {
   Widget build(BuildContext context) {
     final t = context.superTheme;
     final k = t.tokens;
-    final m = SuperTileMetrics.of(_density, k);
+    final s = t.spacing;
+    final m = SuperTileMetrics.of(_density, s);
     final disabled = !widget.enabled;
     final vs = SuperTileVisualState(
       hovered: _hovered,
@@ -218,8 +221,9 @@ class _SuperListTileState extends State<SuperListTile> {
       selected: widget.selected,
       disabled: disabled,
     );
-    final radius = widget.borderRadius ??
-        BorderRadius.circular(widget.bordered ? k.radiusCard : k.radiusControl);
+    final radius =
+        widget.borderRadius ??
+        BorderRadius.circular(widget.bordered ? s.radiusCard : s.radiusControl);
     final fill = superTileFill(t, vs, base: widget.background);
     final border = superTileBorder(t, vs, bordered: widget.bordered);
 
@@ -231,7 +235,8 @@ class _SuperListTileState extends State<SuperListTile> {
       duration: k.durBase,
       curve: k.curveStandard,
       constraints: BoxConstraints(minHeight: m.minHeight),
-      padding: widget.contentPadding ??
+      padding:
+          widget.contentPadding ??
           EdgeInsets.symmetric(horizontal: m.paddingH, vertical: m.paddingV),
       decoration: BoxDecoration(
         color: fill,
@@ -269,8 +274,8 @@ class _SuperListTileState extends State<SuperListTile> {
         onLongPress: !widget.enabled || widget.loading
             ? null
             : (widget.contextMenuBuilder != null
-                ? () => _openContextMenu(context, _tapDown)
-                : widget.onLongPress),
+                  ? () => _openContextMenu(context, _tapDown)
+                  : widget.onLongPress),
         onTapDown: (d) {
           _tapDown = d.globalPosition;
           if (widget._interactive) setState(() => _pressed = true);
@@ -281,8 +286,8 @@ class _SuperListTileState extends State<SuperListTile> {
         onSecondaryTap: !widget.enabled || widget.loading
             ? null
             : (widget.contextMenuBuilder != null
-                ? () => _openContextMenu(context, _tapDown)
-                : widget.onSecondaryTap),
+                  ? () => _openContextMenu(context, _tapDown)
+                  : widget.onSecondaryTap),
         child: content,
       ),
     );
@@ -315,7 +320,7 @@ class _SuperListTileState extends State<SuperListTile> {
 
   Widget _buildContent(BuildContext context, SuperTileMetrics m) {
     final t = context.superTheme;
-    final k = t.tokens;
+    final s = t.spacing;
     final crossAxis = widget.alignment == SuperListTileAlignment.top
         ? CrossAxisAlignment.start
         : CrossAxisAlignment.center;
@@ -332,7 +337,7 @@ class _SuperListTileState extends State<SuperListTile> {
             marker: widget.marker!,
             height: m.minHeight - m.paddingV * 2,
           ),
-          SizedBox(width: k.space3),
+          SizedBox(width: s.space3),
         ],
         if (leading != null) ...[leading, SizedBox(width: m.gap)],
         Expanded(child: body),
@@ -344,12 +349,13 @@ class _SuperListTileState extends State<SuperListTile> {
   Widget? _buildLeading(BuildContext context, SuperTileMetrics m) {
     final t = context.superTheme;
     final k = t.tokens;
+    final s = t.spacing;
     if (widget.leadingWidgets != null && widget.leadingWidgets!.isNotEmpty) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           for (var i = 0; i < widget.leadingWidgets!.length; i++) ...[
-            if (i > 0) SizedBox(width: k.space2),
+            if (i > 0) SizedBox(width: s.space2),
             widget.leadingWidgets![i],
           ],
         ],
@@ -357,8 +363,9 @@ class _SuperListTileState extends State<SuperListTile> {
     }
     if (widget.leading != null) return widget.leading;
     if (widget.leadingIcon != null) {
-      final accent =
-          widget.marker != null ? k.markerColor(widget.marker!) : k.accent;
+      final accent = widget.marker != null
+          ? k.markerColor(widget.marker!)
+          : k.accent;
       final size = _density == SuperTileDensity.compact ? 32.0 : 38.0;
       return Container(
         width: size,
@@ -366,7 +373,7 @@ class _SuperListTileState extends State<SuperListTile> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: t.tint(accent, 0.12),
-          borderRadius: BorderRadius.circular(k.radiusControl + 2),
+          borderRadius: BorderRadius.circular(s.radiusControl + 2),
         ),
         child: Icon(widget.leadingIcon, size: size * 0.5, color: accent),
       );
@@ -376,15 +383,18 @@ class _SuperListTileState extends State<SuperListTile> {
 
   Widget _buildBody(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
-    final titleWidget = widget.title ??
+    final s = t.spacing;
+    final titleWidget =
+        widget.title ??
         (widget.titleText != null
             ? Text(
                 widget.titleText!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: t.textTheme.body.copyWith(
-                    color: t.fg1, fontWeight: FontWeight.w600),
+                  color: t.fg1,
+                  fontWeight: FontWeight.w600,
+                ),
               )
             : null);
 
@@ -403,20 +413,20 @@ class _SuperListTileState extends State<SuperListTile> {
                 ),
               ),
               if (widget.badge != null) ...[
-                SizedBox(width: k.space2),
+                SizedBox(width: s.space2),
                 widget.badge!,
               ],
             ],
           ),
         if (widget.subtitle != null) ...[
-          SizedBox(height: k.space1),
+          SizedBox(height: s.space1),
           DefaultTextStyle.merge(
             style: t.textTheme.caption.copyWith(color: t.fg3),
             child: widget.subtitle!,
           ),
         ],
         if (widget.supporting != null) ...[
-          SizedBox(height: k.space2),
+          SizedBox(height: s.space2),
           DefaultTextStyle.merge(
             style: t.textTheme.caption.copyWith(color: t.fg3),
             child: widget.supporting!,
@@ -427,14 +437,13 @@ class _SuperListTileState extends State<SuperListTile> {
   }
 
   Widget? _buildTrailing(BuildContext context, SuperTileMetrics m) {
-    final k = context.superTheme.tokens;
-    if (widget.trailingActions != null &&
-        widget.trailingActions!.isNotEmpty) {
+    final s = context.superTheme.spacing;
+    if (widget.trailingActions != null && widget.trailingActions!.isNotEmpty) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           for (var i = 0; i < widget.trailingActions!.length; i++) ...[
-            if (i > 0) SizedBox(width: k.space1),
+            if (i > 0) SizedBox(width: s.space1),
             widget.trailingActions![i],
           ],
         ],
@@ -454,11 +463,15 @@ class _SuperListTileState extends State<SuperListTile> {
   }
 
   Widget _buildSkeleton(BuildContext context, SuperTileMetrics m) {
-    final k = context.superTheme.tokens;
+    final s = context.superTheme.spacing;
     final size = _density == SuperTileDensity.compact ? 32.0 : 38.0;
     return Row(
       children: [
-        SuperTileShimmer(width: size, height: size, radius: k.radiusControl + 2),
+        SuperTileShimmer(
+          width: size,
+          height: size,
+          radius: s.radiusControl + 2,
+        ),
         SizedBox(width: m.gap),
         Expanded(
           child: Column(
@@ -466,7 +479,7 @@ class _SuperListTileState extends State<SuperListTile> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SuperTileShimmer(width: 180, height: 12),
-              SizedBox(height: k.space2),
+              SizedBox(height: s.space2),
               const SuperTileShimmer(width: 110, height: 10),
             ],
           ),

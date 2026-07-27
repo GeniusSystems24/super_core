@@ -5,7 +5,7 @@
 // super_core tools — no bespoke card chrome, no hand-tuned insets:
 //
 //   SuperAppBar               close / title / confirm
-//   SuperSection              the card shell (compact padding + section gap)
+//   SuperSectionCard              the card shell (compact padding + section gap)
 //   SuperSectionHeader.style2 marker bar + ALL-CAPS section title
 //   FieldShell                label (+ required asterisk) → control → hint
 //   SuperThemeData            surfaces, fg ramp, responsive metrics
@@ -63,10 +63,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         ],
       ),
       body: ListView(
-        padding: t.padding.page,
+        padding: t.spacing.pagePadding,
         children: [
           // ── ACCOUNT DETAILS ────────────────────────────────────────────────
-          SuperSection(
+          SuperSectionCard(
             title: 'Account Details',
             headerStyle: SuperSectionHeaderStyle.style2,
             children: [
@@ -117,7 +117,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           SizedBox(height: t.spacing.section),
 
           // ── USER RELATIONSHIP (drills down) ────────────────────────────────
-          SuperSection(
+          SuperSectionCard(
             title: 'User Relationship',
             headerStyle: SuperSectionHeaderStyle.style2,
             headerTrailing: const Icon(Icons.chevron_right),
@@ -126,7 +126,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           SizedBox(height: t.spacing.section),
 
           // ── ADDITIONAL INFORMATION ─────────────────────────────────────────
-          const SuperSection(
+          const SuperSectionCard(
             title: 'Additional Information',
             marker: SuperMarker.notes,
             headerStyle: SuperSectionHeaderStyle.style2,
@@ -160,7 +160,7 @@ class _ControlBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
+    final k = t.spacing;
 
     return Container(
       height: height ?? k.controlHeight,
@@ -191,7 +191,7 @@ class _Segmented extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
+    final k = t.spacing;
     final cs = Theme.of(context).colorScheme;
 
     return Container(
@@ -208,8 +208,8 @@ class _Segmented extends StatelessWidget {
                 behavior: HitTestBehavior.opaque,
                 onTap: () => onChanged(i),
                 child: AnimatedContainer(
-                  duration: k.durBase,
-                  curve: k.curveStandard,
+                  duration: t.tokens.durBase,
+                  curve: t.tokens.curveStandard,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: i == selectedIndex ? cs.primary : null,
@@ -288,7 +288,7 @@ class _InputBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-    final k = t.tokens;
+    final k = t.spacing;
     final multiline = (minLines ?? 1) > 1;
 
     final field = TextField(

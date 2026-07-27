@@ -4,7 +4,7 @@
 // ThemeExtensions that carry the configurable defaults for the section family:
 //   • SuperSectionHeaderThemeData — SuperSectionHeader
 //   • SuperSectionFooterThemeData — SuperSectionFooter / SuperFooterLink
-//   • SuperSectionThemeData       — SuperSection shell
+//   • SuperSectionThemeData       — SuperSectionCard shell
 //
 // Each is registered by SuperMaterialThemeData (ensure-present, like
 // SuperSemanticColors) so widgets read `X.of(context)` and fall back to their
@@ -99,31 +99,32 @@ class SuperSectionHeaderThemeData
     TextStyle? style2SubtitleStyle,
     double? gap,
     double? trailingIconSize,
-  }) =>
-      SuperSectionHeaderThemeData(
-        defaultMarker: defaultMarker ?? this.defaultMarker,
-        markerWidth: markerWidth ?? this.markerWidth,
-        markerRadius: markerRadius ?? this.markerRadius,
-        style2BarWidth: style2BarWidth ?? this.style2BarWidth,
-        style2BarHeight: style2BarHeight ?? this.style2BarHeight,
-        style2BarTailRadius: style2BarTailRadius ?? this.style2BarTailRadius,
-        iconChipSize: iconChipSize ?? this.iconChipSize,
-        iconChipRadius: iconChipRadius ?? this.iconChipRadius,
-        iconChipTintOpacity: iconChipTintOpacity ?? this.iconChipTintOpacity,
-        iconSize: iconSize ?? this.iconSize,
-        titleStyle: titleStyle ?? this.titleStyle,
-        subtitleStyle: subtitleStyle ?? this.subtitleStyle,
-        eyebrowStyle: eyebrowStyle ?? this.eyebrowStyle,
-        arabicStyle: arabicStyle ?? this.arabicStyle,
-        style2TitleStyle: style2TitleStyle ?? this.style2TitleStyle,
-        style2SubtitleStyle: style2SubtitleStyle ?? this.style2SubtitleStyle,
-        gap: gap ?? this.gap,
-        trailingIconSize: trailingIconSize ?? this.trailingIconSize,
-      );
+  }) => SuperSectionHeaderThemeData(
+    defaultMarker: defaultMarker ?? this.defaultMarker,
+    markerWidth: markerWidth ?? this.markerWidth,
+    markerRadius: markerRadius ?? this.markerRadius,
+    style2BarWidth: style2BarWidth ?? this.style2BarWidth,
+    style2BarHeight: style2BarHeight ?? this.style2BarHeight,
+    style2BarTailRadius: style2BarTailRadius ?? this.style2BarTailRadius,
+    iconChipSize: iconChipSize ?? this.iconChipSize,
+    iconChipRadius: iconChipRadius ?? this.iconChipRadius,
+    iconChipTintOpacity: iconChipTintOpacity ?? this.iconChipTintOpacity,
+    iconSize: iconSize ?? this.iconSize,
+    titleStyle: titleStyle ?? this.titleStyle,
+    subtitleStyle: subtitleStyle ?? this.subtitleStyle,
+    eyebrowStyle: eyebrowStyle ?? this.eyebrowStyle,
+    arabicStyle: arabicStyle ?? this.arabicStyle,
+    style2TitleStyle: style2TitleStyle ?? this.style2TitleStyle,
+    style2SubtitleStyle: style2SubtitleStyle ?? this.style2SubtitleStyle,
+    gap: gap ?? this.gap,
+    trailingIconSize: trailingIconSize ?? this.trailingIconSize,
+  );
 
   @override
   SuperSectionHeaderThemeData lerp(
-      ThemeExtension<SuperSectionHeaderThemeData>? other, double t) {
+    ThemeExtension<SuperSectionHeaderThemeData>? other,
+    double t,
+  ) {
     if (other is! SuperSectionHeaderThemeData) return this;
     double? d(double? a, double? b) =>
         (a == null && b == null) ? null : lerpDouble(a, b, t);
@@ -142,9 +143,16 @@ class SuperSectionHeaderThemeData
       subtitleStyle: TextStyle.lerp(subtitleStyle, other.subtitleStyle, t),
       eyebrowStyle: TextStyle.lerp(eyebrowStyle, other.eyebrowStyle, t),
       arabicStyle: TextStyle.lerp(arabicStyle, other.arabicStyle, t),
-      style2TitleStyle: TextStyle.lerp(style2TitleStyle, other.style2TitleStyle, t),
-      style2SubtitleStyle:
-          TextStyle.lerp(style2SubtitleStyle, other.style2SubtitleStyle, t),
+      style2TitleStyle: TextStyle.lerp(
+        style2TitleStyle,
+        other.style2TitleStyle,
+        t,
+      ),
+      style2SubtitleStyle: TextStyle.lerp(
+        style2SubtitleStyle,
+        other.style2SubtitleStyle,
+        t,
+      ),
       gap: d(gap, other.gap),
       trailingIconSize: d(trailingIconSize, other.trailingIconSize),
     );
@@ -196,21 +204,22 @@ class SuperSectionFooterThemeData
     double? verticalPadding,
     double? spacing,
     double? runSpacing,
-  }) =>
-      SuperSectionFooterThemeData(
-        showDivider: showDivider ?? this.showDivider,
-        brandStyle: brandStyle ?? this.brandStyle,
-        linkStyle: linkStyle ?? this.linkStyle,
-        emphasizedColor: emphasizedColor ?? this.emphasizedColor,
-        letterSpacing: letterSpacing ?? this.letterSpacing,
-        verticalPadding: verticalPadding ?? this.verticalPadding,
-        spacing: spacing ?? this.spacing,
-        runSpacing: runSpacing ?? this.runSpacing,
-      );
+  }) => SuperSectionFooterThemeData(
+    showDivider: showDivider ?? this.showDivider,
+    brandStyle: brandStyle ?? this.brandStyle,
+    linkStyle: linkStyle ?? this.linkStyle,
+    emphasizedColor: emphasizedColor ?? this.emphasizedColor,
+    letterSpacing: letterSpacing ?? this.letterSpacing,
+    verticalPadding: verticalPadding ?? this.verticalPadding,
+    spacing: spacing ?? this.spacing,
+    runSpacing: runSpacing ?? this.runSpacing,
+  );
 
   @override
   SuperSectionFooterThemeData lerp(
-      ThemeExtension<SuperSectionFooterThemeData>? other, double t) {
+    ThemeExtension<SuperSectionFooterThemeData>? other,
+    double t,
+  ) {
     if (other is! SuperSectionFooterThemeData) return this;
     double? d(double? a, double? b) =>
         (a == null && b == null) ? null : lerpDouble(a, b, t);
@@ -231,7 +240,7 @@ class SuperSectionFooterThemeData
 // SuperSectionThemeData
 // ════════════════════════════════════════════════════════════════════════════
 
-/// Configurable defaults for the `SuperSection` shell.
+/// Configurable defaults for the `SuperSectionCard` shell.
 @immutable
 class SuperSectionThemeData extends ThemeExtension<SuperSectionThemeData> {
   const SuperSectionThemeData({
@@ -292,26 +301,27 @@ class SuperSectionThemeData extends ThemeExtension<SuperSectionThemeData> {
     bool? dividerAfterHeader,
     Duration? expandDuration,
     Curve? expandCurve,
-  }) =>
-      SuperSectionThemeData(
-        card: card ?? this.card,
-        background: background ?? this.background,
-        borderColor: borderColor ?? this.borderColor,
-        selectedBorderColor: selectedBorderColor ?? this.selectedBorderColor,
-        selectedTintOpacity: selectedTintOpacity ?? this.selectedTintOpacity,
-        radius: radius ?? this.radius,
-        padding: padding ?? this.padding,
-        gap: gap ?? this.gap,
-        headerGap: headerGap ?? this.headerGap,
-        footerGap: footerGap ?? this.footerGap,
-        dividerAfterHeader: dividerAfterHeader ?? this.dividerAfterHeader,
-        expandDuration: expandDuration ?? this.expandDuration,
-        expandCurve: expandCurve ?? this.expandCurve,
-      );
+  }) => SuperSectionThemeData(
+    card: card ?? this.card,
+    background: background ?? this.background,
+    borderColor: borderColor ?? this.borderColor,
+    selectedBorderColor: selectedBorderColor ?? this.selectedBorderColor,
+    selectedTintOpacity: selectedTintOpacity ?? this.selectedTintOpacity,
+    radius: radius ?? this.radius,
+    padding: padding ?? this.padding,
+    gap: gap ?? this.gap,
+    headerGap: headerGap ?? this.headerGap,
+    footerGap: footerGap ?? this.footerGap,
+    dividerAfterHeader: dividerAfterHeader ?? this.dividerAfterHeader,
+    expandDuration: expandDuration ?? this.expandDuration,
+    expandCurve: expandCurve ?? this.expandCurve,
+  );
 
   @override
   SuperSectionThemeData lerp(
-      ThemeExtension<SuperSectionThemeData>? other, double t) {
+    ThemeExtension<SuperSectionThemeData>? other,
+    double t,
+  ) {
     if (other is! SuperSectionThemeData) return this;
     double? d(double? a, double? b) =>
         (a == null && b == null) ? null : lerpDouble(a, b, t);
@@ -319,15 +329,20 @@ class SuperSectionThemeData extends ThemeExtension<SuperSectionThemeData> {
       card: t < 0.5 ? card : other.card,
       background: Color.lerp(background, other.background, t),
       borderColor: Color.lerp(borderColor, other.borderColor, t),
-      selectedBorderColor:
-          Color.lerp(selectedBorderColor, other.selectedBorderColor, t),
+      selectedBorderColor: Color.lerp(
+        selectedBorderColor,
+        other.selectedBorderColor,
+        t,
+      ),
       selectedTintOpacity: d(selectedTintOpacity, other.selectedTintOpacity),
       radius: d(radius, other.radius),
       padding: EdgeInsetsGeometry.lerp(padding, other.padding, t),
       gap: d(gap, other.gap),
       headerGap: d(headerGap, other.headerGap),
       footerGap: d(footerGap, other.footerGap),
-      dividerAfterHeader: t < 0.5 ? dividerAfterHeader : other.dividerAfterHeader,
+      dividerAfterHeader: t < 0.5
+          ? dividerAfterHeader
+          : other.dividerAfterHeader,
       expandDuration: t < 0.5 ? expandDuration : other.expandDuration,
       expandCurve: t < 0.5 ? expandCurve : other.expandCurve,
     );

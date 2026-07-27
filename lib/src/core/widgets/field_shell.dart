@@ -51,8 +51,8 @@ class FieldShell extends StatelessWidget {
     final t = context.superTheme;
     final cs = Theme.of(context).colorScheme;
     final gap = density == FieldDensity.compact
-        ? t.tokens.space1
-        : t.tokens.space2;
+        ? t.spacing.space1
+        : t.spacing.space2;
 
     return Opacity(
       opacity: disabled ? 0.4 : 1,
@@ -81,7 +81,11 @@ class FieldShell extends StatelessWidget {
 }
 
 class _Label extends StatelessWidget {
-  const _Label({required this.text, required this.required, required this.color});
+  const _Label({
+    required this.text,
+    required this.required,
+    required this.color,
+  });
 
   final String text;
   final bool required;

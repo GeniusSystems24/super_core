@@ -1,0 +1,366 @@
+import 'package:flutter/material.dart';
+import 'package:super_core/super_core.dart';
+
+/// Example screen for the v3.0.0 Super layout primitives.
+class LayoutComponentsScreen extends StatelessWidget {
+  const LayoutComponentsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.superTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      backgroundColor: t.bg,
+      appBar: SuperAppBar(
+        title: const Text('Layout Components'),
+        subtitle: const Text('SUPER CORE - v3.0.0'),
+        subtitleTextStyle: t.textTheme.eyebrow.copyWith(
+          color: colorScheme.primary,
+        ),
+      ),
+      body: SuperScaffold(
+        maxWidth: 1120,
+        backgroundColor: t.bg,
+        child: ListView(
+          padding: EdgeInsets.only(bottom: t.spacing.space12),
+          children: [
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final breakpoint = SuperBreakpoint.ofWidth(
+                  constraints.maxWidth,
+                );
+                return SuperSectionCard(
+                  title: 'Responsive Page Frame',
+                  subtitle: 'SuperScaffold + SuperBreakpoint',
+                  icon: Icons.dashboard_customize_outlined,
+                  marker: SuperMarker.identity,
+                  child: SuperGrid(
+                    scope: SuperGridScope.current,
+                    children: [
+                      SuperGridCell(
+                        mobile: 4,
+                        tablet: 4,
+                        desktop: 3,
+                        child: _MetricTile(
+                          icon: Icons.width_normal_outlined,
+                          label: 'Width',
+                          value: '${constraints.maxWidth.round()} px',
+                        ),
+                      ),
+                      SuperGridCell(
+                        mobile: 4,
+                        tablet: 4,
+                        desktop: 3,
+                        child: _MetricTile(
+                          icon: Icons.view_column_outlined,
+                          label: 'Columns',
+                          value: '${breakpoint.columns}',
+                        ),
+                      ),
+                      SuperGridCell(
+                        mobile: 4,
+                        tablet: 4,
+                        desktop: 3,
+                        child: _MetricTile(
+                          icon: Icons.devices_outlined,
+                          label: 'Breakpoint',
+                          value: breakpoint.name,
+                        ),
+                      ),
+                      SuperGridCell(
+                        mobile: 4,
+                        tablet: 4,
+                        desktop: 3,
+                        child: _MetricTile(
+                          icon: Icons.space_bar_outlined,
+                          label: 'Section Gap',
+                          value: '${t.spacing.section.round()} px',
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: t.spacing.section),
+            const _SectionBlock(
+              title: 'Current-Width Grid',
+              subtitle: 'SuperGridScope.current',
+              child: SuperGrid(
+                scope: SuperGridScope.current,
+                children: [
+                  SuperGridCell(
+                    mobile: 4,
+                    tablet: 4,
+                    desktop: 4,
+                    child: _DemoTile(
+                      title: 'Identity',
+                      subtitle: '4 / 4 / 4 columns',
+                      marker: SuperMarker.identity,
+                      icon: Icons.badge_outlined,
+                    ),
+                  ),
+                  SuperGridCell(
+                    mobile: 4,
+                    tablet: 4,
+                    desktop: 4,
+                    child: _DemoTile(
+                      title: 'Ledger',
+                      subtitle: '4 / 4 / 4 columns',
+                      marker: SuperMarker.ledger,
+                      icon: Icons.account_balance_wallet_outlined,
+                    ),
+                  ),
+                  SuperGridCell(
+                    mobile: 4,
+                    tablet: 8,
+                    desktop: 4,
+                    child: _DemoTile(
+                      title: 'Notes',
+                      subtitle: '4 / 8 / 4 columns',
+                      marker: SuperMarker.notes,
+                      icon: Icons.description_outlined,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: t.spacing.section),
+            _SectionBlock(
+              title: 'Provider-Controlled Grid',
+              subtitle: 'SuperBreakpointProvider + SuperGridScope.provider',
+              child: SuperBreakpointProvider(
+                breakpoint: SuperBreakpoint.tablet,
+                child: Builder(
+                  builder: (context) {
+                    final breakpoint = SuperBreakpoint.of(context);
+                    final activeInset = SuperBreakpoints.resolve<double>(
+                      context,
+                      mobile: 12,
+                      tablet: 16,
+                      desktop: 20,
+                      large: 24,
+                    );
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Wrap(
+                          spacing: t.spacing.space2,
+                          runSpacing: t.spacing.space2,
+                          children: [
+                            StatusPill('BREAKPOINT ${breakpoint.name}'),
+                            StatusPill('${breakpoint.columns} COLUMNS'),
+                            StatusPill('INSET ${activeInset.round()} PX'),
+                          ],
+                        ),
+                        SizedBox(height: t.spacing.space4),
+                        const SuperGrid(
+                          scope: SuperGridScope.provider,
+                          children: [
+                            SuperGridCell(
+                              mobile: 4,
+                              tablet: 3,
+                              desktop: 4,
+                              child: _DemoTile(
+                                title: 'A',
+                                subtitle: 'tablet span 3',
+                                marker: SuperMarker.identity,
+                              ),
+                            ),
+                            SuperGridCell(
+                              mobile: 4,
+                              tablet: 5,
+                              desktop: 4,
+                              child: _DemoTile(
+                                title: 'B',
+                                subtitle: 'tablet span 5',
+                                marker: SuperMarker.ledger,
+                              ),
+                            ),
+                            SuperGridCell(
+                              mobile: 4,
+                              tablet: 8,
+                              desktop: 4,
+                              child: _DemoTile(
+                                title: 'C',
+                                subtitle: 'tablet span 8',
+                                marker: SuperMarker.notes,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: t.spacing.section),
+            const _SectionBlock(
+              title: 'Responsive Ordering',
+              subtitle: 'SuperGridCell order fields',
+              child: SuperGrid(
+                scope: SuperGridScope.current,
+                children: [
+                  SuperGridCell(
+                    mobile: 4,
+                    tablet: 4,
+                    desktop: 3,
+                    mobileOrder: 3,
+                    desktopOrder: 1,
+                    child: _DemoTile(
+                      title: 'Summary',
+                      subtitle: 'mobile 3 / desktop 1',
+                      marker: SuperMarker.identity,
+                    ),
+                  ),
+                  SuperGridCell(
+                    mobile: 4,
+                    tablet: 4,
+                    desktop: 6,
+                    mobileOrder: 1,
+                    desktopOrder: 2,
+                    child: _DemoTile(
+                      title: 'Details',
+                      subtitle: 'mobile 1 / desktop 2',
+                      marker: SuperMarker.ledger,
+                    ),
+                  ),
+                  SuperGridCell(
+                    mobile: 4,
+                    tablet: 8,
+                    desktop: 3,
+                    mobileOrder: 2,
+                    desktopOrder: 3,
+                    child: _DemoTile(
+                      title: 'Activity',
+                      subtitle: 'mobile 2 / desktop 3',
+                      marker: SuperMarker.notes,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionBlock extends StatelessWidget {
+  const _SectionBlock({
+    required this.title,
+    required this.subtitle,
+    required this.child,
+  });
+
+  final String title;
+  final String subtitle;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.superTheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SuperSectionHeader(
+          title: title,
+          subtitle: subtitle,
+          style: SuperSectionHeaderStyle.style2,
+          icon: Icons.grid_view_outlined,
+        ),
+        SizedBox(height: t.spacing.space4),
+        child,
+      ],
+    );
+  }
+}
+
+class _MetricTile extends StatelessWidget {
+  const _MetricTile({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.superTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: t.spacing.compactCardPadding,
+      decoration: BoxDecoration(
+        color: t.inputBg,
+        borderRadius: t.spacing.cardBorderRadius,
+        border: Border.all(color: t.border),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: colorScheme.primary, size: t.sizing.icon),
+          SizedBox(width: t.spacing.space3),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  label.toUpperCase(),
+                  style: t.textTheme.labelSm.copyWith(color: t.fg3),
+                ),
+                SizedBox(height: t.spacing.space1),
+                Text(
+                  value,
+                  style: t.textTheme.titleMd.copyWith(color: t.fg1),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DemoTile extends StatelessWidget {
+  const _DemoTile({
+    required this.title,
+    required this.subtitle,
+    required this.marker,
+    this.icon,
+  });
+
+  final String title;
+  final String subtitle;
+  final SuperMarker marker;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.superTheme;
+    return SuperSectionCard(
+      padding: t.spacing.compactCardPadding,
+      title: title,
+      subtitle: subtitle,
+      marker: marker,
+      icon: icon,
+      headerStyle: SuperSectionHeaderStyle.style2,
+      child: SizedBox(
+        height: t.spacing.space6,
+        child: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Text(
+            marker.name.toUpperCase(),
+            style: t.textTheme.mono.copyWith(color: t.fg2),
+          ),
+        ),
+      ),
+    );
+  }
+}

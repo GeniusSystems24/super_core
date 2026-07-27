@@ -12,7 +12,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_core: ^2.0.0  # monorepo path dependency
+  super_core: ^3.0.0  # monorepo path dependency
 ```
 
 Then import the barrel:
@@ -46,6 +46,7 @@ import 'package:super_core/super_core.dart';
 | `SuperMaterialThemeData` | Complete Material 3 theme — **a `ThemeData` subclass** (palette + responsive `SuperDeviceMode`) |
 | `SuperDeviceMode` | `mobile` / `tablet` / `desktop` device mode + `SuperResponsive<T>` container |
 | `SuperMetrics` | Responsive spacing / sizing / padding / margin token bundle |
+| Layout | `SuperBreakpoint`, `SuperBreakpoints`, `SuperBreakpointProvider`, `SuperGrid`, `SuperGridCell`, `SuperGridScope`, `SuperScaffold` |
 | `SuperInteractiveStateThemeData` | Hover / focus / pressed / selected overlay treatment (`ThemeExtension`) |
 | `SuperTokensData` | **Dynamic** brand tokens carried by the theme (accent + semantic palette, font families, spacing, radii, motion). Read via `SuperThemeData.of(context).tokens`. |
 | `SuperThemeData` | Swappable light/dark `ThemeExtension` — surfaces, borders, `fg1…fg4` text ramp, `tokens`, and `textTheme` |
@@ -56,16 +57,112 @@ import 'package:super_core/super_core.dart';
 | `SuperColorX` | Color-extension helpers — HSL tonal ops, WCAG 2.1 contrast, hex parse/format |
 | `SuperFormat` | Intl-free number / currency / byte / serial formatters |
 | `SuperMarker` | Three section-marker intents (identity / ledger / notes) |
-| Widgets | `SectionCard`, `SectionHeader`, `AccentSectionCard`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell`, `SuperCard`, `SuperSnackBar`, `SuperAppBar`, `SuperSliverAppBar`, `SuperSection`, `SuperSectionHeader`, `SuperSectionFooter`, `SuperListTile`, `SuperGridTile`, `SuperSlider` |
+| Widgets | `SuperSectionCard`, `SuperSectionHeader`, `SuperSectionFooter`, `AccentSectionCard`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell`, `SuperSnackBar`, `SuperAppBar`, `SuperSliverAppBar`, `SuperListTile`, `SuperGridTile`, `SuperSlider` |
 | Plumbing | Failures, typedefs, usecases, key-direction + `BuildContext` helpers |
 
-> **Migrating from v2.3?** `SuperText.<field>` → `context.superTheme.textTheme.<field>`.
-> `SuperCard.background` → `SuperCard.color`. `SectionCard` and `SuperCard` no
-> longer have `leading` / `trailing` slots — remove those parameters.
+> **Migrating from v2.4?** `SectionCard`, `SuperSection`, and `SuperCard` are
+> replaced by `SuperSectionCard`; `SectionHeader` is replaced by
+> `SuperSectionHeader`. See `skill/migration_v2.4.0_to_v3.0.0/`.
 >
 > **Migrating from v1?** `SuperTokens.x` → `SuperThemeData.of(context).tokens.x`.
 > `SuperDialog` is removed — use Flutter's `showDialog` / `AlertDialog`.
 > See the `skill/migration_v1_to_v2/` guides.
+
+---
+
+
+## v3.0.0 Layout and Section APIs
+
+### Consolidated section components
+
+Use `SuperSectionCard` for the surfaces that were previously split across
+`SectionCard`, `SuperSection`, and `SuperCard`:
+
+```dart
+SuperSectionCard(
+  title: 'Financial',
+  subtitle: 'Linked control account and terms',
+  headerStyle: SuperSectionHeaderStyle.style2,
+  icon: Icons.sync_alt,
+  children: const [
+    AccountField(),
+    TermsField(),
+  ],
+);
+
+SuperSectionCard(
+  color: context.superTheme.inputBg,
+  selected: selected,
+  onTap: onSelect,
+  expandedChild: const StoreDetails(),
+  child: const StoreSummary(),
+);
+```
+
+Use `SuperSectionHeader` for all section headers:
+
+```dart
+SuperSectionHeader(
+  title: 'Opening Balance',
+  subtitle: 'Ledger totals carried into the new period',
+  marker: SuperMarker.ledger,
+  trailing: const StatusPill('BALANCED', tone: PillTone.success),
+);
+```
+
+### Layout components
+
+Use `SuperScaffold` as a responsive page-frame wrapper and `SuperGrid` for
+column-based layouts:
+
+```dart
+Scaffold(
+  appBar: const SuperAppBar(title: Text('Dashboard')),
+  body: SuperScaffold(
+    maxWidth: 1120,
+    child: SuperGrid(
+      scope: SuperGridScope.current,
+      children: const [
+        SuperGridCell(mobile: 4, tablet: 4, desktop: 3, child: KpiCard()),
+        SuperGridCell(mobile: 4, tablet: 4, desktop: 9, child: DetailsPanel()),
+      ],
+    ),
+  ),
+);
+```
+
+Use `SuperBreakpointProvider` when previews, dialogs, or side panels need a
+controlled local breakpoint:
+
+```dart
+SuperBreakpointProvider(
+  breakpoint: SuperBreakpoint.tablet,
+  child: SuperGrid(
+    scope: SuperGridScope.provider,
+    children: const [
+      SuperGridCell(mobile: 4, tablet: 8, child: PreviewPanel()),
+    ],
+  ),
+);
+```
+
+### Migrating from 2.4.0
+
+```dart
+// Before
+SectionCard(title: 'Account Details', child: form);
+SuperSection(title: 'Financial', children: fields);
+SuperCard(color: context.superTheme.inputBg, child: summary);
+SectionHeader(title: 'Opening Balance');
+
+// After
+SuperSectionCard(title: 'Account Details', child: form);
+SuperSectionCard(title: 'Financial', children: fields);
+SuperSectionCard(color: context.superTheme.inputBg, child: summary);
+SuperSectionHeader(title: 'Opening Balance');
+```
+
+See `skill/migration_v2.4.0_to_v3.0.0/` for the full migration guide.
 
 ---
 
@@ -136,7 +233,7 @@ SuperMaterialThemeData.light(mode: mode);
 
 // Responsive tokens (spacing grows with the viewport; control heights shrink):
 final s = SuperThemeData.of(context);
-s.padding.card;   s.spacing.lg;   s.sizing.control;   s.margin.section;
+s.spacing.cardPadding;   s.spacing.lg;   s.sizing.fieldComfortable;   s.spacing.sectionMargin;
 
 // Author your own responsive value with the same container:
 const gutter = SuperResponsive<double>(mobile: 16, tablet: 24, desktop: 32);
@@ -156,13 +253,13 @@ theme) retunes the whole app's density:
 
 | Token | mobile | tablet | desktop |
 |---|---|---|---|
-| `padding.card` | 14 | 16 | 18 |
-| `padding.page` | 12 | 20 / 16 | 48 / 24 |
-| `padding.field` | 12 / 10 | 12 / 10 | 14 / 8 |
+| `spacing.cardPadding` | 14 | 16 | 18 |
+| `spacing.pagePadding` | 12 | 20 / 16 | 48 / 24 |
+| `spacing.fieldPadding` | 12 / 10 | 12 / 10 | 14 / 8 |
 | `spacing.section` (gap between cards) | 12 | 14 | 16 |
 | `spacing.xl` (header → body) | 20 | 22 | 24 |
 | `spacing.md` (card slot gap) | 10 | 12 | 12 |
-| `margin.section` | 12 | 14 | 16 |
+| `spacing.sectionMargin` | 12 | 14 | 16 |
 | `sizing.fieldComfortable` | 44 | 42 | 40 |
 
 ```dart
@@ -171,7 +268,7 @@ SuperMaterialThemeData.light(
   cardTheme: const SuperCardTheme(padding: EdgeInsets.all(24)),
 );
 // …or per card:
-SuperSection(padding: const EdgeInsets.all(20), title: 'Account Details', child: form);
+SuperSectionCard(padding: const EdgeInsets.all(20), title: 'Account Details', child: form);
 ```
 
 ### Runtime palette switching
@@ -342,18 +439,19 @@ Defaults come from the `SuperAppBarTheme` installed into
 `ThemeData.appBarTheme` by `SuperMaterialThemeData`; override it via
 `appBarTheme:` on the theme constructor.
 
-## Expandable `SuperCard`
+## `SuperSectionCard`
 
-`SuperCard` can reveal `expandedChild` on tap or via its chevron, along the
-vertical **or** horizontal axis, and hosts `leading` / `trailing` slots.
-Defaults come from the `SuperCardTheme` in `ThemeData.cardTheme`.
+`SuperSectionCard` is the consolidated section/card surface. It can render a
+plain card, compose a `SuperSectionHeader` and `SuperSectionFooter`, collapse a
+body, show selected/tap states, and reveal `expandedChild` vertically or
+horizontally. Defaults come from `SuperSectionThemeData` and `SuperCardTheme`.
 
 ```dart
-SuperCard(
+SuperSectionCard(
   leading: const Icon(Icons.storefront_outlined),
-  header: const SectionHeader(title: 'Downtown Central Store'),
-  trailing: const StatusPill('ACTIVE', tone: PillTone.success),
-  background: context.superTheme.inputBg,
+  header: const SuperSectionHeader(title: 'Downtown Central Store'),
+  headerTrailing: const StatusPill('ACTIVE', tone: PillTone.success),
+  color: context.superTheme.inputBg,
   expandedChild: const StoreDetailTable(), // revealed on tap / chevron
   // expandDirection: Axis.horizontal, initiallyExpanded, isExpanded, onExpansionChanged…
   child: const StoreSummary(),

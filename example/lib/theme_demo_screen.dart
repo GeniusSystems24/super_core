@@ -1,7 +1,11 @@
-﻿import 'package:flutter/material.dart';
+// ignore_for_file: deprecated_member_use
+
+import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
 import 'create_account_screen.dart';
+import 'layout_components_screen.dart';
+import 'section_example_screen.dart';
 import 'super_widgets_gallery.dart';
 
 /// Comprehensive Material 3 theme showcase for [SuperMaterialThemeData].
@@ -9,7 +13,7 @@ import 'super_widgets_gallery.dart';
 /// Sections:
 ///   Palette · Color Scheme · App Bar · Buttons · Icon Buttons · FAB ·
 ///   Form Fields · Search · Selection Controls · Chips · Cards ·
-///   Super Core Widgets (SuperCard · SuperAppBar · SuperSliverAppBar · SuperSnackBar)
+///   Super Core Widgets (SuperSectionCard · SuperAppBar · SuperSliverAppBar · SuperSnackBar)
 ///   · List Tiles · Navigation · Tabs · Overlays (Dialog · Sheet · Drawer ·
 ///   Snackbar · Popup · Menu) · Badges · Tooltips · Dividers · Progress ·
 ///   Data Table · Typography
@@ -183,7 +187,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       // ── App Bar ─────────────────────────────────────────────────────────────
       appBar: SuperAppBar(
         title: const Text('Super Material Theme'),
-        subtitle: const Text('Super core • v2.2.0'),
+        subtitle: const Text('Super core • v3.0.0'),
         subtitleTextStyle: t.textTheme.eyebrow.copyWith(color: cs.primary),
         maxMobileActions: 1,
         actions: [
@@ -203,6 +207,24 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                   themeMode: widget.themeMode,
                   onThemeModeChanged: widget.onThemeModeChanged,
                 ),
+              ),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.dashboard_customize_outlined),
+            tooltip: 'Layout Components',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const LayoutComponentsScreen(),
+              ),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.view_agenda_outlined),
+            tooltip: 'Section Components',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const SectionExampleScreen(),
               ),
             ),
           ),
@@ -762,8 +784,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             ],
           ),
 
-          const _Sec('SUPER SECTION (HEADER + FOOTER)'),
-          SuperSection(
+          const _Sec('SUPER SECTION CARD (HEADER + FOOTER)'),
+          SuperSectionCard(
             title: 'Create Store',
             titleArabic: 'إنشاء متجر',
             eyebrow: 'STORES & PRODUCTS • STORES',
@@ -776,20 +798,21 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               SuperFooterLink('Save Draft', onTap: () {}, emphasized: true),
             ],
             child: Text(
-              'SuperSection wraps the card surface and optionally composes a '
+              'SuperSectionCard wraps the card surface and optionally composes a '
               'SuperSectionHeader and SuperSectionFooter around this body. Omit '
               'either to drop it; pass card: false for a borderless variant.',
               style: t.textTheme.body.copyWith(color: t.fg2),
             ),
           ),
           const SizedBox(height: 8),
-          SuperSection(
+          SuperSectionCard(
             title: 'Financial',
             subtitle: 'Linked control account and terms',
             headerStyle: SuperSectionHeaderStyle.style2,
             leading: const Icon(Icons.sync_alt),
             headerTrailing: const Icon(Icons.expand_more),
-            child: Text('Header-only SuperSection using style2 (no footer).',
+            child: Text(
+                'Header-only SuperSectionCard using style2 (no footer).',
                 style: t.textTheme.body.copyWith(color: t.fg2)),
           ),
 
@@ -875,23 +898,23 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 8b · SUPER CORE WIDGETS
           // ════════════════════════════════════════════════════════════════════
-          const _Sec('SUPER CARD'),
-          SuperCard(
-            header: const SectionHeader(
+          const _Sec('SUPER SECTION CARD'),
+          SuperSectionCard(
+            header: const SuperSectionHeader(
               title: 'Downtown Central Store',
               subtitle: 'Store ID: STR-0042 • Active',
               marker: SuperMarker.identity,
             ),
             child: Text(
               'A general-purpose surface card — 8 px radius, hairline border, '
-              'card shadow. Distinct from the taller SectionCard form unit.',
+              'card shadow. The consolidated surface for plain, selected, and expandable cards.',
               style: t.textTheme.body.copyWith(color: t.fg2),
             ),
           ),
           const SizedBox(height: 8),
           Row(children: [
             Expanded(
-              child: SuperCard(
+              child: SuperSectionCard(
                 padding: const EdgeInsets.all(16),
                 selected: _cardSel == 0,
                 onTap: () => setState(() => _cardSel = 0),
@@ -901,7 +924,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: SuperCard(
+              child: SuperSectionCard(
                 padding: const EdgeInsets.all(16),
                 selected: _cardSel == 1,
                 onTap: () => setState(() => _cardSel = 1),
@@ -912,8 +935,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           ]),
 
           const _Sec('EXPANDABLE CARD'),
-          SuperCard(
-            header: const SectionHeader(
+          SuperSectionCard(
+            header: const SuperSectionHeader(
               title: 'Expandable — vertical',
               subtitle: 'Tap the card or the chevron to reveal details',
               marker: SuperMarker.ledger,
@@ -930,7 +953,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 style: t.textTheme.body.copyWith(color: t.fg1)),
           ),
           const SizedBox(height: 8),
-          SuperCard(
+          SuperSectionCard(
             expandDirection: Axis.horizontal,
             expandedChild: SizedBox(
               width: 180,
@@ -949,7 +972,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           const SizedBox(height: 8),
           ClipRRect(
             borderRadius: BorderRadius.circular(
-                SuperThemeData.of(context).tokens.radiusCard),
+                SuperThemeData.of(context).spacing.radiusCard),
             child: SuperAppBar(
               primary: false,
               automaticallyImplyLeading: false,
@@ -1654,7 +1677,7 @@ class _Pill extends StatelessWidget {
         decoration: BoxDecoration(
           color: t.tintFill(color, 0.14),
           borderRadius: BorderRadius.circular(
-              SuperThemeData.of(context).tokens.radiusPill),
+              SuperThemeData.of(context).spacing.radiusPill),
         ),
         child: Text(label, style: t.textTheme.pill.copyWith(color: color)),
       );
@@ -1713,7 +1736,7 @@ class _SemanticColorsDemo extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   color: c.solid,
-                  borderRadius: BorderRadius.circular(t.tokens.radiusCard),
+                  borderRadius: BorderRadius.circular(t.spacing.radiusCard),
                 ),
               ),
               const SizedBox(width: 12),
@@ -1728,7 +1751,7 @@ class _SemanticColorsDemo extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: c.solid,
-                  borderRadius: BorderRadius.circular(t.tokens.radiusPill),
+                  borderRadius: BorderRadius.circular(t.spacing.radiusPill),
                 ),
                 child: Text('SOLID',
                     style: t.textTheme.pill.copyWith(color: c.onSolid)),
@@ -1740,7 +1763,7 @@ class _SemanticColorsDemo extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   color: c.subtle,
-                  borderRadius: BorderRadius.circular(t.tokens.radiusPill),
+                  borderRadius: BorderRadius.circular(t.spacing.radiusPill),
                   border: Border.all(color: c.border),
                 ),
                 child: Text('SUBTLE',
@@ -1787,7 +1810,7 @@ class _ColorUtilsDemo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(t.tokens.radiusCard),
+          borderRadius: BorderRadius.circular(t.spacing.radiusCard),
           child: Row(
             children: steps.map((s) {
               final (label, color) = s;
@@ -1861,9 +1884,9 @@ class _KpiSlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = SuperThemeData.of(context);
-    final k = t.tokens;
+    final k = t.spacing;
     final up = !delta.startsWith('-');
-    final deltaColor = up ? k.success : t.tokens.danger;
+    final deltaColor = up ? t.tokens.success : t.tokens.danger;
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -1878,11 +1901,11 @@ class _KpiSlide extends StatelessWidget {
         children: [
           Row(children: [
             Container(
-              width: k.markerWidth,
+              width: t.tokens.markerWidth,
               height: 16,
               margin: EdgeInsetsDirectional.only(end: k.space3),
               decoration: BoxDecoration(
-                color: k.markerColor(marker),
+                color: t.tokens.markerColor(marker),
                 borderRadius: BorderRadius.circular(k.radiusPill),
               ),
             ),
@@ -1929,7 +1952,7 @@ class _ShadeRow extends StatelessWidget {
     ];
     return ClipRRect(
       borderRadius:
-          BorderRadius.circular(SuperThemeData.of(context).tokens.radiusCard),
+          BorderRadius.circular(SuperThemeData.of(context).spacing.radiusCard),
       child: Row(
         children: shades.map((s) {
           final (label, color) = s;
@@ -1975,7 +1998,7 @@ class _SurfaceSeparationDemo extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(
-                SuperThemeData.of(context).tokens.radiusCard),
+                SuperThemeData.of(context).spacing.radiusCard),
             border: Border.all(color: t.border),
           ),
           child: Column(

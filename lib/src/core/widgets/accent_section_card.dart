@@ -78,11 +78,11 @@ class AccentSectionCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(k.radiusCard),
+        borderRadius: BorderRadius.circular(t.spacing.radiusCard),
         boxShadow: t.cardShadow,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(k.radiusCard),
+        borderRadius: BorderRadius.circular(t.spacing.radiusCard),
         child: Stack(
           children: [
             // 3px accent bar spanning full height.
@@ -101,16 +101,17 @@ class AccentSectionCard extends StatelessWidget {
                   if (title != null)
                     Container(
                       color: headerBg,
-                      padding: headerPadding ??
+                      padding:
+                          headerPadding ??
                           EdgeInsets.symmetric(
-                            horizontal: k.space4,
-                            vertical: k.space3,
+                            horizontal: t.spacing.space4,
+                            vertical: t.spacing.space3,
                           ),
                       child: Row(
                         children: [
                           if (icon != null) ...[
                             Icon(icon, size: 16, color: accent),
-                            SizedBox(width: k.space2),
+                            SizedBox(width: t.spacing.space2),
                           ],
                           Expanded(
                             child: Text(
@@ -123,14 +124,14 @@ class AccentSectionCard extends StatelessWidget {
                             ),
                           ),
                           if (trailing != null) ...[
-                            SizedBox(width: k.space2),
+                            SizedBox(width: t.spacing.space2),
                             trailing!,
                           ],
                         ],
                       ),
                     ),
                   Padding(
-                    padding: bodyPadding ?? EdgeInsets.all(k.space4),
+                    padding: bodyPadding ?? EdgeInsets.all(t.spacing.space4),
                     child: child,
                   ),
                 ],

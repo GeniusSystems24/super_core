@@ -6,6 +6,86 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [3.0.0] - 2026-07-27
+
+Layout primitives and section/card API consolidation. This release also includes
+the previously implemented responsive spacing-system updates, so card, field,
+page, section, and control metrics continue to resolve from
+`SuperThemeData.of(context).spacing`.
+
+### Added
+
+- **Super layout components** ported from the legacy GeniusLink UI kit and
+  renamed to Super APIs: `SuperBreakpoint`, `SuperBreakpoints`,
+  `SuperBreakpointProvider`, `SuperGrid`, `SuperGridCell`, `SuperGridScope`, and
+  `SuperScaffold`.
+- **`SuperSectionCard`** - the single section/card surface that replaces
+  `SectionCard`, `SuperSection`, and `SuperCard`. It supports generated or
+  custom headers, footers, `child`/`children`, collapsible bodies, selected/tap
+  states, expandable detail content, Material-card fill/elevation/shape options,
+  and theme-driven spacing.
+- **Example screen** - `example/lib/layout_components_screen.dart` demonstrates
+  `SuperScaffold`, breakpoint resolution, provider-controlled breakpoints, and
+  responsive `SuperGrid` layouts.
+- **Migration skill** - `skill/migration_v2.4.0_to_v3.0.0/` documents the
+  v2.4.0-to-v3.0.0 migration with before/after examples.
+
+### Changed
+
+- **`SuperSectionHeader`** is now the only section-header widget. It absorbs the
+  old `SectionHeader` compatibility shape (`accentColor`, `icon`, `trailing`)
+  and keeps the two-style `SuperSectionHeaderStyle` API.
+- Examples now use `SuperSectionCard`, `SuperSectionHeader`, and the active
+  `context.superTheme.spacing` APIs.
+- Public exports now include the layout folder and no longer export the removed
+  section/card implementation files.
+
+### Removed
+
+- `SectionCard`
+- `SectionHeader`
+- `SuperSection`
+- `SuperCard`
+- Direct imports for `section_card.dart`, `section_header.dart`,
+  `super_section.dart`, and `super_card.dart`
+
+### Migration
+
+Replace removed classes with the consolidated APIs:
+
+```dart
+// Before
+SectionCard(title: 'Account Details', child: form);
+SuperSection(title: 'Financial', children: fields);
+SuperCard(color: context.superTheme.inputBg, child: summary);
+SectionHeader(title: 'Opening Balance');
+
+// After
+SuperSectionCard(title: 'Account Details', child: form);
+SuperSectionCard(title: 'Financial', children: fields);
+SuperSectionCard(color: context.superTheme.inputBg, child: summary);
+SuperSectionHeader(title: 'Opening Balance');
+```
+
+For new responsive layouts:
+
+```dart
+SuperScaffold(
+  maxWidth: 1120,
+  child: SuperGrid(
+    scope: SuperGridScope.current,
+    children: const [
+      SuperGridCell(mobile: 4, tablet: 4, desktop: 3, child: KpiCard()),
+      SuperGridCell(mobile: 4, tablet: 4, desktop: 9, child: DetailsPanel()),
+    ],
+  ),
+);
+```
+
+See `skill/migration_v2.4.0_to_v3.0.0/` for the full migration guide.
+
+---
+
 ## [2.4.0] — 2026-07-27
 
 Design-system visual alignment: surface colors, card shadows, typography, and
@@ -183,7 +263,7 @@ theme override retunes the whole app's density.
 - **Example** — `example/lib/create_account_screen.dart`: the GeniusLink mobile
   "Create Account" form (segmented type selector, group select, parent-account
   search, bilingual name fields, main-account switch, notes) built only from
-  `SuperAppBar` + `SuperSection` + `SuperSectionHeader.style2` + `FieldShell`,
+  `SuperAppBar` + `SuperSectionCard` + `SuperSectionHeader.style2` + `FieldShell`,
   with every inset read from `SuperMetrics`. Reachable from the theme demo's
   app bar.
 
