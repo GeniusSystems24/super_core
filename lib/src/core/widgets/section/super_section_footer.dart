@@ -9,9 +9,9 @@
 
 import 'package:flutter/widgets.dart';
 
-import '../extensions/context_extensions.dart';
-import '../theme/super_section_theme.dart';
-import 'hairline.dart';
+import '../../extensions/context_extensions.dart';
+import '../../theme/super_section_theme.dart';
+import '../hairline.dart';
 
 /// A single ALL-CAPS footer action link.
 class SuperFooterLink extends StatelessWidget {

@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v2.0.0)
+# super_core — ChatGPT / Codex agent instructions (v3.1.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,9 +10,10 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 2.0.0
+version: 3.1.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
+deps:    google_fonts >=6.2.1 <7.0.0
 ```
 
 ## When to use
@@ -23,6 +24,20 @@ Apply this skill when the user asks for:
 - "responsive spacing / sizing / typography for mobile, tablet, desktop"
 - reading Super surface tokens (`bg`, `surface`, `fg1…fg4`, `border`) in a widget
 - building or modifying any `super_*` package theme
+
+## What changed in 3.1.0 (section-card variants)
+
+1. **`SuperSectionCard1` added.** Use it for compact accent-title sections with
+   optional collapse, expansion callbacks, selected state, footers, divider,
+   custom surface fields, and ambient `SuperCardTheme` / `SuperSectionThemeData`
+   integration.
+2. **`SuperSectionCard2` added.** Use it for rail-and-chip sections with default
+   collapsible behavior, optional footer, divider, selected state, and
+   theme-driven animation, spacing, border, and radius.
+3. **Section widgets moved under `widgets/section/`.** Continue importing from
+   `package:super_core/super_core.dart`; do not rely on `src` paths.
+4. **`SuperCardTheme.borderColor` is generated** from
+   `ColorScheme.outlineVariant` by `SuperMaterialThemeData`.
 
 ## What changed in 2.0.0 (BREAKING — read first)
 
@@ -41,7 +56,7 @@ Apply this skill when the user asks for:
 4. **`SuperSectionCard`** is expandable (v/h) with `leading`/`trailing`
    (`SuperCardTheme`).
 5. **`SuperDialog` removed** — use themed `showDialog` / `AlertDialog`.
-6. Dependents require `super_core: ">=2.0.0 <3.0.0"`; see
+6. Historical v2 dependents required `super_core: ">=2.0.0 <3.0.0"`; see
    `skill/migration_v1_to_v2/`.
 
 ## What changed in 1.3.0 (read first)
@@ -185,7 +200,34 @@ else just read `SuperThemeData`. Never duplicate palette/responsive math.
 
 ---
 
-## Design-system widgets (v2.0.0)
+## Current section-card guidance (v3.1.0)
+
+Prefer `SuperSectionCard` as the default consolidated section/card surface.
+Use `SuperSectionCard1` for compact accent-title sections and
+`SuperSectionCard2` for rail-and-chip sections. All three are exported from
+`package:super_core/super_core.dart`.
+
+```dart
+SuperSectionCard1(
+  title: 'Basic Accent Section',
+  subtitle: 'Tap to collapse',
+  icon: Icons.article_outlined,
+  collapsible: true,
+  footerBrand: 'SuperCore themed surface',
+  footerActions: const [SuperFooterLink('Details')],
+  child: const AccountDetailsForm(),
+);
+
+SuperSectionCard2(
+  title: 'Ledger Balance',
+  subtitle: 'Rail and icon-chip treatment',
+  icon: Icons.account_balance_outlined,
+  dividerAfterHeader: true,
+  child: const BalanceSummary(),
+);
+```
+
+## Design-system widgets (v3.1.0)
 
 Prefer these over hand-rolling GeniusLink chrome. All exported from the barrel;
 names start with `Super`.

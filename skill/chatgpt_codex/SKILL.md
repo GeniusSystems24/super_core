@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v3.0.0)
+# super_core — ChatGPT / Codex agent instructions (v3.1.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 3.0.0
+version: 3.1.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 deps:    google_fonts >=6.2.1 <7.0.0
@@ -25,6 +25,20 @@ Apply this skill when the user asks for:
 - reading Super surface tokens (`bg`, `surface`, `fg1…fg4`, `border`) in a widget
 - building or modifying any `super_*` package theme
 
+
+## What changed in 3.1.0 (section-card variants)
+
+1. **`SuperSectionCard1` added.** Use it for compact accent-title sections with
+   optional collapse, expansion callbacks, selected state, footers, divider,
+   custom surface fields, and ambient `SuperCardTheme` / `SuperSectionThemeData`
+   integration.
+2. **`SuperSectionCard2` added.** Use it for rail-and-chip sections with default
+   collapsible behavior, optional footer, divider, selected state, and
+   theme-driven animation, spacing, border, and radius.
+3. **Section widgets moved under `widgets/section/`.** Continue importing from
+   `package:super_core/super_core.dart`; do not rely on `src` paths.
+4. **`SuperCardTheme.borderColor` is generated** from
+   `ColorScheme.outlineVariant` by `SuperMaterialThemeData`.
 
 ## What changed in 3.0.0 (breaking consolidation + layout)
 
@@ -297,12 +311,14 @@ else just read `SuperThemeData`. Never duplicate palette/responsive math.
 
 ---
 
-## Design-system widgets (v3.0.0)
+## Design-system widgets (v3.1.0)
 
 Prefer these over hand-rolling GeniusLink chrome from raw `Container` / Material
 widgets. All exported from the barrel; names start with `Super`.
 
 `SuperSectionCard` - consolidated section/card surface.
+`SuperSectionCard1` - compact accent-title section card.
+`SuperSectionCard2` - rail-and-chip section card.
 `SuperSectionHeader` - marker-bar or compact row header.
 `SuperSectionFooter` / `SuperFooterLink` - branded footer actions.
 `AccentSectionCard`, `StatusPill`, `SuperButton` / `SuperIconButton`,
@@ -323,6 +339,33 @@ SuperSectionCard(
   marker: SuperMarker.identity,
   expandedChild: const StoreDetailTable(),
   child: const StoreSummary(),
+);
+```
+
+### `SuperSectionCard1` / `SuperSectionCard2` - specialized section surfaces
+
+Use `SuperSectionCard1` for the compact accent-title treatment and
+`SuperSectionCard2` for the rail-and-chip treatment. Both variants support
+footer generation, expansion callbacks, selected state, divider, custom fill,
+clip, margin, and themed animation.
+
+```dart
+SuperSectionCard1(
+  title: 'Basic Accent Section',
+  subtitle: 'Tap to collapse',
+  icon: Icons.article_outlined,
+  collapsible: true,
+  footerBrand: 'SuperCore themed surface',
+  footerActions: const [SuperFooterLink('Details')],
+  child: const AccountDetailsForm(),
+);
+
+SuperSectionCard2(
+  title: 'Ledger Balance',
+  subtitle: 'Rail and icon-chip treatment',
+  icon: Icons.account_balance_outlined,
+  dividerAfterHeader: true,
+  child: const BalanceSummary(),
 );
 ```
 

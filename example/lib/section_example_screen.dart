@@ -12,6 +12,7 @@ class SectionExampleScreen extends StatefulWidget {
 class _SectionExampleScreenState extends State<SectionExampleScreen> {
   bool _selected = true;
   bool _controlledExpanded = true;
+  bool _card1Expanded = true;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
       backgroundColor: t.bg,
       appBar: SuperAppBar(
         title: const Text('Section Components'),
-        subtitle: const Text('SUPER CORE - v3.0.0'),
+        subtitle: const Text('SUPER CORE - v3.1.0'),
         subtitleTextStyle: t.textTheme.eyebrow.copyWith(
           color: colorScheme.primary,
         ),
@@ -34,8 +35,8 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
           padding: EdgeInsets.only(bottom: t.spacing.space12),
           children: [
             const _BlockHeader(
-              title: 'Generated Section Card Headers',
-              subtitle: 'Default, leading, trailing, and style2 variants',
+              title: 'SuperSectionCard examples',
+              subtitle: 'Headers, footers, expansion, and surface states',
             ),
             SizedBox(height: t.spacing.space4),
             SuperGrid(
@@ -78,59 +79,6 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
                     ),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: t.spacing.section),
-            const _BlockHeader(
-              title: 'SuperSectionHeader',
-              subtitle: 'Standalone style1 and style2 headers',
-            ),
-            SizedBox(height: t.spacing.space4),
-            const SuperGrid(
-              scope: SuperGridScope.current,
-              children: [
-                SuperGridCell(
-                  mobile: 4,
-                  tablet: 8,
-                  desktop: 6,
-                  child: _SurfaceBlock(
-                    child: SuperSectionHeader(
-                      title: 'Identity Details',
-                      titleArabic: 'Identity',
-                      subtitle: 'Customer profile and account metadata',
-                      eyebrow: 'CUSTOMER',
-                      marker: SuperMarker.identity,
-                      icon: Icons.perm_identity_outlined,
-                      trailing: StatusPill('OPEN', tone: PillTone.info),
-                    ),
-                  ),
-                ),
-                SuperGridCell(
-                  mobile: 4,
-                  tablet: 8,
-                  desktop: 6,
-                  child: _SurfaceBlock(
-                    child: SuperSectionHeader(
-                      style: SuperSectionHeaderStyle.style2,
-                      title: 'Ledger Balance',
-                      subtitle: 'Opening totals carried into the period',
-                      marker: SuperMarker.ledger,
-                      leading: Icon(Icons.account_balance_outlined),
-                      trailing: Icon(Icons.expand_more),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: t.spacing.section),
-            const _BlockHeader(
-              title: 'Footer Components',
-              subtitle: 'Built-in footer fields and prebuilt footer widgets',
-            ),
-            SizedBox(height: t.spacing.space4),
-            SuperGrid(
-              scope: SuperGridScope.current,
-              children: [
                 const SuperGridCell(
                   mobile: 4,
                   tablet: 8,
@@ -175,17 +123,6 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
                     ),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: t.spacing.section),
-            const _BlockHeader(
-              title: 'Expansion Patterns',
-              subtitle: 'Collapsible sections and expandable detail content',
-            ),
-            SizedBox(height: t.spacing.space4),
-            SuperGrid(
-              scope: SuperGridScope.current,
-              children: [
                 SuperGridCell(
                   mobile: 4,
                   tablet: 8,
@@ -225,17 +162,6 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
                     child: _InlineNote('Primary row remains visible.'),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: t.spacing.section),
-            const _BlockHeader(
-              title: 'Card Surface Options',
-              subtitle: 'Selected, divider, plain, and custom header states',
-            ),
-            SizedBox(height: t.spacing.space4),
-            SuperGrid(
-              scope: SuperGridScope.current,
-              children: [
                 SuperGridCell(
                   mobile: 4,
                   tablet: 8,
@@ -302,6 +228,360 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
                     ),
                     child: _InlineNote(
                       'Pass header for full control over header composition.',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: t.spacing.section),
+            const _BlockHeader(
+              title: 'SuperSectionCard1 examples',
+              subtitle: 'Accent-title card with SuperCardTheme integration',
+            ),
+            SizedBox(height: t.spacing.space4),
+            SuperGrid(
+              scope: SuperGridScope.current,
+              children: [
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
+                    title: 'Basic Accent Section',
+                    subtitle: 'Tap to collapse',
+                    icon: Icons.article_outlined,
+                    collapsible: true,
+                    child: _InlineNote(
+                      'Inherits fill, border, radius, padding and animation from the ambient theme.',
+                    ),
+                  ),
+                ),
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
+                    title: 'Non-Collapsible',
+                    subtitle: 'collapsible: false',
+                    icon: Icons.lock_outline,
+                    child: _InlineNote(
+                      'No chevron and no tap target; body content remains visible.',
+                    ),
+                  ),
+                ),
+                SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
+                    title: 'Custom Accent',
+                    subtitle: 'Starts collapsed',
+                    icon: Icons.palette_outlined,
+                    accentColor: colorScheme.tertiary,
+                    collapsible: true,
+                    initiallyExpanded: false,
+                    child: const _InlineNote(
+                      'Pass accentColor to override the title rail and icon tint.',
+                    ),
+                  ),
+                ),
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
+                    title: 'Divider After Header',
+                    subtitle: 'Hairline separates heading from body',
+                    icon: Icons.horizontal_rule,
+                    dividerAfterHeader: true,
+                    child: Column(
+                      children: [
+                        _InfoRow('Opening balance', 'SAR 12,450.00'),
+                        SizedBox(height: 8),
+                        _InfoRow('Closing balance', 'SAR 15,200.00'),
+                      ],
+                    ),
+                  ),
+                ),
+                SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
+                    title: 'Callback Accent Section',
+                    subtitle: _card1Expanded ? 'Expanded' : 'Collapsed',
+                    icon: Icons.dashboard_customize_outlined,
+                    collapsible: true,
+                    onExpansionChanged: (value) =>
+                        setState(() => _card1Expanded = value),
+                    dividerAfterHeader: true,
+                    isSelected: _card1Expanded,
+                    trailing: StatusPill(
+                      _card1Expanded ? 'OPEN' : 'CLOSED',
+                      tone:
+                          _card1Expanded ? PillTone.success : PillTone.neutral,
+                    ),
+                    footerBrand: 'SuperCore themed surface',
+                    footerActions: [
+                      SuperFooterLink('Details', onTap: () {}),
+                      SuperFooterLink(
+                        'Apply',
+                        emphasized: true,
+                        onTap: () {},
+                      ),
+                    ],
+                    child: const Column(
+                      children: [
+                        _InfoRow('Animation', 'Theme duration + curve'),
+                        SizedBox(height: 8),
+                        _InfoRow('Callback', 'Expansion state notification'),
+                      ],
+                    ),
+                  ),
+                ),
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
+                    title: 'With Trailing',
+                    subtitle: 'Status pill in the title row',
+                    icon: Icons.task_alt_outlined,
+                    isSelected: true,
+                    trailing: StatusPill('READY', tone: PillTone.success),
+                    child: _InlineNote(
+                      'trailing sits inside SuperSectionTitle1 after the title copy.',
+                    ),
+                  ),
+                ),
+                SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
+                    title: 'Custom Surface Controls',
+                    subtitle: 'background, padding, margin, clipBehavior',
+                    icon: Icons.layers_outlined,
+                    accentColor: colorScheme.tertiary,
+                    background: colorScheme.tertiaryContainer.withValues(
+                      alpha: 0.24,
+                    ),
+                    padding: EdgeInsets.all(t.spacing.space4),
+                    margin: EdgeInsets.only(bottom: t.spacing.space2),
+                    clipBehavior: Clip.antiAlias,
+                    animationDuration: const Duration(milliseconds: 320),
+                    animationCurve: Curves.easeOutCubic,
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _InlineNote(
+                          'Explicit surface fields override the ambient card theme.',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
+                    title: 'Prebuilt Footer',
+                    icon: Icons.rule_folder_outlined,
+                    accentColor: colorScheme.secondary,
+                    dividerAfterHeader: true,
+                    footer: SuperSectionFooter(
+                      brand: 'audit status: complete',
+                      actions: [
+                        SuperFooterLink('History', onTap: () {}),
+                        SuperFooterLink(
+                          'Approve',
+                          emphasized: true,
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                    child: const _InlineNote(
+                      'Pass footer directly when actions need callbacks.',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: t.spacing.section),
+            const _BlockHeader(
+              title: 'SuperSectionCard2 examples',
+              subtitle:
+                  'Rail-and-chip card with animation, footer, divider and theme integration',
+            ),
+            SizedBox(height: t.spacing.space4),
+            SuperGrid(
+              scope: SuperGridScope.current,
+              children: [
+                // Basic collapsible (default)
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard2(
+                    title: 'Basic Section',
+                    subtitle: 'Tap to collapse',
+                    icon: Icons.article_outlined,
+                    child: _InlineNote(
+                      'Inherits fill, border and radius from the ambient SuperCardTheme.',
+                    ),
+                  ),
+                ),
+                // Non-collapsible — no chevron, body always visible
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard2(
+                    title: 'Non-Collapsible',
+                    subtitle: 'collapsible: false',
+                    icon: Icons.lock_outline,
+                    collapsible: false,
+                    child: _InlineNote(
+                      'No chevron and no tap target — body is always visible.',
+                    ),
+                  ),
+                ),
+                // Custom accent + starts collapsed
+                SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard2(
+                    title: 'Custom Accent',
+                    subtitle: 'Starts collapsed',
+                    icon: Icons.palette_outlined,
+                    accentColor: colorScheme.tertiary,
+                    initiallyExpanded: false,
+                    child: const _InlineNote(
+                      'Pass accentColor to override the left rail and icon chip tint.',
+                    ),
+                  ),
+                ),
+                // Divider after header
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard2(
+                    title: 'Divider After Header',
+                    subtitle: 'Hairline separates heading from body',
+                    icon: Icons.horizontal_rule,
+                    dividerAfterHeader: true,
+                    child: Column(
+                      children: [
+                        _InfoRow('Opening balance', 'SAR 12,450.00'),
+                        SizedBox(height: 8),
+                        _InfoRow('Closing balance', 'SAR 15,200.00'),
+                      ],
+                    ),
+                  ),
+                ),
+                // With trailing widget
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard2(
+                    title: 'With Trailing',
+                    subtitle: 'Status pill in the header',
+                    icon: Icons.task_alt_outlined,
+                    isSelected: true,
+                    trailing: StatusPill('READY', tone: PillTone.success),
+                    child: _InlineNote(
+                      'trailing sits between the title and the chevron.',
+                    ),
+                  ),
+                ),
+                // footerBrand + footerActions
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard2(
+                    title: 'With Footer',
+                    subtitle: 'footerBrand auto-builds SuperSectionFooter',
+                    icon: Icons.receipt_long_outlined,
+                    footerBrand: 'GeniusLink ERP · draft',
+                    footerActions: [
+                      SuperFooterLink('Preview'),
+                      SuperFooterLink('Submit', emphasized: true),
+                    ],
+                    child: _InlineNote(
+                      'Footer appears below the body, separated by a hairline.',
+                    ),
+                  ),
+                ),
+                // Prebuilt footer + divider + accentColor
+                SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard2(
+                    title: 'Prebuilt Footer',
+                    icon: Icons.rule_folder_outlined,
+                    accentColor: colorScheme.secondary,
+                    dividerAfterHeader: true,
+                    footer: SuperSectionFooter(
+                      brand: 'audit status: complete',
+                      actions: [
+                        SuperFooterLink('History', onTap: () {}),
+                        SuperFooterLink(
+                          'Approve',
+                          emphasized: true,
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                    child: const _InlineNote(
+                      'Pass footer directly when the footer needs custom callbacks.',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: t.spacing.section),
+            const _BlockHeader(
+              title: 'SuperSectionHeader',
+              subtitle: 'Standalone style1 and style2 headers',
+            ),
+            SizedBox(height: t.spacing.space4),
+            const SuperGrid(
+              scope: SuperGridScope.current,
+              children: [
+                SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: _SurfaceBlock(
+                    child: SuperSectionHeader(
+                      title: 'Identity Details',
+                      titleArabic: 'Identity',
+                      subtitle: 'Customer profile and account metadata',
+                      eyebrow: 'CUSTOMER',
+                      marker: SuperMarker.identity,
+                      icon: Icons.perm_identity_outlined,
+                      trailing: StatusPill('OPEN', tone: PillTone.info),
+                    ),
+                  ),
+                ),
+                SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: _SurfaceBlock(
+                    child: SuperSectionHeader(
+                      style: SuperSectionHeaderStyle.style2,
+                      title: 'Ledger Balance',
+                      subtitle: 'Opening totals carried into the period',
+                      marker: SuperMarker.ledger,
+                      leading: Icon(Icons.account_balance_outlined),
+                      trailing: Icon(Icons.expand_more),
                     ),
                   ),
                 ),

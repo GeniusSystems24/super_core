@@ -5,7 +5,7 @@
 // super_core tools — no bespoke card chrome, no hand-tuned insets:
 //
 //   SuperAppBar               close / title / confirm
-//   SuperSectionCard              the card shell (compact padding + section gap)
+//   SuperSectionCard2             the card shell (compact padding + section gap)
 //   SuperSectionHeader.style2 marker bar + ALL-CAPS section title
 //   FieldShell                label (+ required asterisk) → control → hint
 //   SuperThemeData            surfaces, fg ramp, responsive metrics
@@ -66,71 +66,80 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         padding: t.spacing.pagePadding,
         children: [
           // ── ACCOUNT DETAILS ────────────────────────────────────────────────
-          SuperSectionCard(
+          SuperSectionCard2(
             title: 'Account Details',
-            headerStyle: SuperSectionHeaderStyle.style2,
-            children: [
-              FieldShell(
-                label: 'Account type',
-                required: true,
-                child: _Segmented(
-                  options: const ['Debit', 'Credit'],
-                  selectedIndex: _debit ? 0 : 1,
-                  onChanged: (i) => setState(() => _debit = i == 0),
+            collapsible: false,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                FieldShell(
+                  label: 'Account type',
+                  required: true,
+                  child: _Segmented(
+                    options: const ['Debit', 'Credit'],
+                    selectedIndex: _debit ? 0 : 1,
+                    onChanged: (i) => setState(() => _debit = i == 0),
+                  ),
                 ),
-              ),
-              FieldShell(
-                label: 'Account group',
-                child: _SelectBox(
-                  value: _group,
-                  options: _groups,
-                  onChanged: (v) => setState(() => _group = v),
+                SizedBox(height: t.spacing.md),
+                FieldShell(
+                  label: 'Account group',
+                  child: _SelectBox(
+                    value: _group,
+                    options: _groups,
+                    onChanged: (v) => setState(() => _group = v),
+                  ),
                 ),
-              ),
-              const FieldShell(
-                label: 'Parent account',
-                child: _InputBox(
-                  hint: 'Search accounts…',
-                  leadingIcon: Icons.search,
+                SizedBox(height: t.spacing.md),
+                const FieldShell(
+                  label: 'Parent account',
+                  child: _InputBox(
+                    hint: 'Search accounts…',
+                    leadingIcon: Icons.search,
+                  ),
                 ),
-              ),
-              const FieldShell(
-                label: 'Name (Arabic)',
-                required: true,
-                child: _InputBox(
-                  hint: 'مثال: صندوق النقدية',
-                  textDirection: TextDirection.rtl,
+                SizedBox(height: t.spacing.md),
+                const FieldShell(
+                  label: 'Name (Arabic)',
+                  required: true,
+                  child: _InputBox(
+                    hint: 'مثال: صندوق النقدية',
+                    textDirection: TextDirection.rtl,
+                  ),
                 ),
-              ),
-              const FieldShell(
-                label: 'Name (English)',
-                required: true,
-                child: _InputBox(hint: 'e.g. Cash Box'),
-              ),
-              _ToggleRow(
-                label: 'Main account',
-                value: _mainAccount,
-                onChanged: (v) => setState(() => _mainAccount = v),
-              ),
-            ],
+                SizedBox(height: t.spacing.md),
+                const FieldShell(
+                  label: 'Name (English)',
+                  required: true,
+                  child: _InputBox(hint: 'e.g. Cash Box'),
+                ),
+                SizedBox(height: t.spacing.md),
+                _ToggleRow(
+                  label: 'Main account',
+                  value: _mainAccount,
+                  onChanged: (v) => setState(() => _mainAccount = v),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: t.spacing.section),
 
           // ── USER RELATIONSHIP (drills down) ────────────────────────────────
-          SuperSectionCard(
+          const SuperSectionCard2(
             title: 'User Relationship',
-            headerStyle: SuperSectionHeaderStyle.style2,
-            headerTrailing: const Icon(Icons.chevron_right),
-            onTap: () {},
+            trailing: Icon(Icons.chevron_right),
+            collapsible: false,
+            padding: EdgeInsets.zero,
+            child: SizedBox.shrink(),
           ),
           SizedBox(height: t.spacing.section),
 
           // ── ADDITIONAL INFORMATION ─────────────────────────────────────────
-          const SuperSectionCard(
+          SuperSectionCard2(
             title: 'Additional Information',
-            marker: SuperMarker.notes,
-            headerStyle: SuperSectionHeaderStyle.style2,
-            child: FieldShell(
+            accentColor: SuperMarker.notes.resolve(t.tokens),
+            collapsible: false,
+            child: const FieldShell(
               label: 'Note',
               child: _InputBox(
                 hint: 'Add notes about this account…',

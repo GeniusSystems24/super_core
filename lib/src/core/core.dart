@@ -44,10 +44,12 @@ export 'layout/scaffold/scaffold.dart';
 
 // Widgets
 export 'widgets/hairline.dart';
-export 'widgets/super_section_header.dart';
-export 'widgets/super_section_footer.dart';
-export 'widgets/super_section_card.dart';
-export 'widgets/accent_section_card.dart';
+export 'widgets/section/super_section_header.dart';
+export 'widgets/section/super_section_footer.dart';
+export 'widgets/section/super_section_card.dart';
+export 'widgets/section/super_section_card1.dart';
+export 'widgets/section/super_section_card2.dart';
+export 'widgets/section/accent_section_card.dart';
 export 'widgets/status_pill.dart';
 export 'widgets/super_button.dart';
 export 'widgets/field_shell.dart';

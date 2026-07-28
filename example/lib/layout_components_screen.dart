@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
-/// Example screen for the v3.0.0 Super layout primitives.
+/// Example screen for the v3.1.0 Super layout primitives.
 class LayoutComponentsScreen extends StatelessWidget {
   const LayoutComponentsScreen({super.key});
 
@@ -14,7 +14,7 @@ class LayoutComponentsScreen extends StatelessWidget {
       backgroundColor: t.bg,
       appBar: SuperAppBar(
         title: const Text('Layout Components'),
-        subtitle: const Text('SUPER CORE - v3.0.0'),
+        subtitle: const Text('SUPER CORE - v3.1.0'),
         subtitleTextStyle: t.textTheme.eyebrow.copyWith(
           color: colorScheme.primary,
         ),

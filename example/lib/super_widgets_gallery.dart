@@ -43,7 +43,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
       appBar: SuperAppBar(
         maxMobileActions: 1,
         title: const Text('Widget Gallery'),
-        subtitle: Text('SUPER CORE • v3.0.0',
+        subtitle: Text('SUPER CORE • v3.1.0',
             style: t.textTheme.eyebrow.copyWith(color: cs.primary)),
         actions: [
           if (widget.onThemeModeChanged != null) ...[

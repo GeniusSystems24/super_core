@@ -15,7 +15,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../extensions/context_extensions.dart';
+import '../../extensions/context_extensions.dart';
 
 /// A card with a leading accent bar and a distinct tinted header area.
 ///

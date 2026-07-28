@@ -12,7 +12,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_core: ^3.0.0  # monorepo path dependency
+  super_core: ^3.1.0  # monorepo path dependency
 ```
 
 Then import the barrel:
@@ -57,7 +57,7 @@ import 'package:super_core/super_core.dart';
 | `SuperColorX` | Color-extension helpers — HSL tonal ops, WCAG 2.1 contrast, hex parse/format |
 | `SuperFormat` | Intl-free number / currency / byte / serial formatters |
 | `SuperMarker` | Three section-marker intents (identity / ledger / notes) |
-| Widgets | `SuperSectionCard`, `SuperSectionHeader`, `SuperSectionFooter`, `AccentSectionCard`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell`, `SuperSnackBar`, `SuperAppBar`, `SuperSliverAppBar`, `SuperListTile`, `SuperGridTile`, `SuperSlider` |
+| Widgets | `SuperSectionCard`, `SuperSectionCard1`, `SuperSectionCard2`, `SuperSectionHeader`, `SuperSectionFooter`, `AccentSectionCard`, `StatusPill`, `SuperButton`, `Hairline`, `FieldShell`, `SuperSnackBar`, `SuperAppBar`, `SuperSliverAppBar`, `SuperListTile`, `SuperGridTile`, `SuperSlider` |
 | Plumbing | Failures, typedefs, usecases, key-direction + `BuildContext` helpers |
 
 > **Migrating from v2.4?** `SectionCard`, `SuperSection`, and `SuperCard` are
@@ -70,6 +70,44 @@ import 'package:super_core/super_core.dart';
 
 ---
 
+
+## v3.1.0 Section Card Variants
+
+`SuperSectionCard` remains the consolidated default surface introduced in
+v3.0.0. Use the new variants when a screen needs one of the tighter GeniusLink
+section treatments:
+
+```dart
+SuperSectionCard1(
+  title: 'Basic Accent Section',
+  subtitle: 'Tap to collapse',
+  icon: Icons.article_outlined,
+  collapsible: true,
+  footerBrand: 'SuperCore themed surface',
+  footerActions: const [
+    SuperFooterLink('Details'),
+    SuperFooterLink('Apply', emphasized: true),
+  ],
+  child: const AccountDetailsForm(),
+);
+
+SuperSectionCard2(
+  title: 'Ledger Balance',
+  subtitle: 'Rail and icon-chip treatment',
+  icon: Icons.account_balance_outlined,
+  accentColor: Theme.of(context).colorScheme.secondary,
+  dividerAfterHeader: true,
+  child: const BalanceSummary(),
+);
+```
+
+Both variants read fill, border, radius, padding, margin, and animation defaults
+from `SuperSectionThemeData` and `SuperCardTheme`. They also support initial
+expansion with `initiallyExpanded`, expansion notifications with
+`onExpansionChanged`, prebuilt footers via `footer`, or generated footers via
+`footerBrand` and `footerActions`.
+
+---
 
 ## v3.0.0 Layout and Section APIs
 

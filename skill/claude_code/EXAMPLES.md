@@ -1,4 +1,4 @@
-# super_core · Examples (v1.3.0)
+# super_core · Examples (v3.1.0)
 
 Runnable, copy-pasteable snippets. All assume `import
 'package:super_core/super_core.dart';`.
@@ -170,7 +170,7 @@ final s = SuperThemeData.of(context); // falls back to .dark when unregistered
 ```
 
 
-## 11 · Design-system widgets (v2.0.0)
+## 11 · Design-system widgets (v3.1.0)
 
 ```dart
 // SuperSectionCard — general surface card; interactive + selectable variants:
@@ -193,6 +193,26 @@ SuperSectionCard(
   expandedChild: const Text('Balance SAR 48,200.00 across 3 sub-accounts.'),
   // expandDirection: Axis.horizontal, initiallyExpanded / isExpanded / onExpansionChanged…
   child: const Text('Tap the card or the chevron to reveal details'),
+);
+
+// SuperSectionCard1 (new in v3.1.0) - compact accent-title treatment:
+SuperSectionCard1(
+  title: 'Basic Accent Section',
+  subtitle: 'Tap to collapse',
+  icon: Icons.article_outlined,
+  collapsible: true,
+  footerBrand: 'SuperCore themed surface',
+  footerActions: const [SuperFooterLink('Details')],
+  child: const AccountDetailsForm(),
+);
+
+// SuperSectionCard2 (new in v3.1.0) - rail-and-chip treatment:
+SuperSectionCard2(
+  title: 'Ledger Balance',
+  subtitle: 'Rail and icon-chip treatment',
+  icon: Icons.account_balance_outlined,
+  dividerAfterHeader: true,
+  child: const BalanceSummary(),
 );
 
 // Dialogs — SuperDialog was removed in v2; use themed showDialog / AlertDialog:

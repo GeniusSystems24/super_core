@@ -30,7 +30,7 @@ Version 3.0.0 is a breaking cleanup plus a layout addition:
 
 ```yaml
 dependencies:
-  super_core: ^3.0.0
+  super_core: ^3.1.0
 ```
 
 For monorepo packages, keep the existing path dependency and update any version

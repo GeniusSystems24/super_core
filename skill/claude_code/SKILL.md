@@ -2,7 +2,7 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v3.0.0) — the shared GeniusLink design-system foundation for the Super
+  (v3.1.0) — the shared GeniusLink design-system foundation for the Super
   toolkit. super_core ships SuperPalette (ten palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
@@ -13,7 +13,7 @@ description: >
   anything in super_core or in a package that depends on it.
 ---
 
-# super_core ? v3.0.0
+# super_core ? v3.1.0
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -22,6 +22,21 @@ Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
 type, spacing, and component themes from here so the whole toolkit looks like one
 product.
 
+
+## What changed in 3.1.0 (section-card variants)
+
+1. **`SuperSectionCard1` added.** Compact accent-title section card with
+   optional collapse, expansion callbacks, selected state, footer support,
+   divider, custom surface fields, and `SuperCardTheme` /
+   `SuperSectionThemeData` integration.
+2. **`SuperSectionCard2` added.** Rail-and-chip section card with default
+   collapsible behavior, optional footer, divider, selected state, deprecated
+   compatibility aliases, and theme-driven animation, spacing, border, and
+   radius.
+3. **Section widgets moved under `widgets/section/`.** Public usage still imports
+   `package:super_core/super_core.dart`; do not depend on `src` paths.
+4. **`SuperCardTheme.borderColor` is generated** from
+   `ColorScheme.outlineVariant` by `SuperMaterialThemeData`.
 
 ## What changed in 3.0.0 (breaking consolidation + layout)
 
@@ -715,7 +730,7 @@ InkWell(
 
 - **`CHANGELOG.md`** — add under the current version using Keep-a-Changelog
   sections (Added / Changed / Deprecated / Fixed). super_core is at
-  **`## [2.4.0]`**.
+  **`## [3.1.0]`**.
 - **`README.md`** — update the symbol table and any example whose API changed.
 - **`skill/claude_code/SKILL.md`** — update the version header, "What changed"
   summary, architecture block, and widget table.

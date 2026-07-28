@@ -1379,6 +1379,7 @@ class SuperMaterialThemeData extends ThemeData {
             padding: m.spacing.cardPadding,
             gap: m.spacing.md,
             selectedBorderColor: cs.primary,
+            borderColor: cs.outlineVariant
           ),
 
       // ── Elevated Button ──

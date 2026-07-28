@@ -187,7 +187,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       // ── App Bar ─────────────────────────────────────────────────────────────
       appBar: SuperAppBar(
         title: const Text('Super Material Theme'),
-        subtitle: const Text('Super core • v3.0.0'),
+        subtitle: const Text('Super core • v3.1.0'),
         subtitleTextStyle: t.textTheme.eyebrow.copyWith(color: cs.primary),
         maxMobileActions: 1,
         actions: [

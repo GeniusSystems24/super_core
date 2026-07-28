@@ -6,6 +6,34 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [3.1.0] - 2026-07-28
+
+Section-card variants and package skill documentation refresh.
+
+### Added
+
+- **`SuperSectionCard1`** - compact accent-title section card with optional
+  collapse, expansion callback, selected state, footer support, custom
+  surface controls, and `SuperCardTheme` / `SuperSectionThemeData` integration.
+- **`SuperSectionCard2`** - rail-and-chip section card with default collapsible
+  behavior, optional footer, divider, selected state, deprecated compatibility
+  aliases, and theme-driven animation and spacing.
+- Section-card gallery examples covering `SuperSectionCard`,
+  `SuperSectionCard1`, `SuperSectionCard2`, standalone section headers, footers,
+  dividers, custom accents, and expansion callbacks.
+
+### Changed
+
+- Section widgets are now grouped under `lib/src/core/widgets/section/` and
+  re-exported through the package barrel.
+- `SuperMaterialThemeData` now seeds `SuperCardTheme.borderColor` from
+  `ColorScheme.outlineVariant`, so section-card variants can share the same
+  themed resting border.
+- Agent skill instructions under `skill/` now describe the current 3.1.0
+  section-card API surface.
+
+---
+
 ## [3.0.0] - 2026-07-27
 
 Layout primitives and section/card API consolidation. This release also includes
