@@ -49,8 +49,15 @@ class SuperSectionCard1 extends StatefulWidget {
   /// Applies the selected accent border and subtle selected fill.
   final bool isSelected;
 
+  /// Whether the card can be collapsed or expanded from the header.
   final bool collapsible;
+
+  /// Default expansion state when [collapsible] is true.
+  ///
+  /// Non-collapsible cards always render their body and ignore this value.
   final bool? initiallyExpanded;
+
+  /// Called whenever the user requests a new expansion state.
   final ValueChanged<bool>? onExpansionChanged;
   final IconData? icon;
   final Widget? trailing;
@@ -69,13 +76,27 @@ class SuperSectionCard1 extends StatefulWidget {
   State<SuperSectionCard1> createState() => _SuperSectionCard1State();
 }
 
-class _SuperSectionCard1State extends State<SuperSectionCard1> {
+class _SuperSectionCard1State extends State<SuperSectionCard1>
+    with AutomaticKeepAliveClientMixin<SuperSectionCard1> {
   late bool _expanded;
 
   @override
   void initState() {
     super.initState();
-    _expanded = widget.initiallyExpanded ?? (widget.collapsible ? true : false);
+    _expanded = _initialExpanded;
+  }
+
+  bool get _initialExpanded =>
+      widget.collapsible ? (widget.initiallyExpanded ?? true) : true;
+
+  @override
+  void didUpdateWidget(covariant SuperSectionCard1 oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.collapsible) {
+      _expanded = true;
+    } else if (!oldWidget.collapsible) {
+      _expanded = _initialExpanded;
+    }
   }
 
   void _toggle() {
@@ -87,7 +108,12 @@ class _SuperSectionCard1State extends State<SuperSectionCard1> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final t = context.superTheme;
     final tokens = t.tokens;
     final spacing = t.spacing;

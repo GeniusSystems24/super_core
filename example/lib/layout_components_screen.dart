@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
+import 'arabic_examples.dart';
+
 /// Example screen for the v3.1.0 Super layout primitives.
 class LayoutComponentsScreen extends StatelessWidget {
   const LayoutComponentsScreen({super.key});
@@ -82,6 +84,12 @@ class LayoutComponentsScreen extends StatelessWidget {
                   ),
                 );
               },
+            ),
+            SizedBox(height: t.spacing.section),
+            const ArabicExampleSection(
+              title: 'تخطيط عربي متجاوب',
+              subtitle: 'SuperScaffold و SuperGrid مع اتجاه RTL',
+              compactHeader: true,
             ),
             SizedBox(height: t.spacing.section),
             const _SectionBlock(

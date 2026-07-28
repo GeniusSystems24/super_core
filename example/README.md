@@ -20,3 +20,5 @@ Screens:
   `SuperSectionHeader`, `SuperSectionFooter`, `SuperFooterLink`, `Hairline`,
   generated headers, custom headers, footers, selected states, and expansion.
 - Compact create-account form using the latest section-card and spacing APIs.
+- Arabic / RTL examples across the gallery, layout, section, theme, and form
+  screens.

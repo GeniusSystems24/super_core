@@ -6,6 +6,30 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [3.1.1] - 2026-07-28
+
+Arabic / RTL example coverage and section-card expansion fixes.
+
+### Added
+
+- Shared Arabic / RTL example content across the theme demo, widget gallery,
+  layout components, section components, and create-account example screens.
+- Create-account example fields for Arabic account data using RTL direction.
+- Section-card tests covering non-collapsible visibility, RTL rail resolution,
+  and keep-alive expansion state.
+
+### Changed
+
+- `SuperSectionCard1` and `SuperSectionCard2` now keep expansion state alive in
+  scrollable lists.
+- `collapsible` now strictly controls whether the card can collapse, while
+  `initiallyExpanded` only seeds the default state for collapsible cards.
+- `SuperSectionCard2` uses directional padding and border radius for RTL/LTR
+  layouts and keeps non-collapsible bodies visible.
+- The example app enables Arabic-aware Super text theme merging.
+
+---
+
 ## [3.1.0] - 2026-07-28
 
 Section-card variants and package skill documentation refresh.

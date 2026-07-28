@@ -48,10 +48,14 @@ class SuperSectionCard2 extends StatefulWidget {
   /// Applies the selected accent border and subtle selected fill.
   final bool isSelected;
 
-  /// Whether the header tap collapses the body. Defaults to `true`.
+  /// Whether the card can be collapsed or expanded from the header.
+  ///
+  /// When false, the body always stays visible. Defaults to `true`.
   final bool collapsible;
 
-  /// Initial expansion state. When null, collapsible cards start expanded.
+  /// Default expansion state when [collapsible] is true.
+  ///
+  /// Non-collapsible cards always render their body and ignore this value.
   final bool? initiallyExpanded;
 
   /// Called whenever the user requests a new expansion state.
@@ -92,23 +96,44 @@ class SuperSectionCard2 extends StatefulWidget {
   State<SuperSectionCard2> createState() => _SuperSectionCard2State();
 }
 
-class _SuperSectionCard2State extends State<SuperSectionCard2> {
+class _SuperSectionCard2State extends State<SuperSectionCard2>
+    with AutomaticKeepAliveClientMixin<SuperSectionCard2> {
   late bool _expanded;
 
   @override
   void initState() {
     super.initState();
-    _expanded = widget.initiallyExpanded ?? (widget.collapsible ? true : false);
+    _expanded = _initialExpanded;
+  }
+
+  bool get _initialExpanded =>
+      widget.collapsible ? (widget.initiallyExpanded ?? true) : true;
+
+  @override
+  void didUpdateWidget(covariant SuperSectionCard2 oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.collapsible) {
+      _expanded = true;
+    } else if (!oldWidget.collapsible) {
+      _expanded = _initialExpanded;
+    }
   }
 
   void _toggle() {
+    if (!widget.collapsible) return;
+
     final next = !_expanded;
     widget.onExpansionChanged?.call(next);
     setState(() => _expanded = next);
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final t = context.superTheme;
     final tokens = t.tokens;
     final spacing = t.spacing;
@@ -160,9 +185,10 @@ class _SuperSectionCard2State extends State<SuperSectionCard2> {
         widget.padding ??
         sectionTheme.padding ??
         cardTheme.padding ??
-        EdgeInsets.fromLTRB(16, 4, 16, spacing.lg);
+        EdgeInsetsDirectional.fromSTEB(16, 4, 16, spacing.lg);
 
     final clip = widget.clipBehavior ?? cardTheme.clipBehavior;
+    final visible = !widget.collapsible || _expanded;
 
     final resolvedFooter =
         widget.footer ??
@@ -199,7 +225,7 @@ class _SuperSectionCard2State extends State<SuperSectionCard2> {
             secondCurve: expandCurve,
             sizeCurve: expandCurve,
             duration: expandDuration,
-            crossFadeState: _expanded
+            crossFadeState: visible
                 ? CrossFadeState.showFirst
                 : CrossFadeState.showSecond,
             firstChild: Column(
@@ -243,7 +269,7 @@ class _SuperSectionCard2State extends State<SuperSectionCard2> {
     required Color fg3,
   }) {
     final header = Padding(
-      padding: const EdgeInsets.fromLTRB(0, 14, 16, 14),
+      padding: const EdgeInsetsDirectional.fromSTEB(0, 14, 16, 14),
       child: Row(
         children: [
           Expanded(
@@ -320,8 +346,8 @@ class SuperSectionTitle2 extends StatelessWidget {
           height: 36,
           decoration: BoxDecoration(
             color: accent,
-            borderRadius: const BorderRadius.horizontal(
-              right: Radius.circular(12),
+            borderRadius: const BorderRadiusDirectional.horizontal(
+              end: Radius.circular(12),
             ),
           ),
         ),

@@ -90,4 +90,151 @@ void main() {
     expect(markerLeft, lessThan(titleLeft));
     expect(titleLeft, lessThan(trailingLeft));
   });
+
+  testWidgets('SuperSectionCard2 keeps non-collapsible body visible', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: SuperMaterialThemeData.light(),
+        home: const Scaffold(
+          body: SuperSectionCard2(
+            title: 'Fixed Section',
+            collapsible: false,
+            initiallyExpanded: false,
+            child: Text('Fixed body'),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Fixed body'), findsOneWidget);
+    expect(find.byIcon(Icons.keyboard_arrow_down_rounded), findsNothing);
+  });
+
+  testWidgets('SuperSectionCard2 resolves its rail from text direction', (
+    tester,
+  ) async {
+    const accent = Color(0xFF16A34A);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: SuperMaterialThemeData.light(),
+        home: const Directionality(
+          textDirection: TextDirection.rtl,
+          child: Scaffold(
+            body: SizedBox(
+              width: 320,
+              child: SuperSectionCard2(
+                title: 'Directional Header',
+                accentColor: accent,
+                collapsible: false,
+                child: Text('Body'),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final railFinder = find.byWidgetPredicate((widget) {
+      if (widget is! Container) return false;
+      final decoration = widget.decoration;
+      return decoration is BoxDecoration &&
+          decoration.color == accent &&
+          widget.constraints?.maxWidth == 4 &&
+          widget.constraints?.maxHeight == 36;
+    });
+    final rail = tester.widget<Container>(railFinder);
+    final decoration = rail.decoration! as BoxDecoration;
+
+    expect(railFinder, findsOneWidget);
+    expect(decoration.borderRadius, isA<BorderRadiusDirectional>());
+    expect(
+      tester.getCenter(railFinder).dx,
+      greaterThan(tester.getCenter(find.text('DIRECTIONAL HEADER')).dx),
+    );
+  });
+
+  testWidgets('SuperSectionCard1 keeps expansion state alive in lists', (
+    tester,
+  ) async {
+    await _expectExpandedStateSurvivesScroll(
+      tester,
+      const SuperSectionCard1(
+        title: 'Card 1',
+        collapsible: true,
+        initiallyExpanded: false,
+        child: Text('Card 1 body'),
+      ),
+      title: 'Card 1',
+      body: 'Card 1 body',
+    );
+  });
+
+  testWidgets('SuperSectionCard2 keeps expansion state alive in lists', (
+    tester,
+  ) async {
+    await _expectExpandedStateSurvivesScroll(
+      tester,
+      const SuperSectionCard2(
+        title: 'Card 2',
+        initiallyExpanded: false,
+        child: Text('Card 2 body'),
+      ),
+      title: 'CARD 2',
+      body: 'Card 2 body',
+    );
+  });
 }
+
+Future<void> _expectExpandedStateSurvivesScroll(
+  WidgetTester tester,
+  Widget card, {
+  required String title,
+  required String body,
+}) async {
+  await tester.pumpWidget(
+    MaterialApp(
+      theme: SuperMaterialThemeData.light(),
+      home: Scaffold(
+        body: SizedBox(
+          height: 160,
+          child: ListView.builder(
+            key: const Key('keep-alive-list'),
+            cacheExtent: 0,
+            itemCount: 30,
+            itemBuilder: (context, index) {
+              if (index == 0) return card;
+              return SizedBox(height: 96, child: Text('Row $index'));
+            },
+          ),
+        ),
+      ),
+    ),
+  );
+
+  expect(_sectionCrossFade(tester).crossFadeState, CrossFadeState.showSecond);
+
+  await tester.tap(find.text(title));
+  await tester.pumpAndSettle();
+
+  expect(_sectionCrossFade(tester).crossFadeState, CrossFadeState.showFirst);
+
+  await tester.drag(
+    find.byKey(const Key('keep-alive-list')),
+    const Offset(0, -900),
+  );
+  await tester.pumpAndSettle();
+
+  await tester.drag(
+    find.byKey(const Key('keep-alive-list')),
+    const Offset(0, 900),
+  );
+  await tester.pumpAndSettle();
+
+  expect(_sectionCrossFade(tester).crossFadeState, CrossFadeState.showFirst);
+}
+
+AnimatedCrossFade _sectionCrossFade(WidgetTester tester) =>
+    tester.widget<AnimatedCrossFade>(find.byType(AnimatedCrossFade).first);

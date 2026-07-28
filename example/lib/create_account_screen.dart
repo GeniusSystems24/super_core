@@ -54,6 +54,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           onPressed: () => Navigator.maybePop(context),
         ),
         title: const Text('Create Account'),
+        subtitle: const Text('نموذج حساب يدعم العربية'),
         actions: [
           IconButton(
             icon: Icon(Icons.check, color: cs.primary),
@@ -120,6 +121,50 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   onChanged: (v) => setState(() => _mainAccount = v),
                 ),
               ],
+            ),
+          ),
+          SizedBox(height: t.spacing.section),
+
+          // ── ARABIC ACCOUNT DETAILS ─────────────────────────────────────────
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: SuperSectionCard2(
+              title: 'بيانات الحساب بالعربية',
+              subtitle: 'حقول عربية ومحاذاة RTL',
+              icon: Icons.translate_outlined,
+              collapsible: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FieldShell(
+                    label: 'نوع الحساب',
+                    required: true,
+                    child: _Segmented(
+                      options: const ['مدين', 'دائن'],
+                      selectedIndex: _debit ? 0 : 1,
+                      onChanged: (i) => setState(() => _debit = i == 0),
+                    ),
+                  ),
+                  SizedBox(height: t.spacing.md),
+                  const FieldShell(
+                    label: 'اسم الحساب',
+                    required: true,
+                    child: _InputBox(
+                      hint: 'مثال: صندوق النقدية',
+                      textDirection: TextDirection.rtl,
+                    ),
+                  ),
+                  SizedBox(height: t.spacing.md),
+                  const FieldShell(
+                    label: 'ملاحظات',
+                    child: _InputBox(
+                      hint: 'أضف ملاحظة مختصرة عن هذا الحساب',
+                      textDirection: TextDirection.rtl,
+                      minLines: 2,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: t.spacing.section),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
+import 'arabic_examples.dart';
+
 /// A comprehensive gallery of every `Super*` widget with all of its scenarios.
 /// Pushed from [ThemeDemoScreen]; inherits the ambient palette / theme so it
 /// re-themes live with the parent's controls.
@@ -116,6 +118,14 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             StatusPill('WARNING', tone: PillTone.warning),
             StatusPill('DANGER', tone: PillTone.danger),
           ]),
+
+          // ══ Arabic / RTL ════════════════════════════════════════════════
+          const _G('Arabic / RTL'),
+          const ArabicExampleSection(
+            title: 'مكونات عربية',
+            subtitle: 'بطاقة مشتركة لاختبار النصوص العربية داخل المعرض',
+            compactHeader: true,
+          ),
 
           // ══ FieldShell ═══════════════════════════════════════════════════
           const _G('FieldShell'),

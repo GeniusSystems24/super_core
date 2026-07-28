@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
+import 'arabic_examples.dart';
+
 /// Dedicated examples for the Super section component family.
 class SectionExampleScreen extends StatefulWidget {
   const SectionExampleScreen({super.key});
@@ -34,6 +36,16 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
         child: ListView(
           padding: EdgeInsets.only(bottom: t.spacing.space12),
           children: [
+            const _BlockHeader(
+              title: 'Arabic / RTL sections',
+              subtitle: 'Section components with Arabic text direction',
+            ),
+            SizedBox(height: t.spacing.space4),
+            const ArabicExampleSection(
+              title: 'قسم عربي',
+              subtitle: 'بطاقة قسم تستخدم اتجاه النص من اليمين إلى اليسار',
+            ),
+            SizedBox(height: t.spacing.section),
             const _BlockHeader(
               title: 'SuperSectionCard examples',
               subtitle: 'Headers, footers, expansion, and surface states',

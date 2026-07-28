@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
+import 'arabic_examples.dart';
 import 'create_account_screen.dart';
 import 'layout_components_screen.dart';
 import 'section_example_screen.dart';
@@ -819,6 +820,12 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           // 8 · CARDS
           // ════════════════════════════════════════════════════════════════════
+          const _Sec('ARABIC / RTL CONTENT'),
+          const ArabicExampleSection(
+            title: 'لوحة عربية',
+            subtitle: 'مثال مدمج داخل شاشة استعراض الثيم',
+          ),
+
           const _Sec('CARD VARIANTS'),
           // Elevated
           Card(
