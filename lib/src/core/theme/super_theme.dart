@@ -152,10 +152,8 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   ///
   /// Desktop mode uses tighter (Windows-density) metrics; mobile/tablet uses
   /// the larger (Android-density) scale. Colorless — apply `fg*` at the call site.
-  SuperTextTheme get textTheme => SuperTextTheme.fromTokens(
-    tokens,
-    isDesktop: mode == SuperDeviceMode.desktop,
-  );
+  SuperTextTheme get textTheme =>
+      SuperTextTheme(isDesktop: mode == SuperDeviceMode.desktop);
 
   /// A selection / accent tint at [pct] opacity blended over [surface]
   /// (mirrors the web `color-mix(... accent N%, surface)` highlight).

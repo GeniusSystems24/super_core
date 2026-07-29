@@ -427,10 +427,21 @@ Column(
 );
 ```
 
-`SuperTextTheme.fromTokens(...)` builds a responsive type ramp from brand
-fonts. Use `colorize(fg1, fg3)` for a pre-colored copy and
-`superCopyWith(...)` to replace Super-specific styles while retaining the full
-Material text theme.
+`SuperTextTheme(...)` builds a responsive type ramp from default
+Google Fonts faces, or from optional `bodyFont` and `otherFont` `TextStyle`
+seeds. Use `isDesktop` for tighter desktop metrics and `isArabic` to switch
+both body and display faces to `NotoNaskhArabic`.
+
+```dart
+final textTheme = SuperTextTheme(
+  bodyFont: const TextStyle(fontFamily: 'Inter'),
+  otherFont: const TextStyle(fontFamily: 'Manrope'),
+  isDesktop: SuperDeviceMode.of(context).isDesktop,
+);
+```
+
+Use `colorize(fg1, fg3)` for a pre-colored copy and `superCopyWith(...)` to
+replace Super-specific styles while retaining the full Material text theme.
 
 ### `SuperInteractiveStateThemeData`
 
@@ -855,6 +866,29 @@ Provide a custom font family when generating the theme:
 ```dart
 SuperMaterialThemeData.light(
   fontFamily: 'Inter',
+);
+```
+
+For a custom Super type ramp, pass a `SuperTextTheme` through `textTheme`.
+Set `mergeTextTheme: true` to apply its family over the generated metrics, or
+`false` to use the provided text theme as-is.
+
+```dart
+SuperMaterialThemeData.light(
+  textTheme: SuperTextTheme(
+    bodyFont: const TextStyle(fontFamily: 'Inter'),
+    otherFont: const TextStyle(fontFamily: 'Manrope'),
+  ),
+  mergeTextTheme: true,
+);
+```
+
+Arabic typography can be enabled without passing token data:
+
+```dart
+SuperMaterialThemeData.light(
+  textTheme: SuperTextTheme(isArabic: true),
+  mergeTextTheme: true,
 );
 ```
 

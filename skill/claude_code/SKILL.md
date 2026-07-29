@@ -58,7 +58,7 @@ product.
 **What changed in 2.4.0 (additive + breaking removals — read Migration):**
 
 1. **`SuperTextTheme extends TextTheme`** replaces the removed `SuperText` static
-   class. `SuperTextTheme.fromTokens(tokens, {isDesktop, isArabic})` populates
+   class. `SuperTextTheme(tokens, {isDesktop, isArabic})` populates
    all 15 Material `TextTheme` slots via Google Fonts (`GoogleFonts.manrope()` /
    `GoogleFonts.inter()` / `GoogleFonts.notoNaskhArabic()`). Nine named fields
    (`displayLg`, `headlineSm`, `titleMd`, `bodyLg`, `bodySm`, `labelMd`,

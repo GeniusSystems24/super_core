@@ -33,15 +33,11 @@ class _SuperCoreExampleAppState extends State<SuperCoreExampleApp> {
       // registers SuperThemeData as a ThemeExtension automatically.
       theme: SuperMaterialThemeData.light(
           palette: _palette,
-          textTheme: SuperTextTheme.fromTokens(
-              _palette.applySemanticsTo(SuperTokensData.fallback),
-              isArabic: true),
+          textTheme: SuperTextTheme(isArabic: true),
           mergeTextTheme: true),
       darkTheme: SuperMaterialThemeData.dark(
           palette: _palette,
-          textTheme: SuperTextTheme.fromTokens(
-              _palette.applySemanticsTo(SuperTokensData.fallback),
-              isArabic: true),
+          textTheme: SuperTextTheme(isArabic: true),
           mergeTextTheme: true),
       home: ThemeDemoScreen(
         selectedPalette: _palette,

@@ -6,6 +6,42 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [3.1.2] - 2026-07-29
+
+Typography factory cleanup and Arabic example simplification.
+
+### Changed
+
+- `SuperTextTheme.fromTokens` no longer requires a positional
+  `SuperTokensData`; callers now use named arguments only.
+- `SuperTextTheme.fromTokens` now accepts optional `bodyFont` and `otherFont`
+  `TextStyle` seeds before applying the Super type ramp metrics.
+- `SuperMaterialThemeData`, `SuperThemeData.textTheme`, and the example app now
+  use the simplified typography factory signature.
+
+### Migration
+
+Replace positional-token calls with named arguments:
+
+```dart
+// Before
+SuperTextTheme.fromTokens(tokens, isArabic: true);
+
+// After
+SuperTextTheme.fromTokens(isArabic: true);
+```
+
+To seed custom faces, pass `bodyFont:` and `otherFont:`:
+
+```dart
+SuperTextTheme.fromTokens(
+  bodyFont: const TextStyle(fontFamily: 'Inter'),
+  otherFont: const TextStyle(fontFamily: 'Manrope'),
+);
+```
+
+---
+
 ## [3.1.1] - 2026-07-28
 
 Arabic / RTL example coverage and section-card expansion fixes.
@@ -119,7 +155,7 @@ SuperSectionCard(color: context.superTheme.inputBg, child: summary);
 SuperSectionHeader(title: 'Opening Balance');
 ```
 
-For new responsive layouts:
+For nSuperTextTheme
 
 ```dart
 SuperScaffold(

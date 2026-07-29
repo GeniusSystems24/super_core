@@ -1379,7 +1379,7 @@ class SuperMaterialThemeData extends ThemeData {
             padding: m.spacing.cardPadding,
             gap: m.spacing.md,
             selectedBorderColor: cs.primary,
-            borderColor: cs.outlineVariant
+            borderColor: cs.outlineVariant,
           ),
 
       // ── Elevated Button ──
@@ -2252,8 +2252,7 @@ class SuperMaterialThemeData extends ThemeData {
     Color fg1,
     Color fg3,
     SuperTokensData tokens,
-  ) => SuperTextTheme.fromTokens(
-    tokens,
+  ) => SuperTextTheme(
     isDesktop: mode == SuperDeviceMode.desktop,
   ).colorize(fg1, fg3);
 }

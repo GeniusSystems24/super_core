@@ -60,7 +60,7 @@ Apply this skill when the user asks for:
 ## What changed in 2.4.0 (additive + breaking removals)
 
 1. **`SuperTextTheme extends TextTheme`** replaces the removed `SuperText` static
-   class. Factory `SuperTextTheme.fromTokens(tokens, {isDesktop, isArabic})`
+   class. Factory `SuperTextTheme(tokens, {isDesktop, isArabic})`
    populates all 15 Material `TextTheme` slots via Google Fonts:
    `GoogleFonts.manrope()` (display/headline), `GoogleFonts.inter()`
    (body/label), `GoogleFonts.notoNaskhArabic()` (Arabic). Nine named fields:

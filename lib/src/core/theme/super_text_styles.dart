@@ -20,8 +20,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'super_tokens.dart';
-
 /// The GeniusLink type ramp as a [TextTheme] subclass.
 ///
 /// All 15 standard Material slots are populated; branded getters provide
@@ -134,58 +132,57 @@ class SuperTextTheme extends TextTheme {
 
   // ── Factory ───────────────────────────────────────────────────────────────
 
-  /// Builds the ramp from [tokens] for the given device density and locale.
+  /// Builds the ramp for the given device density and locale.
   ///
   /// [isDesktop] selects tighter Windows-density metrics; pass
   /// `mode == SuperDeviceMode.desktop` from a [SuperThemeData].
   ///
   /// [isArabic] switches body and display faces to `NotoNaskhArabic`.
-  factory SuperTextTheme.fromTokens(
-    SuperTokensData tokens, {
+  factory SuperTextTheme({
+    TextStyle? bodyFont,
+    TextStyle? otherFont,
     bool isDesktop = false,
     bool isArabic = false,
   }) {
-    final TextStyle b = isArabic
-        ? GoogleFonts.notoNaskhArabic()
-        : GoogleFonts.inter();
-    final TextStyle d = isArabic
+    bodyFont ??= isArabic ? GoogleFonts.notoNaskhArabic() : GoogleFonts.inter();
+    otherFont ??= isArabic
         ? GoogleFonts.notoNaskhArabic()
         : GoogleFonts.manrope();
 
     if (isDesktop) {
       return SuperTextTheme._(
-        displayLg: d.copyWith(
+        displayLg: otherFont.copyWith(
           fontSize: 48,
           fontWeight: FontWeight.w700,
           height: 1.12,
         ),
-        headlineSm: d.copyWith(
+        headlineSm: otherFont.copyWith(
           fontSize: 22,
           fontWeight: FontWeight.w700,
           height: 1.25,
         ),
-        titleMd: d.copyWith(
+        titleMd: otherFont.copyWith(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           height: 1.35,
         ),
-        bodyLg: b.copyWith(
+        bodyLg: bodyFont.copyWith(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           height: 1.45,
         ),
-        bodySm: b.copyWith(
+        bodySm: bodyFont.copyWith(
           fontSize: 13,
           fontWeight: FontWeight.w400,
           height: 1.45,
         ),
-        labelMd: b.copyWith(
+        labelMd: bodyFont.copyWith(
           fontSize: 11,
           fontWeight: FontWeight.w600,
           height: 1.25,
           letterSpacing: 0.5,
         ),
-        labelSm: b.copyWith(
+        labelSm: bodyFont.copyWith(
           fontSize: 9,
           fontWeight: FontWeight.w500,
           height: 1.25,
@@ -198,48 +195,48 @@ class SuperTextTheme extends TextTheme {
           fontWeight: FontWeight.w400,
           fontFeatures: [FontFeature.tabularFigures()],
         ),
-        eyebrow: b.copyWith(
+        eyebrow: bodyFont.copyWith(
           fontSize: 10,
           fontWeight: FontWeight.w700,
           height: 1.25,
           letterSpacing: 1.5,
         ),
-        displayMediumStyle: d.copyWith(
+        displayMediumStyle: otherFont.copyWith(
           fontSize: 40,
           fontWeight: FontWeight.w700,
           height: 1.14,
         ),
-        displaySmallStyle: d.copyWith(
+        displaySmallStyle: otherFont.copyWith(
           fontSize: 32,
           fontWeight: FontWeight.w700,
           height: 1.18,
         ),
-        headlineLargeStyle: d.copyWith(
+        headlineLargeStyle: otherFont.copyWith(
           fontSize: 28,
           fontWeight: FontWeight.w700,
           height: 1.22,
         ),
-        headlineMediumStyle: d.copyWith(
+        headlineMediumStyle: otherFont.copyWith(
           fontSize: 24,
           fontWeight: FontWeight.w700,
           height: 1.25,
         ),
-        titleLargeStyle: d.copyWith(
+        titleLargeStyle: otherFont.copyWith(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           height: 1.3,
         ),
-        titleSmallStyle: b.copyWith(
+        titleSmallStyle: bodyFont.copyWith(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           height: 1.35,
         ),
-        captionStyle: b.copyWith(
+        captionStyle: bodyFont.copyWith(
           fontSize: 11,
           fontWeight: FontWeight.w400,
           height: 1.35,
         ),
-        buttonStyle: b.copyWith(
+        buttonStyle: bodyFont.copyWith(
           fontSize: 13,
           fontWeight: FontWeight.w600,
           height: 1.2,
@@ -247,38 +244,38 @@ class SuperTextTheme extends TextTheme {
       );
     }
     return SuperTextTheme._(
-      displayLg: d.copyWith(
+      displayLg: otherFont.copyWith(
         fontSize: 56,
         fontWeight: FontWeight.w700,
         height: 1.15,
       ),
-      headlineSm: d.copyWith(
+      headlineSm: otherFont.copyWith(
         fontSize: 24,
         fontWeight: FontWeight.w700,
         height: 1.3,
       ),
-      titleMd: d.copyWith(
+      titleMd: otherFont.copyWith(
         fontSize: 18,
         fontWeight: FontWeight.w600,
         height: 1.4,
       ),
-      bodyLg: b.copyWith(
+      bodyLg: bodyFont.copyWith(
         fontSize: 16,
         fontWeight: FontWeight.w400,
         height: 1.5,
       ),
-      bodySm: b.copyWith(
+      bodySm: bodyFont.copyWith(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         height: 1.5,
       ),
-      labelMd: b.copyWith(
+      labelMd: bodyFont.copyWith(
         fontSize: 12,
         fontWeight: FontWeight.w600,
         height: 1.3,
         letterSpacing: 0.6,
       ),
-      labelSm: b.copyWith(
+      labelSm: bodyFont.copyWith(
         fontSize: 10,
         fontWeight: FontWeight.w500,
         height: 1.3,
@@ -291,49 +288,49 @@ class SuperTextTheme extends TextTheme {
         fontWeight: FontWeight.w400,
         fontFeatures: [FontFeature.tabularFigures()],
       ),
-      eyebrow: b.copyWith(
+      eyebrow: bodyFont.copyWith(
         fontSize: 11,
         fontWeight: FontWeight.w700,
         height: 1.3,
         letterSpacing: 1.65,
       ),
-      displayMediumStyle: d.copyWith(
+      displayMediumStyle: otherFont.copyWith(
         fontSize: 48,
         fontWeight: FontWeight.w700,
         height: 1.14,
       ),
-      displaySmallStyle: d.copyWith(
+      displaySmallStyle: otherFont.copyWith(
         fontSize: 38,
         fontWeight: FontWeight.w700,
         height: 1.18,
       ),
-      headlineLargeStyle: d.copyWith(
+      headlineLargeStyle: otherFont.copyWith(
         fontSize: 32,
         fontWeight: FontWeight.w700,
         height: 1.22,
       ),
-      headlineMediumStyle: d.copyWith(
+      headlineMediumStyle: otherFont.copyWith(
         fontSize: 26,
         fontWeight: FontWeight.w700,
         height: 1.25,
       ),
-      titleLargeStyle: d.copyWith(
+      titleLargeStyle: otherFont.copyWith(
         fontSize: 22,
         fontWeight: FontWeight.w600,
         height: 1.3,
         letterSpacing: -0.3,
       ),
-      titleSmallStyle: b.copyWith(
+      titleSmallStyle: bodyFont.copyWith(
         fontSize: 16,
         fontWeight: FontWeight.w600,
         height: 1.35,
       ),
-      captionStyle: b.copyWith(
+      captionStyle: bodyFont.copyWith(
         fontSize: 12,
         fontWeight: FontWeight.w400,
         height: 1.35,
       ),
-      buttonStyle: b.copyWith(
+      buttonStyle: bodyFont.copyWith(
         fontSize: 14,
         fontWeight: FontWeight.w600,
         height: 1.2,
