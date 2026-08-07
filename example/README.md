@@ -20,5 +20,8 @@ Screens:
   `SuperSectionHeader`, `SuperSectionFooter`, `SuperFooterLink`, `Hairline`,
   generated headers, custom headers, footers, selected states, and expansion.
 - Compact create-account form using the latest section-card and spacing APIs.
+- Dialog/View examples for `SuperConfirmView`, `SuperConfirmDialog`,
+  `SuperFieldView`, and `SuperFieldDialog`, including modal results,
+  destructive confirmation, and the themed action-footer surface.
 - Arabic / RTL examples across the gallery, layout, section, theme, and form
   screens.

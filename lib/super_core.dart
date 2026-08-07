@@ -105,7 +105,7 @@
 /// | [SuperFormat] | Intl-free formatters |
 /// | [SuperMarker] | Section-marker bar intents |
 /// | Layout | SuperBreakpoint, SuperBreakpoints, SuperBreakpointProvider, SuperGrid, SuperGridCell, SuperGridScope, SuperScaffold |
-/// | Widgets | SuperSectionCard, SuperSectionHeader, SuperSectionFooter, AccentSectionCard, StatusPill, SuperButton, Hairline, FieldShell, SuperSnackBar, SuperAppBar, SuperSliverAppBar |
+/// | Widgets | SuperSectionCard, SuperSectionHeader, SuperSectionFooter, AccentSectionCard, StatusPill, SuperButton, SuperConfirmView, SuperConfirmDialog, SuperFieldView, SuperFieldDialog, Hairline, FieldShell, SuperSnackBar, SuperAppBar, SuperSliverAppBar |
 ///
 /// Import this single barrel to get the whole foundation:
 ///

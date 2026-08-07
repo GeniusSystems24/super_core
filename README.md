@@ -783,6 +783,43 @@ Wrap(
 );
 ```
 
+### Reusable confirmation and field surfaces
+
+Use the View components when the content belongs inline, in a card, or in a
+sheet. Use the matching Dialog wrapper for modal presentation; the Dialog does
+not duplicate the View implementation. When actions are present, the shared
+layout renders them in a distinct design-system footer surface using the active
+Super theme, so no feature-specific footer colors are needed.
+
+```dart
+SuperConfirmView(
+  title: 'Post journal entry',
+  description: 'Review the entry before posting it.',
+  content: const EntrySummary(),
+  confirmLabel: 'Post',
+  cancelLabel: 'Cancel',
+  onConfirm: postEntry,
+  onCancel: closePreview,
+);
+
+final confirmed = await SuperConfirmDialog.show(
+  context,
+  title: 'Delete store',
+  description: 'This action cannot be undone.',
+  confirmLabel: 'Delete',
+  isDestructive: true,
+);
+
+SuperFieldView(
+  title: 'Account information',
+  description: 'Enter the account details.',
+  actions: [
+    SuperButton(label: 'Save', onPressed: saveAccount),
+  ],
+  child: const AccountFields(),
+);
+```
+
 ### List and grid tiles
 
 ```dart
@@ -989,6 +1026,7 @@ Flutter localization APIs or the `intl` package in the consuming application.
 | Sections | `SuperSectionCard`, `SuperSectionCard1`, `SuperSectionCard2`, `SuperSectionHeader`, `SuperSectionFooter` |
 | Navigation surfaces | `SuperAppBar`, `SuperSliverAppBar` |
 | Tiles and controls | `SuperListTile`, `SuperGridTile`, `SuperButton`, `SuperIconButton`, `SuperSlider`, `StatusPill` |
+| Forms and confirmation | `SuperConfirmView`, `SuperConfirmDialog`, `SuperFieldView`, `SuperFieldDialog` |
 | Feedback | `SuperSnackBar`, `Hairline`, `FieldShell` |
 | Foundation | failures, typedefs, validators, use cases, and key-direction utilities |
 

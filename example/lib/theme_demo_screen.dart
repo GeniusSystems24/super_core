@@ -5,6 +5,7 @@ import 'package:super_core/super_core.dart';
 
 import 'arabic_examples.dart';
 import 'create_account_screen.dart';
+import 'dialog_views_example_screen.dart';
 import 'layout_components_screen.dart';
 import 'section_example_screen.dart';
 import 'super_widgets_gallery.dart';
@@ -197,6 +198,15 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             tooltip: 'Create Account — compact form screen',
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const CreateAccountScreen()),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.dynamic_form_outlined),
+            tooltip: 'Dialog & View examples',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const DialogViewsExampleScreen(),
+              ),
             ),
           ),
           IconButton(

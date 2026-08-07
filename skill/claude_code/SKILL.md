@@ -2,18 +2,19 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v3.1.0) — the shared GeniusLink design-system foundation for the Super
+  (v3.2.1) — the shared GeniusLink design-system foundation for the Super
   toolkit. super_core ships SuperPalette (ten palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
   metrics + dynamic tokens), SuperMetrics / SuperResponsive responsive tokens,
   SuperTokensData dynamic brand tokens, SuperSemanticColors + SuperColorX color
   utilities, SuperTextTheme (a TextTheme subclass powered by Google Fonts), and
+  reusable confirmation/field View + Dialog primitives alongside the other
   design-system widgets. Use this skill whenever you build, theme, or modify
   anything in super_core or in a package that depends on it.
 ---
 
-# super_core ? v3.1.0
+# super_core — v3.2.1
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -22,6 +23,39 @@ Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
 type, spacing, and component themes from here so the whole toolkit looks like one
 product.
 
+
+## What changed in 3.2.1 (distinct action footer)
+
+1. **The shared View action area is now a dedicated footer surface.**
+   `SuperConfirmView` and `SuperFieldView` use `SuperThemeData.bg` for the
+   action footer and `SuperThemeData.border` for its top hairline.
+2. **Never copy reference-image colors into these footers.** Let the active
+   Super theme resolve light/dark and palette-specific surfaces.
+3. **Keep dialogs thin.** `SuperConfirmDialog` and `SuperFieldDialog` inherit
+   this footer from their View component; do not duplicate the action layout.
+
+
+## What changed in 3.2.0 (reusable confirmation + field views/dialogs)
+
+1. **`SuperConfirmView` added.** Reusable confirmation hierarchy for inline
+   surfaces: title, description, optional content, semantic intent icon, and
+   confirm/cancel actions.
+2. **`SuperConfirmDialog` added.** Thin modal wrapper around
+   `SuperConfirmView`. Prefer `SuperConfirmDialog.show(...)` for standard modal
+   confirmation; it returns `true` only for confirmation and `false` for cancel
+   or barrier dismissal.
+3. **`SuperFieldView` added.** Reusable form/custom-input layout with optional
+   title, description, and actions.
+4. **`SuperFieldDialog` added.** Thin modal wrapper around `SuperFieldView`.
+   `SuperFieldDialog.show<T>(...)` returns whatever value the caller pops.
+5. **Architecture rule:** shared hierarchy and behavior belong in the `View`;
+   modal presentation, viewport constraints, and navigation lifecycle belong in
+   the `Dialog`. Never fork the same UI between both.
+6. **Styling rule:** use the ambient Super/Material themes and `SuperButton`;
+   use `isDestructive: true` for destructive confirmation rather than custom
+   colors/buttons.
+7. **Example:** `example/lib/dialog_views_example_screen.dart` demonstrates all
+   four components, including destructive confirmation and modal results.
 
 ## What changed in 3.1.0 (section-card variants)
 
@@ -235,8 +269,9 @@ super_core/
 │       │   └── super_text_styles.dart            # SuperTextTheme extends TextTheme (Google Fonts)
 │       ├── constants/  errors/  extensions/  typedefs/  usecases/  utils/
 │       └── widgets/                 # SectionCard, AccentSectionCard, SectionHeader, StatusPill,
-│                                    # SuperButton, Hairline, FieldShell, SuperCard, SuperSnackBar,
-│                                    # SuperAppBar, SuperSliverAppBar, SuperSection, SuperSectionHeader,
+│                                    # SuperButton, Hairline, FieldShell, SuperSnackBar,
+│                                    # SuperConfirmView/Dialog, SuperFieldView/Dialog,
+│                                    # SuperAppBar, SuperSliverAppBar, SuperSectionHeader,
 │                                    # SuperSectionFooter, SuperListTile, SuperGridTile, SuperSlider
 ├── example/                         # runnable palette / mode showcase
 ├── CHANGELOG.md   README.md   pubspec.yaml   analysis_options.yaml
@@ -592,17 +627,33 @@ instead of restyling raw `Container` / Material widgets.
 | `SuperAppBar` | `PreferredSizeWidget` fork of `AppBar` (all props). Back button: `arrow_back_ios_new_rounded`. | `title` - `subtitle` + `subtitlePosition` - `actions` (overflow past `maxActions`) - `leading` - `bottom` - `flexibleSpace` |
 | `SuperSliverAppBar` | Fork of `SliverAppBar` (all props). | same subtitle/overflow - `pinned` / `floating` / `snap` / `stretch` - `expandedHeight` - `flexibleSpace` |
 | `SuperSnackBar` | Floating toast over `ScaffoldMessenger`. | `.info/.success/.warning/.danger(ctx, msg)` - `.build(...)` - `SuperSnackBarTone` |
+| `SuperConfirmView` | Reusable non-modal confirmation hierarchy. | `title` - `description` - `content` - `confirmLabel`/`cancelLabel` - `onConfirm`/`onCancel` - `showCancel` - `isDestructive` |
+| `SuperConfirmDialog` | Thin modal wrapper around `SuperConfirmView`. | `.show(...) -> Future<bool>` - same confirmation content/labels - `confirmEnabled` - `maxWidth` - barrier/root navigator options |
+| `SuperFieldView` | Reusable title/description + form/custom-input content + actions. | `child` - `title` - `description` - `actions` - `padding` |
+| `SuperFieldDialog` | Thin modal wrapper around `SuperFieldView`. | `.show<T>(...) -> Future<T?>` - `child` - `title` - `description` - `actions` - `maxWidth` |
 | `SuperListTile` | GeniusLink list row with density presets + states. | `density` - `selected` - `badge` - `marker` - `leadingIcon` - `subtitle` - `trailingActions` - `loading` |
 | `SuperGridTile` | Dashboard / catalog card with hover-reveal actions. | `header`/`child`/`footer` - `media` - `badge` - `overlay` - `actions` - `aspectRatio` - `loading` |
 | `SuperSlider` | Responsive content carousel. | `children`/`itemBuilder` - `visibleItems` - `peek` - `autoPlay` - `loop` - `controller` - `onIndexChanged` |
 
-> `SuperDialog` was **removed in 2.0.0** - use Flutter's `showDialog` /
-> `AlertDialog`, which `SuperMaterialThemeData` themes for you.
+> `SuperDialog` is not part of the public package API. For confirmation or
+> field-entry flows, use the v3.2.0 View/Dialog primitives above. For generic
+> one-off dialogs that do not fit those patterns, use Flutter's themed
+> `showDialog` / `AlertDialog`.
 >
 > `SuperText` was **removed in 2.4.0** - use `context.superTheme.textTheme.<field>`.
 >
 > `SectionCard`, `SectionHeader`, `SuperSection`, and `SuperCard` were
 > **removed in 3.0.0** - use `SuperSectionCard` and `SuperSectionHeader`.
+
+For the v3.2.1 View/Dialog family:
+
+- inline confirmation → `SuperConfirmView`
+- modal confirmation → `SuperConfirmDialog.show(...)`
+- inline form/custom input → `SuperFieldView`
+- modal form/custom input → `SuperFieldDialog.show<T>(...)`
+- localize labels/copy at the call site; ambient `Directionality` handles RTL/LTR
+- keep the default responsive dialog width unless the use case needs `maxWidth`
+- keep shared UI/behavior in the View and dialog lifecycle in the Dialog
 
 ```dart
 // Expandable, selectable card with a generated header:
@@ -627,17 +678,32 @@ SuperScaffold(
   ),
 );
 
-// Themed dialog (SuperDialog is gone):
-final ok = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(
-  title: const Text('Delete Store'),
-  content: const Text('This cannot be undone.'),
-  actions: [
-    TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
-    FilledButton(
-      style: FilledButton.styleFrom(backgroundColor: Theme.of(ctx).colorScheme.error),
-      onPressed: () => Navigator.pop(ctx, true), child: const Text('Delete')),
-  ],
-));
+// Modal confirmation: thin dialog wrapper around reusable confirmation UI.
+final confirmed = await SuperConfirmDialog.show(
+  context,
+  title: 'Delete Store?',
+  description: 'This action cannot be undone.',
+  confirmLabel: 'Delete',
+  isDestructive: true,
+  icon: Icons.delete_outline,
+);
+
+// Inline confirmation: same shared hierarchy, no modal lifecycle.
+SuperConfirmView(
+  title: 'Post journal entry?',
+  description: 'Review the final totals before posting.',
+  content: const JournalEntrySummary(),
+  confirmLabel: 'Post',
+  onConfirm: postEntry,
+  onCancel: cancelReview,
+);
+
+// Reusable field layout; use SuperFieldDialog.show<T> for the modal form.
+SuperFieldView(
+  title: 'Exchange rate',
+  actions: [SuperButton(label: 'Save', onPressed: saveRate)],
+  child: const ExchangeRateFields(),
+);
 
 // Semantic toast:
 SuperSnackBar.success(context, 'Journal entry JV-2024-0042 posted.');

@@ -6,6 +6,53 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [3.2.1] - 2026-08-07
+
+Action-footer visual separation for reusable View/Dialog components.
+
+### Changed
+
+- `SuperConfirmView` and `SuperFieldView` now render their actions in a
+  visually distinct footer surface, inherited automatically by
+  `SuperConfirmDialog` and `SuperFieldDialog`.
+- The footer uses the active `SuperThemeData.bg` surface with the existing
+  `SuperThemeData.border` hairline instead of introducing component-specific
+  colors, so light/dark themes and palette overrides remain consistent.
+- Action-footer horizontal insets continue to follow the View padding while
+  vertical spacing uses the responsive `SuperSpacing` scale.
+
+---
+
+## [3.2.0] - 2026-08-07
+
+Reusable confirmation and field view/dialog primitives.
+
+### Added
+
+- `SuperConfirmView` for reusable confirmation title, description, optional
+  content, semantic intent icon, and confirm/cancel actions.
+- `SuperConfirmDialog` as a thin modal wrapper around `SuperConfirmView`, with
+  boolean dialog results, destructive intent support, and configurable width.
+- `SuperFieldView` for reusable form/custom-input layouts with optional title,
+  description, and actions.
+- `SuperFieldDialog` as a thin modal wrapper around `SuperFieldView`.
+- Widget tests covering View/Dialog composition, callbacks, RTL content, dark
+  theme usage, and modal lifecycle.
+- Example screen demonstrating all four View/Dialog components, including
+  inline usage, modal results, and destructive confirmation.
+
+### Changed
+
+- Public exports now include the four reusable View/Dialog components.
+- Dialog components rely on the package `DialogThemeData`, `SuperThemeData`,
+  responsive spacing/sizing, typography, semantic colors, and `SuperButton`
+  instead of introducing parallel component styling.
+- Agent skill documentation now targets v3.2.0 and documents when to use the
+  reusable View/Dialog pairs, their lifecycle boundaries, and destructive
+  confirmation guidance.
+
+---
+
 ## [3.1.2] - 2026-07-29
 
 Typography factory cleanup and Arabic example simplification.
