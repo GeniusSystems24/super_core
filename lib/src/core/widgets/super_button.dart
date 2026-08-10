@@ -85,7 +85,7 @@ class _SuperButtonState extends State<SuperButton> {
               ),
               SizedBox(width: t.spacing.space2),
             ],
-            Text(widget.label, style: t.textTheme.button.copyWith(color: fg)),
+            Text(widget.label, style: context.superTextTheme.button.copyWith(color: fg)),
           ],
         ),
       ),

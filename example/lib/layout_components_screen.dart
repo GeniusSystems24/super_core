@@ -16,8 +16,8 @@ class LayoutComponentsScreen extends StatelessWidget {
       backgroundColor: t.bg,
       appBar: SuperAppBar(
         title: const Text('Layout Components'),
-        subtitle: const Text('SUPER CORE - v3.1.0'),
-        subtitleTextStyle: t.textTheme.eyebrow.copyWith(
+        subtitle: const Text('SUPER CORE - v3.3.0'),
+        subtitleTextStyle: context.superTextTheme.eyebrow.copyWith(
           color: colorScheme.primary,
         ),
       ),
@@ -320,12 +320,12 @@ class _MetricTile extends StatelessWidget {
               children: [
                 Text(
                   label.toUpperCase(),
-                  style: t.textTheme.labelSm.copyWith(color: t.fg3),
+                  style: context.superTextTheme.labelSm.copyWith(color: t.fg3),
                 ),
                 SizedBox(height: t.spacing.space1),
                 Text(
                   value,
-                  style: t.textTheme.titleMd.copyWith(color: t.fg1),
+                  style: context.superTextTheme.titleMd.copyWith(color: t.fg1),
                 ),
               ],
             ),
@@ -365,7 +365,7 @@ class _DemoTile extends StatelessWidget {
           alignment: AlignmentDirectional.centerStart,
           child: Text(
             marker.name.toUpperCase(),
-            style: t.textTheme.mono.copyWith(color: t.fg2),
+            style: context.superTextTheme.mono.copyWith(color: t.fg2),
           ),
         ),
       ),

@@ -14,8 +14,8 @@ import 'package:flutter/widgets.dart';
 
 /// The responsive form-factor a [SuperMaterialThemeData] is generated for.
 ///
-/// Passed to `SuperMaterialThemeData.light(mode: ...)` / `.dark(mode: ...)`.
-/// Defaults to [mobile] everywhere.
+/// Passed to `SuperMaterialThemeData.light` / `.dark` alongside the required
+/// `SuperTextTheme` values. Defaults to [mobile] everywhere.
 enum SuperDeviceMode {
   /// Phones — largest touch targets, tightest content column, densest rhythm.
   mobile,

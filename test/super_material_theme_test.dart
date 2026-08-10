@@ -8,11 +8,13 @@ void main() {
   group('SuperMaterialThemeData surface colors', () {
     test('light theme matches the mobile surface stack', () {
       final theme = SuperMaterialThemeData.light(
-        textTheme: _testTextTheme,
-        mergeTextTheme: false,
+        textTheme: _testTypography,
+        primaryTextTheme: _testTypography,
       );
       final superTheme = theme.superTheme;
 
+      expect(theme.textTheme, isA<SuperTextTheme>());
+      expect(theme.primaryTextTheme, isA<SuperTextTheme>());
       expect(theme.scaffoldBackgroundColor, const Color(0xFFEAEAEA));
       expect(theme.appBarTheme.backgroundColor, theme.scaffoldBackgroundColor);
       expect(theme.inputDecorationTheme.fillColor, const Color(0xFFFFFFFF));
@@ -30,8 +32,8 @@ void main() {
 
     test('dark theme matches the mobile surface stack', () {
       final theme = SuperMaterialThemeData.dark(
-        textTheme: _testTextTheme,
-        mergeTextTheme: false,
+        textTheme: _testTypography,
+        primaryTextTheme: _testTypography,
       );
       final superTheme = theme.superTheme;
 
@@ -49,10 +51,44 @@ void main() {
       expect(superTheme.inputBg, theme.inputDecorationTheme.fillColor);
       expect(theme.colorScheme.surfaceContainer, superTheme.surface);
     });
+
+    test('copyWith accepts plain Flutter text themes', () {
+      final theme = SuperMaterialThemeData.light(
+        textTheme: _testTypography,
+        primaryTextTheme: _testTypography,
+      );
+
+      final copied = theme.copyWith(
+        textTheme: const TextTheme(bodyMedium: TextStyle(fontSize: 17)),
+        primaryTextTheme: const TextTheme(titleMedium: TextStyle(fontSize: 18)),
+      );
+
+      expect(copied.textTheme, isA<SuperTextTheme>());
+      expect(copied.primaryTextTheme, isA<SuperTextTheme>());
+    });
+
+    test('can be localized by Flutter ThemeData', () {
+      final theme = SuperMaterialThemeData.light(
+        textTheme: _testTypography,
+        primaryTextTheme: _testTypography,
+      );
+
+      final localized = ThemeData.localize(
+        theme,
+        theme.typography.geometryThemeFor(ScriptCategory.englishLike),
+      );
+
+      expect(localized, isA<SuperMaterialThemeData>());
+      expect(localized.textTheme, isA<SuperTextTheme>());
+      expect(localized.primaryTextTheme, isA<SuperTextTheme>());
+    });
   });
 }
 
 const kAccent = Color(0xFF4A7CFF);
 const kDarkAccent = Color(0xFF7A9AFF);
 const kFabSize = BoxConstraints.tightFor(width: 54, height: 54);
-final _testTextTheme = Typography.material2021().black;
+final _testTypography = SuperTextTheme(
+  bodyFont: const TextStyle(fontFamily: 'TestBody'),
+  otherFont: const TextStyle(fontFamily: 'TestDisplay'),
+);

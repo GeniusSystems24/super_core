@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v3.1.0)
+# super_core — ChatGPT / Codex agent instructions (v3.3.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 3.1.0
+version: 3.3.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 deps:    google_fonts >=6.2.1 <7.0.0
@@ -24,6 +24,16 @@ Apply this skill when the user asks for:
 - "responsive spacing / sizing / typography for mobile, tablet, desktop"
 - reading Super surface tokens (`bg`, `surface`, `fg1…fg4`, `border`) in a widget
 - building or modifying any `super_*` package theme
+
+## What changed in 3.3.0 (explicit Super typography)
+
+1. `SuperMaterialThemeData.light` and `.dark` require both
+   `SuperTextTheme textTheme` and `SuperTextTheme primaryTextTheme`.
+2. `SuperThemeData.textTheme`, the internal `_textTheme` generator, and
+   `mergeTextTheme` are removed. Read typography through
+   `context.superTextTheme` or `SuperMaterialThemeData.of(context).textTheme`.
+3. Responsive typography is caller-owned. Rebuild `SuperTextTheme` with
+   `isDesktop: mode == SuperDeviceMode.desktop` when the active mode changes.
 
 ## What changed in 3.1.0 (section-card variants)
 
@@ -43,13 +53,14 @@ Apply this skill when the user asks for:
 
 1. **`SuperTokens` → `SuperTokensData` (dynamic).** The old static class is
    removed; tokens are instance fields on `SuperTokensData` carried by the theme
-   (`SuperThemeData.tokens` / `SuperMaterialThemeData.tokens`); override via
-   `SuperMaterialThemeData.light(tokens: const SuperTokensData(...))`. Read live
-   values dynamically with `SuperThemeData.of(context).tokens.x`; no static
+   (`SuperThemeData.tokens` / `SuperMaterialThemeData.tokens`); override via the
+   `tokens:` constructor argument while still supplying the required `textTheme`
+   and `primaryTextTheme`. Read live values dynamically with
+   `SuperThemeData.of(context).tokens.x`; no static
    token constants remain (literal where `const` is mandatory). `SuperMarker`
    colors resolve via `marker.resolve(tokens)`.
-2. **Custom fonts** — `fontFamily` + `textTheme` + `mergeTextTheme` on
-   `.light`/`.dark`.
+2. **Custom fonts** — build the required `SuperTextTheme` with `bodyFont` /
+   `otherFont` seeds and pass it to both typography parameters.
 3. **`SuperAppBar` + `SuperSliverAppBar`** fork `AppBar` / `SliverAppBar` with
    `subtitle` + `subtitlePosition` and responsive action overflow past
    `maxActions` (`SuperAppBarTheme`).
@@ -100,15 +111,25 @@ Apply this skill when the user asks for:
 ```dart
 import 'package:super_core/super_core.dart';
 
+final typography = SuperTextTheme();
+
 MaterialApp(
-  theme:     SuperMaterialThemeData.light(palette: SuperPalette.bluePalette),
-  darkTheme: SuperMaterialThemeData.dark(palette: SuperPalette.bluePalette),
+  theme: SuperMaterialThemeData.light(
+    palette: SuperPalette.bluePalette,
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
+  darkTheme: SuperMaterialThemeData.dark(
+    palette: SuperPalette.bluePalette,
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
   themeMode: ThemeMode.system,
 );
 ```
 
 One call generates the full Material 3 theme (a complete ColorScheme — fixed
-roles + surface-container ramp — typography, every button, inputs, navigation,
+roles + surface-container ramp — every button, inputs, navigation,
 dialogs, sheets, cards, chips, tabs, tables, switches, menus, tooltips,
 snackbars, scrollbars, FAB, date/time pickers, search, badges, toggle buttons)
 from the palette + mode. Scaffold = `ColorScheme.surface`; the app bar rides the
@@ -121,9 +142,9 @@ SuperMaterialThemeData.light({           // .dark({…}) is identical
   SuperPalette palette = SuperPalette.bluePalette,
   SuperDeviceMode mode = SuperDeviceMode.mobile,
   SuperTokensData? tokens,      // dynamic brand-token overrides
-  String? fontFamily,           // swap the primary font family
-  bool mergeTextTheme = true,   // adopt a textTheme's font over the default ramp
-  TextTheme? textTheme,
+  String? fontFamily,           // token font-family metadata override
+  required SuperTextTheme textTheme,
+  required SuperTextTheme primaryTextTheme,
   AppBarTheme? appBarTheme,      // SuperAppBarTheme for subtitle/overflow defaults
   NavigationBarThemeData? navigationBarTheme,
   ButtonThemeData? buttonTheme,
@@ -182,9 +203,9 @@ const g = SuperResponsive<double>(mobile: 16, tablet: 24, desktop: 32);  g.resol
 ```
 
 Spacing GROWS with viewport; control heights SHRINK (mobile keeps ≥44 px
-targets). Typography scales per mode (mobile ~+6 %, tablet ~+2 %, desktop
-baseline). `InputDecorationTheme` padding/density/height/border/icon constraints
-follow the mode. Caller `textTheme:` / `formFieldTheme:` override wholesale.
+targets). Typography is explicit in v3.3.0; rebuild the matching
+`SuperTextTheme` when mode changes. `InputDecorationTheme`
+padding/density/height/border/icon constraints follow the mode.
 
 ## Deriving package themes
 
@@ -319,7 +340,11 @@ declared `dynamic` to stay a valid override across Flutter's `XxxTheme` →
 `XxxThemeData` migration — pass normal Material types.
 
 ```dart
-final t = SuperMaterialThemeData.dark().copyWith(
+final typography = SuperTextTheme();
+final t = SuperMaterialThemeData.dark(
+  textTheme: typography,
+  primaryTextTheme: typography,
+).copyWith(
   extensions: const [MyFeatureThemeData.dark],  // merged, not replaced
 );
 ```

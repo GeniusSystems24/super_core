@@ -139,6 +139,21 @@ class _DialogViewsExampleScreenState extends State<DialogViewsExampleScreen> {
               child: SuperFieldView(
                 title: 'Store information',
                 description: 'Enter the primary store details.',
+                actions: [
+                  SuperButton(
+                    label: 'Reset',
+                    variant: SuperButtonVariant.secondary,
+                    onPressed: () => _inlineNameController.clear(),
+                  ),
+                  SuperButton(
+                    label: 'Save',
+                    icon: const Icon(Icons.save_outlined),
+                    onPressed: () => SuperSnackBar.success(
+                      context,
+                      'Inline field view saved.',
+                    ),
+                  ),
+                ],
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -163,21 +178,6 @@ class _DialogViewsExampleScreenState extends State<DialogViewsExampleScreen> {
                     ),
                   ],
                 ),
-                actions: [
-                  SuperButton(
-                    label: 'Reset',
-                    variant: SuperButtonVariant.secondary,
-                    onPressed: () => _inlineNameController.clear(),
-                  ),
-                  SuperButton(
-                    label: 'Save',
-                    icon: const Icon(Icons.save_outlined),
-                    onPressed: () => SuperSnackBar.success(
-                      context,
-                      'Inline field view saved.',
-                    ),
-                  ),
-                ],
               ),
             ),
             _ExampleCard(
@@ -355,7 +355,7 @@ class _SummaryRows extends StatelessWidget {
               Expanded(
                 child: Text(
                   row.$1,
-                  style: t.textTheme.label.copyWith(color: t.fg3),
+                  style: context.superTextTheme.label.copyWith(color: t.fg3),
                 ),
               ),
               SizedBox(width: t.spacing.space4),
@@ -363,7 +363,7 @@ class _SummaryRows extends StatelessWidget {
                 child: Text(
                   row.$2,
                   textAlign: TextAlign.end,
-                  style: t.textTheme.body.copyWith(color: t.fg1),
+                  style: context.superTextTheme.body.copyWith(color: t.fg1),
                 ),
               ),
             ],

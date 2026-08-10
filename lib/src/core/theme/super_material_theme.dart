@@ -8,9 +8,18 @@
 // (registered as a [ThemeExtension]) alongside it.
 //
 // Usage:
+//   final typography = SuperTextTheme();
 //   MaterialApp(
-//     theme:     SuperMaterialThemeData.light(palette: SuperPalette.bluePalette),
-//     darkTheme: SuperMaterialThemeData.dark(palette: SuperPalette.bluePalette),
+//     theme: SuperMaterialThemeData.light(
+//       palette: SuperPalette.bluePalette,
+//       textTheme: typography,
+//       primaryTextTheme: typography,
+//     ),
+//     darkTheme: SuperMaterialThemeData.dark(
+//       palette: SuperPalette.bluePalette,
+//       textTheme: typography,
+//       primaryTextTheme: typography,
+//     ),
 //   );
 //
 // Because it IS a [ThemeData], `Theme.of(context)` returns it directly and
@@ -53,9 +62,18 @@ import 'super_card_theme.dart';
 /// registered [ThemeExtension]).
 ///
 /// ```dart
+/// final typography = SuperTextTheme();
 /// MaterialApp(
-///   theme:     SuperMaterialThemeData.light(palette: SuperPalette.bluePalette),
-///   darkTheme: SuperMaterialThemeData.dark(palette: SuperPalette.bluePalette),
+///   theme: SuperMaterialThemeData.light(
+///     palette: SuperPalette.bluePalette,
+///     textTheme: typography,
+///     primaryTextTheme: typography,
+///   ),
+///   darkTheme: SuperMaterialThemeData.dark(
+///     palette: SuperPalette.bluePalette,
+///     textTheme: typography,
+///     primaryTextTheme: typography,
+///   ),
 /// );
 ///
 /// // Anywhere below:
@@ -82,6 +100,18 @@ class SuperMaterialThemeData extends ThemeData {
   /// static `SuperTokens` constants.
   SuperTokensData get tokens => superTheme.tokens;
 
+  final SuperTextTheme _superTextTheme;
+  final SuperTextTheme _superPrimaryTextTheme;
+
+  /// The required Super typography ramp installed in [ThemeData.textTheme].
+  @override
+  SuperTextTheme get textTheme => _superTextTheme;
+
+  /// The required Super typography ramp installed in
+  /// [ThemeData.primaryTextTheme].
+  @override
+  SuperTextTheme get primaryTextTheme => _superPrimaryTextTheme;
+
   // ── Private delegating constructor ─────────────────────────────────────────
   //
   // Chains to [ThemeData.raw] (the only generative ThemeData constructor),
@@ -91,7 +121,11 @@ class SuperMaterialThemeData extends ThemeData {
     ThemeData base, {
     required this.superTheme,
     required this.mode,
-  }) : super.raw(
+    required SuperTextTheme textTheme,
+    required SuperTextTheme primaryTextTheme,
+  }) : _superTextTheme = textTheme,
+       _superPrimaryTextTheme = primaryTextTheme,
+       super.raw(
          // GENERAL CONFIGURATION
          adaptationMap: base.adaptationMap,
          applyElevationOverlayColor: base.applyElevationOverlayColor,
@@ -200,7 +234,6 @@ class SuperMaterialThemeData extends ThemeData {
     SuperDeviceMode mode = SuperDeviceMode.mobile,
     SuperTokensData? tokens,
     String? fontFamily,
-    bool mergeTextTheme = true,
     // ── General Configuration ──
     bool? applyElevationOverlayColor = false,
     NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
@@ -211,8 +244,8 @@ class SuperMaterialThemeData extends ThemeData {
     bool? useMaterial3,
     VisualDensity? visualDensity,
     // ── Typography & Iconography ──
-    TextTheme? textTheme,
-    TextTheme? primaryTextTheme,
+    required SuperTextTheme textTheme,
+    required SuperTextTheme primaryTextTheme,
     IconThemeData? iconTheme,
     IconThemeData? primaryIconTheme,
     Typography? typography,
@@ -296,7 +329,6 @@ class SuperMaterialThemeData extends ThemeData {
     mode: mode,
     tokens: tokens,
     fontFamily: fontFamily,
-    mergeTextTheme: mergeTextTheme,
     applyElevationOverlayColor: applyElevationOverlayColor,
     cupertinoOverrideTheme: cupertinoOverrideTheme,
     materialTapTargetSize: materialTapTargetSize,
@@ -390,7 +422,6 @@ class SuperMaterialThemeData extends ThemeData {
     SuperDeviceMode mode = SuperDeviceMode.mobile,
     SuperTokensData? tokens,
     String? fontFamily,
-    bool mergeTextTheme = true,
     // ── General Configuration ──
     bool? applyElevationOverlayColor = true,
     NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
@@ -401,8 +432,8 @@ class SuperMaterialThemeData extends ThemeData {
     bool? useMaterial3,
     VisualDensity? visualDensity,
     // ── Typography & Iconography ──
-    TextTheme? textTheme,
-    TextTheme? primaryTextTheme,
+    required SuperTextTheme textTheme,
+    required SuperTextTheme primaryTextTheme,
     IconThemeData? iconTheme,
     IconThemeData? primaryIconTheme,
     Typography? typography,
@@ -486,7 +517,6 @@ class SuperMaterialThemeData extends ThemeData {
     mode: mode,
     tokens: tokens,
     fontFamily: fontFamily,
-    mergeTextTheme: mergeTextTheme,
     applyElevationOverlayColor: applyElevationOverlayColor,
     cupertinoOverrideTheme: cupertinoOverrideTheme,
     materialTapTargetSize: materialTapTargetSize,
@@ -619,12 +649,55 @@ class SuperMaterialThemeData extends ThemeData {
       superTheme: superTheme,
       states: states,
     );
-    final base = theme.copyWith(extensions: merged);
+
+    // Preserve the SuperMaterialThemeData invariant even when wrapping a plain
+    // ThemeData: both Material typography fields are normalized to
+    // SuperTextTheme before the subclass is created. Existing SuperTextTheme
+    // instances are kept verbatim; plain TextTheme values contribute their font
+    // seeds and are rebuilt on the Super type ramp.
+    final textTheme = theme.textTheme is SuperTextTheme
+        ? theme.textTheme as SuperTextTheme
+        : SuperTextTheme(
+            bodyFont: theme.textTheme.bodyMedium,
+            otherFont: theme.textTheme.titleMedium,
+            isDesktop: superTheme.mode == SuperDeviceMode.desktop,
+          ).colorize(theme.colorScheme.onSurface, superTheme.fg3);
+    final primaryTextTheme = theme.primaryTextTheme is SuperTextTheme
+        ? theme.primaryTextTheme as SuperTextTheme
+        : SuperTextTheme(
+            bodyFont: theme.primaryTextTheme.bodyMedium,
+            otherFont: theme.primaryTextTheme.titleMedium,
+            isDesktop: superTheme.mode == SuperDeviceMode.desktop,
+          ).colorize(theme.colorScheme.onPrimary, theme.colorScheme.onPrimary);
+    final base = theme.copyWith(
+      extensions: merged,
+      textTheme: textTheme,
+      primaryTextTheme: primaryTextTheme,
+    );
     return SuperMaterialThemeData._fromBase(
       base,
       superTheme: superTheme,
       mode: superTheme.mode,
+      textTheme: textTheme,
+      primaryTextTheme: primaryTextTheme,
     );
+  }
+
+  static SuperTextTheme _normalizeTextTheme(
+    TextTheme? theme, {
+    required SuperTextTheme fallback,
+    required bool isDesktop,
+    required Color color,
+    required Color mutedColor,
+  }) {
+    if (theme == null) return fallback;
+    if (theme is SuperTextTheme) return theme;
+
+    return SuperTextTheme(
+      bodyFont: theme.bodyMedium ?? fallback.bodyMedium,
+      otherFont: theme.titleMedium ?? fallback.titleMedium,
+      isDesktop: isDesktop,
+    ).colorize(color, mutedColor);
   }
 
   // ── copyWith ─────────────────────────────────────────────────────────────────
@@ -729,6 +802,20 @@ class SuperMaterialThemeData extends ThemeData {
   }) {
     final nextSuperTheme = superTheme ?? this.superTheme;
     final nextMode = mode ?? this.mode;
+    final nextTextTheme = _normalizeTextTheme(
+      textTheme,
+      fallback: this.textTheme,
+      isDesktop: nextMode == SuperDeviceMode.desktop,
+      color: colorScheme?.onSurface ?? this.colorScheme.onSurface,
+      mutedColor: nextSuperTheme.fg3,
+    );
+    final nextPrimaryTextTheme = _normalizeTextTheme(
+      primaryTextTheme,
+      fallback: this.primaryTextTheme,
+      isDesktop: nextMode == SuperDeviceMode.desktop,
+      color: colorScheme?.onPrimary ?? this.colorScheme.onPrimary,
+      mutedColor: colorScheme?.onPrimary ?? this.colorScheme.onPrimary,
+    );
     // Keep the SuperThemeData extension synchronized with the field, without
     // dropping caller-supplied extensions.
     final callerExtensions = extensions ?? this.extensions.values;
@@ -770,8 +857,8 @@ class SuperMaterialThemeData extends ThemeData {
       unselectedWidgetColor: unselectedWidgetColor,
       iconTheme: iconTheme,
       primaryIconTheme: primaryIconTheme,
-      primaryTextTheme: primaryTextTheme,
-      textTheme: textTheme,
+      primaryTextTheme: nextPrimaryTextTheme,
+      textTheme: nextTextTheme,
       typography: typography,
       actionIconTheme: actionIconTheme,
       appBarTheme: appBarTheme,
@@ -827,6 +914,8 @@ class SuperMaterialThemeData extends ThemeData {
       base,
       superTheme: nextSuperTheme,
       mode: nextMode,
+      textTheme: nextTextTheme,
+      primaryTextTheme: nextPrimaryTextTheme,
     );
   }
 
@@ -838,7 +927,6 @@ class SuperMaterialThemeData extends ThemeData {
     required SuperDeviceMode mode,
     SuperTokensData? tokens,
     String? fontFamily,
-    bool mergeTextTheme = true,
     // ── General Configuration ──
     bool? applyElevationOverlayColor,
     NoDefaultCupertinoThemeData? cupertinoOverrideTheme,
@@ -849,8 +937,8 @@ class SuperMaterialThemeData extends ThemeData {
     bool? useMaterial3,
     VisualDensity? visualDensity,
     // ── Typography & Iconography ──
-    TextTheme? textTheme,
-    TextTheme? primaryTextTheme,
+    required SuperTextTheme textTheme,
+    required SuperTextTheme primaryTextTheme,
     IconThemeData? iconTheme,
     IconThemeData? primaryIconTheme,
     Typography? typography,
@@ -938,27 +1026,22 @@ class SuperMaterialThemeData extends ThemeData {
         interactiveStateTheme ??
         SuperInteractiveStateThemeData.fromColorScheme(cs);
 
-    // Dynamic brand tokens + font-family resolution. Precedence for the primary
-    // font family: explicit [fontFamily] > (when [mergeTextTheme]) the family
-    // carried by a provided [textTheme] > the token bundle's default. A resolved
-    // custom family is applied over the default GeniusLink type ramp so its
-    // sizes / weights / letter-spacing are preserved.
+    // Dynamic brand tokens. Typography is supplied explicitly as
+    // SuperTextTheme in v3.3.0; SuperMaterialThemeData no longer derives token
+    // font metadata from the text theme. [fontFamily], when provided, remains
+    // the explicit override for the token-level font family.
     final baseTokens = tokens ?? palette.applyTo(SuperTokensData.fallback);
-    final String? mergedFamily =
-        fontFamily ??
-        ((textTheme != null && mergeTextTheme) ? _familyOf(textTheme) : null);
-    final effectiveTokens = mergedFamily == null
+    final effectiveTokens = fontFamily == null
         ? baseTokens
-        : baseTokens.copyWith(
-            bodyFont: mergedFamily,
-            displayFont: mergedFamily,
-          );
+        : baseTokens.copyWith(bodyFont: fontFamily, displayFont: fontFamily);
 
     final fg1t = isDark ? palette.darkFg1 : palette.lightFg1;
     final fg3t = isDark ? palette.darkFg3 : palette.lightFg3;
-    final resolvedTextTheme = (textTheme != null && !mergeTextTheme)
-        ? textTheme
-        : _textTheme(mode, fg1t, fg3t, effectiveTokens);
+    final resolvedTextTheme = textTheme.colorize(fg1t, fg3t);
+    final resolvedPrimaryTextTheme = primaryTextTheme.colorize(
+      cs.onPrimary,
+      cs.onPrimary,
+    );
 
     final superTheme = _superTheme(
       palette,
@@ -992,7 +1075,7 @@ class SuperMaterialThemeData extends ThemeData {
       visualDensity: visualDensity,
       // typography
       textTheme: resolvedTextTheme,
-      primaryTextTheme: primaryTextTheme,
+      primaryTextTheme: resolvedPrimaryTextTheme,
       iconTheme: iconTheme,
       primaryIconTheme: primaryIconTheme,
       typography: typography,
@@ -1072,6 +1155,8 @@ class SuperMaterialThemeData extends ThemeData {
       base,
       superTheme: superTheme,
       mode: mode,
+      textTheme: resolvedTextTheme,
+      primaryTextTheme: resolvedPrimaryTextTheme,
     );
   }
 
@@ -1164,8 +1249,8 @@ class SuperMaterialThemeData extends ThemeData {
     bool? useMaterial3,
     VisualDensity? visualDensity,
     // ── Typography & Iconography ──
-    TextTheme? textTheme,
-    TextTheme? primaryTextTheme,
+    required SuperTextTheme textTheme,
+    required SuperTextTheme primaryTextTheme,
     IconThemeData? iconTheme,
     IconThemeData? primaryIconTheme,
     Typography? typography,
@@ -1259,8 +1344,8 @@ class SuperMaterialThemeData extends ThemeData {
     final softShadow = cs.shadow.withValues(alpha: isDark ? 0.28 : 0.12);
     final strongShadow = cs.shadow.withValues(alpha: isDark ? 0.48 : 0.24);
 
-    // Responsive typography (explicit override wins).
-    final tt = textTheme ?? _textTheme(m.mode, cs.onSurface, fg3, tokens);
+    // Typography is an explicit SuperTextTheme supplied by the caller.
+    final tt = textTheme;
     iconTheme ??= IconThemeData(color: cs.onSurface, size: m.sizing.icon);
 
     // App-bar background follows the page background so the top chrome blends
@@ -1297,9 +1382,7 @@ class SuperMaterialThemeData extends ThemeData {
       // ── Typography ──
       fontFamily: tokens.bodyFont,
       textTheme: tt,
-      primaryTextTheme:
-          primaryTextTheme ??
-          tt.apply(displayColor: cs.onPrimary, bodyColor: cs.onPrimary),
+      primaryTextTheme: primaryTextTheme,
       typography: typography,
 
       // ── Colors ──
@@ -2187,7 +2270,7 @@ class SuperMaterialThemeData extends ThemeData {
   static InputDecorationTheme _inputDecorationTheme(
     SuperMetrics m,
     ColorScheme cs,
-    TextTheme tt,
+    SuperTextTheme tt,
     Color inputBg,
     Color border,
     Color fg1,
@@ -2228,31 +2311,4 @@ class SuperMaterialThemeData extends ThemeData {
       ),
     );
   }
-
-  // ── Responsive Text Theme ─────────────────────────────────────────────────────
-
-  /// Extracts the primary font family from a caller-provided [TextTheme] — the
-  /// first non-null `fontFamily` among the common text roles. Used to honor the
-  /// font carried by a merged text theme (see `mergeTextTheme`).
-  static String? _familyOf(TextTheme t) =>
-      t.bodyMedium?.fontFamily ??
-      t.bodyLarge?.fontFamily ??
-      t.titleMedium?.fontFamily ??
-      t.titleLarge?.fontFamily ??
-      t.labelLarge?.fontFamily ??
-      t.headlineSmall?.fontFamily ??
-      t.displaySmall?.fontFamily ??
-      t.displayLarge?.fontFamily;
-
-  /// Builds the GeniusLink type ramp scaled for [mode], colored with [fg1]
-  /// and [fg3]. Returns a [SuperTextTheme] (a [TextTheme] subclass) so all 15
-  /// Material slots and the branded named getters are available.
-  static SuperTextTheme _textTheme(
-    SuperDeviceMode mode,
-    Color fg1,
-    Color fg3,
-    SuperTokensData tokens,
-  ) => SuperTextTheme(
-    isDesktop: mode == SuperDeviceMode.desktop,
-  ).colorize(fg1, fg3);
 }

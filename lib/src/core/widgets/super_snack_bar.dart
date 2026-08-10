@@ -14,6 +14,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../extensions/context_extensions.dart';
 import '../theme/super_theme.dart';
 import '../theme/super_tokens.dart';
 
@@ -139,7 +140,7 @@ abstract final class SuperSnackBar {
           Icon(_toneIcon(tone), size: 20, color: color),
           SizedBox(width: t.spacing.space3),
           Expanded(
-            child: Text(message, style: t.textTheme.body.copyWith(color: fg)),
+            child: Text(message, style: context.superTextTheme.body.copyWith(color: fg)),
           ),
         ],
       ),

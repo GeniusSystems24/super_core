@@ -342,7 +342,7 @@ class _SuperGridTileState extends State<SuperGridTile> {
     final header = widget.header == null
         ? null
         : DefaultTextStyle.merge(
-            style: t.textTheme.label.copyWith(color: t.fg3),
+            style: context.superTextTheme.label.copyWith(color: t.fg3),
             child: widget.header!,
           );
     if (widget.marker == null) return header ?? const SizedBox.shrink();
@@ -358,7 +358,7 @@ class _SuperGridTileState extends State<SuperGridTile> {
   Widget _buildFooter(BuildContext context) {
     final t = context.superTheme;
     return DefaultTextStyle.merge(
-      style: t.textTheme.caption.copyWith(color: t.fg3),
+      style: context.superTextTheme.caption.copyWith(color: t.fg3),
       child: widget.footer!,
     );
   }

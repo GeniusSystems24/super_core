@@ -32,13 +32,15 @@ class _SuperCoreExampleAppState extends State<SuperCoreExampleApp> {
       // SuperMaterialThemeData generates complete Material 3 ThemeData and
       // registers SuperThemeData as a ThemeExtension automatically.
       theme: SuperMaterialThemeData.light(
-          palette: _palette,
-          textTheme: SuperTextTheme(isArabic: true),
-          mergeTextTheme: true),
+        palette: _palette,
+        textTheme: SuperTextTheme(isArabic: true),
+        primaryTextTheme: SuperTextTheme(isArabic: true),
+      ),
       darkTheme: SuperMaterialThemeData.dark(
-          palette: _palette,
-          textTheme: SuperTextTheme(isArabic: true),
-          mergeTextTheme: true),
+        palette: _palette,
+        textTheme: SuperTextTheme(isArabic: true),
+        primaryTextTheme: SuperTextTheme(isArabic: true),
+      ),
       home: ThemeDemoScreen(
         selectedPalette: _palette,
         themeMode: _themeMode,

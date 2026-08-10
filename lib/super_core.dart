@@ -23,7 +23,10 @@
 /// [SuperMaterialThemeData.tokens]) — so a theme can override any of them:
 ///
 /// ```dart
+/// final typography = SuperTextTheme();
 /// SuperMaterialThemeData.light(
+///   textTheme: typography,
+///   primaryTextTheme: typography,
 ///   tokens: const SuperTokensData(radiusCard: 12), // dynamic override
 /// );
 /// final tokens = SuperThemeData.of(context).tokens; // read at a call site
@@ -34,10 +37,10 @@
 /// values live only as the literals in the `SuperTokensData` constructor; the
 /// single default instance is `SuperTokensData.fallback`.
 ///
-/// **Custom fonts.** [SuperMaterialThemeData.light] / `.dark` accept a
-/// `fontFamily`, and a `textTheme` whose family is honored when
-/// `mergeTextTheme` is `true` (the family is applied over the default GeniusLink
-/// type ramp, preserving its sizes / weights / spacing).
+/// **Typography.** [SuperMaterialThemeData.light] / `.dark` require explicit
+/// [SuperTextTheme] values for `textTheme` and `primaryTextTheme`. Typography is
+/// owned by the Material theme rather than [SuperThemeData]; read branded styles
+/// through `context.superTextTheme` or [SuperMaterialThemeData.textTheme].
 ///
 /// **Widgets.** [SuperAppBar] and [SuperSliverAppBar] are full forks of
 /// Flutter's `AppBar` / `SliverAppBar` with a positionable subtitle
@@ -62,9 +65,18 @@
 /// Pick a palette and generate complete Material 3 [ThemeData]:
 ///
 /// ```dart
+/// final typography = SuperTextTheme();
 /// MaterialApp(
-///   theme:     SuperMaterialThemeData.light(palette: SuperPalette.bluePalette),
-///   darkTheme: SuperMaterialThemeData.dark(palette: SuperPalette.bluePalette),
+///   theme: SuperMaterialThemeData.light(
+///     palette: SuperPalette.bluePalette,
+///     textTheme: typography,
+///     primaryTextTheme: typography,
+///   ),
+///   darkTheme: SuperMaterialThemeData.dark(
+///     palette: SuperPalette.bluePalette,
+///     textTheme: typography,
+///     primaryTextTheme: typography,
+///   ),
 /// );
 /// ```
 ///
@@ -96,7 +108,7 @@
 /// | Symbol | Purpose |
 /// |---|---|
 /// | [SuperPalette] | Six built-in palettes (10 shades + semantic getters) |
-/// | [SuperMaterialThemeData] | Material 3 ThemeData generator (+ `tokens`, `fontFamily`, `mergeTextTheme`) |
+/// | [SuperMaterialThemeData] | Material 3 ThemeData generator (+ required `SuperTextTheme` typography, tokens, and palette) |
 /// | [SuperTokensData] | Dynamic brand tokens carried by the theme (with `default*` constants) |
 /// | [SuperThemeData] | Swappable light/dark ThemeExtension (carries `tokens`) |
 /// | [SuperAppBarTheme] | `AppBarTheme` + subtitle position + responsive action limits |

@@ -327,13 +327,13 @@ class SuperSectionTitle2 extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.superTheme;
     final accent = accentColor ?? Theme.of(context).colorScheme.primary;
-    final titleStyle = t.textTheme.labelMd.copyWith(
+    final titleStyle = context.superTextTheme.labelMd.copyWith(
       fontWeight: FontWeight.w700,
       fontSize: 12.5,
       letterSpacing: 0.7,
       color: t.fg1,
     );
-    final subtitleStyle = t.textTheme.labelMd.copyWith(
+    final subtitleStyle = context.superTextTheme.labelMd.copyWith(
       fontSize: 11.5,
       fontWeight: FontWeight.w400,
       color: t.fg3,

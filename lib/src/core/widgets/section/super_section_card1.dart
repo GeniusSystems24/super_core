@@ -321,14 +321,14 @@ class SuperSectionTitle1 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: t.textTheme.titleMd.copyWith(color: t.fg1)),
+              Text(title, style: context.superTextTheme.titleMd.copyWith(color: t.fg1)),
               if (subtitle != null) ...[
                 SizedBox(height: t.spacing.space1),
                 Tooltip(
                   message: subtitle!,
                   child: Text(
                     subtitle!.toUpperCase(),
-                    style: t.textTheme.labelSm.copyWith(
+                    style: context.superTextTheme.labelSm.copyWith(
                       color: t.fg3,
                       letterSpacing: 1.2,
                     ),

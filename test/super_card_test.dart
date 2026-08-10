@@ -10,7 +10,10 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        theme: SuperMaterialThemeData.light(),
+        theme: SuperMaterialThemeData.light(
+          textTheme: _testTypography,
+          primaryTextTheme: _testTypography,
+        ),
         home: const Scaffold(
           body: SuperSectionCard(
             color: background,
@@ -40,7 +43,10 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        theme: SuperMaterialThemeData.light(),
+        theme: SuperMaterialThemeData.light(
+          textTheme: _testTypography,
+          primaryTextTheme: _testTypography,
+        ),
         home: const Scaffold(
           body: Center(
             child: SizedBox(
@@ -96,7 +102,10 @@ void main() {
   ) async {
     await tester.pumpWidget(
       MaterialApp(
-        theme: SuperMaterialThemeData.light(),
+        theme: SuperMaterialThemeData.light(
+          textTheme: _testTypography,
+          primaryTextTheme: _testTypography,
+        ),
         home: const Scaffold(
           body: SuperSectionCard2(
             title: 'Fixed Section',
@@ -119,7 +128,10 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        theme: SuperMaterialThemeData.light(),
+        theme: SuperMaterialThemeData.light(
+          textTheme: _testTypography,
+          primaryTextTheme: _testTypography,
+        ),
         home: const Directionality(
           textDirection: TextDirection.rtl,
           child: Scaffold(
@@ -196,7 +208,10 @@ Future<void> _expectExpandedStateSurvivesScroll(
 }) async {
   await tester.pumpWidget(
     MaterialApp(
-      theme: SuperMaterialThemeData.light(),
+      theme: SuperMaterialThemeData.light(
+          textTheme: _testTypography,
+          primaryTextTheme: _testTypography,
+        ),
       home: Scaffold(
         body: SizedBox(
           height: 160,
@@ -238,3 +253,8 @@ Future<void> _expectExpandedStateSurvivesScroll(
 
 AnimatedCrossFade _sectionCrossFade(WidgetTester tester) =>
     tester.widget<AnimatedCrossFade>(find.byType(AnimatedCrossFade).first);
+
+final _testTypography = SuperTextTheme(
+  bodyFont: const TextStyle(fontFamily: 'TestBody'),
+  otherFont: const TextStyle(fontFamily: 'TestDisplay'),
+);

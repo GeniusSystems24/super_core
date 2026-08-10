@@ -33,7 +33,7 @@ class SuperFooterLink extends StatelessWidget {
     final t = context.superTheme;
     final th = SuperSectionFooterThemeData.of(context);
     final color = emphasized ? (th.emphasizedColor ?? t.tokens.accent) : t.fg4;
-    final base = th.linkStyle ?? t.textTheme.label;
+    final base = th.linkStyle ?? context.superTextTheme.label;
     final text = Text(
       label.toUpperCase(),
       style: base.copyWith(
@@ -77,7 +77,7 @@ class SuperSectionFooter extends StatelessWidget {
     final s = t.spacing;
     final th = SuperSectionFooterThemeData.of(context);
     final divider = showDivider ?? th.showDivider ?? true;
-    final brandStyle = (th.brandStyle ?? t.textTheme.label).copyWith(
+    final brandStyle = (th.brandStyle ?? context.superTextTheme.label).copyWith(
       color: t.fg4,
       letterSpacing: th.letterSpacing ?? 1.1,
     );

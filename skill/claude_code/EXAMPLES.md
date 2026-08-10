@@ -1,4 +1,4 @@
-# super_core · Examples (v3.1.0)
+# super_core · Examples (v3.3.0)
 
 Runnable, copy-pasteable snippets. All assume `import
 'package:super_core/super_core.dart';`.
@@ -17,8 +17,16 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) => MaterialApp(
-        theme:     SuperMaterialThemeData.light(palette: SuperPalette.bluePalette),
-        darkTheme: SuperMaterialThemeData.dark(palette: SuperPalette.bluePalette),
+        theme: SuperMaterialThemeData.light(
+          palette: SuperPalette.bluePalette,
+          textTheme: SuperTextTheme(),
+          primaryTextTheme: SuperTextTheme(),
+        ),
+        darkTheme: SuperMaterialThemeData.dark(
+          palette: SuperPalette.bluePalette,
+          textTheme: SuperTextTheme(),
+          primaryTextTheme: SuperTextTheme(),
+        ),
         themeMode: ThemeMode.system,
         home: const Scaffold(body: Center(child: Text('Hello'))),
       );
@@ -33,8 +41,16 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        theme:     SuperMaterialThemeData.light(palette: _palette),
-        darkTheme: SuperMaterialThemeData.dark(palette: _palette),
+        theme: SuperMaterialThemeData.light(
+          palette: _palette,
+          textTheme: SuperTextTheme(),
+          primaryTextTheme: SuperTextTheme(),
+        ),
+        darkTheme: SuperMaterialThemeData.dark(
+          palette: _palette,
+          textTheme: SuperTextTheme(),
+          primaryTextTheme: SuperTextTheme(),
+        ),
         home: Home(onPick: (p) => setState(() => _palette = p)),
       );
 }
@@ -62,8 +78,24 @@ class ResponsiveThemedApp extends StatelessWidget {
         builder: (context, constraints) {
           final mode = SuperDeviceMode.forWidth(constraints.maxWidth);
           return MaterialApp(
-            theme:     SuperMaterialThemeData.light(mode: mode),
-            darkTheme: SuperMaterialThemeData.dark(mode: mode),
+            theme: SuperMaterialThemeData.light(
+              mode: mode,
+              textTheme: SuperTextTheme(
+                isDesktop: mode == SuperDeviceMode.desktop,
+              ),
+              primaryTextTheme: SuperTextTheme(
+                isDesktop: mode == SuperDeviceMode.desktop,
+              ),
+            ),
+            darkTheme: SuperMaterialThemeData.dark(
+              mode: mode,
+              textTheme: SuperTextTheme(
+                isDesktop: mode == SuperDeviceMode.desktop,
+              ),
+              primaryTextTheme: SuperTextTheme(
+                isDesktop: mode == SuperDeviceMode.desktop,
+              ),
+            ),
             home: const Dashboard(),
           );
         },
@@ -104,6 +136,8 @@ class Panel extends StatelessWidget {
 SuperMaterialThemeData.light(
   palette: SuperPalette.goldenPalette,
   mode: SuperDeviceMode.desktop,
+  textTheme: SuperTextTheme(isDesktop: true),
+  primaryTextTheme: SuperTextTheme(isDesktop: true),
   appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
   cardTheme: const CardThemeData(elevation: 3),
 );
@@ -112,7 +146,11 @@ SuperMaterialThemeData.light(
 ## 6 · Merging your own extension via copyWith
 
 ```dart
-final theme = SuperMaterialThemeData.dark().copyWith(
+final typography = SuperTextTheme();
+final theme = SuperMaterialThemeData.dark(
+  textTheme: typography,
+  primaryTextTheme: typography,
+).copyWith(
   extensions: const [MyFeatureThemeData.dark], // merged with SuperThemeData
 );
 assert(theme is SuperMaterialThemeData);                 // type preserved
@@ -266,6 +304,8 @@ CustomScrollView(slivers: [
 ```dart
 // Override brand tokens on the theme:
 SuperMaterialThemeData.light(
+  textTheme: SuperTextTheme(),
+  primaryTextTheme: SuperTextTheme(),
   tokens: const SuperTokensData(radiusCard: 12, space4: 20),
 );
 // Read the active tokens at a call site:
@@ -277,8 +317,15 @@ color: SuperMarker.ledger.resolve(tokens);
 const SizedBox(height: 16); // space4
 
 // Swap the font family (keeps the GeniusLink type ramp when merging):
-SuperMaterialThemeData.light(fontFamily: 'IBM Plex Sans');
-SuperMaterialThemeData.light(textTheme: myTextTheme, mergeTextTheme: true);
+SuperMaterialThemeData.light(
+  fontFamily: 'IBM Plex Sans',
+  textTheme: SuperTextTheme(),
+  primaryTextTheme: SuperTextTheme(),
+);
+SuperMaterialThemeData.light(
+  textTheme: myTextTheme,
+  primaryTextTheme: myTextTheme,
+);
 ```
 
 
@@ -310,6 +357,8 @@ Scaffold(appBar: AppBar(title: const Text('Journals')), body: child);
 
 // Precedence is unchanged (explicit > palette-generated > Flutter default):
 SuperMaterialThemeData.dark(
+  textTheme: SuperTextTheme(),
+  primaryTextTheme: SuperTextTheme(),
   appBarTheme: const AppBarTheme(centerTitle: true), // replaces the generated one
 );
 ```

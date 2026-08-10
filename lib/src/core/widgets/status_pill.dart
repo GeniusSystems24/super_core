@@ -45,7 +45,7 @@ class StatusPill extends StatelessWidget {
       ),
       child: Text(
         label.toUpperCase(),
-        style: context.superTheme.textTheme.pill.copyWith(
+        style: context.superTextTheme.pill.copyWith(
           color: color.onSubtle,
         ),
       ),

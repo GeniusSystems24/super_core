@@ -43,7 +43,7 @@ class ArabicExampleSection extends StatelessWidget {
             'يعرض هذا المثال محاذاة البداية والنهاية، ترتيب الأيقونات، '
             'ونصوص الحالة عند استخدام واجهة عربية من اليمين إلى اليسار.',
             textAlign: TextAlign.start,
-            style: t.textTheme.body.copyWith(color: t.fg2),
+            style: context.superTextTheme.body.copyWith(color: t.fg2),
           ),
           Wrap(
             spacing: t.spacing.space2,
@@ -104,7 +104,7 @@ class _ArabicDetailRow extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: t.textTheme.body.copyWith(color: t.fg3),
+            style: context.superTextTheme.body.copyWith(color: t.fg3),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -112,7 +112,7 @@ class _ArabicDetailRow extends StatelessWidget {
         SizedBox(width: t.spacing.space3),
         Text(
           value,
-          // style: t.textTheme.body.copyWith(
+          // style: context.superTextTheme.body.copyWith(
           //   color: t.fg1,
           //   fontWeight: FontWeight.w700,
           // ),

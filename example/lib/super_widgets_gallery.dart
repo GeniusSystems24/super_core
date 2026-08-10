@@ -45,8 +45,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
       appBar: SuperAppBar(
         maxMobileActions: 1,
         title: const Text('Widget Gallery'),
-        subtitle: Text('SUPER CORE • v3.1.0',
-            style: t.textTheme.eyebrow.copyWith(color: cs.primary)),
+        subtitle: Text('SUPER CORE • v3.3.0',
+            style: context.superTextTheme.eyebrow.copyWith(color: cs.primary)),
         actions: [
           if (widget.onThemeModeChanged != null) ...[
             _ModeBtn(
@@ -154,13 +154,13 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
           Row(children: [
             Expanded(
                 child: Text('Left',
-                    style: t.textTheme.body.copyWith(color: t.fg2))),
+                    style: context.superTextTheme.body.copyWith(color: t.fg2))),
             const SizedBox(height: 24, child: Hairline(vertical: true)),
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.only(left: 12),
               child:
-                  Text('Right', style: t.textTheme.body.copyWith(color: t.fg2)),
+                  Text('Right', style: context.superTextTheme.body.copyWith(color: t.fg2)),
             )),
           ]),
           const SizedBox(height: 12),
@@ -170,7 +170,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
           const _G('SuperSectionCard'),
           SuperSectionCard(
             child: Text('Plain surface card.',
-                style: t.textTheme.body.copyWith(color: t.fg1)),
+                style: context.superTextTheme.body.copyWith(color: t.fg1)),
           ),
           const SizedBox(height: 8),
           SuperSectionCard(
@@ -178,7 +178,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             onTap: () => setState(() => _cardSelected = !_cardSelected),
             child: Text(
                 _cardSelected ? 'Selected — tap to deselect' : 'Tap to select',
-                style: t.textTheme.body.copyWith(color: t.fg1)),
+                style: context.superTextTheme.body.copyWith(color: t.fg1)),
           ),
           const SizedBox(height: 8),
           SuperSectionCard(
@@ -190,10 +190,10 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             expandedChild: Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text('Revealed content grows downward.',
-                  style: t.textTheme.body.copyWith(color: t.fg2)),
+                  style: context.superTextTheme.body.copyWith(color: t.fg2)),
             ),
             child: Text('Downtown Central Store • STR-0042',
-                style: t.textTheme.body.copyWith(color: t.fg1)),
+                style: context.superTextTheme.body.copyWith(color: t.fg1)),
           ),
           const SizedBox(height: 8),
           SuperSectionCard(
@@ -201,10 +201,10 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             expandedChild: SizedBox(
               width: 180,
               child: Text('Horizontal reveal grows sideways.',
-                  style: t.textTheme.caption.copyWith(color: t.fg3)),
+                  style: context.superTextTheme.caption.copyWith(color: t.fg3)),
             ),
             child: Text('Horizontal expand + leading/trailing',
-                style: t.textTheme.body.copyWith(color: t.fg1)),
+                style: context.superTextTheme.body.copyWith(color: t.fg1)),
           ),
 
           // ══ SuperSectionHeader — style1 ══════════════════════════════════
@@ -294,7 +294,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
               SuperFooterLink('Save Draft', onTap: () {}, emphasized: true),
             ],
             child: Text('Body content sits between header and footer.',
-                style: t.textTheme.body.copyWith(color: t.fg2)),
+                style: context.superTextTheme.body.copyWith(color: t.fg2)),
           ),
           const SizedBox(height: 8),
           SuperSectionCard(
@@ -304,7 +304,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             leading: const Icon(Icons.sync_alt),
             headerTrailing: const Icon(Icons.expand_more),
             child: Text('Linked control account and terms.',
-                style: t.textTheme.body.copyWith(color: t.fg2)),
+                style: context.superTextTheme.body.copyWith(color: t.fg2)),
           ),
           const SizedBox(height: 8),
           SuperSectionCard(
@@ -313,7 +313,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             subtitle: 'card: false — no surface / border / shadow',
             marker: SuperMarker.ledger,
             child: Text('Useful inside an existing container.',
-                style: t.textTheme.body.copyWith(color: t.fg2)),
+                style: context.superTextTheme.body.copyWith(color: t.fg2)),
           ),
           const SizedBox(height: 8),
           SuperSectionCard(
@@ -326,9 +326,9 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             leading: const Icon(Icons.description_outlined),
             children: [
               Text('First note line — the body animates open and closed.',
-                  style: t.textTheme.body.copyWith(color: t.fg2)),
+                  style: context.superTextTheme.body.copyWith(color: t.fg2)),
               Text('Second line — children are auto-spaced by gap.',
-                  style: t.textTheme.body.copyWith(color: t.fg2)),
+                  style: context.superTextTheme.body.copyWith(color: t.fg2)),
             ],
           ),
           const SizedBox(height: 8),
@@ -342,7 +342,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             headerStyle: SuperSectionHeaderStyle.style2,
             leading: const Icon(Icons.check_circle_outline),
             child: Text('Accent border + tint appear when selected.',
-                style: t.textTheme.body.copyWith(color: t.fg2)),
+                style: context.superTextTheme.body.copyWith(color: t.fg2)),
           ),
 
           // ══ SuperSlider ══════════════════════════════════════════════════
@@ -487,7 +487,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('\$248,200.00',
-                      style: t.textTheme.mono
+                      style: context.superTextTheme.mono
                           .copyWith(color: t.fg1, fontSize: 22)),
                 ),
               ),
@@ -506,7 +506,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('18',
-                      style: t.textTheme.mono
+                      style: context.superTextTheme.mono
                           .copyWith(color: t.fg1, fontSize: 22)),
                 ),
               ),
@@ -518,7 +518,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text('—',
-                      style: t.textTheme.mono
+                      style: context.superTextTheme.mono
                           .copyWith(color: t.fg3, fontSize: 22)),
                 ),
               ),
@@ -595,7 +595,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
         border: Border.all(
             color: error ? Theme.of(context).colorScheme.error : t.border),
       ),
-      child: Text(hint, style: t.textTheme.caption.copyWith(color: t.fg4)),
+      child: Text(hint, style: context.superTextTheme.caption.copyWith(color: t.fg4)),
     );
   }
 
@@ -632,13 +632,13 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             ),
             Expanded(
               child: Text(label,
-                  style: t.textTheme.label.copyWith(color: t.fg3),
+                  style: context.superTextTheme.label.copyWith(color: t.fg3),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis),
             ),
           ]),
           Text(value,
-              style: t.textTheme.mono.copyWith(color: t.fg1, fontSize: 22)),
+              style: context.superTextTheme.mono.copyWith(color: t.fg1, fontSize: 22)),
         ],
       ),
     );
@@ -655,7 +655,7 @@ class _G extends StatelessWidget {
     final t = SuperThemeData.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 32, bottom: 12),
-      child: Text(text, style: t.textTheme.eyebrow.copyWith(color: t.fg4)),
+      child: Text(text, style: context.superTextTheme.eyebrow.copyWith(color: t.fg4)),
     );
   }
 }

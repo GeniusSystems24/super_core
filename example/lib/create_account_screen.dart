@@ -271,7 +271,7 @@ class _Segmented extends StatelessWidget {
                   ),
                   child: Text(
                     options[i].toUpperCase(),
-                    style: t.textTheme.label.copyWith(
+                    style: context.superTextTheme.label.copyWith(
                       color: i == selectedIndex ? cs.onPrimary : t.fg2,
                       fontSize: 12,
                     ),
@@ -313,7 +313,7 @@ class _SelectBox extends StatelessWidget {
             Expanded(
               child: Text(
                 value,
-                style: t.textTheme.body.copyWith(color: t.fg1),
+                style: context.superTextTheme.body.copyWith(color: t.fg1),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -349,13 +349,13 @@ class _InputBox extends StatelessWidget {
       textDirection: textDirection,
       minLines: minLines,
       maxLines: multiline ? (minLines! + 2) : 1,
-      style: t.textTheme.body.copyWith(color: t.fg1),
+      style: context.superTextTheme.body.copyWith(color: t.fg1),
       decoration: InputDecoration(
         isCollapsed: true,
         filled: false,
         border: InputBorder.none,
         hintText: hint,
-        hintStyle: t.textTheme.caption.copyWith(color: t.fg4),
+        hintStyle: context.superTextTheme.caption.copyWith(color: t.fg4),
         prefixIcon: leadingIcon == null ? null : Icon(leadingIcon, size: 18),
         prefixIconConstraints: const BoxConstraints(minWidth: 26),
         prefixIconColor: t.fg2,
@@ -389,7 +389,7 @@ class _ToggleRow extends StatelessWidget {
         Expanded(
           child: Text(
             label.toUpperCase(),
-            style: t.textTheme.label.copyWith(color: t.fg1, fontSize: 12.5),
+            style: context.superTextTheme.label.copyWith(color: t.fg1, fontSize: 12.5),
           ),
         ),
         Switch(value: value, onChanged: onChanged),

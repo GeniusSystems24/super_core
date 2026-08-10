@@ -236,7 +236,7 @@ class SuperDialog extends StatelessWidget {
                       actions.isNotEmpty ? 0.0 : k.space6,
                     ),
                     child: DefaultTextStyle.merge(
-                      style: t.textTheme.body.copyWith(color: t.fg2),
+                      style: context.superTextTheme.body.copyWith(color: t.fg2),
                       child: content!,
                     ),
                   ),
@@ -311,12 +311,12 @@ class _Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (title != null)
-                Text(title!, style: t.textTheme.heading.copyWith(color: t.fg1)),
+                Text(title!, style: context.superTextTheme.heading.copyWith(color: t.fg1)),
               if (subtitle != null) ...[
                 SizedBox(height: t.spacing.space1),
                 Text(
                   subtitle!,
-                  style: t.textTheme.caption.copyWith(color: t.fg3),
+                  style: context.superTextTheme.caption.copyWith(color: t.fg3),
                 ),
               ],
             ],

@@ -391,7 +391,7 @@ class _SuperListTileState extends State<SuperListTile> {
                 widget.titleText!,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: t.textTheme.body.copyWith(
+                style: context.superTextTheme.body.copyWith(
                   color: t.fg1,
                   fontWeight: FontWeight.w600,
                 ),
@@ -408,7 +408,7 @@ class _SuperListTileState extends State<SuperListTile> {
             children: [
               Flexible(
                 child: DefaultTextStyle.merge(
-                  style: t.textTheme.body.copyWith(color: t.fg1),
+                  style: context.superTextTheme.body.copyWith(color: t.fg1),
                   child: titleWidget,
                 ),
               ),
@@ -421,14 +421,14 @@ class _SuperListTileState extends State<SuperListTile> {
         if (widget.subtitle != null) ...[
           SizedBox(height: s.space1),
           DefaultTextStyle.merge(
-            style: t.textTheme.caption.copyWith(color: t.fg3),
+            style: context.superTextTheme.caption.copyWith(color: t.fg3),
             child: widget.subtitle!,
           ),
         ],
         if (widget.supporting != null) ...[
           SizedBox(height: s.space2),
           DefaultTextStyle.merge(
-            style: t.textTheme.caption.copyWith(color: t.fg3),
+            style: context.superTextTheme.caption.copyWith(color: t.fg3),
             child: widget.supporting!,
           ),
         ],
@@ -452,7 +452,7 @@ class _SuperListTileState extends State<SuperListTile> {
     if (widget.trailing != null) {
       final t = context.superTheme;
       return DefaultTextStyle.merge(
-        style: t.textTheme.mono.copyWith(color: t.fg2),
+        style: context.superTextTheme.mono.copyWith(color: t.fg2),
         child: IconTheme.merge(
           data: IconThemeData(color: t.fg3, size: 20),
           child: widget.trailing!,

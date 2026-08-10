@@ -28,7 +28,6 @@ import 'super_device_mode.dart';
 import 'super_interactive_state_theme.dart';
 import 'super_metrics.dart';
 import 'super_spacing.dart';
-import 'super_text_styles.dart';
 import 'super_tokens.dart';
 
 @immutable
@@ -147,13 +146,6 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
   /// Reads the registered extension, falling back to [dark] (the default theme).
   static SuperThemeData of(BuildContext context) =>
       Theme.of(context).extension<SuperThemeData>() ?? dark;
-
-  /// The theme-appropriate text style ramp, built from [tokens] and [mode].
-  ///
-  /// Desktop mode uses tighter (Windows-density) metrics; mobile/tablet uses
-  /// the larger (Android-density) scale. Colorless — apply `fg*` at the call site.
-  SuperTextTheme get textTheme =>
-      SuperTextTheme(isDesktop: mode == SuperDeviceMode.desktop);
 
   /// A selection / accent tint at [pct] opacity blended over [surface]
   /// (mirrors the web `color-mix(... accent N%, surface)` highlight).

@@ -8,9 +8,15 @@
 // displayLg, headlineSm, titleMd, bodyLg, bodySm, labelMd, labelSm, mono,
 // eyebrow, heading, body, label, caption, button, pill, h1.
 //
-// Build from the ambient tokens:
-//   final tt = context.superTheme.textTheme;          // colorless
-//   Text('Hello', style: tt.titleMd.copyWith(color: t.fg1));
+// Supply explicitly to SuperMaterialThemeData:
+//   final typography = SuperTextTheme();
+//   final theme = SuperMaterialThemeData.light(
+//     textTheme: typography,
+//     primaryTextTheme: typography,
+//   );
+//
+// Read the active colored ramp through:
+//   final tt = context.superTextTheme;
 //
 // The Material ThemeData.textTheme is also a colored SuperTextTheme when
 // SuperMaterialThemeData is used, so:
@@ -144,10 +150,10 @@ class SuperTextTheme extends TextTheme {
     bool isDesktop = false,
     bool isArabic = false,
   }) {
-    bodyFont ??= isArabic ? GoogleFonts.notoNaskhArabic() : GoogleFonts.inter();
+    bodyFont ??= isArabic ? GoogleFonts.ibmPlexSansArabic() : GoogleFonts.inter();
     otherFont ??= isArabic
-        ? GoogleFonts.notoNaskhArabic()
-        : GoogleFonts.manrope();
+        ? GoogleFonts.cairo()
+        : GoogleFonts.notoNaskhArabic();
 
     if (isDesktop) {
       return SuperTextTheme._(

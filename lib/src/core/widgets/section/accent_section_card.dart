@@ -116,7 +116,7 @@ class AccentSectionCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               _caps(context, title!),
-                              style: t.textTheme.labelMd.copyWith(
+                              style: context.superTextTheme.labelMd.copyWith(
                                 color: accent,
                                 letterSpacing: 0.9,
                                 fontWeight: FontWeight.w700,

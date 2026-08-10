@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v3.2.1)
+# super_core — ChatGPT / Codex agent instructions (v3.3.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 3.2.1
+version: 3.3.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 deps:    google_fonts >=6.2.1 <7.0.0
@@ -26,6 +26,28 @@ Apply this skill when the user asks for:
 - building or modifying any `super_*` package theme
 - reusable confirmation UI, confirmation dialogs, field/form views, or field dialogs
 
+
+## What changed in 3.3.0 (explicit Super typography)
+
+1. **Typography is required on `SuperMaterialThemeData`.** Every `light` and
+   `dark` call must provide `required SuperTextTheme textTheme` and
+   `required SuperTextTheme primaryTextTheme`.
+2. **No internal typography generator.** The nullable `TextTheme` inputs,
+   `_textTheme` helper, and `mergeTextTheme` behavior are removed. Supply the
+   complete Super type ramp explicitly.
+3. **`SuperThemeData.textTheme` is removed.** Read branded styles from
+   `context.superTextTheme` or `SuperMaterialThemeData.of(context).textTheme`.
+   **Do not generate** `context.superTheme.textTheme`,
+   `SuperThemeData.of(context).textTheme`, or `.textTheme` on any
+   `SuperThemeData` value; those forms are invalid in v3.3.0.
+4. **Responsive typography is caller-owned.** When `mode` changes, construct a
+   matching `SuperTextTheme(isDesktop: mode == SuperDeviceMode.desktop)`.
+5. **`copyWith` preserves Super typography.** Typography overrides on
+   `SuperMaterialThemeData.copyWith` must also be `SuperTextTheme`.
+6. **No font-family inference.** `SuperMaterialThemeData` does not inspect
+   `SuperTextTheme` to derive token font metadata. The `_familyOf` helper is
+   removed. Configure the ramp with `bodyFont` / `otherFont`; use `fontFamily`
+   only as an explicit token-level override.
 
 ## What changed in 3.2.1 (distinct action footer)
 
@@ -106,12 +128,11 @@ Apply this skill when the user asks for:
    (body/label), `GoogleFonts.notoNaskhArabic()` (Arabic). Nine named fields:
    `displayLg`, `headlineSm`, `titleMd`, `bodyLg`, `bodySm`, `labelMd`,
    `labelSm`, `mono`, `eyebrow`. Convenience getters: `heading`, `body`, `label`,
-   `caption`, `button`, `pill`, `h1`. Read via
-   `context.superTheme.textTheme.<field>`. `colorize(fg1, fg3)` applies fg tints;
-   `superCopyWith({...})` preserves the type. `SuperThemeData.textTheme` gives a
-   colorless instance for component-level use.
+   `caption`, `button`, `pill`, `h1`. In v3.3.0 read the active ramp via
+   `context.superTextTheme.<field>`. `colorize(fg1, fg3)` applies fg tints and
+   `superCopyWith({...})` preserves the type.
    - **Breaking:** `SuperText` (static class) **removed**. Replace
-     `SuperText.<field>` with `context.superTheme.textTheme.<field>`.
+     `SuperText.<field>` with `context.superTextTheme.<field>`.
 2. **Surface colors** updated to match GeniusLink reference tokens: light bg
    `#E6E8EB`, light surface `#F5F6F8`, dark bg `#0E141E`.
 3. **Card shadows** — single-layer diffuse: dark `BoxShadow(0x1F000000, blur 28,
@@ -129,7 +150,7 @@ Apply this skill when the user asks for:
 7. **`SuperAppBar`/`SuperSliverAppBar` chrome** — auto back button uses
    `Icons.arrow_back_ios_new_rounded` in a plain `IconButton`; route guard checks
    `parentRoute?.impliesAppBarDismissal`; title falls back to
-   `t.textTheme.headlineSm`; subtitle falls back to `t.textTheme.labelSm` with
+   `context.superTextTheme.headlineSm`; subtitle falls back to `context.superTextTheme.labelSm` with
    `letterSpacing: 1.2`.
 8. **`google_fonts: ^6.2.1`** added as a package dependency.
 
@@ -176,13 +197,16 @@ changelog entry for the full token delta.
    `SuperTokens` class is removed. Tokens are instance fields on the immutable
    `SuperTokensData` carried by the theme (`SuperThemeData.tokens`,
    `SuperMaterialThemeData.tokens`); override via
-   `SuperMaterialThemeData.light(tokens: const SuperTokensData(radiusCard: 12))`.
-   Read values dynamically with `SuperThemeData.of(context).tokens.x`; there are
-   no static token constants (use a brand-value literal where `const` is
-   mandatory). `SuperMarker` colors resolve via `marker.resolve(tokens)`.
-2. **Custom fonts.** `.light`/`.dark` accept `fontFamily`, plus `textTheme` +
-   `mergeTextTheme` (default `true` → adopt the provided textTheme's font over
-   the default GeniusLink ramp; `false` → use the textTheme wholesale).
+   `SuperMaterialThemeData.light` accepts `tokens:` alongside the required
+   `SuperTextTheme` values. Read tokens dynamically with
+   `SuperThemeData.of(context).tokens.x`; there are no static token constants
+   (use a brand-value literal where `const` is mandatory). `SuperMarker` colors
+   resolve via `marker.resolve(tokens)`.
+2. **Custom fonts.** In v3.3.0 construct the required `SuperTextTheme` with
+   `bodyFont` / `otherFont` seeds and pass it as both `textTheme` and
+   `primaryTextTheme`. Font metadata is not inferred from that ramp; pass
+   `fontFamily` explicitly only when token-level font metadata must change. The
+   former `mergeTextTheme` path no longer exists.
 3. **`SuperAppBar` + `SuperSliverAppBar`** are full forks of `AppBar` /
    `SliverAppBar` with a positionable `subtitle` (`SubtitlePosition`) and
    responsive action overflow past `maxActions` (per-device default 3/4/5).
@@ -236,9 +260,19 @@ changelog entry for the full token delta.
 ```dart
 import 'package:super_core/super_core.dart';
 
+final typography = SuperTextTheme();
+
 MaterialApp(
-  theme:     SuperMaterialThemeData.light(palette: SuperPalette.bluePalette),
-  darkTheme: SuperMaterialThemeData.dark(palette: SuperPalette.bluePalette),
+  theme: SuperMaterialThemeData.light(
+    palette: SuperPalette.bluePalette,
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
+  darkTheme: SuperMaterialThemeData.dark(
+    palette: SuperPalette.bluePalette,
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
   themeMode: ThemeMode.system,
 );
 ```
@@ -258,9 +292,9 @@ SuperMaterialThemeData.light({           // .dark({…}) is identical
   SuperPalette palette = SuperPalette.bluePalette,
   SuperDeviceMode mode = SuperDeviceMode.mobile,
   SuperTokensData? tokens,      // dynamic brand-token overrides
-  String? fontFamily,           // swap the primary font family
-  bool mergeTextTheme = true,   // adopt a textTheme's font over the default ramp
-  TextTheme? textTheme,
+  String? fontFamily,           // token font-family metadata override
+  required SuperTextTheme textTheme,
+  required SuperTextTheme primaryTextTheme,
   AppBarTheme? appBarTheme,      // SuperAppBarTheme for subtitle/overflow defaults
   NavigationBarThemeData? navigationBarTheme,
   ButtonThemeData? buttonTheme,
@@ -333,9 +367,10 @@ const g = SuperResponsive<double>(mobile: 16, tablet: 24, desktop: 32);  g.resol
 ```
 
 Spacing GROWS with viewport; control heights SHRINK (mobile keeps ≥44 px
-targets). Typography scales per mode (mobile ~+6 %, tablet ~+2 %, desktop
-baseline). `InputDecorationTheme` padding/density/height/border/icon constraints
-follow the mode. Caller `textTheme:` / `formFieldTheme:` override wholesale.
+targets). `InputDecorationTheme` padding/density/height/border/icon constraints
+follow the mode. Typography is explicit: rebuild `SuperTextTheme` for the active
+mode (desktop uses `isDesktop: true`). Caller `formFieldTheme:` overrides
+wholesale.
 
 ## Deriving package themes
 
@@ -527,8 +562,8 @@ default 3/4/5, overridable via `maxActions` / `maxMobileActions` /
 GeniusLink-specific chrome (v2.4.0): auto back button →
 `Icons.arrow_back_ios_new_rounded` in a plain `IconButton`; route guard →
 `parentRoute?.impliesAppBarDismissal`; title default style →
-`t.textTheme.headlineSm` (Manrope 700); subtitle default style →
-`t.textTheme.labelSm` with `letterSpacing: 1.2`.
+`context.superTextTheme.headlineSm` (Manrope 700); subtitle default style →
+`context.superTextTheme.labelSm` with `letterSpacing: 1.2`.
 
 ```dart
 Scaffold(
@@ -594,7 +629,11 @@ declared `dynamic` to stay a valid override across Flutter's `XxxTheme` →
 `XxxThemeData` migration — pass normal Material types.
 
 ```dart
-final t = SuperMaterialThemeData.dark().copyWith(
+final typography = SuperTextTheme();
+final t = SuperMaterialThemeData.dark(
+  textTheme: typography,
+  primaryTextTheme: typography,
+).copyWith(
   extensions: const [MyFeatureThemeData.dark],  // merged, not replaced
 );
 ```
@@ -617,7 +656,8 @@ removal. `ThemeData(extensions: const [SuperThemeData.light])` and
 `SuperThemeData.of(context)` must keep working.
 
 **v2.4.0 breaking removals:** `SuperText` (static class) removed — replace every
-`SuperText.<field>` with `context.superTheme.textTheme.<field>`. `SuperCard`
+`SuperText.<field>` with `context.superTextTheme.<field>`. In v3.3.0,
+`SuperThemeData.textTheme` is also removed. `SuperCard`
 `leading`/`trailing` removed; `background` renamed `color`. `SectionCard`
 `leading`/`trailing` removed. Bump dependent constraints to `>=2.4.0 <3.0.0`.
 

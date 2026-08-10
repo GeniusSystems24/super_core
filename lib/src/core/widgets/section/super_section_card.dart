@@ -726,7 +726,7 @@ class _SuperSectionCardTitle extends StatelessWidget {
                   eyebrow!,
                   style:
                       th.eyebrowStyle ??
-                      t.textTheme.labelSm.copyWith(
+                      context.superTextTheme.labelSm.copyWith(
                         color: accent,
                         fontWeight: FontWeight.w700,
                         letterSpacing: 0,
@@ -745,7 +745,7 @@ class _SuperSectionCardTitle extends StatelessWidget {
                       title,
                       style:
                           th.titleStyle ??
-                          t.textTheme.titleMd.copyWith(color: t.fg1),
+                          context.superTextTheme.titleMd.copyWith(color: t.fg1),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -757,7 +757,7 @@ class _SuperSectionCardTitle extends StatelessWidget {
                         titleArabic!,
                         style:
                             th.arabicStyle ??
-                            t.textTheme.body.copyWith(color: accent),
+                            context.superTextTheme.body.copyWith(color: accent),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -773,7 +773,7 @@ class _SuperSectionCardTitle extends StatelessWidget {
                     subtitle!.toUpperCase(),
                     style:
                         th.subtitleStyle ??
-                        t.textTheme.labelSm.copyWith(
+                        context.superTextTheme.labelSm.copyWith(
                           color: t.fg3,
                           letterSpacing: 0,
                         ),
@@ -958,7 +958,7 @@ class SuperSectionHeader extends StatelessWidget {
                   eyebrow!,
                   style:
                       th.eyebrowStyle ??
-                      t.textTheme.eyebrow.copyWith(color: accent),
+                      context.superTextTheme.eyebrow.copyWith(color: accent),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -973,7 +973,7 @@ class SuperSectionHeader extends StatelessWidget {
                       title,
                       style:
                           th.titleStyle ??
-                          t.textTheme.heading.copyWith(color: t.fg1),
+                          context.superTextTheme.heading.copyWith(color: t.fg1),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -985,7 +985,7 @@ class SuperSectionHeader extends StatelessWidget {
                         titleArabic!,
                         style:
                             th.arabicStyle ??
-                            t.textTheme.body.copyWith(color: accent),
+                            context.superTextTheme.body.copyWith(color: accent),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -999,7 +999,7 @@ class SuperSectionHeader extends StatelessWidget {
                   subtitle!,
                   style:
                       th.subtitleStyle ??
-                      t.textTheme.caption.copyWith(color: t.fg3),
+                      context.superTextTheme.caption.copyWith(color: t.fg3),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -1063,7 +1063,7 @@ class SuperSectionHeader extends StatelessWidget {
                 title.toUpperCase(),
                 style:
                     th.style2TitleStyle ??
-                    t.textTheme.heading.copyWith(
+                    context.superTextTheme.heading.copyWith(
                       color: t.fg1,
                       fontSize: 12.5,
                       fontWeight: FontWeight.w700,
@@ -1078,7 +1078,7 @@ class SuperSectionHeader extends StatelessWidget {
                   subtitle!,
                   style:
                       th.style2SubtitleStyle ??
-                      t.textTheme.caption.copyWith(
+                      context.superTextTheme.caption.copyWith(
                         color: t.fg3,
                         fontSize: 11.5,
                       ),

@@ -36,9 +36,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show OrdinalSortKey;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
+import '../extensions/context_extensions.dart';
 import '../theme/super_app_bar_theme.dart';
 import '../theme/super_device_mode.dart';
-import '../theme/super_theme.dart';
 
 export '../theme/super_app_bar_theme.dart'
     show SubtitlePosition, SuperAppBarTheme;
@@ -287,7 +287,6 @@ class _SuperAppBarState extends State<SuperAppBar> {
     final bool useCloseButton =
         parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
 
-    final SuperThemeData t = SuperThemeData.of(context);
     final Color backgroundColor =
         widget.backgroundColor ??
         appBarTheme.backgroundColor ??
@@ -325,11 +324,11 @@ class _SuperAppBarState extends State<SuperAppBar> {
     final TextStyle titleTextStyle =
         widget.titleTextStyle ??
         appBarTheme.titleTextStyle ??
-        t.textTheme.headlineSm.copyWith(color: foregroundColor);
+        context.superTextTheme.headlineSm.copyWith(color: foregroundColor);
     final TextStyle subtitleStyle =
         widget.subtitleTextStyle ??
         appBarTheme.subtitleTextStyle ??
-        t.textTheme.labelSm.copyWith(
+        context.superTextTheme.labelSm.copyWith(
           color: foregroundColor.withValues(alpha: 0.75),
           letterSpacing: 1.2,
         );

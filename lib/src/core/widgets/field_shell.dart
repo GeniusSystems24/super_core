@@ -69,7 +69,7 @@ class FieldShell extends StatelessWidget {
             SizedBox(height: gap),
             Text(
               error ?? hint!,
-              style: t.textTheme.caption.copyWith(
+              style: context.superTextTheme.caption.copyWith(
                 color: error != null ? cs.error : t.fg3,
               ),
             ),
@@ -93,9 +93,8 @@ class _Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.superTheme;
     final cs = Theme.of(context).colorScheme;
-    final style = t.textTheme.label.copyWith(color: color);
+    final style = context.superTextTheme.label.copyWith(color: color);
     if (!required) return Text(text.toUpperCase(), style: style);
     return Text.rich(
       TextSpan(

@@ -6,6 +6,57 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [3.3.0] - 2026-08-09
+
+Explicit `SuperTextTheme` ownership in `SuperMaterialThemeData`.
+
+### Changed
+
+- `SuperMaterialThemeData.light` and `SuperMaterialThemeData.dark` now require
+  both `textTheme` and `primaryTextTheme`, and both parameters are typed as
+  `SuperTextTheme`.
+- `SuperMaterialThemeData` now exposes strongly typed `SuperTextTheme` getters
+  for the active Material `textTheme` and `primaryTextTheme`.
+- Removed the nullable `TextTheme` typography inputs, internal
+  `SuperMaterialThemeData._textTheme` generator, and `mergeTextTheme` behavior;
+  typography is supplied explicitly by the caller.
+- Removed the private `_familyOf` font-family inference helper.
+  `SuperMaterialThemeData` no longer derives token font metadata from
+  `SuperTextTheme`; use `fontFamily` only as an explicit token-level override.
+- Removed `SuperThemeData.textTheme`. Typography is now owned by the Material
+  theme and can be read through `SuperMaterialThemeData.of(context).textTheme`
+  or `context.superTextTheme`.
+- Internal widgets, examples, tests, README, and agent skill guidance now read
+  typography from `SuperMaterialThemeData` instead of `SuperThemeData`.
+- `SuperMaterialThemeData.fromThemeData` normalizes a plain Flutter `TextTheme`
+  into a `SuperTextTheme` when wrapping non-Super Material themes.
+
+### Migration
+
+Create the typography explicitly and provide it to both light and dark themes:
+
+```dart
+final typography = SuperTextTheme();
+
+MaterialApp(
+  theme: SuperMaterialThemeData.light(
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
+  darkTheme: SuperMaterialThemeData.dark(
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
+);
+```
+
+Replace `context.superTheme.textTheme` with `context.superTextTheme` or
+`SuperMaterialThemeData.of(context).textTheme`. For desktop typography, build
+`SuperTextTheme(isDesktop: mode == SuperDeviceMode.desktop)` when the responsive
+mode changes.
+
+---
+
 ## [3.2.1] - 2026-08-07
 
 Action-footer visual separation for reusable View/Dialog components.

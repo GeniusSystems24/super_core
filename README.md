@@ -74,14 +74,20 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final typography = SuperTextTheme();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: SuperMaterialThemeData.light(
         palette: SuperPalette.purplePalette,
+        textTheme: typography,
+        primaryTextTheme: typography,
       ),
       darkTheme: SuperMaterialThemeData.dark(
         palette: SuperPalette.purplePalette,
+        textTheme: typography,
+        primaryTextTheme: typography,
       ),
       home: const DashboardScreen(),
     );
@@ -101,6 +107,7 @@ Use the `BuildContext` extension inside widgets:
 @override
 Widget build(BuildContext context) {
   final theme = context.superTheme;
+  final typography = context.superTextTheme;
   final colorScheme = Theme.of(context).colorScheme;
   final semanticColors = SuperSemanticColors.of(context);
 
@@ -113,7 +120,7 @@ Widget build(BuildContext context) {
     ),
     child: Text(
       'Balanced',
-      style: theme.textTheme.body.copyWith(
+      style: typography.body.copyWith(
         color: semanticColors.success.onSubtle,
       ),
     ),
@@ -160,19 +167,26 @@ public theme component and its responsibility.
 
 `SuperMaterialThemeData` extends Flutter's `ThemeData`. Use its `light` and
 `dark` factories as the application themes. Both factories generate the
-Material `ColorScheme`, component themes, responsive typography, spacing,
-semantic colors, interaction states, and Super theme extensions from the same
-palette and device mode.
+Material `ColorScheme`, component themes, spacing, semantic colors, interaction
+states, and Super theme extensions from the same palette and device mode.
+Typography is explicit in v3.3.0: both factories require `SuperTextTheme` values
+for `textTheme` and `primaryTextTheme`.
 
 ```dart
+final typography = SuperTextTheme();
+
 MaterialApp(
   theme: SuperMaterialThemeData.light(
     palette: SuperPalette.bluePalette,
     mode: SuperDeviceMode.mobile,
+    textTheme: typography,
+    primaryTextTheme: typography,
   ),
   darkTheme: SuperMaterialThemeData.dark(
     palette: SuperPalette.bluePalette,
     mode: SuperDeviceMode.mobile,
+    textTheme: typography,
+    primaryTextTheme: typography,
   ),
 );
 ```
@@ -192,12 +206,13 @@ contains:
   `borderStrong`;
 - foreground roles: `fg1`, `fg2`, `fg3`, and `fg4`;
 - `brightness`, `tokens`, `mode`, `metrics`, and `interactiveStates`;
-- derived `spacing`, `sizing`, `textTheme`, and `cardShadow` values;
+- derived `spacing`, `sizing`, and `cardShadow` values;
 - `cardShadowLight`, `cardShadowDark`, and `popShadow` presets;
 - `selectionFill`, `tintFill`, `tint`, and `tintOnBg` color helpers.
 
 ```dart
 final superTheme = SuperThemeData.of(context);
+final typography = context.superTextTheme;
 
 Container(
   padding: superTheme.spacing.cardPadding,
@@ -209,7 +224,7 @@ Container(
   ),
   child: Text(
     'Account details',
-    style: superTheme.textTheme.body.copyWith(color: superTheme.fg1),
+    style: typography.body.copyWith(color: superTheme.fg1),
   ),
 );
 ```
@@ -265,7 +280,12 @@ final customTokens = SuperTokensData.fallback.copyWith(
   durExpand: const Duration(milliseconds: 220),
 );
 
-final theme = SuperMaterialThemeData.light(tokens: customTokens);
+final typography = SuperTextTheme();
+final theme = SuperMaterialThemeData.light(
+  tokens: customTokens,
+  textTheme: typography,
+  primaryTextTheme: typography,
+);
 ```
 
 `SuperMarker` expresses section intent through `identity`, `ledger`, and
@@ -416,7 +436,7 @@ slots, and adds named styles:
 - aliases: `h1`, `heading`, `body`, `label`, `caption`, `button`, and `pill`.
 
 ```dart
-final textTheme = context.superTheme.textTheme;
+final textTheme = context.superTextTheme;
 
 Column(
   crossAxisAlignment: CrossAxisAlignment.start,
@@ -477,7 +497,10 @@ The default responsive action limits are 3 on mobile, 4 on tablet, and 5 on
 desktop. Use `maxActionsFor(mode)` to resolve the active limit.
 
 ```dart
+final typography = SuperTextTheme();
 final theme = SuperMaterialThemeData.light(
+  textTheme: typography,
+  primaryTextTheme: typography,
   appBarTheme: const SuperAppBarTheme(
     subtitlePosition: SubtitlePosition.below,
     maxMobileActions: 2,
@@ -503,7 +526,10 @@ Super app-bar theme.
 - `borderColor` and `selectedBorderColor`.
 
 ```dart
+final typography = SuperTextTheme();
 final theme = SuperMaterialThemeData.light(
+  textTheme: typography,
+  primaryTextTheme: typography,
   cardTheme: const SuperCardTheme(
     toggleOnTap: true,
     showExpandIcon: true,
@@ -544,7 +570,12 @@ final extensions = <ThemeExtension<dynamic>>[
   ),
 ];
 
-final theme = SuperMaterialThemeData.light(extensions: extensions);
+final typography = SuperTextTheme();
+final theme = SuperMaterialThemeData.light(
+  textTheme: typography,
+  primaryTextTheme: typography,
+  extensions: extensions,
+);
 ```
 
 Each class provides an `of(context)` accessor, `copyWith(...)`, and `lerp(...)`
@@ -584,12 +615,21 @@ class ThemedApp extends StatefulWidget {
 
 class _ThemedAppState extends State<ThemedApp> {
   SuperPalette _palette = SuperPalette.bluePalette;
+  final SuperTextTheme _typography = SuperTextTheme();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: SuperMaterialThemeData.light(palette: _palette),
-      darkTheme: SuperMaterialThemeData.dark(palette: _palette),
+      theme: SuperMaterialThemeData.light(
+        palette: _palette,
+        textTheme: _typography,
+        primaryTextTheme: _typography,
+      ),
+      darkTheme: SuperMaterialThemeData.dark(
+        palette: _palette,
+        textTheme: _typography,
+        primaryTextTheme: _typography,
+      ),
       home: PaletteSettingsScreen(
         palettes: SuperPalette.values,
         selectedPalette: _palette,
@@ -616,15 +656,22 @@ class ResponsiveApp extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final mode = SuperDeviceMode.forWidth(constraints.maxWidth);
+        final typography = SuperTextTheme(
+          isDesktop: mode == SuperDeviceMode.desktop,
+        );
 
         return MaterialApp(
           theme: SuperMaterialThemeData.light(
             palette: SuperPalette.bluePalette,
             mode: mode,
+            textTheme: typography,
+            primaryTextTheme: typography,
           ),
           darkTheme: SuperMaterialThemeData.dark(
             palette: SuperPalette.bluePalette,
             mode: mode,
+            textTheme: typography,
+            primaryTextTheme: typography,
           ),
           home: const DashboardScreen(),
         );
@@ -636,7 +683,8 @@ class ResponsiveApp extends StatelessWidget {
 
 The default mode is `SuperDeviceMode.mobile`. Rebuild the application theme when
 the active device mode changes, especially for resizable desktop and web
-windows.
+windows. Because typography is now injected explicitly, rebuild the matching
+`SuperTextTheme` as well when switching between desktop and non-desktop ramps.
 
 For a value that varies by device mode, use `SuperResponsive<T>`:
 
@@ -886,51 +934,56 @@ FieldShell(
 
 For complete form controls, use the dedicated `super_form_field` package.
 
-## Typography and fonts
+## Typography
 
-`SuperTextTheme` extends Flutter's text-theme model with named design-system
-styles. Read it through `context.superTheme.textTheme`.
+`SuperTextTheme` extends Flutter's `TextTheme` with the GeniusLink named styles.
+As of v3.3.0, typography belongs to `SuperMaterialThemeData`, not
+`SuperThemeData`. Read the active branded ramp with `context.superTextTheme` or
+`SuperMaterialThemeData.of(context).textTheme`.
 
 ```dart
 Text(
   'Account summary',
-  style: context.superTheme.textTheme.titleMd,
+  style: context.superTextTheme.titleMd,
 );
 ```
 
-Provide a custom font family when generating the theme:
+Both `SuperMaterialThemeData.light` and `.dark` require `textTheme` and
+`primaryTextTheme`, and both parameters must be `SuperTextTheme`. The material
+theme applies the appropriate foreground colors while preserving the supplied
+type ramp. The old nullable `TextTheme` overrides and `mergeTextTheme` behavior
+are removed. `SuperMaterialThemeData` also no longer infers token font metadata
+from `SuperTextTheme`; configure the ramp with `bodyFont` / `otherFont`, and
+pass `fontFamily` only when a token-level family override is intentionally
+required.
 
 ```dart
-SuperMaterialThemeData.light(
-  fontFamily: 'Inter',
+final typography = SuperTextTheme(
+  bodyFont: const TextStyle(fontFamily: 'Inter'),
+  otherFont: const TextStyle(fontFamily: 'Manrope'),
+);
+
+final theme = SuperMaterialThemeData.light(
+  textTheme: typography,
+  primaryTextTheme: typography,
 );
 ```
 
-For a custom Super type ramp, pass a `SuperTextTheme` through `textTheme`.
-Set `mergeTextTheme: true` to apply its family over the generated metrics, or
-`false` to use the provided text theme as-is.
+Arabic typography can be supplied directly:
 
 ```dart
-SuperMaterialThemeData.light(
-  textTheme: SuperTextTheme(
-    bodyFont: const TextStyle(fontFamily: 'Inter'),
-    otherFont: const TextStyle(fontFamily: 'Manrope'),
-  ),
-  mergeTextTheme: true,
+final arabicTypography = SuperTextTheme(isArabic: true);
+
+final theme = SuperMaterialThemeData.light(
+  textTheme: arabicTypography,
+  primaryTextTheme: arabicTypography,
 );
 ```
 
-Arabic typography can be enabled without passing token data:
-
-```dart
-SuperMaterialThemeData.light(
-  textTheme: SuperTextTheme(isArabic: true),
-  mergeTextTheme: true,
-);
-```
-
-Register local font assets in the consuming application's `pubspec.yaml` when
-the font is bundled with the application.
+For desktop density, construct the typography with
+`isDesktop: mode == SuperDeviceMode.desktop`. Register local font assets in the
+consuming application's `pubspec.yaml` when the font is bundled with the
+application.
 
 ## Theme customization
 
@@ -938,8 +991,11 @@ The light and dark factories accept standard Flutter component-theme overrides.
 Explicit values take precedence over generated palette values.
 
 ```dart
+final typography = SuperTextTheme();
 final theme = SuperMaterialThemeData.light(
   palette: SuperPalette.purplePalette,
+  textTheme: typography,
+  primaryTextTheme: typography,
   appBarTheme: const SuperAppBarTheme(
     subtitlePosition: SubtitlePosition.below,
     maxMobileActions: 1,
@@ -961,9 +1017,12 @@ final tokens = SuperTokensData.fallback.copyWith(
   accentPressed: const Color(0xFF4930BE),
 );
 
+final typography = SuperTextTheme();
 final theme = SuperMaterialThemeData.light(
   palette: SuperPalette.purplePalette,
   tokens: tokens,
+  textTheme: typography,
+  primaryTextTheme: typography,
 );
 ```
 
@@ -977,14 +1036,22 @@ Super components use directional padding and Flutter's ambient
 application as usual.
 
 ```dart
+final typography = SuperTextTheme(isArabic: true);
+
 MaterialApp(
   locale: const Locale('ar'),
   supportedLocales: const [
     Locale('ar'),
     Locale('en'),
   ],
-  theme: SuperMaterialThemeData.light(),
-  darkTheme: SuperMaterialThemeData.dark(),
+  theme: SuperMaterialThemeData.light(
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
+  darkTheme: SuperMaterialThemeData.dark(
+    textTheme: typography,
+    primaryTextTheme: typography,
+  ),
   home: const DashboardScreen(),
 );
 ```

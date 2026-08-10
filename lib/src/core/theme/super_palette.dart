@@ -31,9 +31,18 @@ import 'super_tokens.dart';
 ///
 /// Example:
 /// ```dart
+/// final typography = SuperTextTheme();
 /// MaterialApp(
-///   theme:     SuperMaterialThemeData.light(palette: SuperPalette.bluePalette),
-///   darkTheme: SuperMaterialThemeData.dark(palette: SuperPalette.bluePalette),
+///   theme: SuperMaterialThemeData.light(
+///     palette: SuperPalette.bluePalette,
+///     textTheme: typography,
+///     primaryTextTheme: typography,
+///   ),
+///   darkTheme: SuperMaterialThemeData.dark(
+///     palette: SuperPalette.bluePalette,
+///     textTheme: typography,
+///     primaryTextTheme: typography,
+///   ),
 /// );
 /// ```
 @immutable

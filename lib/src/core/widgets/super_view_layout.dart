@@ -31,6 +31,7 @@ class SuperViewLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.superTheme;
+    final textTheme = context.superTextTheme;
     final spacing = theme.spacing;
     final resolvedPadding = padding ?? EdgeInsets.all(spacing.space6);
     final resolvedDirectionalPadding = resolvedPadding.resolve(
@@ -66,7 +67,7 @@ class SuperViewLayout extends StatelessWidget {
                   if (content != null) ...[
                     if (_hasHeader) SizedBox(height: spacing.space5),
                     DefaultTextStyle.merge(
-                      style: theme.textTheme.body.copyWith(color: theme.fg2),
+                      style: textTheme.body.copyWith(color: theme.fg2),
                       textAlign: TextAlign.start,
                       child: content!,
                     ),
@@ -107,6 +108,7 @@ class _SuperViewHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.superTheme;
+    final textTheme = context.superTextTheme;
     final spacing = theme.spacing;
     final copy = Column(
       mainAxisSize: MainAxisSize.min,
@@ -116,14 +118,14 @@ class _SuperViewHeader extends StatelessWidget {
           Text(
             title!,
             textAlign: TextAlign.start,
-            style: theme.textTheme.h1.copyWith(color: theme.fg1),
+            style: textTheme.h1.copyWith(color: theme.fg1),
           ),
         if (description != null) ...[
           if (title != null) SizedBox(height: spacing.space2),
           Text(
             description!,
             textAlign: TextAlign.start,
-            style: theme.textTheme.body.copyWith(color: theme.fg3),
+            style: textTheme.body.copyWith(color: theme.fg3),
           ),
         ],
       ],

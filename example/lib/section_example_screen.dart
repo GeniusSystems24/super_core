@@ -25,8 +25,8 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
       backgroundColor: t.bg,
       appBar: SuperAppBar(
         title: const Text('Section Components'),
-        subtitle: const Text('SUPER CORE - v3.1.0'),
-        subtitleTextStyle: t.textTheme.eyebrow.copyWith(
+        subtitle: const Text('SUPER CORE - v3.3.0'),
+        subtitleTextStyle: context.superTextTheme.eyebrow.copyWith(
           color: colorScheme.primary,
         ),
       ),
@@ -692,7 +692,7 @@ class _InfoRow extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: t.textTheme.body.copyWith(color: t.fg3),
+            style: context.superTextTheme.body.copyWith(color: t.fg3),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -700,7 +700,7 @@ class _InfoRow extends StatelessWidget {
         SizedBox(width: t.spacing.space3),
         Text(
           value,
-          style: t.textTheme.mono.copyWith(color: t.fg1),
+          style: context.superTextTheme.mono.copyWith(color: t.fg1),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -719,7 +719,7 @@ class _InlineNote extends StatelessWidget {
     final t = context.superTheme;
     return Text(
       text,
-      style: t.textTheme.body.copyWith(color: t.fg2),
+      style: context.superTextTheme.body.copyWith(color: t.fg2),
     );
   }
 }

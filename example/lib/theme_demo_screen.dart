@@ -189,8 +189,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       // ── App Bar ─────────────────────────────────────────────────────────────
       appBar: SuperAppBar(
         title: const Text('Super Material Theme'),
-        subtitle: const Text('Super core • v3.1.0'),
-        subtitleTextStyle: t.textTheme.eyebrow.copyWith(color: cs.primary),
+        subtitle: const Text('Super core • v3.3.0'),
+        subtitleTextStyle: context.superTextTheme.eyebrow.copyWith(color: cs.primary),
         maxMobileActions: 1,
         actions: [
           IconButton(
@@ -316,7 +316,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 side: sel
                     ? BorderSide(color: cs.primary, width: 2)
                     : BorderSide(color: t.border),
-                labelStyle: t.textTheme.body.copyWith(
+                labelStyle: context.superTextTheme.body.copyWith(
                   color: sel ? cs.primary : t.fg1,
                   fontWeight: sel ? FontWeight.w600 : FontWeight.w400,
                 ),
@@ -598,14 +598,14 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Confidence Threshold  ${(_slider * 100).round()}%',
-                    style: t.textTheme.label.copyWith(color: t.fg3)),
+                    style: context.superTextTheme.label.copyWith(color: t.fg3)),
                 Slider(
                     value: _slider,
                     onChanged: (v) => setState(() => _slider = v)),
                 const SizedBox(height: 4),
                 Text(
                     'Amount Range  ${(_range.start * 100).round()}k – ${(_range.end * 100).round()}k SAR',
-                    style: t.textTheme.label.copyWith(color: t.fg3)),
+                    style: context.superTextTheme.label.copyWith(color: t.fg3)),
                 RangeSlider(
                   values: _range,
                   onChanged: (v) => setState(() => _range = v),
@@ -674,7 +674,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             'SuperSemanticColors — six intents, each resolved per brightness into '
             'solid · onSolid · subtle · onSubtle · border. Read via '
             'SuperSemanticColors.of(context). Drives pills, banners & snackbars.',
-            style: t.textTheme.caption.copyWith(color: t.fg3),
+            style: context.superTextTheme.caption.copyWith(color: t.fg3),
           ),
           const SizedBox(height: 12),
           const _SemanticColorsDemo(),
@@ -686,7 +686,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           Text(
             'SuperColorX on Color — hex parse/format, HSL tonal ops, and WCAG 2.1 '
             'contrast helpers (contrastRatio · meetsAA · onColor).',
-            style: t.textTheme.caption.copyWith(color: t.fg3),
+            style: context.superTextTheme.caption.copyWith(color: t.fg3),
           ),
           const SizedBox(height: 12),
           _ColorUtilsDemo(seed: palette.shade500),
@@ -699,7 +699,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             'Responsive content carousel — items-per-view adapt to the viewport '
             '(1 / 2 / 3), autoplay pauses on hover, arrows + animated indicator. '
             'Use for KPI strips, store tiles, or product carousels.',
-            style: t.textTheme.caption.copyWith(color: t.fg3),
+            style: context.superTextTheme.caption.copyWith(color: t.fg3),
           ),
           const SizedBox(height: 16),
           SuperSlider(
@@ -730,7 +730,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               padding: const EdgeInsets.all(20),
               child: Column(children: [
                 Text('STYLE 1 — MARKER BAR',
-                    style: t.textTheme.eyebrow.copyWith(color: t.fg4)),
+                    style: context.superTextTheme.eyebrow.copyWith(color: t.fg4)),
                 const SizedBox(height: 16),
                 const SuperSectionHeader(
                   eyebrow: 'STORES & PRODUCTS • STORES',
@@ -754,7 +754,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 ),
                 Divider(height: 28, color: t.border),
                 Text('STYLE 2 — ICON CHIP',
-                    style: t.textTheme.eyebrow.copyWith(color: t.fg4)),
+                    style: context.superTextTheme.eyebrow.copyWith(color: t.fg4)),
                 const SizedBox(height: 16),
                 const SuperSectionHeader(
                   style: SuperSectionHeaderStyle.style2,
@@ -812,7 +812,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               'SuperSectionCard wraps the card surface and optionally composes a '
               'SuperSectionHeader and SuperSectionFooter around this body. Omit '
               'either to drop it; pass card: false for a borderless variant.',
-              style: t.textTheme.body.copyWith(color: t.fg2),
+              style: context.superTextTheme.body.copyWith(color: t.fg2),
             ),
           ),
           const SizedBox(height: 8),
@@ -824,7 +824,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             headerTrailing: const Icon(Icons.expand_more),
             child: Text(
                 'Header-only SuperSectionCard using style2 (no footer).',
-                style: t.textTheme.body.copyWith(color: t.fg2)),
+                style: context.superTextTheme.body.copyWith(color: t.fg2)),
           ),
 
           // ════════════════════════════════════════════════════════════════════
@@ -896,17 +896,17 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                         children: [
                           Text('Section Card',
                               style:
-                                  t.textTheme.heading.copyWith(color: t.fg1)),
+                                  context.superTextTheme.heading.copyWith(color: t.fg1)),
                           Text('GeniusLink 4 px marker bar — identity',
                               style:
-                                  t.textTheme.caption.copyWith(color: t.fg3)),
+                                  context.superTextTheme.caption.copyWith(color: t.fg3)),
                         ]),
                   ]),
                   Divider(height: 28, color: t.border),
                   Text(
                       'The 4 px vertical pill is the most distinctive GeniusLink visual device. '
                       'Blue = identity, green = ledger, orange = notes.',
-                      style: t.textTheme.body.copyWith(color: t.fg2)),
+                      style: context.superTextTheme.body.copyWith(color: t.fg2)),
                 ],
               ),
             ),
@@ -925,7 +925,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             child: Text(
               'A general-purpose surface card — 8 px radius, hairline border, '
               'card shadow. The consolidated surface for plain, selected, and expandable cards.',
-              style: t.textTheme.body.copyWith(color: t.fg2),
+              style: context.superTextTheme.body.copyWith(color: t.fg2),
             ),
           ),
           const SizedBox(height: 8),
@@ -936,7 +936,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 selected: _cardSel == 0,
                 onTap: () => setState(() => _cardSel = 0),
                 child: Text('Selectable — tap me',
-                    style: t.textTheme.body.copyWith(color: t.fg1)),
+                    style: context.superTextTheme.body.copyWith(color: t.fg1)),
               ),
             ),
             const SizedBox(width: 8),
@@ -946,7 +946,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                 selected: _cardSel == 1,
                 onTap: () => setState(() => _cardSel = 1),
                 child: Text('Hover for the border shift',
-                    style: t.textTheme.body.copyWith(color: t.fg1)),
+                    style: context.superTextTheme.body.copyWith(color: t.fg1)),
               ),
             ),
           ]),
@@ -963,11 +963,11 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               child: Text(
                 'Revealed content grows the card downward with a 200 ms '
                 'ease-out. Balance SAR 48,200.00 across 3 sub-accounts.',
-                style: t.textTheme.body.copyWith(color: t.fg2),
+                style: context.superTextTheme.body.copyWith(color: t.fg2),
               ),
             ),
             child: Text('Downtown Central Store • STR-0042',
-                style: t.textTheme.body.copyWith(color: t.fg1)),
+                style: context.superTextTheme.body.copyWith(color: t.fg1)),
           ),
           const SizedBox(height: 8),
           SuperSectionCard(
@@ -975,17 +975,17 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             expandedChild: SizedBox(
               width: 180,
               child: Text('Horizontal reveal grows the card sideways.',
-                  style: t.textTheme.caption.copyWith(color: t.fg3)),
+                  style: context.superTextTheme.caption.copyWith(color: t.fg3)),
             ),
             child: Text('Horizontal expand + leading/trailing',
-                style: t.textTheme.body.copyWith(color: t.fg1)),
+                style: context.superTextTheme.body.copyWith(color: t.fg1)),
           ),
 
           const _Sec('SUPER APP BAR'),
           Text(
               'Forked AppBar with a positionable subtitle + responsive action '
               'overflow (extras past maxActions collapse into a ⋮ menu).',
-              style: t.textTheme.caption.copyWith(color: t.fg3)),
+              style: context.superTextTheme.caption.copyWith(color: t.fg3)),
           const SizedBox(height: 8),
           ClipRRect(
             borderRadius: BorderRadius.circular(
@@ -1141,10 +1141,10 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                           horizontal: 32, vertical: 0),
                       title: Text(name),
                       leading: Text(code,
-                          style: t.textTheme.mono
+                          style: context.superTextTheme.mono
                               .copyWith(color: t.fg3, fontSize: 11)),
                       trailing: Text(bal,
-                          style: t.textTheme.mono.copyWith(
+                          style: context.superTextTheme.mono.copyWith(
                               color: SuperThemeData.of(context).tokens.success,
                               fontSize: 12)),
                     ),
@@ -1162,7 +1162,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                     contentPadding: const EdgeInsets.symmetric(horizontal: 32),
                     title: const Text('Short-term Payables'),
                     trailing: Text('-3,800.00',
-                        style: t.textTheme.mono
+                        style: context.superTextTheme.mono
                             .copyWith(color: cs.error, fontSize: 12)),
                   ),
                 ],
@@ -1203,7 +1203,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                     'Chart of accounts',
                     'Financial reports'
                   ][_tabIndex],
-                  style: t.textTheme.body.copyWith(color: t.fg2),
+                  style: context.superTextTheme.body.copyWith(color: t.fg2),
                 ),
               ),
             ]),
@@ -1338,7 +1338,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                     child: Icon(Icons.shopping_cart_outlined, size: 28)),
                 Badge(
                   label: Text('99+',
-                      style: t.textTheme.pill
+                      style: context.superTextTheme.pill
                           .copyWith(color: cs.onError, fontSize: 9)),
                   child: const Icon(Icons.inbox_outlined, size: 28),
                 ),
@@ -1366,12 +1366,12 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Sync progress  72%',
-                        style: t.textTheme.label.copyWith(color: t.fg3)),
+                        style: context.superTextTheme.label.copyWith(color: t.fg3)),
                     const SizedBox(height: 6),
                     const LinearProgressIndicator(value: 0.72),
                     const SizedBox(height: 12),
                     Text('Loading…',
-                        style: t.textTheme.label.copyWith(color: t.fg3)),
+                        style: context.superTextTheme.label.copyWith(color: t.fg3)),
                     const SizedBox(height: 6),
                     const LinearProgressIndicator(),
                   ]),
@@ -1389,15 +1389,15 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           Row(children: [
             Expanded(
                 child: Text('Left content',
-                    style: t.textTheme.body.copyWith(color: t.fg2))),
+                    style: context.superTextTheme.body.copyWith(color: t.fg2))),
             const SizedBox(height: 32, child: VerticalDivider()),
             Expanded(
                 child: Text('Right content',
-                    style: t.textTheme.body.copyWith(color: t.fg2))),
+                    style: context.superTextTheme.body.copyWith(color: t.fg2))),
             const SizedBox(height: 32, child: VerticalDivider()),
             Expanded(
                 child: Text('Third content',
-                    style: t.textTheme.body.copyWith(color: t.fg2))),
+                    style: context.superTextTheme.body.copyWith(color: t.fg2))),
           ]),
 
           // ════════════════════════════════════════════════════════════════════
@@ -1410,19 +1410,19 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               columns: [
                 DataColumn(
                     label: Text('#',
-                        style: t.textTheme.mono.copyWith(color: t.fg3))),
+                        style: context.superTextTheme.mono.copyWith(color: t.fg3))),
                 DataColumn(
                     label: Text('ACCOUNT',
-                        style: t.textTheme.label.copyWith(color: t.fg3))),
+                        style: context.superTextTheme.label.copyWith(color: t.fg3))),
                 DataColumn(
                     label: Text('TYPE',
-                        style: t.textTheme.label.copyWith(color: t.fg3))),
+                        style: context.superTextTheme.label.copyWith(color: t.fg3))),
                 DataColumn(
                     label: Text('NATURE',
-                        style: t.textTheme.label.copyWith(color: t.fg3))),
+                        style: context.superTextTheme.label.copyWith(color: t.fg3))),
                 DataColumn(
                     label: Text('BALANCE',
-                        style: t.textTheme.label.copyWith(color: t.fg3)),
+                        style: context.superTextTheme.label.copyWith(color: t.fg3)),
                     numeric: true),
               ],
               rows: [
@@ -1443,15 +1443,15 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           // ════════════════════════════════════════════════════════════════════
           const _Sec('SUPER TEXT STYLES'),
           for (final r in [
-            ('h1 — Manrope 26 / 700', t.textTheme.h1, t.fg1),
-            ('heading — Inter 16 / 700', t.textTheme.heading, t.fg1),
-            ('body — Inter 14 / 400', t.textTheme.body, t.fg1),
-            ('button — Inter 14 / 600', t.textTheme.button, t.fg1),
-            ('label — Inter 11 / 700 CAPS', t.textTheme.label, t.fg2),
-            ('caption — Inter 12 / 400', t.textTheme.caption, t.fg3),
-            ('mono — JetBrains 14 / 400', t.textTheme.mono, t.fg1),
-            ('eyebrow — 11 / 700 WIDE', t.textTheme.eyebrow, t.fg3),
-            ('pill — 10 / 700', t.textTheme.pill, cs.primary),
+            ('h1 — Manrope 26 / 700', context.superTextTheme.h1, t.fg1),
+            ('heading — Inter 16 / 700', context.superTextTheme.heading, t.fg1),
+            ('body — Inter 14 / 400', context.superTextTheme.body, t.fg1),
+            ('button — Inter 14 / 600', context.superTextTheme.button, t.fg1),
+            ('label — Inter 11 / 700 CAPS', context.superTextTheme.label, t.fg2),
+            ('caption — Inter 12 / 400', context.superTextTheme.caption, t.fg3),
+            ('mono — JetBrains 14 / 400', context.superTextTheme.mono, t.fg1),
+            ('eyebrow — 11 / 700 WIDE', context.superTextTheme.eyebrow, t.fg3),
+            ('pill — 10 / 700', context.superTextTheme.pill, cs.primary),
           ])
             _TypeRow(r.$1, r.$2, r.$3),
 
@@ -1475,7 +1475,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                   Expanded(
                       flex: 5,
                       child: Text(r.$1,
-                          style: t.textTheme.caption.copyWith(color: t.fg4))),
+                          style: context.superTextTheme.caption.copyWith(color: t.fg4))),
                 ]),
               ),
 
@@ -1514,9 +1514,9 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
                             color: cs.primary, size: 28)),
                     const SizedBox(height: 12),
                     Text('GeniusLink ERP',
-                        style: t.textTheme.heading.copyWith(color: t.fg1)),
+                        style: context.superTextTheme.heading.copyWith(color: t.fg1)),
                     Text('Precision System v1.0',
-                        style: t.textTheme.caption.copyWith(color: t.fg3)),
+                        style: context.superTextTheme.caption.copyWith(color: t.fg3)),
                   ]),
             ),
             const Divider(),
@@ -1531,7 +1531,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               ListTile(
                 leading: Icon(icon, color: sel ? cs.primary : t.fg3),
                 title: Text(label,
-                    style: t.textTheme.body.copyWith(
+                    style: context.superTextTheme.body.copyWith(
                         color: sel ? cs.primary : t.fg1,
                         fontWeight: sel ? FontWeight.w600 : FontWeight.w400)),
                 selected: sel,
@@ -1544,7 +1544,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             ListTile(
               leading: Icon(Icons.settings_outlined, color: t.fg3),
               title: Text('Settings',
-                  style: t.textTheme.body.copyWith(color: t.fg1)),
+                  style: context.superTextTheme.body.copyWith(color: t.fg1)),
               onTap: () => Navigator.pop(context),
             ),
           ],
@@ -1565,7 +1565,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
               child: Row(children: [
                 Expanded(
                     child: Text('Settings',
-                        style: t.textTheme.heading.copyWith(color: t.fg1))),
+                        style: context.superTextTheme.heading.copyWith(color: t.fg1))),
                 IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () => Navigator.pop(context)),
@@ -1590,7 +1590,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: Text('PALETTE',
-                  style: t.textTheme.eyebrow.copyWith(color: t.fg4)),
+                  style: context.superTextTheme.eyebrow.copyWith(color: t.fg4)),
             ),
             const SizedBox(height: 8),
             ...SuperPalette.values.map((p) => ListTile(
@@ -1624,8 +1624,8 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
     final natureColor =
         nature == 'DR' ? cs.primary : SuperThemeData.of(context).tokens.warning;
     return DataRow(cells: [
-      DataCell(Text(n, style: t.textTheme.mono.copyWith(color: t.fg3))),
-      DataCell(Text(name, style: t.textTheme.body.copyWith(color: t.fg1))),
+      DataCell(Text(n, style: context.superTextTheme.mono.copyWith(color: t.fg3))),
+      DataCell(Text(name, style: context.superTextTheme.body.copyWith(color: t.fg1))),
       DataCell(_Pill(type.toUpperCase(), typeColor, t)),
       DataCell(Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -1634,10 +1634,10 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
           borderRadius: BorderRadius.circular(4),
         ),
         child: Text(nature,
-            style: t.textTheme.mono.copyWith(color: natureColor, fontSize: 11)),
+            style: context.superTextTheme.mono.copyWith(color: natureColor, fontSize: 11)),
       )),
       DataCell(Text(bal,
-          style: t.textTheme.mono.copyWith(
+          style: context.superTextTheme.mono.copyWith(
               color:
                   neg ? cs.error : SuperThemeData.of(context).tokens.success))),
     ]);
@@ -1677,7 +1677,7 @@ class _Sec extends StatelessWidget {
     final t = SuperThemeData.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 32, bottom: 12),
-      child: Text(text, style: t.textTheme.eyebrow.copyWith(color: t.fg4)),
+      child: Text(text, style: context.superTextTheme.eyebrow.copyWith(color: t.fg4)),
     );
   }
 }
@@ -1696,7 +1696,7 @@ class _Pill extends StatelessWidget {
           borderRadius: BorderRadius.circular(
               SuperThemeData.of(context).spacing.radiusPill),
         ),
-        child: Text(label, style: t.textTheme.pill.copyWith(color: color)),
+        child: Text(label, style: context.superTextTheme.pill.copyWith(color: color)),
       );
 }
 
@@ -1717,7 +1717,7 @@ class _TypeRow extends StatelessWidget {
         Expanded(
             flex: 5,
             child:
-                Text(name, style: t.textTheme.caption.copyWith(color: t.fg4))),
+                Text(name, style: context.superTextTheme.caption.copyWith(color: t.fg4))),
       ]),
     );
   }
@@ -1760,7 +1760,7 @@ class _SemanticColorsDemo extends StatelessWidget {
               SizedBox(
                 width: 76,
                 child:
-                    Text(name, style: t.textTheme.body.copyWith(color: t.fg1)),
+                    Text(name, style: context.superTextTheme.body.copyWith(color: t.fg1)),
               ),
               // filled badge (solid + onSolid)
               Container(
@@ -1771,7 +1771,7 @@ class _SemanticColorsDemo extends StatelessWidget {
                   borderRadius: BorderRadius.circular(t.spacing.radiusPill),
                 ),
                 child: Text('SOLID',
-                    style: t.textTheme.pill.copyWith(color: c.onSolid)),
+                    style: context.superTextTheme.pill.copyWith(color: c.onSolid)),
               ),
               const SizedBox(width: 8),
               // subtle pill (subtle + border + onSubtle)
@@ -1784,12 +1784,12 @@ class _SemanticColorsDemo extends StatelessWidget {
                   border: Border.all(color: c.border),
                 ),
                 child: Text('SUBTLE',
-                    style: t.textTheme.pill.copyWith(color: c.onSubtle)),
+                    style: context.superTextTheme.pill.copyWith(color: c.onSubtle)),
               ),
               const Spacer(),
               // WCAG ratio for onSubtle over subtle
               Text('${c.subtle.contrastRatio(c.onSubtle).toStringAsFixed(1)}:1',
-                  style: t.textTheme.mono.copyWith(color: t.fg3, fontSize: 11)),
+                  style: context.superTextTheme.mono.copyWith(color: t.fg3, fontSize: 11)),
               const SizedBox(width: 4),
               Icon(
                 c.subtle.meetsAA(c.onSubtle) ? Icons.check_circle : Icons.error,
@@ -1842,10 +1842,10 @@ class _ColorUtilsDemo extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(label,
-                          style: t.textTheme.pill
+                          style: context.superTextTheme.pill
                               .copyWith(color: on, fontSize: 8)),
                       Text(color.toHex(),
-                          style: t.textTheme.mono
+                          style: context.superTextTheme.mono
                               .copyWith(color: on, fontSize: 9)),
                     ],
                   ),
@@ -1858,7 +1858,7 @@ class _ColorUtilsDemo extends StatelessWidget {
         // fromHex round-trip + tintOver demo
         Row(children: [
           Text('SuperColorX.fromHex("#4A7CFF")  →  ',
-              style: t.textTheme.mono.copyWith(color: t.fg3, fontSize: 11)),
+              style: context.superTextTheme.mono.copyWith(color: t.fg3, fontSize: 11)),
           Container(
             width: 18,
             height: 18,
@@ -1869,7 +1869,7 @@ class _ColorUtilsDemo extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           Text('.tintOver(surface)  →  ',
-              style: t.textTheme.mono.copyWith(color: t.fg3, fontSize: 11)),
+              style: context.superTextTheme.mono.copyWith(color: t.fg3, fontSize: 11)),
           Container(
             width: 18,
             height: 18,
@@ -1928,20 +1928,20 @@ class _KpiSlide extends StatelessWidget {
             ),
             Expanded(
               child: Text(label,
-                  style: t.textTheme.label.copyWith(color: t.fg3),
+                  style: context.superTextTheme.label.copyWith(color: t.fg3),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis),
             ),
           ]),
           Text(value,
-              style: t.textTheme.mono.copyWith(color: t.fg1, fontSize: 22)),
+              style: context.superTextTheme.mono.copyWith(color: t.fg1, fontSize: 22)),
           Row(children: [
             Icon(up ? Icons.trending_up : Icons.trending_down,
                 size: 14, color: deltaColor),
             const SizedBox(width: 4),
             Text(delta,
                 style:
-                    t.textTheme.mono.copyWith(color: deltaColor, fontSize: 12)),
+                    context.superTextTheme.mono.copyWith(color: deltaColor, fontSize: 12)),
           ]),
         ],
       ),
@@ -1986,10 +1986,7 @@ class _ShadeRow extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 4),
                 color: color,
                 child: Text('$label',
-                    style: SuperThemeData.of(context)
-                        .textTheme
-                        .pill
-                        .copyWith(color: fg)),
+                    style: context.superTextTheme.pill.copyWith(color: fg)),
               ),
             ),
           );
@@ -2021,7 +2018,7 @@ class _SurfaceSeparationDemo extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: t.textTheme.label.copyWith(color: t.fg2)),
+              Text(label, style: context.superTextTheme.label.copyWith(color: t.fg2)),
               if (child != null) ...[const SizedBox(height: 12), child],
             ],
           ),
@@ -2035,7 +2032,7 @@ class _SurfaceSeparationDemo extends StatelessWidget {
           'the app bar ride the brighter surfaceContainer ramp so they stay '
           'clearly separated. The status & navigation bars adopt the app-bar '
           'color automatically.',
-          style: t.textTheme.caption.copyWith(color: t.fg3),
+          style: context.superTextTheme.caption.copyWith(color: t.fg3),
         ),
         const SizedBox(height: 12),
         layer(
@@ -2106,7 +2103,7 @@ class _ColorSchemeGrid extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           child: Text(name,
               style:
-                  SuperThemeData.of(context).textTheme.pill.copyWith(color: fg),
+                  context.superTextTheme.pill.copyWith(color: fg),
               maxLines: 1,
               overflow: TextOverflow.ellipsis),
         );
@@ -2153,10 +2150,10 @@ class _AppBarPreview extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(subtitle,
-                        style: t.textTheme.eyebrow
+                        style: context.superTextTheme.eyebrow
                             .copyWith(color: cs.primary, fontSize: 9)),
                     Text(title,
-                        style: t.textTheme.heading
+                        style: context.superTextTheme.heading
                             .copyWith(color: t.fg1, fontSize: 14)),
                   ],
                 ),
@@ -2180,7 +2177,7 @@ class _AppBarPreview extends StatelessWidget {
               const SizedBox(width: 6),
               Text('App bar preview — not interactive',
                   style:
-                      t.textTheme.caption.copyWith(color: t.fg4, fontSize: 11)),
+                      context.superTextTheme.caption.copyWith(color: t.fg4, fontSize: 11)),
             ]),
           ),
         ],
@@ -2247,7 +2244,7 @@ class _NavRailPreviewState extends State<_NavRailPreview> {
                     'Chart of accounts',
                     'Reports'
                   ][_sel],
-                  style: widget.t.textTheme.body.copyWith(color: widget.t.fg3),
+                  style: context.superTextTheme.body.copyWith(color: widget.t.fg3),
                 ),
               ),
             ),
