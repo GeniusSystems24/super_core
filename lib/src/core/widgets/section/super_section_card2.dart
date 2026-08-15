@@ -18,6 +18,7 @@ class SuperSectionCard2 extends StatefulWidget {
     required this.child,
     required this.title,
     String? subtitle,
+    this.showMarker = true,
     this.icon,
     this.isSelected = false,
     this.collapsible = true,
@@ -43,6 +44,13 @@ class SuperSectionCard2 extends StatefulWidget {
 
   final String title;
   final String? subtitle;
+
+  /// Whether the header marker/rail is visible.
+  ///
+  /// Setting this to `false` hides only the colored marker. Title, subtitle,
+  /// icon, trailing content, and collapse controls remain visible.
+  final bool showMarker;
+
   final IconData? icon;
 
   /// Applies the selected accent border and subtle selected fill.
@@ -279,6 +287,7 @@ class _SuperSectionCard2State extends State<SuperSectionCard2>
               accentColor: accent,
               icon: widget.icon,
               trailing: widget.trailing,
+              showMarker: widget.showMarker,
             ),
           ),
           // chevron — only when collapsible
@@ -315,6 +324,7 @@ class SuperSectionTitle2 extends StatelessWidget {
     this.accentColor,
     this.icon,
     this.trailing,
+    this.showMarker = true,
   });
 
   final String title;
@@ -322,6 +332,7 @@ class SuperSectionTitle2 extends StatelessWidget {
   final Color? accentColor;
   final IconData? icon;
   final Widget? trailing;
+  final bool showMarker;
 
   @override
   Widget build(BuildContext context) {
@@ -339,46 +350,53 @@ class SuperSectionTitle2 extends StatelessWidget {
       color: t.fg3,
     );
 
-    return Row(
-      children: [
-        Container(
-          width: 4,
-          height: 36,
-          decoration: BoxDecoration(
-            color: accent,
-            borderRadius: const BorderRadiusDirectional.horizontal(
-              end: Radius.circular(12),
-            ),
-          ),
-        ),
-        SizedBox(width: t.spacing.space3),
-        if (icon != null) ...[
-          Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-              color: t.tint(accent, 0.12),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, size: 16, color: accent),
-          ),
-          SizedBox(width: t.spacing.space3),
-        ],
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title.toUpperCase(), style: titleStyle),
-              if (subtitle != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 3),
-                  child: Text(subtitle!, style: subtitleStyle),
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (showMarker) ...[
+            Container(
+              width: 4,
+              decoration: BoxDecoration(
+                color: accent,
+                borderRadius: const BorderRadiusDirectional.horizontal(
+                  end: Radius.circular(12),
                 ),
-            ],
+              ),
+            ),
+          ],
+          SizedBox(width: t.spacing.space3),
+          if (icon != null) ...[
+            Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                color: t.tint(accent, 0.12),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, size: 16, color: accent),
+            ),
+            SizedBox(width: t.spacing.space3),
+          ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title.toUpperCase(), style: titleStyle),
+                if (subtitle != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 3),
+                    child: Text(subtitle!, style: subtitleStyle),
+                  ),
+              ],
+            ),
           ),
-        ),
-        if (trailing != null) ...[SizedBox(width: t.spacing.space3), trailing!],
-      ],
+          if (trailing != null) ...[
+            SizedBox(width: t.spacing.space3),
+            trailing!,
+          ],
+        ],
+      ),
     );
   }
 }

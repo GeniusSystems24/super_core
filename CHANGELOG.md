@@ -6,6 +6,31 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [3.4.0] - 2026-08-15
+
+Configurable marker visibility for section-card headers.
+
+### Added
+
+- Added `showMarker` (default `true`) to `SuperSectionCard`,
+  `SuperSectionCard1`, and `SuperSectionCard2`.
+- Added the same marker visibility control to the generated header/title
+  helpers used by those cards: `SuperSectionHeader`, `SuperSectionTitle1`, and
+  `SuperSectionTitle2`.
+
+### Changed
+
+- `showMarker: false` now hides only the colored vertical marker/rail. Header
+  title/subtitle text, icons/leading content, trailing content, and
+  expand/collapse controls remain visible.
+- Marker height now follows the rendered header content instead of using a
+  fixed 24/28/36/40 px rail height. This applies to all three card variants
+  and `SuperSectionHeader` styles.
+- Replaced the earlier local `showHeaderLabel` control with `showMarker`; label
+  visibility is no longer affected by this option.
+
+---
+
 ## [3.3.0] - 2026-08-09
 
 Explicit `SuperTextTheme` ownership in `SuperMaterialThemeData`.

@@ -32,6 +32,7 @@ class SuperSectionCard extends StatefulWidget {
     this.leading,
     this.headerTrailing,
     this.headerStyle = SuperSectionHeaderStyle.style1,
+    this.showMarker = true,
     this.footer,
     this.footerBrand,
     this.footerActions = const [],
@@ -120,6 +121,13 @@ class SuperSectionCard extends StatefulWidget {
 
   /// Header visual style.
   final SuperSectionHeaderStyle headerStyle;
+
+  /// Whether the generated header marker/rail is visible.
+  ///
+  /// Setting this to `false` hides only the colored marker. Header text,
+  /// leading/icon content, trailing content, and expansion controls remain
+  /// visible. Custom [header] widgets are not modified. Defaults to `true`.
+  final bool showMarker;
 
   /// Prebuilt footer. When null and [footerBrand] is set,
   /// [SuperSectionFooter] is created.
@@ -360,6 +368,7 @@ class _SuperSectionCardState extends State<SuperSectionCard> {
               leading: widget.leading,
               trailing: widget.headerTrailing,
               style: widget.headerStyle,
+              showMarker: widget.showMarker,
             )
           : _SuperSectionCardTitle(
               title: widget.title!,
@@ -372,6 +381,7 @@ class _SuperSectionCardState extends State<SuperSectionCard> {
               icon: widget.icon,
               leading: widget.leading,
               trailing: widget.headerTrailing,
+              showMarker: widget.showMarker,
             );
     }
 
@@ -661,6 +671,7 @@ class _SuperSectionCardTitle extends StatelessWidget {
     this.icon,
     this.leading,
     this.trailing,
+    this.showMarker = true,
   });
 
   final String title;
@@ -673,6 +684,7 @@ class _SuperSectionCardTitle extends StatelessWidget {
   final IconData? icon;
   final Widget? leading;
   final Widget? trailing;
+  final bool showMarker;
 
   @override
   Widget build(BuildContext context) {
@@ -691,102 +703,109 @@ class _SuperSectionCardTitle extends StatelessWidget {
     final markerRadius = th.markerRadius ?? 2;
     final gap = th.gap ?? s.space3;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (icon != null)
-          _SuperSectionCardTitleSlot(
-            height: titleRailHeight,
-            accent: accent,
-            child: Icon(icon, size: th.iconSize ?? 14, color: accent),
-          ),
-        if (leading != null)
-          _SuperSectionCardTitleSlot(
-            height: titleRailHeight,
-            accent: accent,
-            decorated: false,
-            child: leading!,
-          ),
-        Container(
-          width: markerWidth,
-          height: titleRailHeight,
-          decoration: BoxDecoration(
-            color: accent,
-            borderRadius: BorderRadius.circular(markerRadius),
-          ),
-        ),
-        SizedBox(width: gap),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (hasEyebrow) ...[
-                Text(
-                  eyebrow!,
-                  style:
-                      th.eyebrowStyle ??
-                      context.superTextTheme.labelSm.copyWith(
-                        color: accent,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0,
-                      ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: s.space1),
-              ],
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Flexible(
-                    child: Text(
-                      title,
-                      style:
-                          th.titleStyle ??
-                          context.superTextTheme.titleMd.copyWith(color: t.fg1),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  if (hasArabic) ...[
-                    SizedBox(width: s.space2),
-                    Flexible(
-                      child: Text(
-                        titleArabic!,
-                        style:
-                            th.arabicStyle ??
-                            context.superTextTheme.body.copyWith(color: accent),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ],
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (icon != null)
+            _SuperSectionCardTitleSlot(
+              height: titleRailHeight,
+              accent: accent,
+              child: Icon(icon, size: th.iconSize ?? 14, color: accent),
+            ),
+          if (leading != null)
+            _SuperSectionCardTitleSlot(
+              height: titleRailHeight,
+              accent: accent,
+              decorated: false,
+              child: leading!,
+            ),
+          if (showMarker)
+            Container(
+              width: markerWidth,
+              decoration: BoxDecoration(
+                color: accent,
+                borderRadius: BorderRadius.circular(markerRadius),
               ),
-              if (hasSubtitle) ...[
-                SizedBox(height: s.space1),
-                Tooltip(
-                  message: subtitle!,
-                  child: Text(
-                    subtitle!.toUpperCase(),
+            ),
+          if (showMarker || icon != null || leading != null)
+            SizedBox(width: gap),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (hasEyebrow) ...[
+                  Text(
+                    eyebrow!,
                     style:
-                        th.subtitleStyle ??
+                        th.eyebrowStyle ??
                         context.superTextTheme.labelSm.copyWith(
-                          color: t.fg3,
+                          color: accent,
+                          fontWeight: FontWeight.w700,
                           letterSpacing: 0,
                         ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  SizedBox(height: s.space1),
+                ],
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        title,
+                        style:
+                            th.titleStyle ??
+                            context.superTextTheme.titleMd.copyWith(
+                              color: t.fg1,
+                            ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    if (hasArabic) ...[
+                      SizedBox(width: s.space2),
+                      Flexible(
+                        child: Text(
+                          titleArabic!,
+                          style:
+                              th.arabicStyle ??
+                              context.superTextTheme.body.copyWith(
+                                color: accent,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
+                if (hasSubtitle) ...[
+                  SizedBox(height: s.space1),
+                  Tooltip(
+                    message: subtitle!,
+                    child: Text(
+                      subtitle!.toUpperCase(),
+                      style:
+                          th.subtitleStyle ??
+                          context.superTextTheme.labelSm.copyWith(
+                            color: t.fg3,
+                            letterSpacing: 0,
+                          ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-        if (trailing != null) ...[SizedBox(width: gap), trailing!],
-      ],
+          if (trailing != null) ...[SizedBox(width: gap), trailing!],
+        ],
+      ),
     );
   }
 }
@@ -856,6 +875,7 @@ class SuperSectionHeader extends StatelessWidget {
     this.leading,
     this.trailing,
     this.style = SuperSectionHeaderStyle.style1,
+    this.showMarker = true,
   });
 
   /// Primary heading text.
@@ -896,6 +916,12 @@ class SuperSectionHeader extends StatelessWidget {
   /// Header visual style.
   final SuperSectionHeaderStyle style;
 
+  /// Whether the marker/rail is visible.
+  ///
+  /// Setting this to `false` hides only the colored marker. Header text,
+  /// leading/icon content, and trailing content remain visible.
+  final bool showMarker;
+
   @override
   Widget build(BuildContext context) {
     return style == SuperSectionHeaderStyle.style2
@@ -920,95 +946,102 @@ class SuperSectionHeader extends StatelessWidget {
         ? tokens.markerHeight + 14
         : tokens.markerHeight;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (icon != null)
-          Container(
-            width: 24,
-            height: barHeight,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: t.tint(accent, 0.12),
-              borderRadius: const BorderRadiusDirectional.horizontal(
-                start: Radius.circular(2),
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (icon != null)
+            Container(
+              width: 24,
+              height: barHeight,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: t.tint(accent, 0.12),
+                borderRadius: const BorderRadiusDirectional.horizontal(
+                  start: Radius.circular(2),
+                ),
+              ),
+              child: Icon(icon, size: 14, color: accent),
+            ),
+          if (showMarker)
+            Container(
+              width: th.markerWidth ?? tokens.markerWidth,
+              margin: EdgeInsetsDirectional.only(end: s.space3),
+              decoration: BoxDecoration(
+                color: accent,
+                borderRadius: BorderRadius.circular(
+                  th.markerRadius ?? s.radiusPill,
+                ),
               ),
             ),
-            child: Icon(icon, size: 14, color: accent),
-          ),
-        Container(
-          width: th.markerWidth ?? tokens.markerWidth,
-          height: barHeight,
-          margin: EdgeInsetsDirectional.only(top: 1, end: s.space3),
-          decoration: BoxDecoration(
-            color: accent,
-            borderRadius: BorderRadius.circular(
-              th.markerRadius ?? s.radiusPill,
-            ),
-          ),
-        ),
-        if (leading != null) ...[leading!, SizedBox(width: gap)],
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (hasEyebrow) ...[
-                Text(
-                  eyebrow!,
-                  style:
-                      th.eyebrowStyle ??
-                      context.superTextTheme.eyebrow.copyWith(color: accent),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: s.space2),
-              ],
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Flexible(
-                    child: Text(
-                      title,
-                      style:
-                          th.titleStyle ??
-                          context.superTextTheme.heading.copyWith(color: t.fg1),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+          if (!showMarker && icon != null) SizedBox(width: gap),
+          if (leading != null) ...[leading!, SizedBox(width: gap)],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (hasEyebrow) ...[
+                  Text(
+                    eyebrow!,
+                    style:
+                        th.eyebrowStyle ??
+                        context.superTextTheme.eyebrow.copyWith(color: accent),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  if (titleArabic != null && titleArabic!.isNotEmpty) ...[
-                    SizedBox(width: s.space2),
+                  SizedBox(height: s.space2),
+                ],
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
                     Flexible(
                       child: Text(
-                        titleArabic!,
+                        title,
                         style:
-                            th.arabicStyle ??
-                            context.superTextTheme.body.copyWith(color: accent),
-                        maxLines: 1,
+                            th.titleStyle ??
+                            context.superTextTheme.heading.copyWith(
+                              color: t.fg1,
+                            ),
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    if (titleArabic != null && titleArabic!.isNotEmpty) ...[
+                      SizedBox(width: s.space2),
+                      Flexible(
+                        child: Text(
+                          titleArabic!,
+                          style:
+                              th.arabicStyle ??
+                              context.superTextTheme.body.copyWith(
+                                color: accent,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ],
-                ],
-              ),
-              if (hasSubtitle) ...[
-                SizedBox(height: s.space1),
-                Text(
-                  subtitle!,
-                  style:
-                      th.subtitleStyle ??
-                      context.superTextTheme.caption.copyWith(color: t.fg3),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
+                if (hasSubtitle) ...[
+                  SizedBox(height: s.space1),
+                  Text(
+                    subtitle!,
+                    style:
+                        th.subtitleStyle ??
+                        context.superTextTheme.caption.copyWith(color: t.fg3),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-        if (trailing != null) ...[SizedBox(width: gap), trailing!],
-      ],
+          if (trailing != null) ...[SizedBox(width: gap), trailing!],
+        ],
+      ),
     );
   }
 
@@ -1024,79 +1057,85 @@ class SuperSectionHeader extends StatelessWidget {
     final chip = th.iconChipSize ?? 26;
     final effectiveLeading = leading ?? (icon == null ? null : Icon(icon));
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: th.style2BarWidth ?? 4,
-          height: th.style2BarHeight ?? 28,
-          decoration: BoxDecoration(
-            color: accent,
-            borderRadius: BorderRadiusDirectional.horizontal(
-              end: Radius.circular(th.style2BarTailRadius ?? 12),
-            ),
-          ),
-        ),
-        SizedBox(width: gap),
-        if (effectiveLeading != null) ...[
-          Container(
-            width: chip,
-            height: chip,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: t.tint(accent, th.iconChipTintOpacity ?? 0.12),
-              borderRadius: BorderRadius.circular(th.iconChipRadius ?? 8),
-            ),
-            child: IconTheme.merge(
-              data: IconThemeData(color: accent, size: th.iconSize ?? 16),
-              child: effectiveLeading,
-            ),
-          ),
-          SizedBox(width: gap),
-        ],
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title.toUpperCase(),
-                style:
-                    th.style2TitleStyle ??
-                    context.superTextTheme.heading.copyWith(
-                      color: t.fg1,
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.7,
-                    ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (showMarker) ...[
+            Container(
+              width: th.style2BarWidth ?? 4,
+              decoration: BoxDecoration(
+                color: accent,
+                borderRadius: BorderRadiusDirectional.horizontal(
+                  end: Radius.circular(th.style2BarTailRadius ?? 12),
+                ),
               ),
-              if (subtitle != null && subtitle!.isNotEmpty) ...[
-                const SizedBox(height: 3),
+            ),
+            SizedBox(width: gap),
+          ],
+          if (effectiveLeading != null) ...[
+            Container(
+              width: chip,
+              height: chip,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: t.tint(accent, th.iconChipTintOpacity ?? 0.12),
+                borderRadius: BorderRadius.circular(th.iconChipRadius ?? 8),
+              ),
+              child: IconTheme.merge(
+                data: IconThemeData(color: accent, size: th.iconSize ?? 16),
+                child: effectiveLeading,
+              ),
+            ),
+            SizedBox(width: gap),
+          ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Text(
-                  subtitle!,
+                  title.toUpperCase(),
                   style:
-                      th.style2SubtitleStyle ??
-                      context.superTextTheme.caption.copyWith(
-                        color: t.fg3,
-                        fontSize: 11.5,
+                      th.style2TitleStyle ??
+                      context.superTextTheme.heading.copyWith(
+                        color: t.fg1,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.7,
                       ),
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+                if (subtitle != null && subtitle!.isNotEmpty) ...[
+                  const SizedBox(height: 3),
+                  Text(
+                    subtitle!,
+                    style:
+                        th.style2SubtitleStyle ??
+                        context.superTextTheme.caption.copyWith(
+                          color: t.fg3,
+                          fontSize: 11.5,
+                        ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-        if (trailing != null) ...[
-          SizedBox(width: gap),
-          IconTheme.merge(
-            data: IconThemeData(color: t.fg3, size: th.trailingIconSize ?? 18),
-            child: trailing!,
-          ),
+          if (trailing != null) ...[
+            SizedBox(width: gap),
+            IconTheme.merge(
+              data: IconThemeData(
+                color: t.fg3,
+                size: th.trailingIconSize ?? 18,
+              ),
+              child: trailing!,
+            ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }

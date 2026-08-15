@@ -2,7 +2,7 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v3.3.0) — the shared GeniusLink design-system foundation for the Super
+  (v3.4.0) — the shared GeniusLink design-system foundation for the Super
   toolkit. super_core ships SuperPalette (ten palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
@@ -14,7 +14,7 @@ description: >
   anything in super_core or in a package that depends on it.
 ---
 
-# super_core — v3.3.0
+# super_core — v3.4.0
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -23,6 +23,24 @@ Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
 type, spacing, and component themes from here so the whole toolkit looks like one
 product.
 
+
+## What changed in 3.4.0 (section marker visibility)
+
+1. **Section markers are independently optional.** `SuperSectionCard`,
+   `SuperSectionCard1`, and `SuperSectionCard2` expose `showMarker`, defaulting
+   to `true`.
+2. **`showMarker` affects only the colored marker/rail.** With
+   `showMarker: false`, keep title/subtitle text, icon/leading content, trailing
+   content, and collapse/expand controls visible. Do not use it as a header
+   label visibility switch.
+3. **Header/title helpers match the cards.** `SuperSectionHeader`,
+   `SuperSectionTitle1`, and `SuperSectionTitle2` expose the same `showMarker`
+   option.
+4. **Migration from the earlier local patch:** replace `showHeaderLabel` with
+   `showMarker`. The semantics are now marker-only.
+5. **Marker height is content-driven.** The visible marker stretches to the
+   rendered header content height; do not reintroduce fixed marker heights in
+   section-card headers.
 
 ## What changed in 3.3.0 (explicit Super typography)
 

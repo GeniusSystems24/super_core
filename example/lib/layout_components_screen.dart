@@ -16,7 +16,7 @@ class LayoutComponentsScreen extends StatelessWidget {
       backgroundColor: t.bg,
       appBar: SuperAppBar(
         title: const Text('Layout Components'),
-        subtitle: const Text('SUPER CORE - v3.3.0'),
+        subtitle: const Text('SUPER CORE - v3.4.0'),
         subtitleTextStyle: context.superTextTheme.eyebrow.copyWith(
           color: colorScheme.primary,
         ),

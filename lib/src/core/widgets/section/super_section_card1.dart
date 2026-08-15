@@ -16,6 +16,7 @@ class SuperSectionCard1 extends StatefulWidget {
     super.key,
     this.title,
     this.subtitle,
+    this.showMarker = true,
     required this.child,
     this.padding,
     this.accentColor,
@@ -39,6 +40,12 @@ class SuperSectionCard1 extends StatefulWidget {
 
   final String? title;
   final String? subtitle;
+
+  /// Whether the header marker/rail is visible.
+  ///
+  /// Setting this to `false` hides only the colored marker. Title, subtitle,
+  /// icon, trailing content, and collapse controls remain visible.
+  final bool showMarker;
 
   /// Body content rendered below the optional title row.
   final Widget child;
@@ -215,6 +222,7 @@ class _SuperSectionCard1State extends State<SuperSectionCard1>
                       accentColor: accent,
                       icon: widget.icon,
                       trailing: widget.trailing,
+                      showMarker: widget.showMarker,
                     ),
                   ),
                   SizedBox(width: cardTheme.gap ?? spacing.md),
@@ -282,6 +290,7 @@ class SuperSectionTitle1 extends StatelessWidget {
     this.accentColor,
     this.icon,
     this.trailing,
+    this.showMarker = true,
   });
 
   final String title;
@@ -289,60 +298,69 @@ class SuperSectionTitle1 extends StatelessWidget {
   final Color? accentColor;
   final IconData? icon;
   final Widget? trailing;
+  final bool showMarker;
 
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (icon != null)
-          Container(
-            width: 24,
-            height: subtitle != null ? 40 : 24,
-            decoration: BoxDecoration(
-              color: accentColor?.withValues(alpha: 0.12),
-              borderRadius: const BorderRadiusDirectional.horizontal(
-                start: Radius.circular(2),
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (icon != null)
+            Container(
+              width: 24,
+              height: subtitle != null ? 40 : 24,
+              decoration: BoxDecoration(
+                color: accentColor?.withValues(alpha: 0.12),
+                borderRadius: const BorderRadiusDirectional.horizontal(
+                  start: Radius.circular(2),
+                ),
+              ),
+              child: Icon(icon, size: 14, color: accentColor),
+            ),
+          if (showMarker)
+            Container(
+              width: 4,
+              decoration: BoxDecoration(
+                color: accentColor,
+                borderRadius: BorderRadius.circular(2),
               ),
             ),
-            child: Icon(icon, size: 14, color: accentColor),
-          ),
-        Container(
-          width: 4,
-          height: subtitle != null ? 40 : 24,
-          decoration: BoxDecoration(
-            color: accentColor,
-            borderRadius: BorderRadius.circular(2),
-          ),
-        ),
-        SizedBox(width: t.spacing.space3),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: context.superTextTheme.titleMd.copyWith(color: t.fg1)),
-              if (subtitle != null) ...[
-                SizedBox(height: t.spacing.space1),
-                Tooltip(
-                  message: subtitle!,
-                  child: Text(
-                    subtitle!.toUpperCase(),
-                    style: context.superTextTheme.labelSm.copyWith(
-                      color: t.fg3,
-                      letterSpacing: 1.2,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+          if (showMarker || icon != null) SizedBox(width: t.spacing.space3),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: context.superTextTheme.titleMd.copyWith(color: t.fg1),
                 ),
+                if (subtitle != null) ...[
+                  SizedBox(height: t.spacing.space1),
+                  Tooltip(
+                    message: subtitle!,
+                    child: Text(
+                      subtitle!.toUpperCase(),
+                      style: context.superTextTheme.labelSm.copyWith(
+                        color: t.fg3,
+                        letterSpacing: 1.2,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
 
-        if (trailing != null) ...[SizedBox(width: t.spacing.space3), trailing!],
-      ],
+          if (trailing != null) ...[
+            SizedBox(width: t.spacing.space3),
+            trailing!,
+          ],
+        ],
+      ),
     );
   }
 }

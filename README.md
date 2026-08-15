@@ -794,6 +794,39 @@ SuperSectionCard(
 );
 ```
 
+### Marker visibility (v3.4.0)
+
+All three section-card variants expose `showMarker`, which defaults to `true`.
+Set it to `false` when the colored vertical marker/rail should be omitted while
+keeping the rest of the header intact: title, subtitle, icon/leading content,
+trailing content, and collapse/expand controls remain visible.
+
+```dart
+SuperSectionCard(
+  title: 'Opening balance',
+  subtitle: 'Balances carried into the current period',
+  showMarker: false,
+  child: const OpeningBalanceForm(),
+);
+
+SuperSectionCard1(
+  title: 'Compact section',
+  showMarker: false,
+  child: const DetailsPanel(),
+);
+
+SuperSectionCard2(
+  title: 'Ledger balance',
+  showMarker: false,
+  child: const BalanceSummary(),
+);
+```
+
+The standalone `SuperSectionHeader`, `SuperSectionTitle1`, and
+`SuperSectionTitle2` helpers expose the same option.
+
+The marker height is adaptive: it stretches to the actual rendered header content height instead of using a fixed rail height.
+
 Use the specialized variants only when their visual treatment is required:
 
 | Widget | Recommended use |

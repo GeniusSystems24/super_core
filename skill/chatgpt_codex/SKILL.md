@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v3.3.0)
+# super_core — ChatGPT / Codex agent instructions (v3.4.0)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 3.3.0
+version: 3.4.0
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 deps:    google_fonts >=6.2.1 <7.0.0
@@ -26,6 +26,24 @@ Apply this skill when the user asks for:
 - building or modifying any `super_*` package theme
 - reusable confirmation UI, confirmation dialogs, field/form views, or field dialogs
 
+
+## What changed in 3.4.0 (section marker visibility)
+
+1. **Section markers are independently optional.** `SuperSectionCard`,
+   `SuperSectionCard1`, and `SuperSectionCard2` expose `showMarker`, defaulting
+   to `true`.
+2. **`showMarker` affects only the colored marker/rail.** With
+   `showMarker: false`, keep title/subtitle text, icon/leading content, trailing
+   content, and collapse/expand controls visible. Do not use it as a header
+   label visibility switch.
+3. **Header/title helpers match the cards.** `SuperSectionHeader`,
+   `SuperSectionTitle1`, and `SuperSectionTitle2` expose the same `showMarker`
+   option.
+4. **Migration from the earlier local patch:** replace `showHeaderLabel` with
+   `showMarker`. The semantics are now marker-only.
+5. **Marker height is content-driven.** The visible marker stretches to the
+   rendered header content height; do not reintroduce fixed marker heights in
+   section-card headers.
 
 ## What changed in 3.3.0 (explicit Super typography)
 

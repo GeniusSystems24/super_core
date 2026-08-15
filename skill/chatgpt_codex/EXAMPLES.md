@@ -1,9 +1,28 @@
-# super_core · Examples (v3.3.0)
+# super_core · Examples (v3.4.0)
 
 Runnable, copy-pasteable snippets. All assume `import
 'package:super_core/super_core.dart';`.
 
 ---
+
+## Marker visibility (v3.4.0)
+
+Use `showMarker: false` to remove only the colored marker/rail while preserving
+the rest of the header.
+
+The marker automatically matches the rendered header content height, so title-only,
+title + subtitle, and taller header compositions do not need a manual rail height.
+
+```dart
+SuperSectionCard(
+  title: 'Customer balance',
+  subtitle: 'Current posting period',
+  showMarker: false,
+  icon: Icons.account_balance_wallet_outlined,
+  collapsible: true,
+  child: const BalanceSummary(),
+);
+```
 
 ## 1 · Minimal app with light + dark + system mode
 

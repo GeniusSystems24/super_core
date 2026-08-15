@@ -25,7 +25,7 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
       backgroundColor: t.bg,
       appBar: SuperAppBar(
         title: const Text('Section Components'),
-        subtitle: const Text('SUPER CORE - v3.3.0'),
+        subtitle: const Text('SUPER CORE - v3.4.0'),
         subtitleTextStyle: context.superTextTheme.eyebrow.copyWith(
           color: colorScheme.primary,
         ),
@@ -54,6 +54,37 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
             SuperGrid(
               scope: SuperGridScope.current,
               children: [
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard(
+                    title: 'Marker Hidden',
+                    subtitle: 'showMarker: false keeps the complete header',
+                    showMarker: false,
+                    icon: Icons.visibility_off_outlined,
+                    headerTrailing: StatusPill('NO MARKER'),
+                    child: _InlineNote(
+                      'Only the colored marker is hidden; title, subtitle, icon and trailing content remain visible.',
+                    ),
+                  ),
+                ),
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard(
+                    eyebrow: 'ADAPTIVE MARKER HEIGHT',
+                    title: 'Marker Matches Header Content',
+                    subtitle:
+                        'The rail stretches to the actual header content height.',
+                    marker: SuperMarker.ledger,
+                    icon: Icons.height_outlined,
+                    child: _InlineNote(
+                      'No fixed marker height is required for title-only or multi-line header content.',
+                    ),
+                  ),
+                ),
                 const SuperGridCell(
                   mobile: 4,
                   tablet: 8,
@@ -259,6 +290,34 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
                   tablet: 8,
                   desktop: 6,
                   child: SuperSectionCard1(
+                    title: 'Marker Hidden',
+                    subtitle: 'showMarker: false',
+                    showMarker: false,
+                    icon: Icons.visibility_off_outlined,
+                    child: _InlineNote(
+                      'SuperSectionCard1 keeps all header content while hiding only the marker.',
+                    ),
+                  ),
+                ),
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
+                    title: 'Adaptive Marker Height',
+                    subtitle:
+                        'Marker height follows this title + subtitle content',
+                    icon: Icons.height_outlined,
+                    child: _InlineNote(
+                      'The marker is stretched by the rendered header instead of a fixed 24/40 px value.',
+                    ),
+                  ),
+                ),
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard1(
                     title: 'Basic Accent Section',
                     subtitle: 'Tap to collapse',
                     icon: Icons.article_outlined,
@@ -430,6 +489,33 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
             SuperGrid(
               scope: SuperGridScope.current,
               children: [
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard2(
+                    title: 'Marker Hidden',
+                    subtitle: 'showMarker: false',
+                    showMarker: false,
+                    icon: Icons.visibility_off_outlined,
+                    child: _InlineNote(
+                      'The title, subtitle, icon chip and collapse affordance remain visible.',
+                    ),
+                  ),
+                ),
+                const SuperGridCell(
+                  mobile: 4,
+                  tablet: 8,
+                  desktop: 6,
+                  child: SuperSectionCard2(
+                    title: 'Adaptive Marker Height',
+                    subtitle: 'Rail height follows the rendered header content',
+                    icon: Icons.height_outlined,
+                    child: _InlineNote(
+                      'The style-2 rail no longer uses a fixed 36 px height.',
+                    ),
+                  ),
+                ),
                 // Basic collapsible (default)
                 const SuperGridCell(
                   mobile: 4,

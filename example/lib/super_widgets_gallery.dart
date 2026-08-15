@@ -45,7 +45,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
       appBar: SuperAppBar(
         maxMobileActions: 1,
         title: const Text('Widget Gallery'),
-        subtitle: Text('SUPER CORE • v3.3.0',
+        subtitle: Text('SUPER CORE • v3.4.0',
             style: context.superTextTheme.eyebrow.copyWith(color: cs.primary)),
         actions: [
           if (widget.onThemeModeChanged != null) ...[
@@ -159,8 +159,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.only(left: 12),
-              child:
-                  Text('Right', style: context.superTextTheme.body.copyWith(color: t.fg2)),
+              child: Text('Right',
+                  style: context.superTextTheme.body.copyWith(color: t.fg2)),
             )),
           ]),
           const SizedBox(height: 12),
@@ -595,7 +595,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
         border: Border.all(
             color: error ? Theme.of(context).colorScheme.error : t.border),
       ),
-      child: Text(hint, style: context.superTextTheme.caption.copyWith(color: t.fg4)),
+      child: Text(hint,
+          style: context.superTextTheme.caption.copyWith(color: t.fg4)),
     );
   }
 
@@ -638,7 +639,8 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
             ),
           ]),
           Text(value,
-              style: context.superTextTheme.mono.copyWith(color: t.fg1, fontSize: 22)),
+              style: context.superTextTheme.mono
+                  .copyWith(color: t.fg1, fontSize: 22)),
         ],
       ),
     );
@@ -655,7 +657,8 @@ class _G extends StatelessWidget {
     final t = SuperThemeData.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 32, bottom: 12),
-      child: Text(text, style: context.superTextTheme.eyebrow.copyWith(color: t.fg4)),
+      child: Text(text,
+          style: context.superTextTheme.eyebrow.copyWith(color: t.fg4)),
     );
   }
 }
