@@ -2,6 +2,15 @@
 /// toolkit. Single source of truth for the visual identity that every Super
 /// package reads from, so the whole toolkit looks like one product.
 ///
+/// ## v3.5.0 — SuperToast overlay feedback
+///
+/// Adds [SuperToast], an Overlay-based feedback component with semantic tones,
+/// top/bottom stacking, automatic or persistent duration, optional actions,
+/// custom icons, manual [SuperToastHandle] dismissal, and shared dismiss-all
+/// control. Its MVC feature boundary keeps immutable toast state separate from
+/// overlay lifecycle and rendering while all visuals resolve from the active
+/// Super design system.
+///
 /// ## v3.0.0 - layout primitives and consolidated section surfaces
 ///
 /// Adds the Super layout family: [SuperBreakpoint], [SuperBreakpoints],
@@ -117,7 +126,7 @@
 /// | [SuperFormat] | Intl-free formatters |
 /// | [SuperMarker] | Section-marker bar intents |
 /// | Layout | SuperBreakpoint, SuperBreakpoints, SuperBreakpointProvider, SuperGrid, SuperGridCell, SuperGridScope, SuperScaffold |
-/// | Widgets | SuperSectionCard, SuperSectionHeader, SuperSectionFooter, AccentSectionCard, StatusPill, SuperButton, SuperConfirmView, SuperConfirmDialog, SuperFieldView, SuperFieldDialog, Hairline, FieldShell, SuperSnackBar, SuperAppBar, SuperSliverAppBar |
+/// | Widgets | SuperSectionCard, SuperSectionHeader, SuperSectionFooter, AccentSectionCard, StatusPill, SuperButton, SuperConfirmView, SuperConfirmDialog, SuperFieldView, SuperFieldDialog, Hairline, FieldShell, SuperToast, SuperSnackBar, SuperAppBar, SuperSliverAppBar |
 ///
 /// Import this single barrel to get the whole foundation:
 ///
@@ -127,3 +136,4 @@
 library super_core;
 
 export 'src/core/core.dart';
+export 'src/features/toast/toast.dart';

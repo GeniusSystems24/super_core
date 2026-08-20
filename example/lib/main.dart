@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:super_core/super_core.dart';
 
-import 'theme_demo_screen.dart';
+import 'home_screen.dart';
 
 void main() => runApp(const SuperCoreExampleApp());
 
-/// Root widget that owns [SuperPalette] + [ThemeMode] state and wires
-/// [SuperMaterialThemeData] into the [MaterialApp].
-///
-/// Demonstrates:
-/// - [SuperMaterialThemeData.light] and [SuperMaterialThemeData.dark]
-/// - Runtime palette switching via [SuperPalette.values]
-/// - Light / Dark / System [ThemeMode] toggle
 class SuperCoreExampleApp extends StatefulWidget {
   const SuperCoreExampleApp({super.key});
 
@@ -22,30 +16,42 @@ class SuperCoreExampleApp extends StatefulWidget {
 class _SuperCoreExampleAppState extends State<SuperCoreExampleApp> {
   SuperPalette _palette = SuperPalette.bluePalette;
   ThemeMode _themeMode = ThemeMode.system;
+  Locale _locale = const Locale('en');
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = _locale.languageCode == 'ar';
+    final typography = SuperTextTheme(isArabic: isArabic);
+
     return MaterialApp(
-      title: 'Super Core — Theme Demo',
+      title: 'Super Core',
       debugShowCheckedModeBanner: false,
+      locale: _locale,
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       themeMode: _themeMode,
-      // SuperMaterialThemeData generates complete Material 3 ThemeData and
-      // registers SuperThemeData as a ThemeExtension automatically.
+      themeAnimationDuration: const Duration(milliseconds: 300),
+      themeAnimationCurve: Curves.easeOutCubic,
       theme: SuperMaterialThemeData.light(
         palette: _palette,
-        textTheme: SuperTextTheme(isArabic: true),
-        primaryTextTheme: SuperTextTheme(isArabic: true),
+        textTheme: typography,
+        primaryTextTheme: typography,
       ),
       darkTheme: SuperMaterialThemeData.dark(
         palette: _palette,
-        textTheme: SuperTextTheme(isArabic: true),
-        primaryTextTheme: SuperTextTheme(isArabic: true),
+        textTheme: typography,
+        primaryTextTheme: typography,
       ),
-      home: ThemeDemoScreen(
+      builder: (context, child) => SuperToastHost(
+        child: child ?? const SizedBox.shrink(),
+      ),
+      home: HomeScreen(
         selectedPalette: _palette,
         themeMode: _themeMode,
-        onPaletteChanged: (p) => setState(() => _palette = p),
-        onThemeModeChanged: (m) => setState(() => _themeMode = m),
+        locale: _locale,
+        onPaletteChanged: (palette) => setState(() => _palette = palette),
+        onThemeModeChanged: (mode) => setState(() => _themeMode = mode),
+        onLocaleChanged: (locale) => setState(() => _locale = locale),
       ),
     );
   }

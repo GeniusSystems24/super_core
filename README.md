@@ -18,8 +18,8 @@ such as `super_form_field`, `super_table_field`, `super_tree`,
   states, section styling, and dynamic brand tokens.
 - Responsive mobile, tablet, and desktop metrics.
 - A 4/8/12-column responsive grid with per-breakpoint ordering and visibility.
-- Reusable page, section, tile, button, app-bar, slider, and notification
-  components.
+- Reusable page, section, tile, button, app-bar, slider, snackbar, and
+  overlay-toast components.
 - LTR and RTL-aware layout helpers.
 - Dependency-light number, currency, byte, and identifier formatters.
 - Shared failures, result types, validators, and use-case abstractions.
@@ -933,6 +933,116 @@ SuperGridTile(
 );
 ```
 
+### Toasts
+
+`SuperToast` is the host-based transient notification system. It follows `super_core` colors, spacing, typography, sizing, elevation and motion tokens while supporting advanced stacked-toast behavior.
+
+Install one host near the root of the app, preferably in `MaterialApp.builder`:
+
+```dart
+MaterialApp(
+  builder: (context, child) => SuperToastHost(
+    child: child ?? const SizedBox.shrink(),
+  ),
+  home: const HomeScreen(),
+);
+```
+
+Show a standard toast from any descendant context:
+
+```dart
+SuperToast.success(
+  context,
+  title: 'Saved',
+  description: 'Your changes were saved.',
+);
+```
+
+The default alignment is adaptive: touch layouts use `topCenter`, while desktop layouts use `bottomEnd`. You can use physical or direction-aware positions:
+
+```dart
+SuperToast.info(
+  context,
+  title: 'Synced',
+  position: SuperToastPosition.bottomEnd,
+);
+```
+
+Stacks collapse into a deck and, by default, expand on pointer hover or touch press. Configure this on the host:
+
+```dart
+SuperToastHost(
+  style: const SuperToastHostStyle(
+    maxVisible: 3,
+    expandBehavior: SuperToastExpandBehavior.hoverOrPress,
+  ),
+  child: child,
+);
+```
+
+Swipe-to-dismiss is enabled by default in the outward direction for the resolved alignment. Corner positions support both outward axes; centered positions use the vertical axis. Override or disable it per toast:
+
+```dart
+SuperToast.show(
+  context,
+  title: 'Custom swipe',
+  swipeToDismiss: const [AxisDirection.left],
+  dismissThreshold: 0.35,
+);
+
+SuperToast.show(
+  context,
+  title: 'Swipe disabled',
+  swipeToDismiss: const [],
+);
+```
+
+A `null` duration disables auto-dismiss. `Duration.zero` remains supported as a persistent-toast compatibility value. Hover/press/swipe interaction pauses auto-dismiss, and accessible navigation disables auto-dismiss automatically.
+
+```dart
+final handle = SuperToast.warning(
+  context,
+  title: 'Needs attention',
+  duration: null,
+  showCloseButton: true,
+);
+
+handle.pause();
+handle.resume();
+handle.dismiss();
+```
+
+Use `suffixBuilder` when trailing content needs access to its own handle, or `showRaw` when the whole surface is custom:
+
+```dart
+SuperToast.show(
+  context,
+  title: 'Event created',
+  suffixBuilder: (context, entry) => TextButton(
+    onPressed: entry.dismiss,
+    child: const Text('Undo'),
+  ),
+);
+
+SuperToast.showRaw(
+  context,
+  data: const SuperToastData(
+    title: 'Custom',
+    duration: null,
+  ),
+  builder: (context, entry) => Card(
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: SelectableText('Any widget can be shown here.'),
+    ),
+  ),
+);
+```
+
+Other supported capabilities include semantic tones (`neutral`, `info`, `success`, `warning`, `danger`), RTL-aware start/end placement, custom alignments, custom per-toast style/motion, collapsed-deck geometry, `always`/`hoverOrPress`/`disabled` expansion, raw content, actions, close/tap dismissal, isolated controllers, live theme updates, semantic live regions and reduced-motion behavior.
+
+`SuperSnackBar` remains the `ScaffoldMessenger`-based API. Use `SuperToast` when you need independent overlay-style stacking, placement, gestures and host-level toast behavior.
+
 ### Snackbars
 
 ```dart
@@ -1127,7 +1237,7 @@ Flutter localization APIs or the `intl` package in the consuming application.
 | Navigation surfaces | `SuperAppBar`, `SuperSliverAppBar` |
 | Tiles and controls | `SuperListTile`, `SuperGridTile`, `SuperButton`, `SuperIconButton`, `SuperSlider`, `StatusPill` |
 | Forms and confirmation | `SuperConfirmView`, `SuperConfirmDialog`, `SuperFieldView`, `SuperFieldDialog` |
-| Feedback | `SuperSnackBar`, `Hairline`, `FieldShell` |
+| Feedback | `SuperToast`, `SuperSnackBar`, `Hairline`, `FieldShell` |
 | Foundation | failures, typedefs, validators, use cases, and key-direction utilities |
 
 ## Example
@@ -1139,6 +1249,8 @@ The `example/` application demonstrates:
 - Material and Super components;
 - responsive layout and grid behavior;
 - section-card variants;
+- overlay `SuperToast` feedback and lifecycle examples;
+- a responsive `HomeScreen` catalog for all example screens;
 - Arabic and RTL examples.
 
 Run it from the package root:

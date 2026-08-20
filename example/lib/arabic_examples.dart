@@ -1,7 +1,6 @@
+// GENERATED DOCS-LAYOUT MIGRATION: super_core example docs v1
 import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
-
-/// Shared Arabic / RTL sample used by the example screens.
 class ArabicExampleSection extends StatelessWidget {
   const ArabicExampleSection({
     super.key,
@@ -20,42 +19,64 @@ class ArabicExampleSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.superTheme;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: SuperSectionCard(
-        title: title,
-        subtitle: subtitle,
-        marker: SuperMarker.identity,
-        icon: Icons.translate_outlined,
-        headerStyle: compactHeader
-            ? SuperSectionHeaderStyle.style2
-            : SuperSectionHeaderStyle.style1,
-        headerTrailing: const StatusPill('جاهز', tone: PillTone.success),
-        footerBrand: showFooter ? 'جينيس لينك - تجربة RTL' : null,
-        footerActions: showFooter
-            ? const [
-                SuperFooterLink('مراجعة'),
-                SuperFooterLink('حفظ', emphasized: true),
-              ]
-            : const [],
-        children: [
-          Text(
-            'يعرض هذا المثال محاذاة البداية والنهاية، ترتيب الأيقونات، '
-            'ونصوص الحالة عند استخدام واجهة عربية من اليمين إلى اليسار.',
-            textAlign: TextAlign.start,
-            style: context.superTextTheme.body.copyWith(color: t.fg2),
+    return SuperExampleDocsCard(
+      title: title,
+      description: subtitle,
+      code: r'''Directionality(
+  textDirection: TextDirection.rtl,
+  child: SuperSectionCard(
+    title: 'بيانات الحساب',
+    subtitle: 'مثال حي للنص العربي واتجاه RTL',
+    marker: SuperMarker.identity,
+    child: ...,
+  ),
+);''',
+      minPreviewHeight: 280,
+      previewAlignment: AlignmentDirectional.center,
+      preview: Directionality(
+        textDirection: TextDirection.rtl,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 620),
+          child: SuperSectionCard(
+            title: 'بيانات الحساب',
+            subtitle: subtitle,
+            marker: SuperMarker.identity,
+            icon: Icons.translate_outlined,
+            headerStyle: compactHeader
+                ? SuperSectionHeaderStyle.style2
+                : SuperSectionHeaderStyle.style1,
+            headerTrailing: const StatusPill(
+              'نشط',
+              tone: PillTone.success,
+            ),
+            footer: showFooter
+                ? const SuperSectionFooter(
+                    brand: 'Super Core · واجهة عربية',
+                    actions: [
+                      SuperFooterLink('إلغاء'),
+                      SuperFooterLink('حفظ', emphasized: true),
+                    ],
+                  )
+                : null,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const _ArabicDetails(),
+                SizedBox(height: t.spacing.space3),
+                const Hairline(),
+                SizedBox(height: t.spacing.space3),
+                Text(
+                  'هذا المثال يتحقق من المحاذاة، ترتيب الأيقونات، الهوامش، '
+                  'والنصوص الطويلة عند استخدام اتجاه من اليمين إلى اليسار.',
+                  style: context.superTextTheme.bodySm.copyWith(
+                    color: t.fg3,
+                    height: 1.55,
+                  ),
+                ),
+              ],
+            ),
           ),
-          Wrap(
-            spacing: t.spacing.space2,
-            runSpacing: t.spacing.space2,
-            children: const [
-              StatusPill('مفتوح', tone: PillTone.info),
-              StatusPill('مكتمل', tone: PillTone.success),
-              StatusPill('قيد المراجعة', tone: PillTone.warning),
-            ],
-          ),
-          const _ArabicDetails(),
-        ],
+        ),
       ),
     );
   }
@@ -67,57 +88,62 @@ class _ArabicDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-
-    return Container(
-      padding: t.spacing.compactCardPadding,
-      decoration: BoxDecoration(
-        color: t.inputBg,
-        borderRadius: t.spacing.borderRadiusMd,
-        border: Border.all(color: t.border),
-      ),
-      child: const Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _ArabicDetailRow('رقم الحساب', '100-0042'),
-          SizedBox(height: 8),
-          _ArabicDetailRow('اسم الحساب', 'صندوق النقدية'),
-          SizedBox(height: 8),
-          _ArabicDetailRow('الحالة', 'جاهز للترحيل'),
-        ],
-      ),
+    return Column(
+      children: [
+        const _ArabicDetailRow(
+          icon: Icons.person_outline,
+          label: 'اسم العميل',
+          value: 'شركة النور للتجارة',
+        ),
+        SizedBox(height: t.spacing.space2),
+        const _ArabicDetailRow(
+          icon: Icons.numbers_outlined,
+          label: 'رمز الحساب',
+          value: 'ACC-10042',
+        ),
+        SizedBox(height: t.spacing.space2),
+        const _ArabicDetailRow(
+          icon: Icons.location_on_outlined,
+          label: 'الفرع',
+          value: 'الرياض · الفرع الرئيسي',
+        ),
+      ],
     );
   }
 }
 
 class _ArabicDetailRow extends StatelessWidget {
-  const _ArabicDetailRow(this.label, this.value);
+  const _ArabicDetailRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
 
+  final IconData icon;
   final String label;
   final String value;
 
   @override
   Widget build(BuildContext context) {
     final t = context.superTheme;
-
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Icon(icon, size: 18, color: t.fg3),
+        SizedBox(width: t.spacing.space2),
         Expanded(
           child: Text(
             label,
-            style: context.superTextTheme.body.copyWith(color: t.fg3),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+            style: context.superTextTheme.bodySm.copyWith(color: t.fg3),
           ),
         ),
         SizedBox(width: t.spacing.space3),
-        Text(
-          value,
-          // style: context.superTextTheme.body.copyWith(
-          //   color: t.fg1,
-          //   fontWeight: FontWeight.w700,
-          // ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+        Flexible(
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            style: context.superTextTheme.labelMd.copyWith(color: t.fg1),
+          ),
         ),
       ],
     );

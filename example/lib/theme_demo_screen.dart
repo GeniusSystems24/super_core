@@ -4,11 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
 
 import 'arabic_examples.dart';
-import 'create_account_screen.dart';
-import 'dialog_views_example_screen.dart';
-import 'layout_components_screen.dart';
-import 'section_example_screen.dart';
-import 'super_widgets_gallery.dart';
 
 /// Comprehensive Material 3 theme showcase for [SuperMaterialThemeData].
 ///
@@ -183,91 +178,16 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
 
     return Scaffold(
       // ── Drawer ──────────────────────────────────────────────────────────────
-      drawer: _buildDrawer(context, cs, t),
-      endDrawer: _buildEndDrawer(context, cs, t),
+      endDrawer: _buildDrawer(context, cs, t),
+      // endDrawer: _buildEndDrawer(context, cs, t),
 
       // ── App Bar ─────────────────────────────────────────────────────────────
       appBar: SuperAppBar(
         title: const Text('Super Material Theme'),
-        subtitle: const Text('Super core • v3.4.0'),
+        subtitle: const Text('Super core • v3.5.0'),
         subtitleTextStyle:
             context.superTextTheme.eyebrow.copyWith(color: cs.primary),
         maxMobileActions: 1,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person_add_alt_outlined),
-            tooltip: 'Create Account — compact form screen',
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const CreateAccountScreen()),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.dynamic_form_outlined),
-            tooltip: 'Dialog & View examples',
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const DialogViewsExampleScreen(),
-              ),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.widgets_outlined),
-            tooltip: 'Component Gallery',
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => SuperWidgetsGallery(
-                  themeMode: widget.themeMode,
-                  onThemeModeChanged: widget.onThemeModeChanged,
-                ),
-              ),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.dashboard_customize_outlined),
-            tooltip: 'Layout Components',
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const LayoutComponentsScreen(),
-              ),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.view_agenda_outlined),
-            tooltip: 'Section Components',
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const SectionExampleScreen(),
-              ),
-            ),
-          ),
-          _ThemeModeBtn(
-              ThemeMode.light,
-              widget.themeMode,
-              Icons.light_mode_outlined,
-              'Light',
-              () => widget.onThemeModeChanged(ThemeMode.light)),
-          _ThemeModeBtn(
-              ThemeMode.system,
-              widget.themeMode,
-              Icons.brightness_auto_outlined,
-              'System',
-              () => widget.onThemeModeChanged(ThemeMode.system)),
-          _ThemeModeBtn(
-              ThemeMode.dark,
-              widget.themeMode,
-              Icons.dark_mode_outlined,
-              'Dark',
-              () => widget.onThemeModeChanged(ThemeMode.dark)),
-          const SizedBox(width: 4),
-          Builder(
-            builder: (ctx) => IconButton(
-              icon: const Icon(Icons.settings_outlined),
-              tooltip: 'End Drawer',
-              onPressed: () => Scaffold.of(ctx).openEndDrawer(),
-            ),
-          ),
-          const SizedBox(width: 4),
-        ],
       ),
 
       // ── FAB ─────────────────────────────────────────────────────────────────

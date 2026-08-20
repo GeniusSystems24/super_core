@@ -64,3 +64,4 @@ export 'widgets/super_list_tile.dart';
 export 'widgets/super_grid_tile.dart';
 export 'widgets/super_slider.dart';
 export 'widgets/super_snack_bar.dart';
+export 'widgets/super_example_docs.dart';

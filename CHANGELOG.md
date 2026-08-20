@@ -6,6 +6,35 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [3.5.0] - 2026-08-20
+
+### Added
+
+- Added `SuperToast`, a host-based toast system using the `super_core` design system and MVC/Clean Architecture boundaries.
+- Added `SuperToastHost` for app-level toast lifecycle, live theming, safe-area placement, raw toast content, and independent alignment stacks.
+- Added adaptive default placement: `topCenter` on touch layouts and `bottomEnd` on desktop layouts.
+- Added physical and directional alignments: top/bottom + left/center/right and start/end, including RTL resolution and custom `SuperToastAlignment` values.
+- Added collapsed toast decks with configurable scale/protrusion, maximum visible entries, animated reflow, and `always`, `hoverOrPress`, or `disabled` expansion behavior.
+- Added delayed hover expansion/collapse, touch press expansion, and interaction-aware auto-dismiss behavior.
+- Added swipe-to-dismiss with alignment-derived default directions, per-toast direction overrides, disable support, configurable threshold, snap-back animation, and swipe completion animation.
+- Added independent entrance, dismiss, transition, re-entry, hidden-entry, stack-expand/collapse, and swipe motion configuration resolved from Super motion tokens.
+- Added `SuperToast.showRaw(...)`, `suffixBuilder`, `SuperToastHandle`, programmatic pause/resume/dismiss, semantic tones, actions, custom icon/suffix/style, and persistent durations (`null` or `Duration.zero`).
+- Added accessibility behavior: live-region semantics, semantic dismiss action, no auto-dismiss with accessible navigation, and reduced/disabled motion handling.
+- Added a comprehensive `ToastExampleScreen` covering standard, raw, placement, stacking, swipe, duration, action, style, RTL, accessibility, controller, and host behavior scenarios.
+- Added widget tests for adaptive/directional placement, lifecycle, hover/press pause, swipe directions/thresholds, raw overlay content, semantics/accessibility, callbacks, and handles.
+- Added a responsive example `HomeScreen` and reorganized the example app as a component gallery.
+
+### Changed
+- `SuperExampleCodeBlock` now uses `flutter_syntax_view` for selectable syntax-highlighted code previews with line numbers and Light/Dark-aware rendering.
+- Promoted the example documentation UI into the public package as `SuperExampleDocsPage`, `SuperExampleDocsCard`, `SuperExampleDocsBadgeData`, `SuperExampleDocsSectionData`, `SuperExamplePreviewColumn`, `SuperExampleCodeBlock`, and `SuperExampleDocsNote`.
+- Fixed `SuperToast` collapsed stacks so differently-sized toasts keep their intrinsic proportions; depth animation now uses uniform scaling instead of stretching older cards toward the newest card's size.
+
+- Redesigned the example `HomeScreen` as a modern responsive showcase and added live theme/language controls with English/Arabic RTL support.
+- Updated the package version to `3.5.0`.
+- Updated the example app to install `SuperToastHost` from `MaterialApp.builder`.
+- Updated `README.md` and `skill/SKILL.md` with the full SuperToast API and behavioral guidance.
+- Kept `SuperSnackBar` as the ScaffoldMessenger-based transient message API; `SuperToast` is the independent host/stack toast system.
+
 ## [3.4.0] - 2026-08-15
 
 Configurable marker visibility for section-card headers.
@@ -507,7 +536,7 @@ _Changed (breaking)_). All new APIs are exported through the `super_core` barrel
   from the ambient theme (`SuperThemeData.of(context).tokens.x` /
   `context.superTheme.tokens.x`). The default values now live solely as the
   literals in the `SuperTokensData` constructor; `SuperTokensData.fallback` (the
-  default *instance*) is unchanged.
+  default _instance_) is unchanged.
   - Migration: `SuperTokensData.default<Field>` → `context.superTheme.tokens.<field>`
     (drop the enclosing `const`); where `const` is mandatory (enum arg, static
     const, default parameter, `initState`) use a brand-value literal.
@@ -736,8 +765,8 @@ back to a Flutter default:
 - **Surface-container ramp:** `surfaceDim`, `surfaceBright`,
   `surfaceContainerLowest`, `surfaceContainerLow`, `surfaceContainer`,
   `surfaceContainerHigh`, `surfaceContainerHighest` — a monotonic elevation ramp
-  tuned per brightness (light: brightest/white at *lowest*; dark:
-  darkest at *lowest*, lightening upward).
+  tuned per brightness (light: brightest/white at _lowest_; dark:
+  darkest at _lowest_, lightening upward).
 - `ColorScheme.surface` is now the GeniusLink **page background** (`#F7F8FA` /
   `#111318`), and cards default to `surfaceContainerLowest` (light, `#FFFFFF`) /
   `surfaceContainer` (dark, `#1E2025`) so panels stay clearly lifted off the
@@ -794,7 +823,7 @@ Fully backward compatible. The only behavioral change is intentional and
 requested: `ColorScheme.surface` (and the Scaffold background) now resolve to the
 page background rather than the card white/near-black, and cards/app bars sit on
 the brighter container ramp. If you relied on `Theme.of(context).colorScheme
-.surface` to mean the *card* color, read `SuperThemeData.of(context).surface`
+.surface` to mean the _card_ color, read `SuperThemeData.of(context).surface`
 (unchanged) or `ColorScheme.surfaceContainerLowest` instead.
 
 ---
@@ -813,7 +842,7 @@ tokens (`SuperTokens` / `SuperThemeData` / `SuperText`) and exported through the
   made interactive via `onTap` (pointer cursor + hover border) and `selected`
   (primary border over a faint primary tint) for the active card/row in a list.
 - **`SuperDialog`** — a modal dialog surface on the overlay (popover) shadow:
-  header with a section-marker bar *or* a tinted icon badge, Title-Case title +
+  header with a section-marker bar _or_ a tinted icon badge, Title-Case title +
   optional subtitle + close button, a scrollable content body, and a
   right-aligned `SuperButton` action row. Statics: `SuperDialog.show<T>(...)`,
   `SuperDialog.confirm(...)` (returns `Future<bool>`, `danger:` turns the confirm

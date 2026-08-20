@@ -1,6 +1,6 @@
+// GENERATED DOCS-LAYOUT MIGRATION: super_core example docs v1
 import 'package:flutter/material.dart';
 import 'package:super_core/super_core.dart';
-
 /// Demonstrates the reusable confirmation and field View/Dialog pairs.
 ///
 /// The inline examples use [SuperConfirmView] and [SuperFieldView] directly,
@@ -103,15 +103,7 @@ class _DialogViewsExampleScreenState extends State<DialogViewsExampleScreen> {
   Widget build(BuildContext context) {
     final t = context.superTheme;
 
-    return Scaffold(
-      appBar: SuperAppBar(
-        title: const Text('Dialog & View Examples'),
-        subtitle: const Text('Reusable confirmation and field surfaces'),
-      ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final twoColumns = constraints.maxWidth >= 960;
-          final content = <Widget>[
+    final content = <Widget>[
             _ExampleCard(
               title: 'SuperConfirmView',
               description: 'Inline confirmation UI reused by the dialog.',
@@ -217,52 +209,50 @@ class _DialogViewsExampleScreenState extends State<DialogViewsExampleScreen> {
             ),
           ];
 
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(t.spacing.space5),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: t.sizing.contentColumn * (twoColumns ? 2 : 1) +
-                      (twoColumns ? t.spacing.space5 : 0),
-                ),
-                child: twoColumns
-                    ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                content[0],
-                                SizedBox(height: t.spacing.space5),
-                                content[2],
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: t.spacing.space5),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                content[1],
-                                SizedBox(height: t.spacing.space5),
-                                content[3],
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          for (var i = 0; i < content.length; i++) ...[
-                            content[i],
-                            if (i != content.length - 1)
-                              SizedBox(height: t.spacing.space5),
-                          ],
-                        ],
-                      ),
-              ),
-            ),
-          );
-        },
+    return SuperExampleDocsPage(
+      title: 'Dialog & View Examples',
+      subtitle: 'Reusable confirmation and field surfaces',
+      description:
+          'Reusable content views and their thin dialog wrappers share one hierarchy, one theme, and one result lifecycle.',
+      badges: const [
+        SuperExampleDocsBadgeData(
+          icon: Icons.open_in_new_outlined,
+          label: 'Overlay',
+          tone: SuperMarker.notes,
+        ),
+        SuperExampleDocsBadgeData(
+          icon: Icons.dynamic_form_outlined,
+          label: 'Reusable views',
+          tone: SuperMarker.identity,
+        ),
+      ],
+      api: const [
+        'SuperConfirmView',
+        'SuperConfirmDialog',
+        'SuperFieldView',
+        'SuperFieldDialog',
+      ],
+      sections: [
+        SuperExampleDocsSectionData(
+          label: 'Views',
+          eyebrow: 'Inline',
+          title: 'Reusable views',
+          description:
+              'Use the view widgets directly in pages, cards, sheets, or any custom presentation surface.',
+          children: [content[0], content[1]],
+        ),
+        SuperExampleDocsSectionData(
+          label: 'Dialogs',
+          eyebrow: 'Overlay',
+          title: 'Dialog wrappers',
+          description:
+              'Thin wrappers present the same view hierarchy as modal dialogs and return typed results.',
+          children: [content[2], content[3]],
+        ),
+      ],
+      footer: const SuperExampleDocsNote(
+        text:
+            'The inline and modal variants intentionally share the same content widgets so product behavior stays consistent across presentations.',
       ),
     );
   }
@@ -281,11 +271,37 @@ class _ExampleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SuperSectionCard(
+    final snippets = <String, String>{
+      'SuperConfirmView': '''SuperConfirmView(
+  title: 'Create this account?',
+  description: 'Confirm the details before creating the record.',
+  onConfirm: () {},
+  onCancel: () {},
+);''',
+      'SuperFieldView': '''SuperFieldView(
+  title: 'Store information',
+  actions: [SuperButton(label: 'Save', onPressed: () {})],
+  child: FieldShell(label: 'Store name', child: TextField()),
+);''',
+      'SuperConfirmDialog': '''final confirmed = await SuperConfirmDialog.show(
+  context,
+  title: 'Post journal entry?',
+  description: 'This action can be confirmed or cancelled.',
+);''',
+      'SuperFieldDialog': '''final value = await SuperFieldDialog.show<String>(
+  context,
+  title: 'Edit warehouse name',
+  child: TextField(),
+);''',
+    };
+
+    return SuperExampleDocsCard(
       title: title,
-      subtitle: description,
-      marker: SuperMarker.identity,
-      child: child,
+      description: description,
+      code: snippets[title] ?? '// $title',
+      minPreviewHeight: 260,
+      previewAlignment: AlignmentDirectional.topCenter,
+      preview: child,
     );
   }
 }

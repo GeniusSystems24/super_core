@@ -10,7 +10,7 @@ description: >
 
 
 #  package version
-version: 3.4.0+2
+version: 3.5.0
 
 # package homepage, repository, and issue tracker
 homepage: https://geniussystems24.github.io/super_core
@@ -41,6 +41,7 @@ dependencies:
     sdk: flutter
   google_fonts: ">=6.2.1 <9.0.0"
 
+  flutter_syntax_view: ^4.1.7
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,7 +1,7 @@
 // ============================================================
 // core/widgets/super_snack_bar.dart
 // ------------------------------------------------------------
-// GeniusLink toast helper. The design system's snackbar is a floating,
+// GeniusLink snackbar helper. The design system's snackbar is a floating,
 // 8px-radius dark surface with a semantic leading glyph and light text — the
 // same in both themes. [SuperSnackBar] builds and shows one via the ambient
 // [ScaffoldMessenger], with tone shortcuts (info / success / warning / danger).
@@ -24,7 +24,7 @@ enum SuperSnackBarTone { info, success, warning, danger }
 
 /// Shows and builds GeniusLink toasts. Never instantiated — call the statics.
 abstract final class SuperSnackBar {
-  /// Shows a toast with the given [tone] via the ambient [ScaffoldMessenger],
+  /// Shows a snackbar with the given [tone] via the ambient [ScaffoldMessenger],
   /// replacing any visible toast first. Returns the messenger controller.
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> show(
     BuildContext context,
@@ -47,7 +47,7 @@ abstract final class SuperSnackBar {
     );
   }
 
-  /// Shows a neutral / informational toast (primary accent).
+  /// Shows a neutral / informational snackbar (primary accent).
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> info(
     BuildContext context,
     String message, {
@@ -63,7 +63,7 @@ abstract final class SuperSnackBar {
     duration: duration,
   );
 
-  /// Shows a success toast (ledger green).
+  /// Shows a success snackbar (ledger green).
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> success(
     BuildContext context,
     String message, {
@@ -79,7 +79,7 @@ abstract final class SuperSnackBar {
     duration: duration,
   );
 
-  /// Shows a warning toast (notes orange).
+  /// Shows a warning snackbar (notes orange).
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> warning(
     BuildContext context,
     String message, {
@@ -95,7 +95,7 @@ abstract final class SuperSnackBar {
     duration: duration,
   );
 
-  /// Shows a danger toast (semantic red). Defaults to a longer 6s dwell so the
+  /// Shows a danger snackbar (semantic red). Defaults to a longer 6s dwell so the
   /// error is readable.
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> danger(
     BuildContext context,
