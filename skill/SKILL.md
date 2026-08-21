@@ -5,13 +5,24 @@ Use this guidance when building or reviewing Flutter UI that depends on
 
 ## Package target
 
-- Current package version: `3.5.0`.
+- Current package version: `3.5.1`.
 - Import the public API from `package:super_core/super_core.dart`.
 - Treat `SuperMaterialThemeData`, `SuperThemeData`, `SuperTextTheme`,
   `SuperSemanticColors`, `SuperSpacing`, and `SuperSizing` as the visual source
   of truth.
 - Do not introduce feature-specific hard-coded colors, radii, spacing, type
   scales, or motion when an equivalent Super design token exists.
+
+## Theme behavior (v3.5.1)
+
+- Preserve the established neutral hierarchy in both brightness modes: `Scaffold` / page canvas = `ColorScheme.surface`, container-style components = `ColorScheme.surfaceContainer`, and editable controls = the dedicated input fill.
+- Default light hierarchy: `#EAEAEA -> #F2F2F2 -> #FFFFFF`; default dark hierarchy: `#101010 -> #181818 -> #242424`. These are existing palette roles, not new feature colors.
+- Cards, dialogs, sheets, menus, drawers/navigation surfaces, pickers, search views, and similar surface components should consume `ColorScheme.surfaceContainer` (or their generated component theme), not hard-code the page background.
+- Sections should continue to consume `context.superTheme.surface`; inputs should continue to consume the generated input theme. Both already align with the same hierarchy.
+- In light mode, read interactive colors through `SuperInteractiveStateThemeData.of(context)` or `context.superTheme.interactiveStates`; the fallback derives from the active `ColorScheme` and uses the neutral light hover surface.
+- `SuperThemeData.light` and `.dark` carry brightness-correct interactive-state presets. Do not substitute `SuperInteractiveStateThemeData.standard` when brightness is known.
+- Preserve caller intent: explicit `scaffoldBackgroundColor`, component themes, and `interactiveStateTheme` overrides still win over generated defaults.
+- Do not introduce unrelated neutral colors to increase contrast; move between the existing surface roles instead.
 
 ## SuperToast (v3.5.0)
 

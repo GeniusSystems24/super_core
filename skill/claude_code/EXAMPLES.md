@@ -358,11 +358,11 @@ cs.primaryFixed; cs.primaryFixedDim; cs.onPrimaryFixed; cs.onPrimaryFixedVariant
 cs.surfaceDim; cs.surfaceBright;
 cs.surfaceContainerLowest; cs.surfaceContainer; cs.surfaceContainerHighest;
 
-// Scaffold background == ColorScheme.surface (the GeniusLink page background) —
-// already wired by SuperMaterialThemeData, no need to set it. Cards/panels ride
-// the brighter surfaceContainer ramp so they stay clearly separated:
+// v3.5.1: Scaffold stays on ColorScheme.surface in both light and dark.
+// Container-style components use ColorScheme.surfaceContainer, and inputs keep
+// the dedicated input fill. SuperMaterialThemeData wires this hierarchy for you.
 Scaffold(
-  body: Card(child: child), // Card sits on cardColor == surfaceContainerLowest (light)
+  body: Card(child: child), // Card uses the generated surfaceContainer role.
 );
 
 // The card surface (white / near-black) is SuperThemeData.surface — UNCHANGED

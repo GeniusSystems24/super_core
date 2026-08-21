@@ -2,6 +2,14 @@
 /// toolkit. Single source of truth for the visual identity that every Super
 /// package reads from, so the whole toolkit looks like one product.
 ///
+/// ## v3.5.1 — interactive states and balanced surface hierarchy
+///
+/// Light-mode interactive-state fallbacks now derive from the active Material
+/// [ColorScheme]. In both brightness modes the generated Scaffold uses the page
+/// `surface` role while container-style components use `surfaceContainer`,
+/// preserving the GeniusLink `bg -> surface -> input` relationship with subtle
+/// separation and no unrelated colors. Explicit theme overrides still win.
+///
 /// ## v3.5.0 — SuperToast overlay feedback
 ///
 /// Adds [SuperToast], an Overlay-based feedback component with semantic tones,

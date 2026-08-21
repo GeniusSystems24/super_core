@@ -184,7 +184,7 @@ class _ThemeDemoScreenState extends State<ThemeDemoScreen>
       // ── App Bar ─────────────────────────────────────────────────────────────
       appBar: SuperAppBar(
         title: const Text('Super Material Theme'),
-        subtitle: const Text('Super core • v3.5.0'),
+        subtitle: const Text('Super core • v3.5.1'),
         subtitleTextStyle:
             context.superTextTheme.eyebrow.copyWith(color: cs.primary),
         maxMobileActions: 1,
@@ -1953,16 +1953,17 @@ class _SurfaceSeparationDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final t = SuperThemeData.of(context);
-    // The Scaffold is painted cs.surface (the page background). Each nested box
-    // steps UP the surface-container ramp, staying distinct from the Scaffold.
+    final states = SuperInteractiveStateThemeData.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     Widget layer(String label, Color color, {Widget? child}) => Container(
           width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(
-                SuperThemeData.of(context).spacing.radiusCard),
+            borderRadius: BorderRadius.circular(t.spacing.radiusCard),
             border: Border.all(color: t.border),
           ),
           child: Column(
@@ -1975,25 +1976,62 @@ class _SurfaceSeparationDemo extends StatelessWidget {
           ),
         );
 
+    Widget stateSwatch(String label, WidgetState state) {
+      final overlay = states.accent.withValues(alpha: states.opacity(state));
+      final fill = Color.alphaBlend(overlay, t.surface);
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: fill,
+          borderRadius: BorderRadius.circular(t.spacing.radiusControl),
+          border: Border.all(color: t.border),
+        ),
+        child: Text(label,
+            style: context.superTextTheme.label.copyWith(color: t.fg1)),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Scaffold = ColorScheme.surface (page background). Cards, panels and '
-          'the app bar ride the brighter surfaceContainer ramp so they stay '
-          'clearly separated. The status & navigation bars adopt the app-bar '
-          'color automatically.',
+          'v3.5.1: both themes use the same semantic hierarchy: '
+          'Scaffold/page = ColorScheme.surface, components = '
+          'ColorScheme.surfaceContainer, inputs = the dedicated input fill. '
+          '${isDark ? 'Dark' : 'Light'} mode keeps the contrast subtle and '
+          'uses only the existing neutral palette.',
           style: context.superTextTheme.caption.copyWith(color: t.fg3),
         ),
         const SizedBox(height: 12),
         layer(
-          'surfaceContainerLow',
-          cs.surfaceContainerLow,
+          'Scaffold / page · ${theme.scaffoldBackgroundColor}',
+          theme.scaffoldBackgroundColor,
           child: layer(
-            'surfaceContainer (card)',
-            cs.surfaceContainer,
-            child: layer('surfaceContainerHigh', cs.surfaceContainerHigh),
+            'Component surface · ${theme.cardColor}',
+            theme.cardColor,
+            child: layer(
+              'Input surface · ${theme.inputDecorationTheme.fillColor}',
+              theme.inputDecorationTheme.fillColor ?? t.inputBg,
+            ),
           ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'Interactive states derive from the active ColorScheme. Hover, focus, '
+          'pressed and selected treatments stay visible on the component surface '
+          'without changing the page/component hierarchy.',
+          style: context.superTextTheme.caption.copyWith(color: t.fg3),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            stateSwatch('Hover', WidgetState.hovered),
+            stateSwatch('Focus', WidgetState.focused),
+            stateSwatch('Pressed', WidgetState.pressed),
+            stateSwatch('Selected', WidgetState.selected),
+          ],
         ),
       ],
     );

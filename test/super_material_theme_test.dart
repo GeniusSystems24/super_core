@@ -15,10 +15,18 @@ void main() {
 
       expect(theme.textTheme, isA<SuperTextTheme>());
       expect(theme.primaryTextTheme, isA<SuperTextTheme>());
+      expect(theme.scaffoldBackgroundColor, theme.colorScheme.surface);
       expect(theme.scaffoldBackgroundColor, const Color(0xFFEAEAEA));
       expect(theme.appBarTheme.backgroundColor, theme.scaffoldBackgroundColor);
+      expect(theme.cardColor, theme.colorScheme.surfaceContainer);
+      expect(theme.cardColor, const Color(0xFFF2F2F2));
+      expect(theme.cardTheme.color, theme.colorScheme.surfaceContainer);
+      expect(theme.dialogTheme.backgroundColor, theme.colorScheme.surfaceContainer);
+      expect(theme.bottomSheetTheme.backgroundColor, theme.colorScheme.surfaceContainer);
       expect(theme.inputDecorationTheme.fillColor, const Color(0xFFFFFFFF));
-      expect(theme.cardColor, const Color(0xFFEAEAEA));
+      expect(theme.scaffoldBackgroundColor, isNot(theme.cardColor));
+      expect(theme.scaffoldBackgroundColor,
+          isNot(theme.inputDecorationTheme.fillColor));
       expect(theme.floatingActionButtonTheme.backgroundColor, kAccent);
       expect(
         theme.floatingActionButtonTheme.foregroundColor,
@@ -37,10 +45,18 @@ void main() {
       );
       final superTheme = theme.superTheme;
 
+      expect(theme.scaffoldBackgroundColor, theme.colorScheme.surface);
       expect(theme.scaffoldBackgroundColor, const Color(0xFF101010));
       expect(theme.appBarTheme.backgroundColor, theme.scaffoldBackgroundColor);
+      expect(theme.cardColor, theme.colorScheme.surfaceContainer);
+      expect(theme.cardColor, const Color(0xFF181818));
+      expect(theme.cardTheme.color, theme.colorScheme.surfaceContainer);
+      expect(theme.dialogTheme.backgroundColor, theme.colorScheme.surfaceContainer);
+      expect(theme.bottomSheetTheme.backgroundColor, theme.colorScheme.surfaceContainer);
       expect(theme.inputDecorationTheme.fillColor, const Color(0xFF242424));
-      expect(theme.cardColor, const Color(0xFF101010));
+      expect(theme.scaffoldBackgroundColor, isNot(theme.cardColor));
+      expect(theme.scaffoldBackgroundColor,
+          isNot(theme.inputDecorationTheme.fillColor));
       expect(theme.floatingActionButtonTheme.backgroundColor, kDarkAccent);
       expect(
         theme.floatingActionButtonTheme.foregroundColor,
@@ -50,6 +66,60 @@ void main() {
       expect(superTheme.bg, theme.scaffoldBackgroundColor);
       expect(superTheme.inputBg, theme.inputDecorationTheme.fillColor);
       expect(theme.colorScheme.surfaceContainer, superTheme.surface);
+    });
+
+    test('light theme registers light interactive-state colors', () {
+      final theme = SuperMaterialThemeData.light(
+        textTheme: _testTypography,
+        primaryTextTheme: _testTypography,
+      );
+      final states = theme.extension<SuperInteractiveStateThemeData>();
+
+      expect(states, isNotNull);
+      expect(states!.accent, theme.colorScheme.primary);
+      expect(states.hoverSurface, theme.colorScheme.surfaceContainerHighest);
+      expect(states.hoverSurface, const Color(0xFFE6E6E6));
+      expect(theme.superTheme.interactiveStates, same(states));
+      expect(SuperThemeData.light.interactiveStates.hoverSurface,
+          const Color(0xFFE6E6E6));
+      expect(SuperThemeData.dark.interactiveStates.hoverSurface,
+          const Color(0xFF2A2A2A));
+    });
+
+    testWidgets('plain light ThemeData gets a brightness-aware state fallback',
+        (tester) async {
+      late SuperInteractiveStateThemeData resolved;
+      final scheme = ColorScheme.fromSeed(
+        seedColor: const Color(0xFF8B5CF6),
+        brightness: Brightness.light,
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: ThemeData(colorScheme: scheme),
+          home: Builder(
+            builder: (context) {
+              resolved = SuperInteractiveStateThemeData.of(context);
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
+      expect(resolved.accent, scheme.primary);
+      expect(resolved.hoverSurface, scheme.surfaceContainerHighest);
+    });
+
+    test('explicit Scaffold background override still wins', () {
+      const override = Color(0xFFFAFAFA);
+      final theme = SuperMaterialThemeData.light(
+        textTheme: _testTypography,
+        primaryTextTheme: _testTypography,
+        scaffoldBackgroundColor: override,
+      );
+
+      expect(theme.scaffoldBackgroundColor, override);
+      expect(theme.cardColor, theme.colorScheme.surfaceContainer);
     });
 
     test('copyWith accepts plain Flutter text themes', () {

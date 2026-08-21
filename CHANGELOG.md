@@ -6,6 +6,23 @@ All notable changes to **super_core** are documented here. Format follows
 
 ---
 
+## [3.5.1] - 2026-08-21
+
+### Fixed
+
+- Fixed light-mode interactive-state fallbacks so `SuperInteractiveStateThemeData.of(context)` derives from the active `ColorScheme` instead of inheriting the dark fallback hover surface.
+- Added explicit light and dark interactive-state presets and wired `SuperThemeData.light` / `.dark` to the matching preset.
+- Restored the established `bg -> surface -> input` hierarchy in both brightness modes: generated `Scaffold`s stay on `ColorScheme.surface`, while cards, dialogs, sheets, menus, navigation surfaces, pickers, search views, and other container-style Material surfaces use `ColorScheme.surfaceContainer`.
+- Preserved the existing neutral palette relationships (`#EAEAEA -> #F2F2F2 -> #FFFFFF` in light mode and `#101010 -> #181818 -> #242424` in dark mode), providing clear but subtle separation without introducing new colors.
+- Explicit `scaffoldBackgroundColor`, component-theme, and interactive-state overrides continue to take precedence.
+
+### Documentation and examples
+
+- Updated the theme reference, skill guidance, regression tests, and example theme showcase to document and demonstrate the v3.5.1 light/dark surface hierarchy.
+- Updated example version labels to `3.5.1`.
+
+---
+
 ## [3.5.0] - 2026-08-20
 
 ### Added

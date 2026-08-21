@@ -127,6 +127,7 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
     fg3: Color(0xFF9A9A9A),
     fg4: Color(0xFF686868),
     brightness: Brightness.dark,
+    interactiveStates: SuperInteractiveStateThemeData.dark,
   );
 
   static const SuperThemeData light = SuperThemeData(
@@ -141,6 +142,7 @@ class SuperThemeData extends ThemeExtension<SuperThemeData> {
     fg3: Color(0xFF6F6F6F),
     fg4: Color(0xFFA3A3A3),
     brightness: Brightness.light,
+    interactiveStates: SuperInteractiveStateThemeData.light,
   );
 
   /// Reads the registered extension, falling back to [dark] (the default theme).

@@ -23,7 +23,7 @@ class _SectionExampleScreenState extends State<SectionExampleScreen> {
 
     return SuperExampleDocsPage(
       title: 'Section Components',
-      subtitle: 'SUPER CORE · v3.5.0',
+      subtitle: 'SUPER CORE · v3.5.1',
       description:
           'Composable section surfaces for dense product screens: headers, cards, expansion, selection, footers, markers, and RTL content.',
       badges: const [

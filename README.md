@@ -24,6 +24,18 @@ such as `super_form_field`, `super_table_field`, `super_tree`,
 - Dependency-light number, currency, byte, and identifier formatters.
 - Shared failures, result types, validators, and use-case abstractions.
 
+## Theme behavior in 3.5.1
+
+Version `3.5.1` keeps the existing GeniusLink neutral palette and makes the page/component hierarchy explicit in both light and dark modes:
+
+- `Scaffold` and page canvas use `ColorScheme.surface` (`#EAEAEA` light / `#101010` dark).
+- Cards, dialogs, sheets, menus, navigation surfaces, pickers, search views, and other container-style Material surfaces use `ColorScheme.surfaceContainer` (`#F2F2F2` light / `#181818` dark).
+- Inputs retain the dedicated input fill (`#FFFFFF` light / `#242424` dark), so editable controls remain distinguishable from both the page and container surfaces.
+- `SuperInteractiveStateThemeData.of(context)` now derives its fallback from the active `ColorScheme`, and `SuperThemeData.light` / `.dark` carry brightness-correct interactive-state presets.
+- Explicit `scaffoldBackgroundColor`, component-theme, and `interactiveStateTheme` overrides continue to take precedence.
+
+This preserves the established `bg -> surface -> input` relationship while keeping contrast subtle and comfortable for long sessions.
+
 ## Getting started
 
 ### Requirements
@@ -479,9 +491,11 @@ InkWell(
 );
 ```
 
-Use `opacity(state)` when manually resolving one state,
-`fromColorScheme(colorScheme)` to derive the theme from Material colors, or
-`standard` as the default constant configuration.
+Use `opacity(state)` when manually resolving one state and
+`fromColorScheme(colorScheme)` to derive the theme from Material colors. The
+`light` and `dark` constants are brightness-specific presets; `standard` remains
+a backwards-compatible alias of the dark preset. `of(context)` is preferred in
+widgets because its fallback follows the ambient `ColorScheme` brightness.
 
 ### `SuperAppBarTheme`
 

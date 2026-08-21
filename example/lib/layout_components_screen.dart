@@ -13,7 +13,7 @@ class LayoutComponentsScreen extends StatelessWidget {
 
     return SuperExampleDocsPage(
       title: 'Layout Components',
-      subtitle: 'SUPER CORE · v3.5.0',
+      subtitle: 'SUPER CORE · v3.5.1',
       description:
           'Responsive page frames, breakpoint-aware grids, provider-controlled layout, ordering, and RTL behavior built from Super Core layout primitives.',
       badges: const [

@@ -2,7 +2,7 @@
 name: super-core
 description: >
   How to understand, use, maintain, and extend the super_core Flutter package
-  (v3.4.0) — the shared GeniusLink design-system foundation for the Super
+  (v3.5.1) — the shared GeniusLink design-system foundation for the Super
   toolkit. super_core ships SuperPalette (ten palettes), SuperMaterialThemeData
   (a ThemeData SUBCLASS that generates a complete Material 3 theme from a palette
   + a SuperDeviceMode), the SuperThemeData theme extension (surfaces + responsive
@@ -14,7 +14,7 @@ description: >
   anything in super_core or in a package that depends on it.
 ---
 
-# super_core — v3.4.0
+# super_core — v3.5.1
 
 `super_core` is the single source of truth for the GeniusLink visual identity.
 Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
@@ -23,6 +23,14 @@ Every Super package (`super_tab_bar`, `super_auto_suggestion_box`,
 type, spacing, and component themes from here so the whole toolkit looks like one
 product.
 
+
+## What changed in 3.5.1 (interactive states + balanced surfaces)
+
+1. **Light interactive-state fallback is brightness-correct.** `SuperInteractiveStateThemeData.of(context)` derives from the ambient `ColorScheme` when no extension is registered, so light UI no longer inherits the dark hover surface.
+2. **Use brightness-specific presets.** `SuperThemeData.light` uses `SuperInteractiveStateThemeData.light`; `SuperThemeData.dark` uses `.dark`. Keep `standard` only for backwards compatibility when brightness is unknown.
+3. **Page/component separation is symmetric.** Generated light and dark themes keep `Scaffold` on `ColorScheme.surface` and use `ColorScheme.surfaceContainer` for container-style components. The default stacks are `#EAEAEA -> #F2F2F2 -> #FFFFFF` (light) and `#101010 -> #181818 -> #242424` (dark).
+4. **No unrelated contrast colors.** Cards, dialogs, sheets, menus, navigation surfaces, pickers, search views, sections, and inputs stay within the established palette roles.
+5. **Override precedence is unchanged.** Explicit `interactiveStateTheme`, `scaffoldBackgroundColor`, and component-theme arguments still win.
 
 ## What changed in 3.4.0 (section marker visibility)
 
@@ -370,9 +378,10 @@ surface-container ramp),
 typography, app bar, all button variants, inputs, navigation, dialogs, sheets,
 cards, chips, tabs, tables, switches/checkboxes/radios/sliders, menus, tooltips,
 snackbars, scrollbars, FAB, date/time pickers, search, badges, toggle buttons —
-all derived from the palette and device mode. The Scaffold is painted
-`ColorScheme.surface` (the page background); the app bar rides the card surface
-and keeps the status & navigation bars in sync via `systemOverlayStyle`.
+all derived from the palette and device mode. The Scaffold uses
+`ColorScheme.surface` while container-style components use
+`ColorScheme.surfaceContainer` in both brightness modes. The app bar keeps the
+page surface and syncs the status & navigation bars via `systemOverlayStyle`.
 
 ### Constructor parameters
 

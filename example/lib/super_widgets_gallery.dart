@@ -42,7 +42,7 @@ class _SuperWidgetsGalleryState extends State<SuperWidgetsGallery> {
 
     return SuperExampleDocsPage(
       title: 'Widget Gallery',
-      subtitle: 'SUPER CORE · v3.5.0',
+      subtitle: 'SUPER CORE · v3.5.1',
       description:
           'A live catalog of Super Core widgets, states, densities, selection patterns, responsive behavior, and semantic feedback.',
       badges: const [

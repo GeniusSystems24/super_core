@@ -1348,8 +1348,9 @@ class SuperMaterialThemeData extends ThemeData {
     final tt = textTheme;
     iconTheme ??= IconThemeData(color: cs.onSurface, size: m.sizing.icon);
 
-    // App-bar background follows the page background so the top chrome blends
-    // with the Scaffold while cards and fields define the elevated layers.
+    // Scaffold and app-bar chrome stay on ColorScheme.surface (the page layer).
+    // Component surfaces use surfaceContainer, restoring the existing GeniusLink
+    // bg -> surface -> input hierarchy consistently in both brightness modes.
 
     // Responsive input chrome — computed once and reused by both
     // inputDecorationTheme and dropdownMenuTheme.
@@ -1386,12 +1387,12 @@ class SuperMaterialThemeData extends ThemeData {
       typography: typography,
 
       // ── Colors ──
-      // Scaffold background = the active ColorScheme's surface (the GeniusLink
-      // page background). Cards/panels/fields use the brighter surfaceContainer
-      // ramp so they remain clearly separated from the Scaffold.
+      // Keep the page on ColorScheme.surface in both brightness modes. Components
+      // use surfaceContainer (or the existing input token) so the separation is
+      // clear but subtle and remains inside the established neutral hierarchy.
       scaffoldBackgroundColor: scaffoldBackgroundColor ?? cs.surface,
       canvasColor: canvasColor ?? cs.surface,
-      cardColor: cardColor ?? cs.surface,
+      cardColor: cardColor ?? cs.surfaceContainer,
       disabledColor: disabledColor ?? cs.onSurface.withValues(alpha: 0.38),
       dividerColor: dividerColor ?? border,
       focusColor: focusColor ?? cs.primary.withValues(alpha: 0.12),
@@ -1446,7 +1447,7 @@ class SuperMaterialThemeData extends ThemeData {
       cardTheme:
           cardTheme ??
           SuperCardTheme(
-            color: isDark ? cs.surfaceContainerLow : cs.surfaceContainer,
+            color: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: 0,
             shadowColor: softShadow,
@@ -1587,7 +1588,7 @@ class SuperMaterialThemeData extends ThemeData {
       navigationBarTheme:
           navigationBarTheme ??
           NavigationBarThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: isDark ? 0 : 1,
             indicatorColor: cs.primary.withValues(alpha: 0.15),
@@ -1611,7 +1612,7 @@ class SuperMaterialThemeData extends ThemeData {
       navigationRailTheme:
           navigationRailTheme ??
           NavigationRailThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             elevation: 0,
             selectedIconTheme: IconThemeData(
               color: cs.primary,
@@ -1637,7 +1638,7 @@ class SuperMaterialThemeData extends ThemeData {
       drawerTheme:
           drawerTheme ??
           DrawerThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: 8,
             shadowColor: strongShadow,
@@ -1654,7 +1655,7 @@ class SuperMaterialThemeData extends ThemeData {
       dialogTheme:
           dialogTheme ??
           DialogThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: 24,
             shadowColor: strongShadow,
@@ -1669,7 +1670,7 @@ class SuperMaterialThemeData extends ThemeData {
       bottomSheetTheme:
           bottomSheetTheme ??
           BottomSheetThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: 16,
             shadowColor: strongShadow,
@@ -1711,7 +1712,7 @@ class SuperMaterialThemeData extends ThemeData {
       popupMenuTheme:
           popupMenuTheme ??
           PopupMenuThemeData(
-            color: cs.surface,
+            color: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: 8,
             shadowColor: strongShadow,
@@ -1974,7 +1975,7 @@ class SuperMaterialThemeData extends ThemeData {
           menuTheme ??
           MenuThemeData(
             style: MenuStyle(
-              backgroundColor: WidgetStateProperty.all(cs.surface),
+              backgroundColor: WidgetStateProperty.all(cs.surfaceContainer),
               surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
               elevation: WidgetStateProperty.all(8),
               shadowColor: WidgetStateProperty.all(strongShadow),
@@ -2033,7 +2034,7 @@ class SuperMaterialThemeData extends ThemeData {
       bannerTheme:
           bannerTheme ??
           MaterialBannerThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             contentTextStyle: tt.bodyMedium,
             elevation: 0,
@@ -2046,7 +2047,7 @@ class SuperMaterialThemeData extends ThemeData {
       bottomAppBarTheme:
           bottomAppBarTheme ??
           BottomAppBarThemeData(
-            color: cs.surface,
+            color: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: isDark ? 0 : 1,
             shadowColor: softShadow,
@@ -2056,7 +2057,7 @@ class SuperMaterialThemeData extends ThemeData {
       bottomNavigationBarTheme:
           bottomNavigationBarTheme ??
           BottomNavigationBarThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             selectedItemColor: cs.primary,
             unselectedItemColor: fg3,
             selectedLabelStyle: tt.labelSmall,
@@ -2073,7 +2074,7 @@ class SuperMaterialThemeData extends ThemeData {
       carouselViewTheme:
           carouselViewTheme ??
           CarouselViewThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             elevation: isDark ? 0 : 1,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(m.spacing.radiusCard),
@@ -2082,7 +2083,7 @@ class SuperMaterialThemeData extends ThemeData {
       datePickerTheme:
           datePickerTheme ??
           DatePickerThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: 24,
             shadowColor: strongShadow,
@@ -2105,7 +2106,7 @@ class SuperMaterialThemeData extends ThemeData {
             textStyle: tt.bodyMedium,
             inputDecorationTheme: inputDec,
             menuStyle: MenuStyle(
-              backgroundColor: WidgetStatePropertyAll(cs.surface),
+              backgroundColor: WidgetStatePropertyAll(cs.surfaceContainer),
               surfaceTintColor: const WidgetStatePropertyAll(
                 Colors.transparent,
               ),
@@ -2123,7 +2124,7 @@ class SuperMaterialThemeData extends ThemeData {
           menuBarTheme ??
           MenuBarThemeData(
             style: MenuStyle(
-              backgroundColor: WidgetStatePropertyAll(cs.surface),
+              backgroundColor: WidgetStatePropertyAll(cs.surfaceContainer),
               surfaceTintColor: const WidgetStatePropertyAll(
                 Colors.transparent,
               ),
@@ -2178,7 +2179,7 @@ class SuperMaterialThemeData extends ThemeData {
       searchViewTheme:
           searchViewTheme ??
           SearchViewThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             surfaceTintColor: Colors.transparent,
             elevation: 8,
             dividerColor: border,
@@ -2199,7 +2200,7 @@ class SuperMaterialThemeData extends ThemeData {
       timePickerTheme:
           timePickerTheme ??
           TimePickerThemeData(
-            backgroundColor: cs.surface,
+            backgroundColor: cs.surfaceContainer,
             elevation: 24,
             hourMinuteColor: cs.primary.withValues(alpha: 0.12),
             hourMinuteTextColor: cs.primary,

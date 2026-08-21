@@ -1,4 +1,4 @@
-# super_core — ChatGPT / Codex agent instructions (v3.4.0)
+# super_core — ChatGPT / Codex agent instructions (v3.5.1)
 
 Use these instructions whenever you build, theme, or modify Flutter code that
 touches `super_core` — the shared **GeniusLink** design-system foundation for the
@@ -10,7 +10,7 @@ Super toolkit — or any package that depends on it.
 
 ```
 name:    super_core
-version: 3.4.0
+version: 3.5.1
 import:  package:super_core/super_core.dart
 sdk:     dart >=3.8.0    flutter >=3.32.0
 deps:    google_fonts >=6.2.1 <7.0.0
@@ -24,6 +24,14 @@ Apply this skill when the user asks for:
 - "responsive spacing / sizing / typography for mobile, tablet, desktop"
 - reading Super surface tokens (`bg`, `surface`, `fg1…fg4`, `border`) in a widget
 - building or modifying any `super_*` package theme
+
+## What changed in 3.5.1 (interactive states + balanced surfaces)
+
+1. **Light interactive-state fallback is brightness-correct.** `SuperInteractiveStateThemeData.of(context)` derives from the ambient `ColorScheme` when no extension is registered, so light UI no longer inherits the dark hover surface.
+2. **Use brightness-specific presets.** `SuperThemeData.light` uses `SuperInteractiveStateThemeData.light`; `SuperThemeData.dark` uses `.dark`. Keep `standard` only for backwards compatibility when brightness is unknown.
+3. **Page/component separation is symmetric.** Generated light and dark themes keep `Scaffold` on `ColorScheme.surface` and use `ColorScheme.surfaceContainer` for container-style components. The default stacks are `#EAEAEA -> #F2F2F2 -> #FFFFFF` (light) and `#101010 -> #181818 -> #242424` (dark).
+4. **No unrelated contrast colors.** Cards, dialogs, sheets, menus, navigation surfaces, pickers, search views, sections, and inputs stay within the established palette roles.
+5. **Override precedence is unchanged.** Explicit `interactiveStateTheme`, `scaffoldBackgroundColor`, and component-theme arguments still win.
 
 ## What changed in 3.4.0 (section marker visibility)
 
@@ -150,8 +158,9 @@ One call generates the full Material 3 theme (a complete ColorScheme — fixed
 roles + surface-container ramp — every button, inputs, navigation,
 dialogs, sheets, cards, chips, tabs, tables, switches, menus, tooltips,
 snackbars, scrollbars, FAB, date/time pickers, search, badges, toggle buttons)
-from the palette + mode. Scaffold = `ColorScheme.surface`; the app bar rides the
-card surface and syncs the status & navigation bars via `systemOverlayStyle`.
+from the palette + mode. Scaffold = `ColorScheme.surface`; container-style
+components = `ColorScheme.surfaceContainer` in both brightness modes. The app
+bar keeps the page surface and syncs system bars via `systemOverlayStyle`.
 
 ## Constructor surface
 

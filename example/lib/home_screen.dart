@@ -928,7 +928,7 @@ class _HomeCopy {
   String get appTitle => isArabic ? 'Super Core' : 'Super Core';
   String get appSubtitle =>
       isArabic ? 'نظام تصميم Flutter' : 'Flutter design system';
-  String get versionBadge => isArabic ? 'SUPER CORE · 3.5.0' : 'SUPER CORE · 3.5.0';
+  String get versionBadge => isArabic ? 'SUPER CORE · 3.5.1' : 'SUPER CORE · 3.5.1';
   String get heroTitle => isArabic
       ? 'ابنِ واجهات Flutter متناسقة، أسرع.'
       : 'Build consistent Flutter experiences, faster.';

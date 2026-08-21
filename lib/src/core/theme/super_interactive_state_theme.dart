@@ -61,9 +61,24 @@ class SuperInteractiveStateThemeData
   /// tinted accent overlay would be too loud.
   final Color hoverSurface;
 
-  /// GeniusLink-standard interactive treatment. Overlays tint toward the
-  /// brand accent; disabled content drops to 40% opacity.
-  static const SuperInteractiveStateThemeData standard =
+  /// GeniusLink light-mode interactive treatment.
+  ///
+  /// The state overlay remains brand-accent based, while [hoverSurface] uses
+  /// the neutral light hover token instead of the dark fallback surface.
+  static const SuperInteractiveStateThemeData light =
+      SuperInteractiveStateThemeData(
+        accent: Color(0xFF4A7CFF),
+        hoverOpacity: 0.08,
+        focusOpacity: 0.12,
+        pressedOpacity: 0.12,
+        selectedOpacity: 0.10,
+        draggedOpacity: 0.16,
+        disabledOpacity: 0.40,
+        hoverSurface: Color(0xFFE6E6E6),
+      );
+
+  /// GeniusLink dark-mode interactive treatment.
+  static const SuperInteractiveStateThemeData dark =
       SuperInteractiveStateThemeData(
         accent: Color(0xFF4A7CFF),
         hoverOpacity: 0.08,
@@ -74,6 +89,10 @@ class SuperInteractiveStateThemeData
         disabledOpacity: 0.40,
         hoverSurface: Color(0xFF2A2A2A),
       );
+
+  /// Backwards-compatible default constant. Prefer [light], [dark], or
+  /// [fromColorScheme] when brightness is known.
+  static const SuperInteractiveStateThemeData standard = dark;
 
   /// Derives an interactive-state treatment from a Material [ColorScheme]:
   /// overlays follow `cs.primary`; large-surface hover follows
@@ -91,9 +110,14 @@ class SuperInteractiveStateThemeData
     );
   }
 
-  /// Reads the registered extension, falling back to [standard].
-  static SuperInteractiveStateThemeData of(BuildContext context) =>
-      Theme.of(context).extension<SuperInteractiveStateThemeData>() ?? standard;
+  /// Reads the registered extension. When a plain Material theme is used,
+  /// derives the fallback from its active [ColorScheme] so light mode never
+  /// inherits the dark [standard] hover surface.
+  static SuperInteractiveStateThemeData of(BuildContext context) {
+    final theme = Theme.of(context);
+    return theme.extension<SuperInteractiveStateThemeData>() ??
+        SuperInteractiveStateThemeData.fromColorScheme(theme.colorScheme);
+  }
 
   /// The overlay opacity for a single [state] (0 if none applies).
   double opacity(WidgetState state) => switch (state) {
